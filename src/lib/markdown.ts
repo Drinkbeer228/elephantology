@@ -56,11 +56,11 @@ export function parseFrontmatter(md: string) {
       }
 
       // Parse references block
-      const refMatch = fm.match(/^references:\s*([\s\S]*?)(?=^[a-z_]+:|\Z)/mi);
+      const refMatch = fm.match(/^references:\s*([\s\S]*?)(?=^[a-z_]+:|(?![\s\S]))/mi);
       if (refMatch) {
           const block = refMatch[1];
           // Each reference starts with "- id:"
-          const refItems = block.split(/\n\s*-\s+id:\s*/).filter(Boolean);
+          const refItems = block.split(/(?:^|\n)\s*-\s+id:\s*/).filter(Boolean);
           refItems.forEach(item => {
              const lines = item.split('\n').map(l => l.trim()).filter(Boolean);
              let refObj: any = { id: lines[0].trim() };

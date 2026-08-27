@@ -12,6 +12,31 @@ tags:
   - dna-analysis
   - tusklessness
 last_reviewed: 2026-08-24
+references:
+  - id: "ref_wasser_2015"
+    title: "Genetic assignment of large seizures of elephant ivory reveals Africa's major poaching hotspots"
+    authors: "Wasser S. K., Brown L., Mailand C., et al."
+    year: 2015
+    doi: "10.1126/science.aaa2457"
+  - id: "ref_campbell_staton_2021"
+    title: "Ivory poaching and the rapid evolution of tusklessness in African elephants"
+    authors: "Campbell-Staton S. C., Arnold B. J., Gonçalves D., Granli P., Poole J., et al."
+    year: 2021
+    doi: "10.1126/science.abe7389"
+  - id: "ref_uno_2013"
+    title: "Bomb-curve radiocarbon measurement of recent biologic tissues and applications to wildlife forensics and stable isotope (paleo)ecology"
+    authors: "Uno K. T., Quade J., Fisher D. C., et al."
+    year: 2013
+    doi: "10.1073/pnas.1302226110"
+  - id: "ref_wasser_2008"
+    title: "Combating the illegal ivory trade with biology"
+    authors: "Wasser S. K., Clark W. J., Drori O., et al."
+    year: 2008
+    doi: "10.1111/j.1523-1739.2008.01012.x"
+  - id: "ref_cerling_2009"
+    title: "Stable isotope ecology of modern elephants"
+    authors: "Cerling T. E., Wittemyer G., Ehleringer J. R., et al."
+    year: 2009
 ---
 
 # Криминалистическая генетика, стабильно-изотопный анализ и динамика нелегального оборота слоновой кости: методы отслеживания браконьерских синдикатов

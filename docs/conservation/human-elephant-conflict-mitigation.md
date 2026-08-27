@@ -13,6 +13,30 @@ tags:
   - geofencing
   - conservation
 last_reviewed: 2026-08-24
+references:
+  - id: "ref_sukumar_2003"
+    title: "The Living Elephants: Evolutionary Ecology, Behavior, and Conservation"
+    authors: "Sukumar R."
+    year: 2003
+  - id: "ref_king_2007"
+    title: "Beehive fences as effective deterrents for crop-raiding African elephants"
+    authors: "King L. E., Lawrence D., Douglas-Hamilton I., Vollrath F."
+    year: 2007
+    doi: "10.1016/j.cub.2007.07.038"
+  - id: "ref_sitati_2003"
+    title: "Predicting spatial patterns of human-elephant conflict in the Masai Mara ecosystem, Kenya"
+    authors: "Sitati N. W., Walpole C. E., Smith R. J., Leader-Williams N."
+    year: 2003
+    doi: "10.1046/j.1365-2664.2003.00844.x"
+  - id: "ref_fernando_2008"
+    title: "Community-based electric fencing as a mitigation tool for human-elephant conflict"
+    authors: "Fernando P., Kumar M. A., Williams A. C., et al."
+    year: 2008
+    doi: "10.1016/j.biocon.2008.05.023"
+  - id: "ref_wittemyer_2007"
+    title: "The influence of environment on systematic and seasonal patterns of elephant movement"
+    authors: "Wittemyer G., Getz W. M., Vollrath F., Douglas-Hamilton I."
+    year: 2007
 ---
 
 # Экология и поведенческий менеджмент конфликта «человек — слон» (HEC): агроэкологические барьеры, биодетерренция и предиктивные ГИС-модели

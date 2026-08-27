@@ -123,7 +123,7 @@ export default function App() {
           <div className="flex items-center gap-3">
             <BookOpen className="w-6 h-6 text-kingdom-gold" />
             <div>
-              <span className="font-bold text-kingdom-gold tracking-widest uppercase">ЭЛЕФАНТОЛОГИЯ</span> — Фундаментальная цифровая монография о слонах.
+              <span className="font-bold text-kingdom-gold tracking-widest uppercase">СЛОНОЛОГИЯ</span> — Академическая цифровая энциклопедия о слонах.
               <p className="text-[11px] text-kingdom-muted">Est. 2026 • Crafted with Academic Precision</p>
             </div>
           </div>

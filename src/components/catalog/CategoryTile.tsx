@@ -3,8 +3,8 @@ import React from 'react';
 export interface CategoryDef {
   id: string;
   name: string;
-  shortName: string;
-  emoji: string;
+  shortName?: string;
+  emoji?: string;
   intent?: string;
   match?: string[];
   color?: string;
@@ -64,7 +64,6 @@ export const CategoryTile = React.memo(function CategoryTile({
       }`}
     >
       <div className="flex items-center gap-2.5 min-w-0">
-        <div className={`shrink-0 cat-icon cat-icon-${category.id} text-2xl`} style={{ mixBlendMode: 'screen' }}></div>
         <div className="min-w-0">
           <div className="text-sm font-bold truncate">{category.name}</div>
         </div>

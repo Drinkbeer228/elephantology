@@ -1,4 +1,5 @@
 ---
+title: "Clinical pulmonology, breathing biophysics and vocal tract anatomy in Elephantidae: pleural space obliteration, snorkeling mechanics and laryngeal acoustic architecture"
 category: anatomy
 difficulty: advanced
 tags:

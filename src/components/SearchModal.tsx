@@ -240,7 +240,7 @@ export function SearchModal() {
 
   const getCategoryLabel = (category: string) => {
     const found = DISCIPLINES.find(d => d.id === category?.toLowerCase());
-    return found ? found.name : 'Монография';
+    return found ? found.name : 'Статья';
   };
 
   const renderEvidenceBadge = (level?: string) => {
@@ -289,7 +289,7 @@ export function SearchModal() {
             type="text" 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Поиск монографий: термины, гены, авторы, синонимы..." 
+            placeholder="Поиск статей: термины, гены, авторы, синонимы..." 
             className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none text-sm sm:text-base font-medium"
           />
           {query && (
@@ -427,7 +427,7 @@ export function SearchModal() {
         {/* Results Info & Active Filter Badges Bar */}
         <div className="px-4 py-2 bg-[#101217] border-b border-white/5 flex items-center justify-between flex-wrap gap-2 text-[11px] text-gray-400">
           <div className="flex items-center gap-2 flex-wrap">
-            <span>Найдено монографий: <strong className="text-kingdom-gold font-bold">{results.length}</strong> из {articles.length}</span>
+            <span>Найдено статей: <strong className="text-kingdom-gold font-bold">{results.length}</strong> из {articles.length}</span>
             {selectedTag && (
               <span className="inline-flex items-center gap-1 bg-kingdom-gold/15 text-kingdom-gold px-2 py-0.5 rounded-md border border-kingdom-gold/30 font-mono">
                 #{selectedTag}
@@ -466,7 +466,7 @@ export function SearchModal() {
               <div className="flex justify-center mb-1">
                 <HelpCircle className="w-10 h-10 text-rose-400/70" />
               </div>
-              <p className="text-sm text-gray-200 font-semibold">Монографий по заданным критериям не найдено.</p>
+              <p className="text-sm text-gray-200 font-semibold">Статей по заданным критериям не найдено.</p>
               <p className="text-xs text-gray-400 max-w-md mx-auto">
                 Попробуйте изменить поисковые слова, выбрать другую дисциплину или сбросить активные фильтры.
               </p>

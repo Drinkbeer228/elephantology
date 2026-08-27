@@ -13,6 +13,26 @@ tags:
   - corridors
   - gis
 last_reviewed: 2026-08-24
+references:
+  - id: "ref_douglas_hamilton_2005"
+    title: "Movements and corridors of African elephants in relation to protected areas"
+    authors: "Douglas-Hamilton I., Krink T., Vollrath F."
+    year: 2005
+    doi: "10.1007/s00114-004-0606-9"
+  - id: "ref_de_2021"
+    title: "Pan-India population genetics signifies the importance of habitat connectivity for wild Asian elephant conservation"
+    authors: "De R., Sharma R., Davidar P., et al."
+    year: 2021
+    doi: "10.1016/j.gecco.2021.e01888"
+  - id: "ref_roever_2013"
+    title: "Functional connectivity within conservation networks: Delineating corridors for African elephants"
+    authors: "Roever C. A., van Aarde R. J., Leggett K."
+    year: 2013
+    doi: "10.1016/j.biocon.2012.09.011"
+  - id: "ref_wittemyer_2007"
+    title: "The influence of environment on systematic and seasonal patterns of elephant movement"
+    authors: "Wittemyer G., Getz W. M., Vollrath F., Douglas-Hamilton I."
+    year: 2007
 ---
 
 # Пространственная экология, спутниковая телеметрия и ландшафтная связность у Elephantidae: расчет домашних ареалов, модели Least-Cost Path и проектирование миграционных коридоров

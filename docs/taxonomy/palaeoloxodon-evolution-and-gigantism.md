@@ -1,4 +1,5 @@
 ---
+title: "Эволюционная радиация, краниальная архитектоника и экстремальный гигантизм рода Palaeoloxodon: биомеханика parieto-occipital crest, азиатский P. namadicus и сицилийский P. falconeri"
 category: taxonomy
 difficulty: advanced
 tags:

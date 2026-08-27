@@ -12,6 +12,30 @@ tags:
   - fossil-record
   - teeth-replacement
 last_reviewed: 2026-08-24
+references:
+  - id: "ref_gheerbrant_1998"
+    title: "Phosphatherium escuilliei du Thanétien du Bassin des Ouled Abdoun (Maroc), plus ancien proboscidien (Mammalia) d'Afrique"
+    authors: "Gheerbrant E., Sudre J., Cappetta H., Bignot G."
+    year: 1998
+    doi: "10.1016/S0016-6995(98)80041-7"
+  - id: "ref_gheerbrant_2009"
+    title: "Paleocene emergence of elephant relatives and the rapid radiation of African ungulates"
+    authors: "Gheerbrant E."
+    year: 2009
+    doi: "10.1073/pnas.0900251106"
+  - id: "ref_sanders_2022"
+    title: "Evolution and Fossil Record of African Proboscidea"
+    authors: "Sanders W. J."
+    year: 2022
+  - id: "ref_liu_2008"
+    title: "Stable isotope evidence for an amphibious phase in early proboscidean evolution"
+    authors: "Liu A. G. S. C., Seiffert E. R., Simons E. L."
+    year: 2008
+    doi: "10.1073/pnas.0800884105"
+  - id: "ref_shoshani_1996"
+    title: "The Proboscidea: Evolution and Palaeoecology of Elephants and Their Relatives"
+    authors: "Shoshani J., Tassy P."
+    year: 1996
 ---
 
 # Базальная радиация и ранняя эволюция отряда Proboscidea в палеогене: от базальных афротериев к полуводным эоценовым формам

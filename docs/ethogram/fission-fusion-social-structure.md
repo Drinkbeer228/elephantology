@@ -12,6 +12,32 @@ tags:
   - ecology
   - culling
 last_reviewed: 2026-08-23
+references:
+  - id: "ref_wittemyer_2005"
+    title: "The socioecology of elephants: analysis of the processes creating multitiered social structures"
+    authors: "Wittemyer G., Douglas-Hamilton I., Getz W. M."
+    year: 2005
+    doi: "10.1016/j.anbehav.2004.08.018"
+  - id: "ref_archie_2006"
+    title: "The ties that bind: genetic relatedness predicts the fission and fusion of social groups in wild African elephants"
+    authors: "Archie E. A., Moss C. J., Alberts S. C."
+    year: 2006
+    doi: "10.1098/rspb.2005.3361"
+  - id: "ref_mccomb_2001"
+    title: "Matriarchs as repositories of social knowledge in African elephants"
+    authors: "McComb K., Moss C., Durant S. M., Baker L., Sayialel S."
+    year: 2001
+    doi: "10.1126/science.1057895"
+  - id: "ref_shannon_2013"
+    title: "Effects of social disruption in elephants persist decades after culling"
+    authors: "Shannon G., Slotow R., Durant S. M., Sayialel K. N., Poole J., Moss C., McComb K."
+    year: 2013
+    doi: "10.1186/1742-9994-10-62"
+  - id: "ref_pardo_2024"
+    title: "African elephants address one another with individually specific name-like calls"
+    authors: "Pardo M. A., Fristrup K., Lolchuragi D. S., Poole J. H., et al."
+    year: 2024
+    doi: "10.1038/s41559-024-02420-w"
 ---
 
 # Многоуровневая социальная структура и динамика деления-объединения (Fission-Fusion) у Elephantidae: матриархат, кланы и экология сплоченности

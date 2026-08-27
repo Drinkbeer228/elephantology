@@ -12,6 +12,28 @@ tags:
   - migration
   - climate-change
 last_reviewed: 2026-08-24
+references:
+  - id: "ref_elvin_2004"
+    title: "The Retreat of the Elephants: An Environmental History of China"
+    authors: "Elvin M."
+    year: 2004
+  - id: "ref_zhang_2015"
+    title: "Asian elephants in China: estimating population size and evaluating habitat suitability"
+    authors: "Zhang L., Dong L., Lin L., Feng L., Yan F., Wang L., Guo X., Luo A."
+    year: 2015
+    doi: "10.1371/journal.pone.0124834"
+  - id: "ref_wen_1995"
+    title: "Studies on changes in plants and animals in China during historical times"
+    authors: "Wen H., et al."
+    year: 1995
+  - id: "ref_sukumar_2003"
+    title: "The Living Elephants: Evolutionary Ecology, Behavior, and Conservation"
+    authors: "Sukumar R."
+    year: 2003
+  - id: "ref_shoshani_1982"
+    title: "Mammalian Species No. 182: Elephas maximus"
+    authors: "Shoshani J., Eisenberg J. F."
+    year: 1982
 ---
 
 # Экологическая история и 3000-летнее отступление азиатского слона (*Elephas maximus*) в Китае: трансформация ландшафтов, климатический сдвиг и рефугиум в провинции Юньнань

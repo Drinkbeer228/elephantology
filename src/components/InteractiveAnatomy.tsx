@@ -180,7 +180,7 @@ export function InteractiveAnatomy() {
               onClick={() => callVanilla(elephantData[activePart].link)}
               className="px-5 py-2.5 text-sm font-bold bg-kingdom-gold/10 text-kingdom-gold hover:bg-kingdom-gold/20 hover:scale-105 border border-kingdom-gold/30 rounded-lg transition-all cursor-pointer shadow-[0_0_15px_rgba(255,209,102,0.1)] active:scale-95"
             >
-              Читать полную монографию →
+              Читать полную статью →
             </button>
           </div>
         ) : (

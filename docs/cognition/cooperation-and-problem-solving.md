@@ -12,6 +12,30 @@ tags:
   - tool-use
   - cognitive-enrichment
 last_reviewed: 2026-08-24
+references:
+  - id: "ref_plotnik_2011"
+    title: "Cooperative problem solving in Asian elephants"
+    authors: "Plotnik J. M., Lair R., Suphachoksahakun W., de Waal F. B. M."
+    year: 2011
+    doi: "10.1073/pnas.1105439108"
+  - id: "ref_foerder_2011"
+    title: "Insightful Problem Solving in an Asian Elephant"
+    authors: "Foerder P., Galloway M., Muir T., Reiss D."
+    year: 2011
+    doi: "10.1371/journal.pone.0023253"
+  - id: "ref_hart_2001"
+    title: "Cognitive behaviour in Asian elephants: use and modification of branches for fly switching"
+    authors: "Hart B. L., Hart L. A., McCoy M., Sarath C. R."
+    year: 2001
+    doi: "10.1006/anbe.2001.1815"
+  - id: "ref_byrne_2016"
+    title: "Evolving Insight"
+    authors: "Byrne R. W."
+    year: 2016
+  - id: "ref_poole_1998"
+    title: "An Exploration of a Commonality between Ourselves and Elephants"
+    authors: "Poole J. H."
+    year: 1998
 ---
 
 # Когнитивная этология и кооперативное поведение Elephantidae: парадигма совместного вытягивания каната, орудийная деятельность и спонтанный инсайт

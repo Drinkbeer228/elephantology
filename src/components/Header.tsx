@@ -18,7 +18,7 @@ export function Header() {
               ЭЛЕФАНТОЛОГИЯ
             </h1>
             <span className="text-[9px] text-kingdom-gold uppercase tracking-[0.2em] font-bold">
-              Монография
+              Статья
             </span>
           </div>
         </button>

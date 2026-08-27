@@ -168,7 +168,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   const openCitationModal = () => {
     window.dispatchEvent(new CustomEvent('open-citation', {
       detail: {
-        title: meta.title || 'Монография',
+        title: meta.title || 'Статья',
         url: window.location.href,
         category: meta.category,
         authors: 'Коллектив авторов Слонологии',
@@ -309,7 +309,9 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
               <span className="text-[#34384a]">|</span>
               {meta.evidenceLevel && (
                 <>
-                  <span>СТАТУС: <span className="font-semibold">{renderEvidenceLevel(meta.evidenceLevel)}</span></span>
+                  <span className="relative group cursor-help text-gray-500 hover:text-gray-400 transition-colors" title="Редакционная классификация, отражающая степень поддержки утверждения существующей литературой">
+                    СТАТУС: <span className="font-semibold">{renderEvidenceLevel(meta.evidenceLevel)}</span>
+                  </span>
                   <span className="text-[#34384a]">|</span>
                 </>
               )}
@@ -317,7 +319,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
               {meta.lastReviewed && (
                 <>
                   <span className="text-[#34384a]">|</span>
-                  <span>ПРОВЕРЕНО: <span className="text-gray-300 font-semibold">{meta.lastReviewed}</span></span>
+                  <span>РЕДАКЦИОННЫЙ ПЕРЕСМОТР: <span className="text-gray-300 font-semibold">{meta.lastReviewed}</span></span>
                 </>
               )}
             </div>
@@ -389,14 +391,24 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                 <ul className="space-y-4 text-sm text-gray-300">
                   {meta.references.map((ref: any, i: number) => (
                     <li key={ref.id || i} id={ref.id || `ref-${i+1}`} className="pl-4 border-l-2 border-kingdom-border hover:border-kingdom-gold transition-colors">
-                      <div className="font-semibold text-gray-200">{ref.title}</div>
-                      <div className="text-gray-400 mt-1">
-                        {ref.authors} ({ref.year})
+                      <div className="text-gray-300">
+                        {ref.authors && <span className="font-semibold text-gray-200">{ref.authors}. </span>}
+                        {ref.year && <span>({ref.year}). </span>}
+                        <span className="italic">{ref.title}. </span>
+                        {ref.journal && <span className="italic text-gray-400">{ref.journal}</span>}
+                        {ref.volume && <span className="italic text-gray-400">, {ref.volume}</span>}
+                        {ref.issue && <span className="text-gray-400">({ref.issue})</span>}
+                        {ref.pages && <span className="text-gray-400">, {ref.pages}. </span>}
                         {ref.doi && (
-                          <span className="ml-2">
+                          <span className="ml-1">
                             <a href={`https://doi.org/${ref.doi}`} target="_blank" rel="noreferrer" className="text-sky-400 hover:text-sky-300 hover:underline">
                               DOI: {ref.doi}
                             </a>
+                          </span>
+                        )}
+                        {ref.isbn && (
+                          <span className="ml-1 text-gray-400">
+                            ISBN: {ref.isbn}
                           </span>
                         )}
                       </div>
@@ -411,7 +423,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
               <div className="mt-14 pt-8 border-t border-kingdom-border">
                 <div className="flex items-center gap-2 text-kingdom-gold font-bold text-base mb-4">
                   <Compass className="w-4 h-4" />
-                  <span>Связанные монографии и темы</span>
+                  <span>Связанные статьи и темы</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {relatedArticles.map((rel) => (
@@ -429,7 +441,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                         </div>
                       </div>
                       <div className="flex items-center text-[10px] text-gray-400 group-hover:text-kingdom-gold mt-2 transition-colors">
-                        <span>Читать монографию →</span>
+                        <span>Читать статью →</span>
                       </div>
                     </button>
                   ))}
@@ -447,7 +459,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   >
                     <div className="flex items-center text-xs text-gray-400 group-hover:text-kingdom-gold mb-2 transition-colors">
                       <ChevronLeft className="w-4 h-4 mr-1" />
-                      Предыдущая монография
+                      Предыдущая статья
                     </div>
                     <div className="font-bold text-gray-200 group-hover:text-white transition-colors">{prevArticle.title}</div>
                     {prevArticle.category && <div className="text-xs text-kingdom-gold/70 mt-1 uppercase font-mono">{catMapFull[prevArticle.category?.toLowerCase()] || prevArticle.category}</div>}
@@ -460,7 +472,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                     className="flex flex-col text-right p-4 bg-[#181a22] border border-[#34384a] rounded-xl hover:border-kingdom-gold transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center justify-end text-xs text-gray-400 group-hover:text-kingdom-gold mb-2 transition-colors">
-                      Следующая монография
+                      Следующая статья
                       <ChevronRight className="w-4 h-4 ml-1" />
                     </div>
                     <div className="font-bold text-gray-200 group-hover:text-white transition-colors">{nextArticle.title}</div>

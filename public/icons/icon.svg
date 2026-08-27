@@ -74,7 +74,7 @@
     <circle cx="275" cy="175" r="9" fill="#121318"/>
     <circle cx="278" cy="173" r="3" fill="#ffffff"/>
 
-    <!-- Mini Pixel/Scientific Emblem Badge -->
+    <!-- Mini Scientific Emblem Badge -->
     <rect x="230" y="415" width="50" height="12" rx="4" fill="#ffd166" opacity="0.8"/>
   </g>
 

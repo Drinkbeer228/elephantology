@@ -5,7 +5,7 @@ import { getStaticArticles } from '../lib/articles';
 import { CategoryDef } from './catalog/CategoryTile';
 import { CategorySection } from './catalog/CategorySection';
 
-const MONOGRAPH_CATEGORIES: CategoryDef[] = [
+const ACADEMIC_CATEGORIES: CategoryDef[] = [
   { id: 'taxonomy', name: 'Таксономия и Эволюция' },
   { id: 'anatomy', name: 'Анатомия и Физиология' },
   { id: 'ethogram', name: 'Этология и Поведение' },
@@ -66,72 +66,30 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
       <div className="space-y-6">
         <div className="space-y-2">
           <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">Слонология</h2>
-          <p className="text-gray-400">Каталог академических монографий. Исследуйте систематизированные статьи по дисциплинам.</p>
+          <p className="text-gray-400">Каталог академических статей. Исследуйте систематизированные материалы по дисциплинам.</p>
         </div>
 
-        <style>{`
-          .catalog-tile-bg {
-            background-image: url('/catalog-bg.jpg');
-            background-repeat: no-repeat;
-            background-attachment: scroll;
-          }
-          /* Mobile (2 cols, 5 rows) */
-          @media (max-width: 767px) {
-            .catalog-tile-bg { background-size: calc(200% + 12px) calc(500% + 48px); }
-            .tile-0 { background-position: 0% 0%; }
-            .tile-1 { background-position: 100% 0%; }
-            .tile-2 { background-position: 0% 25%; }
-            .tile-3 { background-position: 100% 25%; }
-            .tile-4 { background-position: 0% 50%; }
-            .tile-5 { background-position: 100% 50%; }
-            .tile-6 { background-position: 0% 75%; }
-            .tile-7 { background-position: 100% 75%; }
-            .tile-8 { background-position: 0% 100%; }
-            .tile-9 { background-position: 100% 100%; }
-          }
-          /* Desktop (5 cols, 2 rows) */
-          @media (min-width: 768px) {
-            .catalog-tile-bg { background-size: calc(500% + 48px) calc(200% + 12px); }
-            .tile-0 { background-position: 0% 0%; }
-            .tile-1 { background-position: 25% 0%; }
-            .tile-2 { background-position: 50% 0%; }
-            .tile-3 { background-position: 75% 0%; }
-            .tile-4 { background-position: 100% 0%; }
-            .tile-5 { background-position: 0% 100%; }
-            .tile-6 { background-position: 25% 100%; }
-            .tile-7 { background-position: 50% 100%; }
-            .tile-8 { background-position: 75% 100%; }
-            .tile-9 { background-position: 100% 100%; }
-          }
-        `}</style>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-          {MONOGRAPH_CATEGORIES.map((cat, index) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {ACADEMIC_CATEGORIES.map((cat) => {
             const count = articles.filter(a => a.category === cat.id).length;
             return (
               <button 
                 key={cat.id}
                 onClick={() => scrollToCategory(cat.id)}
-                className="group relative overflow-hidden h-36 rounded-xl border border-[#34384a] hover:border-kingdom-gold/60 text-center transition-all cursor-pointer hover:shadow-[0_4px_20px_rgba(0,0,0,0.4)]"
+                className="group relative flex flex-col justify-between items-start text-left p-5 h-32 rounded-lg bg-kingdom-card/40 border border-kingdom-border hover:border-kingdom-gold/40 hover:bg-kingdom-card/80 transition-all cursor-pointer"
               >
-                {/* Background Image Layer */}
-                <div className={`absolute inset-0 z-0 catalog-tile-bg tile-${index} opacity-20 group-hover:opacity-60 transition-opacity duration-500`} />
-                
-                {/* Dark Overlay */}
-                <div className="absolute inset-0 z-10 bg-[#181a22]/75 group-hover:bg-[#181a22]/40 transition-colors duration-300" />
-                
-                {/* Content */}
-                <div className="relative z-20 flex flex-col items-center justify-between h-full p-2.5">
-                  <div className="w-full flex justify-end">
-                    <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-black/40 text-kingdom-gold border border-kingdom-gold/20">
-                      {count} ст.
-                    </span>
-                  </div>
-                  <div className="filter drop-shadow-md transform group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
-                    <div className={`cat-icon cat-icon-${cat.id} text-[72px]`} style={{ mixBlendMode: 'screen' }}></div>
-                  </div>
-                  <h3 className="font-bold text-xs tracking-wide text-gray-200 group-hover:text-white line-clamp-2">
+                <div className="w-full flex justify-between items-start">
+                  <h3 className="font-semibold text-sm tracking-wide text-gray-200 group-hover:text-white leading-snug w-3/4">
                     {cat.name}
                   </h3>
+                  <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-kingdom-bg/80 text-kingdom-muted border border-kingdom-border group-hover:border-kingdom-gold/30 group-hover:text-kingdom-gold transition-colors">
+                    {count} ст.
+                  </span>
+                </div>
+                
+                <div className="w-full flex items-center justify-between text-kingdom-muted group-hover:text-kingdom-gold/80 transition-colors">
+                  <span className="text-[11px] uppercase tracking-wider font-semibold">Дисциплина</span>
+                  <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                 </div>
               </button>
             );
@@ -141,7 +99,7 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
 
       {/* Articles Display by Disciplines */}
       <div id="articles-list-container" className="space-y-12 pt-4">
-        {MONOGRAPH_CATEGORIES.map(category => {
+        {ACADEMIC_CATEGORIES.map(category => {
           const categoryArticles = articles.filter(a => a.category === category.id);
           if (categoryArticles.length === 0) return null;
           return (

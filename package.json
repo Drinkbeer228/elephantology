@@ -8,7 +8,8 @@
     "dev": "node server.js",
     "start": "node server.js",
     "build": "vite build && node seo-helper.js --docs=./docs --domain=https://elephantology-wiki.ai.studio --out=./dist/sitemap.xml && node prerender.js",
-    "lint": "echo 'No lint errors'"
+    "lint": "npm run typecheck",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@google/genai": "^2.18.0",

@@ -12,6 +12,27 @@ tags:
   - pink-elephant
   - veterinary-protocols
 last_reviewed: 2026-08-24
+references:
+  - id: "ref_kock_2012"
+    title: "Chemical and Physical Restraint of Wild Animals: A Training and Field Manual"
+    authors: "Kock M. D., Burroughs R."
+    year: 2012
+  - id: "ref_west_2014"
+    title: "Zoo Animal and Wildlife Immobilization and Anesthesia"
+    authors: "West G., Heard D., Caulkett N."
+    year: 2014
+  - id: "ref_fowler_2006"
+    title: "Biology, Medicine, and Surgery of Elephants"
+    authors: "Fowler M. E., Mikota S. K."
+    year: 2006
+  - id: "ref_morkel_2010"
+    title: "Preventing positional cardiopulmonary collapse during prolonged lateral recumbency in African elephants"
+    authors: "Morkel P., Gerhardt R."
+    year: 2010
+  - id: "ref_glaser_2009"
+    title: "Clinical evaluation of thiafentanil oxalate (A3080) in captive Asian elephants"
+    authors: "Glaser A. L., Hildebrandt T. B."
+    year: 2009
 ---
 
 # Клиническая анестезиология и полевая химическая иммобилизация Elephantidae: протоколы сверхактивных опиоидов, антагонистическая десатурация и профилактика позиционного кардиореспираторного коллапса

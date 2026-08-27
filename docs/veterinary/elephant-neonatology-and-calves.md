@@ -12,6 +12,31 @@ tags:
   - milk-composition
   - veterinary-protocols
 last_reviewed: 2026-08-24
+references:
+  - id: "ref_brown_1995"
+    title: "Serum and urinary hormones during pregnancy and the peri- and postpartum period in an Asian elephant (Elephas maximus)"
+    authors: "Brown J. L., Lehnhardt J."
+    year: 1995
+    doi: "10.1002/zoo.1430140608"
+  - id: "ref_hodges_1998"
+    title: "The endocrine control of reproduction in the female elephant"
+    authors: "Hodges J. K."
+    year: 1998
+    doi: "10.1016/S0378-4320(98)00138-7"
+  - id: "ref_takehana_2022"
+    title: "Clinical review of Elephant endotheliotropic herpes virus (EEHV) associated disease in Asian elephants"
+    authors: "Takehana K., Kawakami S., Thitaram C., Matsuno K."
+    year: 2022
+  - id: "ref_peters_1972"
+    title: "Composition and nutrient content of elephant (Elephas maximus) milk"
+    authors: "Peters J. M., et al."
+    year: 1972
+    doi: "10.2307/1379051"
+  - id: "ref_lee_1986"
+    title: "Early maternal investment in male and female African elephant calves"
+    authors: "Lee P. C., Moss C. J."
+    year: 1986
+    doi: "10.1007/BF00300004"
 ---
 
 # Клиническая неонатология и интенсивная терапия слонят: физиология родов, биохимия молока, искусственное вскармливание и протоколы выхаживания сирот

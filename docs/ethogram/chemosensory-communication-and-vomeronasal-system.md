@@ -7,6 +7,30 @@ tags: [хемосенсорика, вомероназальный орган, ф
 difficulty: advanced
 reading_time_min: 15
 last_reviewed: 2026-08-24
+references:
+  - id: "ref_rasmussen_1998"
+    title: "Chemical signals in the reproduction of Asian and African elephants"
+    authors: "Rasmussen L. E. L., Schulte B. A."
+    year: 1998
+    doi: "10.1016/S0378-4320(98)00125-9"
+  - id: "ref_niimura_2014"
+    title: "Extreme expansion of the olfactory receptor gene repertoire in African elephants"
+    authors: "Niimura Y., Matsui A., Touhara K."
+    year: 2014
+    doi: "10.1101/gr.169532.113"
+  - id: "ref_rasmussen_2005"
+    title: "Behavioral and chemical confirmation of the preovulatory pheromone, (Z)-7-dodecenyl acetate, in wild Asian elephants: Its relationship to musth"
+    authors: "Rasmussen L. E. L., Krishnamurthy V., Sukumar R."
+    year: 2005
+  - id: "ref_bagley_2006"
+    title: "Male African elephants (Loxodonta africana) can distinguish oestrous status via urinary signals"
+    authors: "Bagley K. R., Goodwin T. E., Rasmussen L. E. L., Schulte B. A."
+    year: 2006
+    doi: "10.1016/j.anbehav.2005.10.014"
+  - id: "ref_rasmussen_1996"
+    title: "The sensorimotor specializations of the trunk tip of the Asian elephant, Elephas maximus"
+    authors: "Rasmussen L. E. L., Munger B. L."
+    year: 1996
 ---
 
 ## Кратко (Lead)

@@ -1,4 +1,5 @@
 ---
+title: "Позднеплейстоценовое вымирание хоботных (Quaternary Megafauna Extinction): климатическая перестройка, гипотеза антропогенного оверкилла (Overkill) и коллапс мамонтовой степи"
 category: ecology
 difficulty: advanced
 tags:

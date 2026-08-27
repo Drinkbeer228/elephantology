@@ -189,23 +189,7 @@
 }
 
 /* Category Icons Sprite Sheet */
-.cat-icon {
-  width: 1em;
-  height: 1em;
-  background-image: url('/category-icons.jpg');
-  background-size: 400% 210%;
-  background-repeat: no-repeat;
-  display: inline-block;
-}
 
-.cat-icon-anatomy { background-position: 0% 0%; }
-.cat-icon-ecology { background-position: 33.333% 0%; }
-.cat-icon-taxonomy { background-position: 66.666% 0%; }
-.cat-icon-ethogram { background-position: 100% 0%; }
-.cat-icon-cognition { background-position: 0% 88%; }
-.cat-icon-veterinary { background-position: 33.333% 88%; }
-.cat-icon-conservation { background-position: 66.666% 88%; }
-.cat-icon-culture { background-position: 100% 88%; }
 
 /* Editorial Styles */
 .markdown-body > p:first-of-type {
@@ -307,15 +291,16 @@
 
 /* 5. Print Styles (@media print) */
 @media print {
-  header, footer, nav, button, .modal, [role="dialog"], #search-modal, #citation-modal, .cat-icon {
-    display: none !important;
-  }
   
   body, html, #root, #react-main-root, .markdown-body, div {
     background: #ffffff !important;
     color: #111827 !important;
     box-shadow: none !important;
     border-color: #e5e7eb !important;
+  }
+  
+  header, footer, nav, button, .modal, [role="dialog"], #search-modal, #citation-modal {
+    display: none !important;
   }
   
   .markdown-body {

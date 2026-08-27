@@ -12,6 +12,27 @@ tags:
   - veterinary
   - tactics
 last_reviewed: 2026-08-24
+references:
+  - id: "ref_trautmann_2015"
+    title: "Elephants and Kings: An Environmental History"
+    authors: "Trautmann T. R."
+    year: 2015
+  - id: "ref_scullard_1974"
+    title: "The Elephant in the Greek and Roman World"
+    authors: "Scullard H. H."
+    year: 1974
+  - id: "ref_kistler_2006"
+    title: "War Elephants"
+    authors: "Kistler J. M."
+    year: 2006
+  - id: "ref_gowers_1947"
+    title: "The African elephant in warfare"
+    authors: "Gowers W."
+    year: 1947
+  - id: "ref_sukumar_2003"
+    title: "The Living Elephants: Evolutionary Ecology, Behavior, and Conservation"
+    authors: "Sukumar R."
+    year: 2003
 ---
 
 # Боевые слоны в военном искусстве античности и средневекового Востока: селекция видов, тактическое применение, психология паники и полевая ветеринария

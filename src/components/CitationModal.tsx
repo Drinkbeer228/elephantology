@@ -21,7 +21,7 @@ export function CitationModal() {
       const currentPath = win.currentArticlePath || window.location.pathname;
       const found = allArticles.find((a: any) => a.path === currentPath);
       
-      const docTitle = title || (found ? found.title : document.title.replace(' — Элефантология', '').replace('Энциклопедия «Элефантология»', '')) || 'Научная монография';
+      const docTitle = title || (found ? found.title : document.title.replace(' — Элефантология', '').replace('Энциклопедия «Элефантология»', '')) || 'Академическая статья';
       const cat = category || (found && found.category ? found.category.toUpperCase() : 'ЭНЦИКЛОПЕДИЯ');
       
       setArticleTitle(docTitle);

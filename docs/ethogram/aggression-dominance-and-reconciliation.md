@@ -12,6 +12,29 @@ tags:
   - conflicts
   - animal-welfare
 last_reviewed: 2026-08-24
+references:
+  - id: "ref_moss_1983"
+    title: "Relationships and social structure in African elephants"
+    authors: "Moss C. J., Poole J. H."
+    year: 1983
+  - id: "ref_wittemyer_2005"
+    title: "The socioecology of elephants: analysis of the processes creating multitiered social structures"
+    authors: "Wittemyer G., Douglas-Hamilton I., Getz W. M."
+    year: 2005
+    doi: "10.1016/j.anbehav.2004.08.018"
+  - id: "ref_poole_1982"
+    title: "Musth and male-male competition in the African elephant"
+    authors: "Poole J. H."
+    year: 1982
+  - id: "ref_de_waal_2008"
+    title: "Do elephants show empathy? Consolation and post-conflict affiliation"
+    authors: "de Waal F. B. M., Plotnik J. M."
+    year: 2008
+  - id: "ref_mccomb_2011"
+    title: "Leadership in elephants: the adaptive value of age in matriarchs"
+    authors: "McComb K., Shannon G., Durant S. M., Sayialel K., Slotow R., Poole J., Moss C."
+    year: 2011
+    doi: "10.1098/rspb.2011.0168"
 ---
 
 # Иерархия доминирования, ритуализированная агрессия и постконфликтное примирение у Elephantidae: демонстрация силы, турнирные поединки и аффилиация
