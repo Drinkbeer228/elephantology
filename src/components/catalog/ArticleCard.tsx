@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, ChevronRight, Calendar, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle } from 'lucide-react';
+import { Clock, ChevronRight, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle } from 'lucide-react';
 import { ArticleItem, ARTICLE_SEMANTIC_TAGS } from '../../lib/searchEngine';
 
 interface ArticleCardProps {
@@ -65,12 +65,6 @@ export const ArticleCard = React.memo(function ArticleCard({ article, onClick }:
             <Clock className="w-3 h-3 text-gray-500" />
             <span>{readingTime}</span>
           </div>
-          {article.lastReviewed && (
-            <div className="flex items-center gap-1">
-              <Calendar className="w-3 h-3 text-gray-500" />
-              <span>{article.lastReviewed}</span>
-            </div>
-          )}
         </div>
         
         {article.tags && article.tags.length > 0 && (

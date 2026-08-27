@@ -14,12 +14,9 @@ export function Header() {
             <BookOpen className="w-5 h-5 text-kingdom-gold" />
           </div>
           <div className="flex flex-col items-start text-left">
-            <h1 className="font-bold text-sm sm:text-base text-white group-hover:text-kingdom-gold transition-colors duration-300 tracking-wide">
+            <h1 className="font-bold text-base sm:text-lg text-white group-hover:text-kingdom-gold transition-colors duration-300 tracking-[0.15em] uppercase font-serif">
               ЭЛЕФАНТОЛОГИЯ
             </h1>
-            <span className="text-[9px] text-kingdom-gold uppercase tracking-[0.2em] font-bold">
-              Статья
-            </span>
           </div>
         </button>
 

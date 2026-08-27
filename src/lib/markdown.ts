@@ -59,21 +59,35 @@ export function parseFrontmatter(md: string) {
       const refMatch = fm.match(/^references:\s*([\s\S]*?)(?=^[a-z_]+:|(?![\s\S]))/mi);
       if (refMatch) {
           const block = refMatch[1];
-          // Each reference starts with "- id:"
-          const refItems = block.split(/(?:^|\n)\s*-\s+id:\s*/).filter(Boolean);
-          refItems.forEach(item => {
-             const lines = item.split('\n').map(l => l.trim()).filter(Boolean);
-             let refObj: any = { id: lines[0].trim() };
-             lines.slice(1).forEach(l => {
-                 const kv = l.split(':');
-                 if (kv.length >= 2) {
-                     const key = kv[0].trim();
-                     const val = kv.slice(1).join(':').trim().replace(/^["']|["']$/g, '');
-                     refObj[key] = val;
+          // Check if references are in YAML dict format (- id: ...) or simple list (- Author, Year)
+          if (block.includes('- id:')) {
+              const refItems = block.split(/(?:^|\n)\s*-\s+id:\s*/).filter(Boolean);
+              refItems.forEach(item => {
+                 const lines = item.split('\n').map(l => l.trim()).filter(Boolean);
+                 let refObj: any = { id: lines[0].trim() };
+                 lines.slice(1).forEach(l => {
+                     const kv = l.split(':');
+                     if (kv.length >= 2) {
+                         const key = kv[0].trim();
+                         const val = kv.slice(1).join(':').trim().replace(/^["']|["']$/g, '');
+                         refObj[key] = val;
+                     }
+                 });
+                 metadata.references.push(refObj);
+              });
+          } else {
+              // Simple list format: - Author, Year or - Full Citation string
+              const lines = block.split(/\n\s*-\s+/).filter(Boolean);
+              lines.forEach((line, idx) => {
+                 const clean = line.trim().replace(/^["']|["']$/g, '');
+                 if (clean) {
+                   metadata.references.push({
+                     id: `ref-${idx + 1}`,
+                     title: clean
+                   });
                  }
-             });
-             metadata.references.push(refObj);
-          });
+              });
+          }
           metadata.referenceCount = metadata.references.length;
       }
       content = parts.slice(2).join('---').trim();

@@ -40,7 +40,7 @@ export const CategoryTile = React.memo(function CategoryTile({
         <div className="flex items-center gap-2.5 min-w-0">
           <span className="text-base shrink-0">📚</span>
           <div className="min-w-0">
-            <div className="text-sm font-bold truncate">Все разделы</div>
+            <div className="text-sm font-bold truncate">Все статьи</div>
           </div>
         </div>
         <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-md shrink-0 ${
