@@ -5,36 +5,59 @@ import { ArticleCatalog } from './components/ArticleCatalog';
 import { ArticleViewer } from './components/ArticleViewer';
 import { SearchModal } from './components/SearchModal';
 import { CitationModal } from './components/CitationModal';
-import { InteractiveAnatomy } from './components/InteractiveAnatomy';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'home' | 'article' | 'module'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'article'>('home');
   const [currentArticlePath, setCurrentArticlePath] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Check initial path for direct navigation
-    const path = window.location.pathname;
+  // Получаем базовый путь из vite.config.ts (например, '/elephantology/' или '/')
+  const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+  const parseCurrentLocation = () => {
+    let path = window.location.pathname;
+    
+    // Отрезаем базовый префикс репозитория
+    if (baseUrl && path.startsWith(baseUrl)) {
+      path = path.slice(baseUrl.length) || '/';
+    }
+
     if (path.startsWith('/article/')) {
       let articlePath = path.substring('/article/'.length);
       if (articlePath.endsWith('/')) articlePath = articlePath.slice(0, -1);
+      if (articlePath.endsWith('.md')) articlePath = articlePath.slice(0, -3);
       setCurrentArticlePath(articlePath);
       setCurrentView('article');
+      return;
     }
-    
-    // Also handle search params if we used those
+
+    // Обработка query-параметров ?path=...
     const urlParams = new URLSearchParams(window.location.search);
     const p = urlParams.get('path');
     if (p) {
-       setCurrentArticlePath(p);
-       setCurrentView('article');
-       // Clean URL without reload
-       window.history.replaceState({}, '', `/article/${p.replace('.md', '')}`);
+      const cleanPath = p.replace('.md', '');
+      setCurrentArticlePath(cleanPath);
+      setCurrentView('article');
+      window.history.replaceState({}, '', `${baseUrl}/article/${cleanPath}`);
+      return;
     }
+
+    setCurrentView('home');
+    setCurrentArticlePath(null);
+  };
+
+  useEffect(() => {
+    parseCurrentLocation();
+
+    // Обработка кнопок «Назад / Вперед» в браузере
+    const handlePopState = () => parseCurrentLocation();
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   const showHome = () => {
     setCurrentView('home');
-    window.history.pushState({}, '', '/');
+    setCurrentArticlePath(null);
+    window.history.pushState({}, '', `${baseUrl}/`);
   };
 
   const showArticle = (path: string) => {
@@ -42,11 +65,11 @@ export default function App() {
     if (cleanPath.endsWith('.md')) cleanPath = cleanPath.slice(0, -3);
     setCurrentArticlePath(cleanPath);
     setCurrentView('article');
-    window.history.pushState({}, '', `/article/${cleanPath}`);
-    window.scrollTo({top: 0, behavior: 'smooth'});
+    window.history.pushState({}, '', `${baseUrl}/article/${cleanPath}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-    useEffect(() => {
+  useEffect(() => {
     const handleShowHome = () => showHome();
     const handleLoadArticle = (e: any) => showArticle(e.detail);
     window.addEventListener('show-home', handleShowHome);
@@ -77,13 +100,15 @@ export default function App() {
             </div>
           </div>
           <div className="flex items-center gap-4 text-[11px]">
-            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="hover:text-kingdom-gold transition-colors">Наверх ↑</button>
+            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-kingdom-gold transition-colors">
+              Наверх ↑
+            </button>
           </div>
         </div>
       </footer>
 
       <SearchModal />
-            <CitationModal />
+      <CitationModal />
     </div>
   );
 }
