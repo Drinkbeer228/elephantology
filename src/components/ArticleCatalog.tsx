@@ -24,38 +24,99 @@ const SEMANTIC_QUESTIONS = [
   { intent: 'Как слоны меняют экосистему?', link: 'ecology/ecosystem-engineers-and-keystone-ecology.md' }
 ];
 
-export function ArticleCatalog() {
+// Парсер Markdown Frontmatter для статической загрузки
+function parseArticleMarkdown(fullPath: string, rawContent: string): ArticleItem {
+  const cleanPath = fullPath.replace(/^.*\/docs\//, '');
+  const pathParts = cleanPath.split('/');
+  const defaultCategory = pathParts.length > 1 ? pathParts[0] : 'taxonomy';
+  const filename = pathParts[pathParts.length - 1];
+
+  let title = filename.replace('.md', '');
+  let category = defaultCategory;
+  let excerpt = '';
+  let tags: string[] = [];
+  let readingTime = '12 мин';
+  let evidenceLevel = 'established';
+
+  const fmMatch = rawContent.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (fmMatch) {
+    const fm = fmMatch[1];
+    
+    const titleMatch = fm.match(/title:\s*["']?([^"'\n\r]+)["']?/);
+    if (titleMatch) title = titleMatch[1].trim();
+
+    const descMatch = fm.match(/description:\s*["']?([^"'\n\r]+)["']?/);
+    if (descMatch) excerpt = descMatch[1].trim();
+
+    const catMatch = fm.match(/category:\s*["']?([^"'\n\r]+)["']?/);
+    if (catMatch) category = catMatch[1].trim();
+
+    const tagsMatch = fm.match(/tags:\s*\[(.*?)\]/);
+    if (tagsMatch) {
+      tags = tagsMatch[1].split(',').map(t => t.trim().replace(/["']/g, '')).filter(Boolean);
+    }
+
+    const timeMatch = fm.match(/reading_time_min:\s*(\d+)/);
+    if (timeMatch) readingTime = `${timeMatch[1]} мин`;
+
+    const evMatch = fm.match(/evidence_level:\s*["']?([^"'\n\r]+)["']?/);
+    if (evMatch) evidenceLevel = evMatch[1].trim();
+  }
+
+  return {
+    path: cleanPath,
+    filename,
+    title,
+    category,
+    excerpt,
+    tags,
+    readingTime,
+    evidenceLevel,
+    content: rawContent
+  };
+}
+
+// Статический импорт всех Markdown файлов из папки docs/
+function loadStaticArticles(): ArticleItem[] {
+  const mdModules = import.meta.glob('/docs/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+  
+  return Object.entries(mdModules)
+    .filter(([path]) => !path.endsWith('/index.md'))
+    .map(([path, content]) => parseArticleMarkdown(path, content));
+}
+
+export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: string) => void }) {
   const [articles, setArticles] = useState<ArticleItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
   useEffect(() => {
-    const cached = sessionStorage.getItem("react_articles_cache");
-    if (cached) {
-      try {
-        setArticles(JSON.parse(cached));
-        setLoading(false);
-      } catch (e) {}
+    try {
+      // 1. Моментальная статическая загрузка из бандла Vite
+      const staticData = loadStaticArticles();
+      if (staticData.length > 0) {
+        setArticles(staticData);
+      }
+    } catch (e) {
+      console.error('Ошибка загрузки статических статей:', e);
+    } finally {
+      // Экран загрузки гарантированно снимается
+      setLoading(false);
     }
-
-    fetch('/api/articles')
-      .then(r => r.json())
-      .then(data => {
-        setArticles(data);
-        setLoading(false);
-        sessionStorage.setItem("react_articles_cache", JSON.stringify(data));
-      })
-      .catch(console.error);
       
     const savedFilter = sessionStorage.getItem("react_active_category");
     if (savedFilter) setActiveCategory(savedFilter);
   }, []);
 
   const openArticle = useCallback((path: string) => {
+    if (onArticleClick) {
+      onArticleClick(path);
+      return;
+    }
     const win = window as any;
     if (win.loadArticle) win.loadArticle(path);
-  }, []);
+  }, [onArticleClick]);
   
   const handleCategoryChange = useCallback((cat: string) => {
     setActiveCategory(cat);
