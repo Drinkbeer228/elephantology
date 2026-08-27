@@ -230,9 +230,6 @@ const isProd = process.env.NODE_ENV === 'production';
 
 // Serve static files with caching
 app.use('/docs', express.static(path.join(__dirname, 'docs')));
-app.use('/assets', express.static(path.join(__dirname, 'assets'), {
-  maxAge: '1d'
-}));
 
 // PWA Static Assets & Service Worker
 app.get('/sw.js', (req, res) => {
@@ -241,10 +238,21 @@ app.get('/sw.js', (req, res) => {
     'Service-Worker-Allowed': '/',
     'Cache-Control': 'no-cache, no-store, must-revalidate'
   });
-  const swPath = fs.existsSync(path.join(__dirname, 'public', 'sw.js')) 
-    ? path.join(__dirname, 'public', 'sw.js') 
-    : path.join(__dirname, 'sw.js');
-  res.sendFile(swPath);
+  // Return a minimal service worker that unregisters itself to clean up legacy PWA
+  res.send(`
+    self.addEventListener('install', function(e) {
+      self.skipWaiting();
+    });
+    self.addEventListener('activate', function(e) {
+      self.registration.unregister()
+        .then(function() {
+          return self.clients.matchAll();
+        })
+        .then(function(clients) {
+          clients.forEach(client => client.navigate(client.url))
+        });
+    });
+  `);
 });
 
 app.get(['/manifest.json', '/manifest.webmanifest'], (req, res) => {
