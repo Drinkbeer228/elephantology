@@ -1,0 +1,288 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.markdown-body {
+  @apply text-gray-300 leading-relaxed text-sm;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+.markdown-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+.markdown-body h1 {
+  @apply text-3xl sm:text-4xl font-bold text-white mb-8 mt-2 tracking-tight;
+}
+.markdown-body h2 {
+  @apply text-xl font-bold text-gray-100 mt-10 mb-4;
+}
+.markdown-body h3 {
+  @apply text-lg font-bold text-gray-200 mt-8 mb-3;
+}
+.markdown-body p {
+  @apply mb-5 leading-7 text-gray-200;
+}
+.markdown-body strong {
+  @apply text-white font-semibold;
+}
+.markdown-body em {
+  @apply text-gray-300 italic;
+}
+.markdown-body hr {
+  @apply border-0 border-t border-[#34384a] my-8;
+}
+.markdown-body ul {
+  @apply list-disc list-outside mb-6 ml-4 space-y-2 text-gray-300;
+}
+.markdown-body ol {
+  @apply list-decimal list-outside mb-6 ml-4 space-y-2 text-gray-300;
+}
+.markdown-body blockquote {
+  @apply border-l-2 border-kingdom-muted pl-5 italic text-gray-400 my-8;
+}
+.markdown-body a:not(.block) {
+  @apply text-kingdom-gold hover:text-white transition-colors border-b border-kingdom-gold/30 hover:border-white;
+}
+.markdown-body code {
+  @apply bg-kingdom-surface px-1.5 py-0.5 rounded text-[13px] font-mono text-gray-300;
+}
+.markdown-body pre {
+  @apply bg-kingdom-surface p-4 rounded-xl font-mono text-[13px] overflow-x-auto my-6 text-gray-300 border border-kingdom-border/50;
+}
+.markdown-body pre code {
+  @apply bg-transparent p-0 rounded-none border-none text-inherit;
+}
+.markdown-body table {
+  @apply w-full text-left border-collapse my-8 text-sm;
+}
+.markdown-body th {
+  @apply border-b border-kingdom-border pb-3 font-semibold text-gray-300 uppercase text-[11px] tracking-wider;
+}
+.markdown-body td {
+  @apply border-b border-kingdom-border/40 py-3 text-gray-400;
+}
+
+/* =========================================================
+   ACADEMIC READER THEMES & COMFORT TYPOGRAPHY
+   ========================================================= */
+
+/* Font Sizing */
+.reader-font-sm {
+  font-size: 14.5px !important;
+  line-height: 1.65 !important;
+}
+.reader-font-sm p {
+  font-size: 14.5px !important;
+  line-height: 1.65 !important;
+}
+
+.reader-font-md {
+  font-size: 16px !important;
+  line-height: 1.75 !important;
+}
+.reader-font-md p {
+  font-size: 16px !important;
+  line-height: 1.75 !important;
+}
+
+.reader-font-lg {
+  font-size: 18.5px !important;
+  line-height: 1.85 !important;
+}
+.reader-font-lg p {
+  font-size: 18.5px !important;
+  line-height: 1.85 !important;
+}
+
+/* 1. Academic Parchment Theme */
+.reader-theme-parchment {
+  background-color: #f7f2e7 !important;
+  color: #2b251e !important;
+  border-color: #dfd3bd !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+.reader-theme-parchment h1, 
+.reader-theme-parchment h2, 
+.reader-theme-parchment h3, 
+.reader-theme-parchment h4,
+.reader-theme-parchment strong {
+  color: #17130e !important;
+}
+.reader-theme-parchment p,
+.reader-theme-parchment li,
+.reader-theme-parchment td {
+  color: #2e2820 !important;
+}
+.reader-theme-parchment blockquote {
+  border-left-color: #d4a373 !important;
+  color: #635443 !important;
+  background-color: #ede5d3 !important;
+  padding: 12px 18px !important;
+  border-radius: 0 12px 12px 0 !important;
+}
+.reader-theme-parchment code {
+  background-color: #eae1d0 !important;
+  color: #8c3b1e !important;
+  border: 1px solid #dcceb8 !important;
+}
+.reader-theme-parchment pre {
+  background-color: #1f232d !important;
+  color: #e2e8f0 !important;
+}
+.reader-theme-parchment hr {
+  border-top-color: #dfd3bd !important;
+}
+.reader-theme-parchment table th {
+  border-bottom-color: #dfd3bd !important;
+  color: #5c4f3f !important;
+}
+.reader-theme-parchment table td {
+  border-bottom-color: #ede4d3 !important;
+}
+
+/* 2. High-Contrast Monochrome Theme */
+.reader-theme-monochrome {
+  background-color: #101217 !important;
+  color: #f1f5f9 !important;
+  border-color: #2d3345 !important;
+}
+.reader-theme-monochrome h1,
+.reader-theme-monochrome h2,
+.reader-theme-monochrome h3,
+.reader-theme-monochrome strong {
+  color: #ffffff !important;
+}
+.reader-theme-monochrome p,
+.reader-theme-monochrome li {
+  color: #e2e8f0 !important;
+}
+
+/* 3. Interactive Scientific Glossary Term Highlight */
+.glossary-term {
+  border-bottom: 1.5px dashed rgba(255, 209, 102, 0.7);
+  color: inherit;
+  cursor: help;
+  transition: all 0.15s ease;
+  padding: 0 1px;
+  border-radius: 2px;
+}
+.glossary-term:hover {
+  background-color: rgba(255, 209, 102, 0.15);
+  border-bottom-color: #ffd166;
+  color: #ffd166;
+}
+.reader-theme-parchment .glossary-term {
+  border-bottom: 1.5px dashed #b07d12;
+}
+.reader-theme-parchment .glossary-term:hover {
+  background-color: rgba(176, 125, 18, 0.15);
+  color: #8c6005;
+}
+
+/* 4. Performance Optimizations for long lists */
+.category-section-container {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+}
+
+
+/* Editorial Styles */
+.markdown-body > p:first-of-type {
+  @apply text-base md:text-lg text-gray-200 leading-relaxed border-l-2 border-kingdom-gold pl-4 font-medium mb-8;
+}
+.markdown-body table {
+  @apply w-full mb-8 block overflow-x-auto whitespace-nowrap;
+}
+.markdown-body table th, .markdown-body table td {
+  @apply px-4 py-3 border border-white/10;
+}
+.markdown-body table th {
+  @apply bg-black/40 font-bold text-white;
+}
+.markdown-body table tbody tr:nth-child(even) {
+  @apply bg-white/5;
+}
+
+/* Evidence Labels */
+.evidence-label {
+  @apply inline-block text-[10px] font-bold px-2 py-0.5 rounded mr-2 tracking-wider align-middle border;
+}
+.evidence-label.established {
+  @apply text-emerald-400 bg-emerald-400/10 border-emerald-400/30;
+}
+.evidence-label.clinical {
+  @apply text-sky-400 bg-sky-400/10 border-sky-400/30;
+}
+.evidence-label.case {
+  @apply text-amber-400 bg-amber-400/10 border-amber-400/30;
+}
+.evidence-label.research {
+  @apply text-fuchsia-400 bg-fuchsia-400/10 border-fuchsia-400/30;
+}
+.evidence-label.limited {
+  @apply text-rose-400 bg-rose-400/10 border-rose-400/30;
+}
+
+/* Bibliography / Footnotes styles */
+.markdown-body .footnotes {
+  @apply mt-12 pt-8 border-t border-white/10 text-xs text-gray-400;
+}
+.markdown-body .footnotes ol {
+  @apply ml-0 list-decimal pl-4 space-y-3;
+}
+.markdown-body sup {
+  @apply px-0.5 text-kingdom-gold;
+}
+.markdown-body sup a {
+  @apply border-none no-underline hover:underline;
+}
+
+/* Overriding old blockquote */
+.markdown-body blockquote {
+  @apply border-l-4 border-kingdom-gold/80 pl-5 pr-4 py-4 italic text-gray-300 my-8 bg-kingdom-card/40 rounded-r-xl shadow-lg;
+}
+
+/* Phase 3 Typography and Table enhancements */
+.markdown-body {
+  line-height: 1.7;
+}
+.markdown-body h2 {
+  margin-top: 3.5rem !important; /* ~56px */
+  margin-bottom: 1.5rem !important; /* ~24px */
+}
+.markdown-body p, .markdown-body li {
+  line-height: 1.7;
+}
+
+/* Table Wrapper for horizontal scroll + gradient fade */
+.table-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.table-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 40px;
+  background: linear-gradient(to right, transparent, rgba(27, 29, 36, 0.9));
+  pointer-events: none;
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+.table-scroll-container {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(52, 56, 74, 1); /* border-kingdom-border */
+}
+.table-scroll-container table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}

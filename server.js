@@ -1,0 +1,298 @@
+import express from 'express';
+import { generateSchemaJsonLd } from './seo-helper.js';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { GoogleGenAI } from '@google/genai';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+const PORT = 3000;
+
+app.use(express.json());
+
+// Security & Caching Headers Middleware
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+});
+
+// Lazy-initialized Gemini AI client
+let aiClient = null;
+function getAI() {
+  if (!aiClient) {
+    aiClient = new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build',
+        }
+      }
+    });
+  }
+  return aiClient;
+}
+
+// In-memory cache for scanned markdown articles
+let cachedArticles = null;
+let lastCacheTime = 0;
+const CACHE_TTL_MS = 60 * 1000; // 60 seconds TTL
+
+// Helper to recursively get all markdown files in docs
+function getMarkdownFiles(dir, baseDir = dir) {
+  let results = [];
+  if (!fs.existsSync(dir)) return results;
+  const list = fs.readdirSync(dir);
+  
+  list.forEach(file => {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+    if (stat && stat.isDirectory()) {
+      results = results.concat(getMarkdownFiles(filePath, baseDir));
+    } else if (file.endsWith('.md')) {
+      const relativePath = path.relative(baseDir, filePath);
+      const content = fs.readFileSync(filePath, 'utf8');
+      
+      // Extract title cleanly (prefer YAML title if non-empty, then # heading, then cleaned filename)
+      const yamlTitleMatch = content.match(/^title:\s*["']?([^"'\r\n]+)["']?/m);
+      const cleanContent = content.replace(/^---[\s\S]*?---\s*/, '');
+      const h1Match = cleanContent.match(/^#\s+(.+)$/m);
+      
+      let title = '';
+      if (yamlTitleMatch && yamlTitleMatch[1] && yamlTitleMatch[1].trim()) {
+        title = yamlTitleMatch[1].trim();
+      } else if (h1Match && h1Match[1] && h1Match[1].trim()) {
+        title = h1Match[1].trim();
+      }
+
+      // Strip quotes, anchors {#...}, and markdown symbols from title
+      title = title.replace(/^["']|["']$/g, '').replace(/\{.*?\}/g, '').replace(/[\*\_`#]/g, '').trim();
+
+      if (!title || title.length === 0) {
+        title = file.replace('.md', '').replace(/_/g, ' ');
+        title = title.charAt(0).toUpperCase() + title.slice(1);
+      }
+      
+      // Extract tags from YAML frontmatter if present
+      const tagsMatch = content.match(/^tags:\s*\[(.*?)\]/m) || content.match(/^keywords:\s*\[(.*?)\]/m);
+      let tags = [];
+      if (tagsMatch && tagsMatch[1]) {
+        tags = tagsMatch[1].split(',').map(t => t.replace(/["']/g, '').trim()).filter(Boolean);
+      }
+
+      // Extract evidence_level from YAML frontmatter if present
+      const evidenceMatch = content.match(/^evidence_level:\s*["']?([^"'\r\n]+)["']?/m);
+      let evidenceLevel = undefined;
+      if (evidenceMatch && evidenceMatch[1]) {
+        evidenceLevel = evidenceMatch[1].trim();
+      }
+
+      // Calculate approximate reading time
+      const wordCount = cleanContent.split(/\s+/).length;
+      const readingMinutes = Math.max(1, Math.ceil(wordCount / 180));
+      const readingTime = `${readingMinutes} мин`;
+
+      // Extract category from folder name
+      const parts = relativePath.split(path.sep);
+      const category = parts.length > 1 ? parts[0] : 'main';
+
+      results.push({
+        path: relativePath.replace(/\\/g, '/'),
+        filename: file,
+        title,
+        category,
+        size: stat.size,
+        readingTime,
+        tags,
+        evidenceLevel,
+        content: cleanContent.slice(0, 1000).replace(/[\r\n#*_`>-]+/g, ' ').trim(),
+        excerpt: cleanContent.slice(0, 200).replace(/[\r\n#*_`>-]+/g, ' ').trim()
+      });
+    }
+  });
+  
+  return results;
+}
+
+function getArticlesList() {
+  const now = Date.now();
+  if (!cachedArticles || now - lastCacheTime > CACHE_TTL_MS) {
+    const docsDir = path.resolve(__dirname, 'docs');
+    cachedArticles = getMarkdownFiles(docsDir);
+    lastCacheTime = now;
+  }
+  return cachedArticles;
+}
+
+// Health check endpoint
+app.get('/healthz', (req, res) => {
+  res.json({ status: 'ok', time: Date.now() });
+});
+
+// API endpoint to get all articles metadata
+app.get('/api/articles', (req, res) => {
+  try {
+    const articles = getArticlesList();
+    res.json(articles);
+  } catch (err) {
+    console.error('Error scanning articles:', err);
+    res.status(500).json({ error: 'Failed to load articles' });
+  }
+});
+
+// API endpoint to get single article content
+app.get('/api/article', (req, res) => {
+  try {
+    const articlePath = req.query.path;
+    if (!articlePath || typeof articlePath !== 'string') {
+      return res.status(400).json({ error: 'Missing or invalid path parameter' });
+    }
+    
+    // Strict path normalization & traversal protection
+    const docsDir = path.resolve(__dirname, 'docs');
+    const safeRelPath = path.normalize(articlePath).replace(/^(\.\.[\/\\])+/, '').replace(/^[\/\\]+/, '');
+    const fullPath = path.resolve(docsDir, safeRelPath);
+
+    // Verify boundary and enforce markdown files only
+    if (!fullPath.startsWith(docsDir + path.sep) || !fullPath.endsWith('.md') || !fs.existsSync(fullPath)) {
+      return res.status(404).json({ error: 'Article not found or invalid path' });
+    }
+
+    const content = fs.readFileSync(fullPath, 'utf8');
+    res.type('text/markdown; charset=utf-8').send(content);
+  } catch (err) {
+    console.error('Error fetching article:', err);
+    res.status(500).json({ error: 'Failed to read article' });
+  }
+});
+
+
+function injectMetaTags(template, url) {
+  if (url.startsWith('/article/')) {
+    const articlePath = url.replace('/article/', '') + '.md';
+    const articles = getArticlesList();
+    const article = articles.find(a => a.path.replace(/\\/g, '/') === articlePath);
+    
+    if (article) {
+      const title = (article.title || articlePath.replace('.md', '')) + ' — Слонология';
+      const description = article.excerpt || 'Читайте подробную статью в энциклопедии Слонология.';
+      
+      template = template.replace(
+        /<title>.*?<\/title>/i,
+        `<title>${title}</title>`
+      );
+      
+      template = template.replace(
+        /<meta property="og:title"[^>]*>/i,
+        `<meta property="og:title" id="og-title" content="${title}">`
+      );
+      
+      template = template.replace(
+        /<meta property="og:description"[^>]*>/i,
+        `<meta property="og:description" id="og-desc" content="${description}">`
+      );
+      
+      template = template.replace(
+        /<meta name="description"[^>]*>/i,
+        `<meta name="description" content="${description}">`
+      );
+
+      // --- SEO Schema Injection ---
+      const domain = 'https://' + (process.env.PROJECT_DOMAIN || 'slonology.app');
+      const articleUrl = domain + url;
+      const meta = {
+        title: article.title,
+        description: description,
+        category: article.category,
+        tags: article.tags || []
+      };
+      
+      const jsonLdScript = generateSchemaJsonLd(meta, articleUrl);
+      template = template.replace('</head>', `  ${jsonLdScript}\n</head>`);
+    }
+  }
+  
+  // Update OG URL in all cases
+  const fullUrl = 'https://' + (process.env.PROJECT_DOMAIN || 'slonology.app') + url;
+  template = template.replace(
+    /<meta property="og:url"[^>]*>/i,
+    `<meta property="og:url" id="og-url" content="${fullUrl}">`
+  );
+  
+  return template;
+}
+
+const isProd = process.env.NODE_ENV === 'production';
+
+// Serve static files with caching
+app.use('/docs', express.static(path.join(__dirname, 'docs')));
+app.use('/assets', express.static(path.join(__dirname, 'assets'), {
+  maxAge: '1d'
+}));
+
+// PWA Static Assets & Service Worker
+app.get('/sw.js', (req, res) => {
+  res.set({
+    'Content-Type': 'application/javascript',
+    'Service-Worker-Allowed': '/',
+    'Cache-Control': 'no-cache, no-store, must-revalidate'
+  });
+  const swPath = fs.existsSync(path.join(__dirname, 'public', 'sw.js')) 
+    ? path.join(__dirname, 'public', 'sw.js') 
+    : path.join(__dirname, 'sw.js');
+  res.sendFile(swPath);
+});
+
+app.get(['/manifest.json', '/manifest.webmanifest'], (req, res) => {
+  res.set({
+    'Content-Type': 'application/manifest+json',
+    'Cache-Control': 'public, max-age=3600'
+  });
+  res.sendFile(path.join(__dirname, 'public', 'manifest.json'));
+});
+
+app.use('/icons', express.static(path.join(__dirname, 'public', 'icons'), {
+  maxAge: '7d'
+}));
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
+if (!isProd) {
+  // Dev mode: use Vite middleware
+  const { createServer: createViteServer } = await import('vite');
+  const vite = await createViteServer({
+    server: { middlewareMode: true },
+    appType: 'spa'
+  });
+  app.use(vite.middlewares);
+
+  app.use('*', async (req, res, next) => {
+    const url = req.originalUrl;
+    try {
+      let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
+      template = await vite.transformIndexHtml(url, template);
+      template = injectMetaTags(template, url);
+      res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
+    } catch (e) {
+      vite.ssrFixStacktrace(e);
+      next(e);
+    }
+  });
+} else {
+  // Prod mode: serve dist
+  app.use(express.static(path.resolve(__dirname, 'dist'), {
+    index: ['index.html']
+  }));
+  app.use('*', (req, res) => {
+    let template = fs.readFileSync(path.resolve(__dirname, 'dist', 'index.html'), 'utf-8');
+    template = injectMetaTags(template, req.originalUrl);
+    res.status(200).set({ 'Content-Type': 'text/html' }).send(template);
+  });
+}
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Elephantology Wiki Server running on http://0.0.0.0:${PORT}`);
+});

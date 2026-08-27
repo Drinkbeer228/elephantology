@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://elephantology-wiki.ai.studio/sitemap.xml

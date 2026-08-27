@@ -1,0 +1,8 @@
+{
+  "name": "Энциклопедия «Слонология»",
+  "description": "Глубокая интерактивная база знаний по биологии, анатомии, этологии, эволюции и ветеринарии слонов.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
