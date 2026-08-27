@@ -59,15 +59,27 @@ export const ArticleCard = React.memo(function ArticleCard({ article, onClick }:
         )}
       </div>
 
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-3 mt-3 border-t border-[#34384a]/60 text-[10px] text-gray-500 font-mono uppercase">
-        <div className="flex items-center gap-1.5">
-          <Clock className="w-3 h-3 text-gray-600" />
-          <span>{readingTime}</span>
+      <div className="flex flex-wrap items-center justify-between gap-y-2 pt-3 mt-3 border-t border-[#34384a]/60 text-[10px] text-gray-500 font-mono uppercase">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1">
+            <Clock className="w-3 h-3 text-gray-500" />
+            <span>{readingTime}</span>
+          </div>
+          {article.lastReviewed && (
+            <div className="flex items-center gap-1">
+              <Calendar className="w-3 h-3 text-gray-500" />
+              <span>{article.lastReviewed}</span>
+            </div>
+          )}
         </div>
-        {article.lastReviewed && (
-          <div className="flex items-center gap-1.5">
-            <Calendar className="w-3 h-3 text-gray-600" />
-            <span>Пров: {article.lastReviewed}</span>
+        
+        {article.tags && article.tags.length > 0 && (
+          <div className="flex items-center gap-1 overflow-hidden">
+            {article.tags.slice(0, 2).map((t, idx) => (
+              <span key={idx} className="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-gray-400 border border-white/5">
+                #{t}
+              </span>
+            ))}
           </div>
         )}
       </div>

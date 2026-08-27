@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BookOpen } from "lucide-react";
 import { Header } from './components/Header';
 import { ArticleCatalog } from './components/ArticleCatalog';
-import { ArticleViewer } from './components/ArticleViewer';
-import { SearchModal } from './components/SearchModal';
-import { CitationModal } from './components/CitationModal';
-import { InteractiveAnatomy } from './components/InteractiveAnatomy';
+
+const ArticleViewer = lazy(() => import('./components/ArticleViewer').then(m => ({ default: m.ArticleViewer })));
+const SearchModal = lazy(() => import('./components/SearchModal').then(m => ({ default: m.SearchModal })));
+const CitationModal = lazy(() => import('./components/CitationModal').then(m => ({ default: m.CitationModal })));
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'home' | 'article' | 'module'>('home');
@@ -102,7 +102,19 @@ export default function App() {
       <main className="flex-1 w-full mx-auto px-3 sm:px-6 pb-12 pt-4 lg:pt-8 flex flex-col max-w-7xl relative" id="react-main-root">
         {currentView === 'home' && <ArticleCatalog onArticleClick={showArticle} />}
         {currentView === 'article' && currentArticlePath && (
-          <ArticleViewer path={currentArticlePath} onBack={showHome} />
+          <Suspense fallback={
+            <div className="animate-pulse space-y-6 py-8 w-full max-w-5xl mx-auto">
+              <div className="h-6 bg-[#242733] rounded w-1/4"></div>
+              <div className="h-12 bg-[#242733] rounded w-3/4"></div>
+              <div className="space-y-4 pt-6">
+                <div className="h-4 bg-[#242733] rounded w-full"></div>
+                <div className="h-4 bg-[#242733] rounded w-full"></div>
+                <div className="h-4 bg-[#242733] rounded w-4/5"></div>
+              </div>
+            </div>
+          }>
+            <ArticleViewer path={currentArticlePath} onBack={showHome} />
+          </Suspense>
         )}
       </main>
       
@@ -116,13 +128,15 @@ export default function App() {
             </div>
           </div>
           <div className="flex items-center gap-4 text-[11px]">
-            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="hover:text-kingdom-gold transition-colors">Наверх ↑</button>
+            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="hover:text-kingdom-gold transition-colors cursor-pointer">Наверх ↑</button>
           </div>
         </div>
       </footer>
 
-      <SearchModal />
-            <CitationModal />
+      <Suspense fallback={null}>
+        <SearchModal />
+        <CitationModal />
+      </Suspense>
     </div>
   );
 }

@@ -1,32 +1,29 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Search, ChevronRight } from 'lucide-react';
+import { Search, ChevronRight, Tag, X, BookOpen } from 'lucide-react';
 import { searchArticles, ArticleItem } from '../lib/searchEngine';
 import { getStaticArticles } from '../lib/articles';
 import { CategoryDef } from './catalog/CategoryTile';
 import { CategorySection } from './catalog/CategorySection';
 
 const MONOGRAPH_CATEGORIES: CategoryDef[] = [
-  { id: 'taxonomy', name: 'Таксономия и Эволюция', emoji: '🧬' },
-  { id: 'anatomy', name: 'Анатомия и Физиология', emoji: '🦴' },
-  { id: 'ethogram', name: 'Этология и Поведение', emoji: '🧠' },
-  { id: 'cognition', name: 'Когнитивистика и Память', emoji: '💡' },
-  { id: 'veterinary', name: 'Ветеринария и Патологии', emoji: '🩺' },
-  { id: 'ecology', name: 'Экология и Среда обитания', emoji: '🌍' },
-  { id: 'conservation', name: 'Охрана и Сохранение видов', emoji: '🛡️' },
-  { id: 'culture', name: 'Антропозоология и Культура', emoji: '🏛️' }
+  { id: 'taxonomy', name: 'Таксономия и Эволюция' },
+  { id: 'anatomy', name: 'Анатомия и Физиология' },
+  { id: 'ethogram', name: 'Этология и Поведение' },
+  { id: 'cognition', name: 'Когнитивистика и Память' },
+  { id: 'veterinary', name: 'Ветеринария и Патологии' },
+  { id: 'ecology', name: 'Экология и Среда обитания' },
+  { id: 'conservation', name: 'Охрана и Сохранение видов' },
+  { id: 'culture', name: 'Антропозоология и Культура' },
+  { id: 'paleontology', name: 'Палеонтология и Ископаемые' },
+  { id: 'genomics', name: 'Геномика и Молекулярная биология' }
 ];
 
 export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: string) => void }) {
   const [articles, setArticles] = useState<ArticleItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState<string>('all');
 
   useEffect(() => {
     try {
-      const savedFilter = sessionStorage.getItem("react_active_category");
-      if (savedFilter) setActiveCategory(savedFilter);
-
       const parsedArticles = getStaticArticles();
       setArticles(parsedArticles);
     } catch (err) {
@@ -44,32 +41,14 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
     const win = window as any;
     if (win.loadArticle) win.loadArticle(path);
   }, [onArticleClick]);
-  
-  const handleCategoryChange = useCallback((cat: string) => {
-    setActiveCategory(prev => {
-      const next = prev === cat ? 'all' : cat;
-      sessionStorage.setItem("react_active_category", next);
-      return next;
-    });
-    setTimeout(() => {
-      const articlesList = document.getElementById('articles-list-container');
-      if (articlesList) {
-        const y = articlesList.getBoundingClientRect().top + window.scrollY - 80;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    }, 50);
-  }, []);
 
-  const filteredArticles = useMemo(() => {
-    let result = articles;
-    if (activeCategory !== 'all') {
-      result = result.filter(a => a.category === activeCategory);
+  const scrollToCategory = useCallback((catId: string) => {
+    const element = document.getElementById(`category-${catId}`);
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.scrollY - 84;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
-    if (searchQuery.trim()) {
-      result = searchArticles(result, searchQuery);
-    }
-    return result;
-  }, [articles, searchQuery, activeCategory]);
+  }, []);
 
   if (loading && articles.length === 0) {
     return (
@@ -80,14 +59,10 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
     );
   }
 
-  const categoriesToRender = activeCategory === 'all' 
-    ? MONOGRAPH_CATEGORIES 
-    : MONOGRAPH_CATEGORIES.filter(c => c.id === activeCategory);
-
   return (
-    <div className="animate-fade-in max-w-5xl mx-auto space-y-12 pb-16 pt-6">
+    <div className="animate-fade-in max-w-5xl mx-auto space-y-10 pb-16 pt-6">
       
-      {/* Catalog Grid */}
+      {/* Catalog Header & Grid of Disciplines */}
       <div className="space-y-6">
         <div className="space-y-2">
           <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">Слонология</h2>
@@ -100,54 +75,61 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
             background-repeat: no-repeat;
             background-attachment: scroll;
           }
-          /* Mobile (2 cols, 4 rows) */
+          /* Mobile (2 cols, 5 rows) */
           @media (max-width: 767px) {
-            .catalog-tile-bg { background-size: calc(200% + 12px) calc(400% + 36px); }
+            .catalog-tile-bg { background-size: calc(200% + 12px) calc(500% + 48px); }
             .tile-0 { background-position: 0% 0%; }
             .tile-1 { background-position: 100% 0%; }
-            .tile-2 { background-position: 0% 33.333%; }
-            .tile-3 { background-position: 100% 33.333%; }
-            .tile-4 { background-position: 0% 66.666%; }
-            .tile-5 { background-position: 100% 66.666%; }
-            .tile-6 { background-position: 0% 100%; }
-            .tile-7 { background-position: 100% 100%; }
+            .tile-2 { background-position: 0% 25%; }
+            .tile-3 { background-position: 100% 25%; }
+            .tile-4 { background-position: 0% 50%; }
+            .tile-5 { background-position: 100% 50%; }
+            .tile-6 { background-position: 0% 75%; }
+            .tile-7 { background-position: 100% 75%; }
+            .tile-8 { background-position: 0% 100%; }
+            .tile-9 { background-position: 100% 100%; }
           }
-          /* Desktop (4 cols, 2 rows) */
+          /* Desktop (5 cols, 2 rows) */
           @media (min-width: 768px) {
-            .catalog-tile-bg { background-size: calc(400% + 36px) calc(200% + 12px); }
+            .catalog-tile-bg { background-size: calc(500% + 48px) calc(200% + 12px); }
             .tile-0 { background-position: 0% 0%; }
-            .tile-1 { background-position: 33.333% 0%; }
-            .tile-2 { background-position: 66.666% 0%; }
-            .tile-3 { background-position: 100% 0%; }
-            .tile-4 { background-position: 0% 100%; }
-            .tile-5 { background-position: 33.333% 100%; }
-            .tile-6 { background-position: 66.666% 100%; }
-            .tile-7 { background-position: 100% 100%; }
+            .tile-1 { background-position: 25% 0%; }
+            .tile-2 { background-position: 50% 0%; }
+            .tile-3 { background-position: 75% 0%; }
+            .tile-4 { background-position: 100% 0%; }
+            .tile-5 { background-position: 0% 100%; }
+            .tile-6 { background-position: 25% 100%; }
+            .tile-7 { background-position: 50% 100%; }
+            .tile-8 { background-position: 75% 100%; }
+            .tile-9 { background-position: 100% 100%; }
           }
         `}</style>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
           {MONOGRAPH_CATEGORIES.map((cat, index) => {
-            const isActive = activeCategory === cat.id;
+            const count = articles.filter(a => a.category === cat.id).length;
             return (
               <button 
                 key={cat.id}
-                onClick={() => handleCategoryChange(cat.id)}
-                className={`group relative overflow-hidden h-40 rounded-xl border text-center transition-all cursor-pointer ${
-                  isActive ? 'border-kingdom-gold shadow-[0_0_15px_rgba(255,209,102,0.2)]' : 'border-[#34384a] hover:border-kingdom-gold/50'
-                }`}
+                onClick={() => scrollToCategory(cat.id)}
+                className="group relative overflow-hidden h-36 rounded-xl border border-[#34384a] hover:border-kingdom-gold/60 text-center transition-all cursor-pointer hover:shadow-[0_4px_20px_rgba(0,0,0,0.4)]"
               >
                 {/* Background Image Layer */}
-                <div className={`absolute inset-0 z-0 catalog-tile-bg tile-${index} opacity-20 group-hover:opacity-70 transition-opacity duration-700`} />
+                <div className={`absolute inset-0 z-0 catalog-tile-bg tile-${index} opacity-20 group-hover:opacity-60 transition-opacity duration-500`} />
                 
-                {/* Dark Overlay for text readability */}
-                <div className={`absolute inset-0 z-10 transition-colors duration-500 ${isActive ? 'bg-kingdom-gold/20' : 'bg-[#181a22]/70 group-hover:bg-[#181a22]/30'}`} />
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 z-10 bg-[#181a22]/75 group-hover:bg-[#181a22]/40 transition-colors duration-300" />
                 
                 {/* Content */}
-                <div className="relative z-20 flex flex-col items-center justify-center h-full p-2">
-                  <div className="mb-1 filter drop-shadow-md transform group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
-                    <div className={`cat-icon cat-icon-${cat.id} text-[96px]`} style={{ mixBlendMode: 'screen' }}></div>
+                <div className="relative z-20 flex flex-col items-center justify-between h-full p-2.5">
+                  <div className="w-full flex justify-end">
+                    <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-black/40 text-kingdom-gold border border-kingdom-gold/20">
+                      {count} ст.
+                    </span>
                   </div>
-                  <h3 className={`font-bold text-sm tracking-wide ${isActive ? 'text-kingdom-gold' : 'text-gray-200 group-hover:text-white'}`}>
+                  <div className="filter drop-shadow-md transform group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+                    <div className={`cat-icon cat-icon-${cat.id} text-[72px]`} style={{ mixBlendMode: 'screen' }}></div>
+                  </div>
+                  <h3 className="font-bold text-xs tracking-wide text-gray-200 group-hover:text-white line-clamp-2">
                     {cat.name}
                   </h3>
                 </div>
@@ -157,31 +139,21 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
         </div>
       </div>
 
-      {/* Articles Display */}
-      <div id="articles-list-container" className="pt-2">
-        {filteredArticles.length === 0 ? (
-          <div className="text-center py-16 space-y-4 bg-[#181a22] rounded-2xl border border-[#34384a] p-8 shadow-inner">
-             <div className="text-3xl text-gray-500">🐘</div>
-             <p className="text-sm text-gray-300">Ничего не найдено по вашему запросу.</p>
-             <button 
-               onClick={() => { setSearchQuery(''); setActiveCategory('all'); }} 
-               className="px-4 py-2 bg-[#242733] text-kingdom-gold hover:text-white border border-[#34384a] rounded-xl text-xs font-bold transition-all cursor-pointer"
-             >
-               Сбросить фильтры
-             </button>
-          </div>
-        ) : (
-          <div className="space-y-10">
-            {categoriesToRender.map(category => (
+      {/* Articles Display by Disciplines */}
+      <div id="articles-list-container" className="space-y-12 pt-4">
+        {MONOGRAPH_CATEGORIES.map(category => {
+          const categoryArticles = articles.filter(a => a.category === category.id);
+          if (categoryArticles.length === 0) return null;
+          return (
+            <div key={category.id} id={`category-${category.id}`} className="scroll-mt-24">
               <CategorySection 
-                key={category.id}
                 category={category}
-                articles={filteredArticles.filter(a => a.category === category.id)}
+                articles={categoryArticles}
                 onArticleClick={openArticle}
               />
-            ))}
-          </div>
-        )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

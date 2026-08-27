@@ -40,8 +40,13 @@ export function getStaticArticles(): ArticleItem[] {
       excerpt: metadata.excerpt || '',
       category: category || '',
       tags: metadata.tags || [],
+      related_knowledge: metadata.related_knowledge || [],
       reading_time_min: metadata.readingTimeMin || 5,
+      readingTime: `${metadata.readingTimeMin || 5} мин`,
+      evidenceLevel: metadata.evidenceLevel || '',
       evidence_level: metadata.evidenceLevel || '',
+      difficulty: metadata.difficulty || '',
+      lastReviewed: metadata.lastReviewed || '',
       content: cleanContent
     };
   });

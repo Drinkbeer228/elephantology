@@ -7,8 +7,13 @@ export interface ArticleItem {
   excerpt?: string;
   tags?: string[];
   readingTime?: string;
+  reading_time_min?: number;
   content?: string;
   evidenceLevel?: string;
+  evidence_level?: string;
+  difficulty?: string;
+  lastReviewed?: string;
+  related_knowledge?: Array<{ type: string; target: string }>;
 }
 
 // Comprehensive semantic tags & keywords for all articles in the knowledge base

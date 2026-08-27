@@ -304,3 +304,92 @@
   text-align: left;
   border-collapse: collapse;
 }
+
+/* 5. Print Styles (@media print) */
+@media print {
+  header, footer, nav, button, .modal, [role="dialog"], #search-modal, #citation-modal, .cat-icon {
+    display: none !important;
+  }
+  
+  body, html, #root, #react-main-root, .markdown-body, div {
+    background: #ffffff !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    border-color: #e5e7eb !important;
+  }
+  
+  .markdown-body {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 11pt !important;
+    line-height: 1.6 !important;
+    color: #111827 !important;
+  }
+  
+  .markdown-body h1 {
+    font-size: 20pt !important;
+    color: #111827 !important;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  
+  .markdown-body h2 {
+    font-size: 14pt !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.75rem !important;
+    color: #1f2937 !important;
+    border-bottom: 1px solid #d1d5db !important;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  
+  .markdown-body h3 {
+    font-size: 12pt !important;
+    color: #374151 !important;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  
+  .markdown-body p, .markdown-body li {
+    color: #1f2937 !important;
+    line-height: 1.6 !important;
+  }
+
+  .markdown-body blockquote {
+    border-left: 3px solid #6b7280 !important;
+    background: #f9fafb !important;
+    color: #374151 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+  .markdown-body table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+  .markdown-body th, .markdown-body td {
+    border: 1px solid #d1d5db !important;
+    color: #111827 !important;
+    background: transparent !important;
+    padding: 6px 10px !important;
+  }
+  
+  .markdown-body th {
+    background: #f3f4f6 !important;
+    font-weight: bold !important;
+  }
+  
+  .table-wrapper::after {
+    display: none !important;
+  }
+  
+  a {
+    color: #111827 !important;
+    text-decoration: underline !important;
+  }
+}
