@@ -1,7 +1,9 @@
 export function parseFrontmatter(md: string) {
   let frontmatter = null;
-  let content = md;
+  let content = typeof md === 'string' ? md : '';
   let metadata: any = {
+    title: null,
+    excerpt: null,
     evidenceLevel: null,
     difficulty: null,
     lastReviewed: null,
@@ -9,10 +11,11 @@ export function parseFrontmatter(md: string) {
     category: null,
     tags: [],
     related_knowledge: [],
-    references: []
+    references: [],
+    readingTimeMin: 5
   };
 
-  if (md.startsWith('---')) {
+  if (typeof md === 'string' && md.startsWith('---')) {
     const parts = md.split('---');
     if (parts.length >= 3) {
       const fm = parts[1];
@@ -20,11 +23,19 @@ export function parseFrontmatter(md: string) {
       const fmTitleMatch = fm.match(/^title:\s*["']?([^"'\n]+)["']?/m);
       if (fmTitleMatch) metadata.title = fmTitleMatch[1].trim();
 
+      const fmExcerptMatch = fm.match(/^excerpt:\s*["']?([^"'\n]+)["']?/m) || fm.match(/^description:\s*["']?([^"'\n]+)["']?/m);
+      if (fmExcerptMatch) metadata.excerpt = fmExcerptMatch[1].trim();
+      
+      metadata.category = fm.match(/^category:\s*["']?([^"'\n]+)["']?/m)?.[1]?.trim() || null;
+      
+      const rtMatch = fm.match(/^reading_time_min:\s*(\d+)/m);
+      if (rtMatch) metadata.readingTimeMin = parseInt(rtMatch[1], 10);
+
       metadata.evidenceLevel = fm.match(/^evidence_level:\s*["']?([^"'\n]+)["']?/m)?.[1]?.trim() || null;
       metadata.difficulty = fm.match(/^difficulty:\s*["']?([^"'\n]+)["']?/m)?.[1]?.trim() || null;
       metadata.lastReviewed = fm.match(/^last_reviewed:\s*["']?([^"'\n]+)["']?/m)?.[1]?.trim() || null;
       
-      const tagsMatch = fm.match(/^tags:\s*\[(.*?)\]/m);
+      const tagsMatch = fm.match(/^tags:\s*\[(.*?)\]/m) || fm.match(/^keywords:\s*\[(.*?)\]/m);
       if (tagsMatch) {
           metadata.tags = tagsMatch[1].split(',').map((t: string) => t.trim().replace(/['"]/g, ''));
       }
@@ -65,8 +76,22 @@ export function parseFrontmatter(md: string) {
           });
           metadata.referenceCount = metadata.references.length;
       }
-
       content = parts.slice(2).join('---').trim();
+    }
+  }
+
+  // Fallbacks
+  if (!metadata.title) {
+    const h1Match = content.match(/^#\s+(.+)$/m);
+    if (h1Match) {
+      metadata.title = h1Match[1].trim().replace(/^["']|["']$/g, '').replace(/\{.*?\}/g, '').replace(/[\*\_`#]/g, '').trim();
+    }
+  }
+
+  if (!metadata.excerpt) {
+    const pMatch = content.match(/^(?!#|>|-|\*)\s*([^\r\n]+)/m);
+    if (pMatch && pMatch[1]) {
+      metadata.excerpt = pMatch[1].trim().substring(0, 150) + '...';
     }
   }
 

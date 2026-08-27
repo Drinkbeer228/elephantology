@@ -4,69 +4,91 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
-import { ArrowLeft, Link as LinkIcon, BookOpen, Database, X } from 'lucide-react';
+import { ArrowLeft, Link as LinkIcon, Share2, Clock, Calendar, Quote, BookOpen, Database, X, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { parseFrontmatter } from '../lib/markdown';
+import { getStaticArticles } from '../lib/articles';
+import { ArticleItem } from '../lib/searchEngine';
 
 interface ArticleViewerProps {
   path: string;
   onBack: () => void;
 }
 
-// Статический импорт всех Markdown документов из docs/
-const rawArticles = import.meta.glob('/docs/**/*.md', {
-  eager: true,
-  query: '?raw',
-  import: 'default',
-}) as Record<string, string>;
-
-function findStaticArticle(requestedPath: string): string | null {
-  const clean = requestedPath.replace(/^\/+/, '').replace(/\.md$/, '');
-  
-  for (const [key, rawContent] of Object.entries(rawArticles)) {
-    const normalizedKey = key.replace(/^\/+/, '').replace(/^docs\//, '').replace(/\.md$/, '');
-    if (normalizedKey === clean || key.endsWith(`/${clean}.md`) || key.endsWith(`${clean}.md`)) {
-      return rawContent;
-    }
-  }
-  return null;
-}
-
 export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
+  
   const [content, setContent] = useState<string>('');
   const [meta, setMeta] = useState<any>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeFootnote, setActiveFootnote] = useState<any>(null);
+  const [prevArticle, setPrevArticle] = useState<ArticleItem | null>(null);
+  const [nextArticle, setNextArticle] = useState<ArticleItem | null>(null);
 
   useEffect(() => {
-    const win = window as any;
-    const expectedUrlPath = `/article/${path.replace(/\.md$/, '')}`;
+    const safePath = path.endsWith('.md') ? path : `${path}.md`;
     
-    // Проверка наличия пререндеренного контента SSG
-    if (win.__PRERENDERED_ARTICLE__ === expectedUrlPath && win.__PRERENDERED_RAW_MARKDOWN__) {
-      const { metadata, content: mdContent } = parseFrontmatter(win.__PRERENDERED_RAW_MARKDOWN__);
-      setMeta(metadata);
-      setContent(mdContent);
-      setLoading(false);
+    // Setup prev/next articles
+    try {
+      const allArticles = getStaticArticles();
+      const sorted = [...allArticles].sort((a, b) => {
+        if (a.category === b.category) {
+          return a.title.localeCompare(b.title);
+        }
+        return (a.category || '').localeCompare(b.category || '');
+      });
       
-      win.__PRERENDERED_ARTICLE__ = null;
-      win.__PRERENDERED_RAW_MARKDOWN__ = null;
-      return;
+      const cleanPath = safePath.replace(/^\//, '');
+      const pathPart = cleanPath.replace(/\.md$/, '');
+      
+      const currentIndex = sorted.findIndex(a => {
+        const aClean = a.path.replace(/\.md$/, '');
+        return aClean === pathPart || a.path.includes(pathPart);
+      });
+      
+      if (currentIndex >= 0) {
+        setPrevArticle(currentIndex > 0 ? sorted[currentIndex - 1] : null);
+        setNextArticle(currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : null);
+      } else {
+        setPrevArticle(null);
+        setNextArticle(null);
+      }
+    } catch (e) {
+      console.warn("Could not setup navigation:", e);
+    }
+
+    const win = window as any;
+    let expectedUrlPath = `/article/${path.replace(/\.md$/, '')}`;
+    
+    if (win.__PRERENDERED_ARTICLE__ === expectedUrlPath && win.__PRERENDERED_RAW_MARKDOWN__) {
+       const { metadata, content: mdContent } = parseFrontmatter(win.__PRERENDERED_RAW_MARKDOWN__);
+       setMeta(metadata);
+       setContent(mdContent);
+       setLoading(false);
+       
+       win.__PRERENDERED_ARTICLE__ = null;
+       win.__PRERENDERED_RAW_MARKDOWN__ = null;
+       return;
     }
 
     setLoading(true);
     setError(null);
 
     try {
-      const rawContent = findStaticArticle(path);
-      if (!rawContent) {
-        throw new Error(`Статья "${path}" не найдена в базе данных.`);
+      const modules = import.meta.glob('/docs/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+      const cleanPath = safePath.replace(/^\//, ''); // ensure no leading slash
+      const matchedKey = Object.keys(modules).find(key => key.endsWith(`/${cleanPath}`) || key === `/docs/${cleanPath}` || key.endsWith(cleanPath));
+      
+      if (matchedKey && modules[matchedKey]) {
+        const contentObj = modules[matchedKey];
+        const textContent = typeof contentObj === 'string' ? contentObj : (contentObj as any).default || '';
+        const { metadata, content: mdContent } = parseFrontmatter(textContent);
+        setMeta(metadata);
+        setContent(mdContent);
+      } else {
+        throw new Error('Статья не найдена');
       }
-      const { metadata, content: mdContent } = parseFrontmatter(rawContent);
-      setMeta(metadata);
-      setContent(mdContent);
     } catch (e: any) {
-      setError(e.message || 'Ошибка загрузки статьи');
+      setError(e.message);
     } finally {
       setLoading(false);
     }
@@ -74,6 +96,16 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
 
   const copyArticleLink = () => {
     navigator.clipboard.writeText(window.location.href);
+  };
+
+  const handleNavigation = (targetPath: string) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const win = window as any;
+    if (win.loadArticle) {
+      win.loadArticle(targetPath);
+    } else {
+      window.dispatchEvent(new CustomEvent('load-article', { detail: targetPath }));
+    }
   };
 
   if (loading) {
@@ -103,17 +135,20 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
     );
   }
 
-  const catMapFull: any = { 
-    ecology: 'ЭКОЛОГИЯ И СРЕДА ОБИТАНИЯ', 
-    anatomy: 'АНАТОМИЯ И ФИЗИОЛОГИЯ', 
-    ethogram: 'ЭТОЛОГИЯ И ПОВЕДЕНИЕ', 
-    veterinary: 'ВЕТЕРИНАРИЯ И ПАТОЛОГИИ', 
-    taxonomy: 'ТАКСОНОМИЯ И ЭВОЛЮЦИЯ', 
-    conservation: 'ОХРАНА И СОХРАНЕНИЕ ВИДОВ' 
-  };
+  const catMapFull: any = { ecology: 'ЭКОЛОГИЯ И СРЕДА ОБИТАНИЯ', anatomy: 'АНАТОМИЯ И ФИЗИОЛОГИЯ', ethogram: 'ЭТОЛОГИЯ И ПОВЕДЕНИЕ', cognition: 'КОГНИТИВИСТИКА И ПАМЯТЬ', veterinary: 'ВЕТЕРИНАРИЯ И ПАТОЛОГИИ', taxonomy: 'ТАКСОНОМИЯ И ЭВОЛЮЦИЯ', conservation: 'ОХРАНА И СОХРАНЕНИЕ ВИДОВ', culture: 'АНТРОПОЗООЛОГИЯ И КУЛЬТУРА' };
   const catText = catMapFull[meta.category?.toLowerCase()] || 'КАТАЛОГ';
   const diffMap: any = { beginner: 'Начальный', intermediate: 'Средний', advanced: 'Продвинутый' };
   const diffText = diffMap[meta.difficulty?.toLowerCase()] || meta.difficulty || 'Стандарт';
+  const referenceCount = meta.references ? meta.references.length : 0;
+
+  const renderEvidenceLevel = (level: string) => {
+    const l = level.toLowerCase();
+    if (l === 'established') return <><ShieldCheck className="inline-block w-3.5 h-3.5 mr-1.5 -mt-0.5 text-emerald-400" /><span className="text-emerald-400">ХОРОШО УСТАНОВЛЕНО</span></>;
+    if (l === 'moderate') return <><Scale className="inline-block w-3.5 h-3.5 mr-1.5 -mt-0.5 text-amber-400" /><span className="text-amber-400">ДОСТАТОЧНАЯ БАЗА</span></>;
+    if (l === 'limited') return <><AlertCircle className="inline-block w-3.5 h-3.5 mr-1.5 -mt-0.5 text-orange-400" /><span className="text-orange-400">ОГРАНИЧЕННЫЕ ДАННЫЕ</span></>;
+    if (l === 'hypothesis') return <><Lightbulb className="inline-block w-3.5 h-3.5 mr-1.5 -mt-0.5 text-sky-400" /><span className="text-sky-400">ГИПОТЕЗА</span></>;
+    return <><HelpCircle className="inline-block w-3.5 h-3.5 mr-1.5 -mt-0.5 text-rose-400" /><span className="text-rose-400">ДИСКУССИОННО</span></>;
+  };
 
   return (
     <div className="w-full max-w-[90rem] mx-auto pb-16 px-4">
@@ -126,50 +161,34 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           <div className="h-4 w-px bg-[#34384a] hidden sm:block"></div>
           <span className="text-gray-400 font-mono uppercase tracking-widest">{catText}</span>
         </div>
-        <div className="flex items-center gap-1.5 sm:gap-2 ml-auto flex-wrap">
-          <button onClick={copyArticleLink} title="Скопировать ссылку" className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#242733] hover:bg-[#2e3242] border border-[#34384a] hover:border-gray-500 text-gray-300 hover:text-white transition-all cursor-pointer">
-            <LinkIcon className="w-3.5 h-3.5 text-sky-400" />
-            <span className="hidden sm:inline font-medium">Ссылка</span>
-          </button>
-        </div>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="lg:w-3/4 flex-grow relative min-w-0">
           <div className="markdown-body p-4 sm:p-8 bg-[#1b1d24] border border-[#34384a] rounded-3xl shadow-xl prose-kingdom w-full overflow-hidden">
             
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-8 pb-6 border-b border-[#34384a]/50 text-[11px] font-mono uppercase tracking-wider text-gray-500">
+              <span>СЛОЖНОСТЬ: <span className="text-kingdom-gold font-semibold">{diffText}</span></span>
+              <span className="text-[#34384a]">|</span>
+              {meta.evidenceLevel && (
+                <>
+                  <span>СТАТУС: <span className="font-semibold">{renderEvidenceLevel(meta.evidenceLevel)}</span></span>
+                  <span className="text-[#34384a]">|</span>
+                </>
+              )}
+              <span>ИСТОЧНИКОВ: <span className="text-gray-300 font-semibold">{referenceCount}</span></span>
+              {meta.lastReviewed && (
+                <>
+                  <span className="text-[#34384a]">|</span>
+                  <span>ПРОВЕРЕНО: <span className="text-gray-300 font-semibold">{meta.lastReviewed}</span></span>
+                </>
+              )}
+            </div>
+
             <ReactMarkdown 
               remarkPlugins={[remarkGfm, remarkMath]}
               rehypePlugins={[rehypeRaw, rehypeKatex]}
               components={{
-                h1: ({node, ...props}) => (
-                  <>
-                    <h1 {...props} />
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-6 mb-8 text-[11px] font-mono uppercase tracking-wider text-gray-500">
-                      <span>СЛОЖНОСТЬ: <span className="text-kingdom-gold font-semibold">{diffText}</span></span>
-                      <span className="text-[#34384a]">|</span>
-                      {meta.evidenceLevel && (
-                        <>
-                          <span>СТАТУС: <span className="text-emerald-400 font-semibold">{
-                            meta.evidenceLevel.toLowerCase() === 'established' ? 'ХОРОШО УСТАНОВЛЕНО' :
-                            meta.evidenceLevel.toLowerCase() === 'moderate' ? 'ДОСТАТОЧНАЯ БАЗА' :
-                            meta.evidenceLevel.toLowerCase() === 'limited' ? 'ОГРАНИЧЕННЫЕ ДАННЫЕ' :
-                            meta.evidenceLevel.toLowerCase() === 'hypothesis' ? 'ГИПОТЕЗА' :
-                            'ДИСКУССИОННО'
-                          }</span></span>
-                          <span className="text-[#34384a]">|</span>
-                        </>
-                      )}
-                      <span>ИСТОЧНИКОВ: <span className="text-gray-300 font-semibold">{meta.references ? meta.references.length : (meta.referenceCount || 0)}</span></span>
-                      {meta.lastReviewed && (
-                        <>
-                          <span className="text-[#34384a]">|</span>
-                          <span>ПРОВЕРЕНО: <span className="text-gray-300 font-semibold">{meta.lastReviewed}</span></span>
-                        </>
-                      )}
-                    </div>
-                  </>
-                ),
                 table: ({node, ...props}: any) => (
                   <div className="overflow-x-auto my-6">
                     <table className="w-full text-sm border-collapse" {...props} />
@@ -184,7 +203,9 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                         <a href={href} {...props} onClick={(e) => {
                           e.preventDefault();
                           const fnId = href.replace('#user-content-fn-', '');
-                          const index = parseInt(fnId, 10) - 1;
+                          // Find in references (assuming id is like ref_dublin_1990 and footnote is 1, maybe they don't map directly by ID, but they map by index)
+                          // Remark-gfm footnotes are usually 1, 2, 3...
+                          const index = parseInt(fnId) - 1;
                           if (meta.references && meta.references[index]) {
                              setActiveFootnote(meta.references[index]);
                           }
@@ -192,19 +213,21 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                           {children}
                         </a>
                       </sup>
-                    );
+                    )
                   }
                   return <a href={href} {...props} className="text-kingdom-gold hover:text-white transition-colors border-b border-kingdom-gold/30 hover:border-white">{children}</a>;
                 },
                 section: ({node, className, children, ...props}: any) => {
                   if (node.properties?.dataFootnotes) {
-                    return null;
+                    return null; // Hide default footnote section
                   }
                   return <section className={className} {...props}>{children}</section>;
                 }
+
               }}
             >
               {content}
+            
             </ReactMarkdown>
             
             {meta.references && meta.references.length > 0 && (
@@ -233,20 +256,54 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
               </div>
             )}
 
-            {activeFootnote && (
-              <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-8 sm:w-96 bg-[#1b1d24] border border-[#34384a] rounded-xl shadow-2xl p-4 z-50 animate-fade-in">
-                <div className="flex justify-between items-start mb-2">
-                  <h4 className="text-kingdom-gold font-bold text-sm flex items-center gap-2"><BookOpen className="w-4 h-4"/> Источник</h4>
-                  <button onClick={() => setActiveFootnote(null)} className="text-gray-400 hover:text-white cursor-pointer"><X className="w-4 h-4"/></button>
-                </div>
-                <div className="text-sm text-gray-200 font-semibold leading-tight">{activeFootnote.title}</div>
-                <div className="text-xs text-gray-400 mt-2">{activeFootnote.authors} ({activeFootnote.year})</div>
-                {activeFootnote.doi && <a href={`https://doi.org/${activeFootnote.doi}`} target="_blank" rel="noreferrer" className="text-sky-400 text-xs mt-2 inline-block hover:underline">DOI: {activeFootnote.doi}</a>}
+            {/* Navigation Block */}
+            {(prevArticle || nextArticle) && (
+              <div className="mt-16 pt-8 border-t border-kingdom-border grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {prevArticle ? (
+                  <button 
+                    onClick={() => handleNavigation(prevArticle.path)}
+                    className="flex flex-col text-left p-4 bg-[#181a22] border border-[#34384a] rounded-xl hover:border-kingdom-gold transition-colors cursor-pointer group"
+                  >
+                    <div className="flex items-center text-xs text-gray-400 group-hover:text-kingdom-gold mb-2 transition-colors">
+                      <ChevronLeft className="w-4 h-4 mr-1" />
+                      Предыдущая монография
+                    </div>
+                    <div className="font-bold text-gray-200 group-hover:text-white transition-colors">{prevArticle.title}</div>
+                    {prevArticle.category && <div className="text-xs text-kingdom-gold/70 mt-1 uppercase font-mono">{catMapFull[prevArticle.category?.toLowerCase()] || prevArticle.category}</div>}
+                  </button>
+                ) : <div />}
+                
+                {nextArticle ? (
+                  <button 
+                    onClick={() => handleNavigation(nextArticle.path)}
+                    className="flex flex-col text-right p-4 bg-[#181a22] border border-[#34384a] rounded-xl hover:border-kingdom-gold transition-colors cursor-pointer group"
+                  >
+                    <div className="flex items-center justify-end text-xs text-gray-400 group-hover:text-kingdom-gold mb-2 transition-colors">
+                      Следующая монография
+                      <ChevronRight className="w-4 h-4 ml-1" />
+                    </div>
+                    <div className="font-bold text-gray-200 group-hover:text-white transition-colors">{nextArticle.title}</div>
+                    {nextArticle.category && <div className="text-xs text-kingdom-gold/70 mt-1 uppercase font-mono">{catMapFull[nextArticle.category?.toLowerCase()] || nextArticle.category}</div>}
+                  </button>
+                ) : <div />}
               </div>
             )}
+          
+            {activeFootnote && (
+        <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-8 sm:w-96 bg-[#1b1d24] border border-[#34384a] rounded-xl shadow-2xl p-4 z-50 animate-fade-in">
+          <div className="flex justify-between items-start mb-2">
+            <h4 className="text-kingdom-gold font-bold text-sm flex items-center gap-2"><BookOpen className="w-4 h-4"/> Источник</h4>
+            <button onClick={() => setActiveFootnote(null)} className="text-gray-400 hover:text-white cursor-pointer"><X className="w-4 h-4"/></button>
+          </div>
+          <div className="text-sm text-gray-200 font-semibold leading-tight">{activeFootnote.title}</div>
+          <div className="text-xs text-gray-400 mt-2">{activeFootnote.authors} ({activeFootnote.year})</div>
+          {activeFootnote.doi && <a href={`https://doi.org/${activeFootnote.doi}`} target="_blank" rel="noreferrer" className="text-sky-400 text-xs mt-2 inline-block hover:underline">DOI: {activeFootnote.doi}</a>}
+        </div>
+      )}
           </div>
         </div>
       </div>
     </div>
   );
 }
+

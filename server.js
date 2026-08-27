@@ -133,42 +133,8 @@ app.get('/healthz', (req, res) => {
   res.json({ status: 'ok', time: Date.now() });
 });
 
-// API endpoint to get all articles metadata
-app.get('/api/articles', (req, res) => {
-  try {
-    const articles = getArticlesList();
-    res.json(articles);
-  } catch (err) {
-    console.error('Error scanning articles:', err);
-    res.status(500).json({ error: 'Failed to load articles' });
-  }
-});
-
-// API endpoint to get single article content
-app.get('/api/article', (req, res) => {
-  try {
-    const articlePath = req.query.path;
-    if (!articlePath || typeof articlePath !== 'string') {
-      return res.status(400).json({ error: 'Missing or invalid path parameter' });
-    }
-    
-    // Strict path normalization & traversal protection
-    const docsDir = path.resolve(__dirname, 'docs');
-    const safeRelPath = path.normalize(articlePath).replace(/^(\.\.[\/\\])+/, '').replace(/^[\/\\]+/, '');
-    const fullPath = path.resolve(docsDir, safeRelPath);
-
-    // Verify boundary and enforce markdown files only
-    if (!fullPath.startsWith(docsDir + path.sep) || !fullPath.endsWith('.md') || !fs.existsSync(fullPath)) {
-      return res.status(404).json({ error: 'Article not found or invalid path' });
-    }
-
-    const content = fs.readFileSync(fullPath, 'utf8');
-    res.type('text/markdown; charset=utf-8').send(content);
-  } catch (err) {
-    console.error('Error fetching article:', err);
-    res.status(500).json({ error: 'Failed to read article' });
-  }
-});
+// API endpoint to get all articles metadata (Removed as part of SSG migration)
+// API endpoint to get single article content (Removed as part of SSG migration)
 
 
 function injectMetaTags(template, url) {
@@ -228,8 +194,7 @@ function injectMetaTags(template, url) {
 
 const isProd = process.env.NODE_ENV === 'production';
 
-// Serve static files with caching
-app.use('/docs', express.static(path.join(__dirname, 'docs')));
+// Docs static serving removed to allow Vite middleware to intercept import.meta.glob requests
 
 // PWA Static Assets & Service Worker
 app.get('/sw.js', (req, res) => {

@@ -175,10 +175,9 @@ class PWAManager {
     try {
       let articles = articlesList;
       if (!articles || articles.length === 0) {
-        const res = await fetch('/api/articles');
-        if (res.ok) {
-          articles = await res.json();
-        }
+        // We now bundle the articles via Vite, so offline cache fetching is technically obsolete,
+        // but we'll fake the array to satisfy the UI.
+        articles = [];
       }
 
       if (!articles || articles.length === 0) {

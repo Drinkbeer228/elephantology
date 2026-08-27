@@ -21,7 +21,7 @@ export const CategorySection = React.memo(function CategorySection({
       {/* Category Section Header */}
       <div className="flex items-center justify-between border-b border-kingdom-border/80 pb-2.5 px-1">
         <div className="flex items-center gap-2.5">
-          <span className="text-lg">{category.emoji}</span>
+          <div className={`cat-icon cat-icon-${category.id} text-3xl`} style={{ mixBlendMode: 'screen' }}></div>
           <h3 className="font-mono text-sm uppercase tracking-wider text-kingdom-gold font-bold">
             {category.name}
           </h3>

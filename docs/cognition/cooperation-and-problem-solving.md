@@ -2,7 +2,7 @@
 title: "Когнитивная этология и кооперативное поведение Elephantidae: парадигма совместного вытягивания каната, орудийная деятельность и спонтанный инсайт"
 evidence_level: 'established'
 description: "Академическая монография о когнитивной этологии слонов: кооперация в тесте с канатом, инсайт-решения пространственных задач и протоколы когнитивного обогащения среды."
-category: ethogram
+category: cognition
 difficulty: advanced
 reading_time_min: 15
 tags:
@@ -125,7 +125,7 @@ last_reviewed: 2026-08-24
 
 ---
 
-## 📝 Первоисточники и академическая литература
+## Первоисточники и академическая литература
 
 [^1]: **Plotnik J. M., de Waal F. B. M. & Reiss D.** *Cooperative problem solving in Asian elephants.* Proceedings of the National Academy of Sciences (PNAS), 2011, Vol. 108(12), pp. 4714-4716.
 [^2]: **Beck B. B.** *Animal Tool Behavior: The Use and Manufacture of Tools by Animals.* Garland STPM Press, New York, 1980, pp. 45-62.

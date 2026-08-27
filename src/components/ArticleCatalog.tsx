@@ -1,89 +1,20 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Search, ChevronRight } from 'lucide-react';
 import { searchArticles, ArticleItem } from '../lib/searchEngine';
+import { getStaticArticles } from '../lib/articles';
 import { CategoryDef } from './catalog/CategoryTile';
 import { CategorySection } from './catalog/CategorySection';
 
 const MONOGRAPH_CATEGORIES: CategoryDef[] = [
   { id: 'taxonomy', name: 'Таксономия и Эволюция', emoji: '🧬' },
-  { id: 'anatomy', name: 'Анатомия и Физиология', emoji: '🐘' },
+  { id: 'anatomy', name: 'Анатомия и Физиология', emoji: '🦴' },
   { id: 'ethogram', name: 'Этология и Поведение', emoji: '🧠' },
+  { id: 'cognition', name: 'Когнитивистика и Память', emoji: '💡' },
   { id: 'veterinary', name: 'Ветеринария и Патологии', emoji: '🩺' },
   { id: 'ecology', name: 'Экология и Среда обитания', emoji: '🌍' },
   { id: 'conservation', name: 'Охрана и Сохранение видов', emoji: '🛡️' },
+  { id: 'culture', name: 'Антропозоология и Культура', emoji: '🏛️' }
 ];
-
-const SEMANTIC_QUESTIONS = [
-  { intent: 'Как устроен слон?', link: 'anatomy/muscular-hydrostat-and-trunk-biomechanics.md' },
-  { intent: 'Как он мыслит и помнит?', link: 'anatomy/neuroanatomy-brain-architecture-and-memory.md' },
-  { intent: 'Как общается в стаде?', link: 'ethogram/seismic-and-infrasonic-communication.md' },
-  { intent: 'Как и чем питается?', link: 'ecology/feeding-ecology-nutrition-and-geophagy.md' },
-  { intent: 'Что такое период Musth?', link: 'ethogram/musth-ethology-and-endocrinology.md' },
-  { intent: 'Какие болезни угрожают слонятам?', link: 'veterinary/eehv-endotheliotropic-herpesvirus-protocols.md' },
-  { intent: 'Где жили предки слонов?', link: 'taxonomy/proboscidea-evolution-and-phylogeny.md' },
-  { intent: 'Как слоны меняют экосистему?', link: 'ecology/ecosystem-engineers-and-keystone-ecology.md' }
-];
-
-// Парсер Markdown Frontmatter для статической загрузки
-function parseArticleMarkdown(fullPath: string, rawContent: string): ArticleItem {
-  const cleanPath = fullPath.replace(/^.*\/docs\//, '');
-  const pathParts = cleanPath.split('/');
-  const defaultCategory = pathParts.length > 1 ? pathParts[0] : 'taxonomy';
-  const filename = pathParts[pathParts.length - 1];
-
-  let title = filename.replace('.md', '');
-  let category = defaultCategory;
-  let excerpt = '';
-  let tags: string[] = [];
-  let readingTime = '12 мин';
-  let evidenceLevel = 'established';
-
-  const fmMatch = rawContent.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-  if (fmMatch) {
-    const fm = fmMatch[1];
-    
-    const titleMatch = fm.match(/title:\s*["']?([^"'\n\r]+)["']?/);
-    if (titleMatch) title = titleMatch[1].trim();
-
-    const descMatch = fm.match(/description:\s*["']?([^"'\n\r]+)["']?/);
-    if (descMatch) excerpt = descMatch[1].trim();
-
-    const catMatch = fm.match(/category:\s*["']?([^"'\n\r]+)["']?/);
-    if (catMatch) category = catMatch[1].trim();
-
-    const tagsMatch = fm.match(/tags:\s*\[(.*?)\]/);
-    if (tagsMatch) {
-      tags = tagsMatch[1].split(',').map(t => t.trim().replace(/["']/g, '')).filter(Boolean);
-    }
-
-    const timeMatch = fm.match(/reading_time_min:\s*(\d+)/);
-    if (timeMatch) readingTime = `${timeMatch[1]} мин`;
-
-    const evMatch = fm.match(/evidence_level:\s*["']?([^"'\n\r]+)["']?/);
-    if (evMatch) evidenceLevel = evMatch[1].trim();
-  }
-
-  return {
-    path: cleanPath,
-    filename,
-    title,
-    category,
-    excerpt,
-    tags,
-    readingTime,
-    evidenceLevel,
-    content: rawContent
-  };
-}
-
-// Статический импорт всех Markdown файлов из папки docs/
-function loadStaticArticles(): ArticleItem[] {
-  const mdModules = import.meta.glob('/docs/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
-  
-  return Object.entries(mdModules)
-    .filter(([path]) => !path.endsWith('/index.md'))
-    .map(([path, content]) => parseArticleMarkdown(path, content));
-}
 
 export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: string) => void }) {
   const [articles, setArticles] = useState<ArticleItem[]>([]);
@@ -93,20 +24,16 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
 
   useEffect(() => {
     try {
-      // 1. Моментальная статическая загрузка из бандла Vite
-      const staticData = loadStaticArticles();
-      if (staticData.length > 0) {
-        setArticles(staticData);
-      }
-    } catch (e) {
-      console.error('Ошибка загрузки статических статей:', e);
+      const savedFilter = sessionStorage.getItem("react_active_category");
+      if (savedFilter) setActiveCategory(savedFilter);
+
+      const parsedArticles = getStaticArticles();
+      setArticles(parsedArticles);
+    } catch (err) {
+      console.error('Failed to load static articles:', err);
     } finally {
-      // Экран загрузки гарантированно снимается
       setLoading(false);
     }
-      
-    const savedFilter = sessionStorage.getItem("react_active_category");
-    if (savedFilter) setActiveCategory(savedFilter);
   }, []);
 
   const openArticle = useCallback((path: string) => {
@@ -119,8 +46,11 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
   }, [onArticleClick]);
   
   const handleCategoryChange = useCallback((cat: string) => {
-    setActiveCategory(cat);
-    sessionStorage.setItem("react_active_category", cat);
+    setActiveCategory(prev => {
+      const next = prev === cat ? 'all' : cat;
+      sessionStorage.setItem("react_active_category", next);
+      return next;
+    });
     setTimeout(() => {
       const articlesList = document.getElementById('articles-list-container');
       if (articlesList) {
@@ -157,55 +87,70 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
   return (
     <div className="animate-fade-in max-w-5xl mx-auto space-y-12 pb-16 pt-6">
       
-      {/* Semantic Navigation Block */}
+      {/* Catalog Grid */}
       <div className="space-y-6">
         <div className="space-y-2">
           <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">Слонология</h2>
-          <p className="text-gray-400">Научная энциклопедия. Что вы хотите узнать о слоне?</p>
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-          {SEMANTIC_QUESTIONS.map((q, idx) => (
-            <button 
-              key={idx}
-              onClick={() => openArticle(q.link)}
-              className="flex items-center justify-between text-left p-4 rounded-xl border border-[#34384a] bg-[#181a22] hover:border-kingdom-gold hover:bg-[#242733] transition-all group cursor-pointer"
-            >
-              <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">
-                {q.intent}
-              </span>
-              <ChevronRight className="w-4 h-4 text-gray-500 group-hover:text-kingdom-gold transition-colors shrink-0" />
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Catalog Grid */}
-      <div className="space-y-6 border-t border-[#34384a] pt-10">
-        <div className="space-y-2">
-          <h2 className="text-xl font-bold text-white">Каталог монографий</h2>
-          <p className="text-sm text-gray-400">Исследуйте систематизированные статьи по дисциплинам.</p>
+          <p className="text-gray-400">Каталог академических монографий. Исследуйте систематизированные статьи по дисциплинам.</p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-          <button 
-            onClick={() => handleCategoryChange('all')} 
-            className={`p-3 rounded-xl border text-center transition-all cursor-pointer ${activeCategory === 'all' ? 'bg-kingdom-gold text-black border-kingdom-gold shadow-[0_0_15px_rgba(255,209,102,0.2)]' : 'bg-[#181a22] border-[#34384a] text-gray-300 hover:border-kingdom-gold/50'}`}
-          >
-            <div className="text-xl mb-1 filter drop-shadow-md">🐘</div>
-            <h3 className="font-bold text-xs">Все разделы</h3>
-          </button>
-          
-          {MONOGRAPH_CATEGORIES.map(cat => {
+        <style>{`
+          .catalog-tile-bg {
+            background-image: url('/catalog-bg.jpg');
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+          }
+          /* Mobile (2 cols, 4 rows) */
+          @media (max-width: 767px) {
+            .catalog-tile-bg { background-size: calc(200% + 12px) calc(400% + 36px); }
+            .tile-0 { background-position: 0% 0%; }
+            .tile-1 { background-position: 100% 0%; }
+            .tile-2 { background-position: 0% 33.333%; }
+            .tile-3 { background-position: 100% 33.333%; }
+            .tile-4 { background-position: 0% 66.666%; }
+            .tile-5 { background-position: 100% 66.666%; }
+            .tile-6 { background-position: 0% 100%; }
+            .tile-7 { background-position: 100% 100%; }
+          }
+          /* Desktop (4 cols, 2 rows) */
+          @media (min-width: 768px) {
+            .catalog-tile-bg { background-size: calc(400% + 36px) calc(200% + 12px); }
+            .tile-0 { background-position: 0% 0%; }
+            .tile-1 { background-position: 33.333% 0%; }
+            .tile-2 { background-position: 66.666% 0%; }
+            .tile-3 { background-position: 100% 0%; }
+            .tile-4 { background-position: 0% 100%; }
+            .tile-5 { background-position: 33.333% 100%; }
+            .tile-6 { background-position: 66.666% 100%; }
+            .tile-7 { background-position: 100% 100%; }
+          }
+        `}</style>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {MONOGRAPH_CATEGORIES.map((cat, index) => {
             const isActive = activeCategory === cat.id;
             return (
               <button 
-                key={cat.id} 
-                onClick={() => handleCategoryChange(cat.id)} 
-                className={`p-3 rounded-xl border text-center transition-all cursor-pointer ${isActive ? 'bg-kingdom-gold text-black border-kingdom-gold shadow-[0_0_15px_rgba(255,209,102,0.2)]' : 'bg-[#181a22] border-[#34384a] text-gray-300 hover:border-kingdom-gold/50'}`}
+                key={cat.id}
+                onClick={() => handleCategoryChange(cat.id)}
+                className={`group relative overflow-hidden h-40 rounded-xl border text-center transition-all cursor-pointer ${
+                  isActive ? 'border-kingdom-gold shadow-[0_0_15px_rgba(255,209,102,0.2)]' : 'border-[#34384a] hover:border-kingdom-gold/50'
+                }`}
               >
-                <div className="text-xl mb-1 filter drop-shadow-md">{cat.emoji}</div>
-                <h3 className="font-bold text-xs">{cat.name.split(' и ')[0]}</h3>
+                {/* Background Image Layer */}
+                <div className={`absolute inset-0 z-0 catalog-tile-bg tile-${index} opacity-20 group-hover:opacity-70 transition-opacity duration-700`} />
+                
+                {/* Dark Overlay for text readability */}
+                <div className={`absolute inset-0 z-10 transition-colors duration-500 ${isActive ? 'bg-kingdom-gold/20' : 'bg-[#181a22]/70 group-hover:bg-[#181a22]/30'}`} />
+                
+                {/* Content */}
+                <div className="relative z-20 flex flex-col items-center justify-center h-full p-2">
+                  <div className="mb-1 filter drop-shadow-md transform group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+                    <div className={`cat-icon cat-icon-${cat.id} text-[96px]`} style={{ mixBlendMode: 'screen' }}></div>
+                  </div>
+                  <h3 className={`font-bold text-sm tracking-wide ${isActive ? 'text-kingdom-gold' : 'text-gray-200 group-hover:text-white'}`}>
+                    {cat.name}
+                  </h3>
+                </div>
               </button>
             );
           })}

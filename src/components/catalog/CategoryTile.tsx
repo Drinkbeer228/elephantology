@@ -64,7 +64,7 @@ export const CategoryTile = React.memo(function CategoryTile({
       }`}
     >
       <div className="flex items-center gap-2.5 min-w-0">
-        <span className="text-base shrink-0">{category.emoji}</span>
+        <div className={`shrink-0 cat-icon cat-icon-${category.id} text-2xl`} style={{ mixBlendMode: 'screen' }}></div>
         <div className="min-w-0">
           <div className="text-sm font-bold truncate">{category.name}</div>
         </div>

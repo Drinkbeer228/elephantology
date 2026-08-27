@@ -96,7 +96,9 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
     for (const file of files) {
       const stat = fs.statSync(path.join(dir, file));
       if (stat.isDirectory()) {
-        fileList = getFiles(path.join(dir, file), fileList);
+        if (file !== 'assets') {
+          fileList = getFiles(path.join(dir, file), fileList);
+        }
       } else if (file.endsWith('.md')) {
         fileList.push(path.join(dir, file));
       }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, X, BookOpen, ArrowRight, Tag } from 'lucide-react';
 import { searchArticles, ArticleItem, ARTICLE_SEMANTIC_TAGS } from '../lib/searchEngine';
+import { getStaticArticles } from '../lib/articles';
 
 export function SearchModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,10 +28,11 @@ export function SearchModal() {
     window.addEventListener('keydown', handleKeyDown);
 
     // Fetch articles metadata
-    fetch('/api/articles')
-      .then(r => r.json())
-      .then(data => setArticles(data))
-      .catch(console.error);
+    try {
+      setArticles(getStaticArticles());
+    } catch (e) {
+      console.error(e);
+    }
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
