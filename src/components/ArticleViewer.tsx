@@ -406,6 +406,13 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
               remarkPlugins={[remarkGfm, remarkMath]}
               rehypePlugins={[rehypeRaw, rehypeKatex]}
               components={{
+                blockquote: ({node, className, children, ...props}: any) => {
+                  return (
+                    <blockquote className="my-5 pl-4 py-2 border-l-4 border-kingdom-gold/70 bg-[#161820]/70 rounded-r-xl text-gray-300 text-sm italic" {...props}>
+                      {children}
+                    </blockquote>
+                  );
+                },
                 table: ({node, ...props}: any) => (
                   <div className="overflow-x-auto my-6">
                     <table className="w-full text-sm border-collapse" {...props} />

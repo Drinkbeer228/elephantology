@@ -1,53 +1,61 @@
 ---
-title: "Когнитивная архитектура, зеркальное самосознание (MSR) и нейробиология высших психических функций у Elephantidae"
-evidence_level: 'moderate'
-description: "Академическая монография, исследующая нейроанатомические основы интеллекта слонов, веретеновидные нейроны фон Экономо, экспериментальные доказательства зеркального самосознания (MSR), орудийную деятельность, модель психического (Theory of Mind) и терапевтические аспекты когнитивной стимуляции."
+title: Когнитивная архитектура, зеркальное самосознание (MSR) и нейробиология высших психических функций у Elephantidae
+evidence_level: moderate
+description: Академическая монография, исследующая нейроанатомические основы интеллекта слонов, веретеновидные нейроны фон Экономо, экспериментальные доказательства зеркального самосознания (MSR), орудийную деятельность, модель психического (Theory of Mind) и терапевтические аспекты когнитивной стимуляции.
 category: cognition
-tags: [когнитивная этология, зеркальный тест, нейробиология, нейроны фон Экономо, орудийная деятельность, модель психического, энцефализация, Elephantidae]
+tags:
+  - когнитивная этология
+  - зеркальный тест
+  - нейробиология
+  - нейроны фон Экономо
+  - орудийная деятельность
+  - модель психического
+  - энцефализация
+  - Elephantidae
 difficulty: advanced
 reading_time_min: 15
-last_reviewed: 2026-08-24
+last_reviewed: '2026-08-24'
 references:
   - id: ref_plotnik_2006
-    title: "Self-recognition in an Asian elephant"
-    authors: "Plotnik J.M., de Waal F.B.M., Reiss D."
+    title: Self-recognition in an Asian elephant
+    authors: Plotnik J.M., de Waal F.B.M., Reiss D.
     year: 2006
-    journal: "Proceedings of the National Academy of Sciences"
+    journal: Proceedings of the National Academy of Sciences
   - id: ref_hakeem_2009
-    title: "Von Economo neurons in the elephant brain"
-    authors: "Hakeem A.Y., Sherwood C.C., Bonar C.J., Butti C., Hof P.R., Allman J.M."
+    title: Von Economo neurons in the elephant brain
+    authors: Hakeem A.Y., Sherwood C.C., Bonar C.J., Butti C., Hof P.R., Allman J.M.
     year: 2009
-    journal: "The Anatomical Record"
+    journal: The Anatomical Record
   - id: ref_smet_byrne_2013
-    title: "African elephants spontaneously follow human pointing gestures"
-    authors: "Smet A.F., Byrne R.W."
+    title: African elephants spontaneously follow human pointing gestures
+    authors: Smet A.F., Byrne R.W.
     year: 2013
-    journal: "Current Biology"
+    journal: Current Biology
   - id: ref_plotnik_2011
-    title: "Cooperative problem solving in Asian elephants"
-    authors: "Plotnik J.M., Lair R., Suphachoksahakun W., de Waal F.B.M."
+    title: Cooperative problem solving in Asian elephants
+    authors: Plotnik J.M., Lair R., Suphachoksahakun W., de Waal F.B.M.
     year: 2011
-    journal: "Proceedings of the National Academy of Sciences"
+    journal: Proceedings of the National Academy of Sciences
   - id: ref_foerder_2011
-    title: "Insight problem solving in an Asian elephant"
-    authors: "Foerder P., Galloway M., Barthel T., Moore D.E., Reiss D."
+    title: Insight problem solving in an Asian elephant
+    authors: Foerder P., Galloway M., Barthel T., Moore D.E., Reiss D.
     year: 2011
-    journal: "PLoS ONE"
+    journal: PLoS ONE
   - id: ref_cozzi_2001
-    title: "An overview of the central nervous system of the elephant through a critical appraisal of the literature published in the XIX and XX centuries"
-    authors: "Cozzi B., Spagnoli S., Bruno L."
+    title: An overview of the central nervous system of the elephant through a critical appraisal of the literature published in the XIX and XX centuries
+    authors: Cozzi B., Spagnoli S., Bruno L.
     year: 2001
-    journal: "Brain Research Bulletin"
+    journal: Brain Research Bulletin
   - id: ref_roth_dicke_2005
-    title: "Evolution of the brain and intelligence"
-    authors: "Roth G., Dicke U."
+    title: Evolution of the brain and intelligence
+    authors: Roth G., Dicke U.
     year: 2005
-    journal: "Trends in Cognitive Sciences"
+    journal: Trends in Cognitive Sciences
   - id: ref_bates_byrne_2014
-    title: "Elephant social cognition"
-    authors: "Bates L.A., Byrne R.W."
+    title: Elephant social cognition
+    authors: Bates L.A., Byrne R.W.
     year: 2014
-    book: "The Amboseli Elephants: A Long-Term Perspective on a Long-Lived Mammal"
+    book: 'The Amboseli Elephants: A Long-Term Perspective on a Long-Lived Mammal'
 ---
 
 ## Кратко (Lead)
@@ -63,7 +71,6 @@ references:
 | **Модель психического (Theory of Mind)** | Понимание указательного жеста человека без дрессировки; координация действий. | Smet & Byrne (2013)[^9], Plotnik et al. (2011)[^13] |
 
 ---
-
 ## Основной раздел: Нейробиология, зеркальный тест и когнитивные способности
 
 ### 1. Нейроанатомический субстрат высшего интеллекта
@@ -79,7 +86,6 @@ references:
 *   **Гиппокампальный комплекс и долговременная память:** Гиппокамп слонов имеет огромный объем и тесно связан с ассоциативными зонами коры [^3][^11]. Это обеспечивает знаменитую долговременную социальную и пространственную память [[^14], [^15]]: матриархи стада способны помнить точную топографию редких водоисточников и миграционных коридоров, посещенных ими лишь однажды в раннем детстве [^15], а также узнавать индивидуальные голоса (румбли) [^16] и запаховые следы (по моче) [^17] сотен индивидуальных конспецификов спустя десятилетия разлуки.
 
 ---
-
 ### 2. Зеркальный тест на самосознание (Mirror Self-Recognition / MSR)
 Осознание собственного физического «Я» как автономной сущности, отдельной от внешней среды и других особей — это важнейший водораздел в эволюции сознания животных [^6][^14]. Золотым стандартом для верификации этого признака служит классический **зеркальный тест с меткой (Gallup's mark test)**, разработанный Гордоном Гэллапом [^6][^14].
 
@@ -111,7 +117,6 @@ references:
 *   **Истинное самоосознание:** Увидев свое отражение с белой меткой, слониха Хэппи неоднократно и целенаправленно подносила кончик хобота («палец») к собственному лбу, ощупывая и пытаясь стереть именно белую краску [[^6], [^14]]. При этом она полностью игнорировала сторону лба с прозрачной лже-меткой (Sham) [[^6], [^14]]. Это строго доказало наличие у нее мысленной «схемы тела» и способности сопоставлять плоскую оптическую проекцию со своей физической индивидуальностью [^6]. Таким образом, хоботные вошли в узкий элитарный круг видов, обладающих зеркальным самосознанием, наряду с человеком, шимпанзе, косатками, дельфинами и сороками [^6][^12].
 
 ---
-
 ### 3. Орудийная деятельность и манипулятивный интеллект
 Манипулятивные способности слонов обеспечиваются уникальным синергизмом между тончайшей моторикой мышечного гидростата хобота и высокой гибкостью префронтальной коры [^14][^20]. Хоботные способны не просто использовать готовые объекты внешней среды, но и модифицировать их под свои конкретные нужды, что классифицируется как **прото-изготовление орудий (proto-tool manufacture)** [^14][^21]:
 
@@ -140,7 +145,6 @@ references:
 3.  **Спонтанный инсайт:** Без предварительного обучения или случайного натыкания слон подошел к пластиковому кубу, с помощью хобота подкатил его точно под подвешенные фрукты, встал на него двумя передними ногами и легко дотянулся до еды [^7][^8][^14]. Кандула мгновенно генерализовал этот навык: он начал использовать куб в разных частях вольера, а при его отсутствии спонтанно использовал тракторные шины и деревянные блоки, продемонстрировав абстрактное понимание концепции опорного инструмента (*step tool*) [^7][^8][^14].
 
 ---
-
 ### 4. Модель психического (Theory of Mind) и социальный интеллект
 Сложная социальная структура *fission-fusion* (распад-объединение) требует от хоботных понимания ментального состояния, намерений и уровня знаний своих сородичей [^14].
 
@@ -148,7 +152,6 @@ references:
 *   **Кооперация в тесте с подтягиванием канатов (Loose-String Task):** Плотник и др. (2011) провели контролируемые тесты на паре азиатских слонов [^13][^14]. Платформа с кормом выдвигалась только при одновременном натяжении двух концов замкнутого каната [^13][^14]. Если один слон дергал канат раньше партнера, канат просто выдергивался, и задача проваливалась [^13][^14]. Слоны не только быстро научились тянуть канат синхронно, но и демонстрировали понимание роли напарника [^13][^14]: если второго слона не впускали в вольер, первый слон терпеливо стоял у своего конца каната и ждал прихода партнера (иногда до 45 секунд), понимая, что в одиночку тянуть бесполезно [^13][^14].
 
 ---
-
 ## Клиническое значение и когнитивный менеджмент (Welfare)
 
 Высочайший уровень когнитивной организации хоботных делает их чрезвычайно уязвимыми к психологическим травмам и депривации в условиях неволи [^2][^10].
@@ -159,7 +162,6 @@ references:
     2.  *PRT-тренинг (Positive Reinforcement Training):* Проведение ежедневных получасовых сессий бесконтактного тренинга с использованием кликера и пищевого поощрения [^10]. Обучение слонов ветеринарным процедурам (предъявление стопы для расчистки, открытие рта для осмотра, спокойное стояние при заборе крови из ушных вен) стимулирует синаптогенез, снижает уровень стресса и полностью исключает необходимость применения физического насилия (анкуса/багров) [^10].
 
 ---
-
 ## Связанные знания
 * **[Эмпатия, горевание и танатологические ритуалы слонов]** — Нейробиология скорби, реакция на костные останки сородичей и роль VEN-нейронов в эмпатии.
 * **[Голосовое обучение и индивидуальная вокальная идентификация]** — Как слоны присваивают друг другу индивидуальные вокальные имена и синтезируют новые звуки.
@@ -167,7 +169,6 @@ references:
 * **[Fission-Fusion структура и социальная динамика стада]** — Влияние когнитивной координации на поддержание сложных матриархальных связей в саванне.
 
 ---
-
 ## Источники и литература
 [^1]: См. монографию *`sensory-umwelt-and-multimodal-perception.md`* — «Сенсорный умвельт (Umwelt) и мультимодальная нейрофизиология Elephantidae».
 [^2]: См. *2009 Poole and Granli Mind and Movement Meeting the Interests of Elephants.pdf* — Когнитивные потребности и этология хоботных в контексте благополучия.

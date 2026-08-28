@@ -1,47 +1,53 @@
 ---
-title: "Изотопная палеоэкология плейстоценовой мегафауны: реконструкция диеты, миграций и климата мамонтовых степей по изотопам эмали щечных зубов"
-description: "Академическая монография: биогеохимический мульти-изотопный анализ дентина и эмали зубов Proboscidea (13C, 15N, 18O, 87Sr/86Sr), реконструкция плейстоценовой диеты, путей миграции и палеоэкологического коллапса."
-category: "paleontology"
-tags: ["палеонтология", "изотопный анализ", "Mammuthus primigenius", "палеоклиматология", "мамонтовая степь", "диагенез"]
+title: 'Изотопная палеоэкология плейстоценовой мегафауны: реконструкция диеты, миграций и климата мамонтовых степей по изотопам эмали щечных зубов'
+description: 'Академическая монография: биогеохимический мульти-изотопный анализ дентина и эмали зубов Proboscidea (13C, 15N, 18O, 87Sr/86Sr), реконструкция плейстоценовой диеты, путей миграции и палеоэкологического коллапса.'
+category: paleontology
+tags:
+  - палеонтология
+  - изотопный анализ
+  - Mammuthus primigenius
+  - палеоклиматология
+  - мамонтовая степь
+  - диагенез
 difficulty: advanced
 evidence_level: established
 reading_time_min: 17
-last_reviewed: "2026-08-27"
+last_reviewed: '2026-08-27'
 related_knowledge:
-  - "ecology/feeding-ecology-nutrition-and-geophagy.md"
-  - "taxonomy/proboscidea-paleontology-and-trunk-evolution.md"
-  - "conservation/climate-change-and-range-shift-projections.md"
+  - ecology/feeding-ecology-nutrition-and-geophagy.md
+  - taxonomy/proboscidea-paleontology-and-trunk-evolution.md
+  - conservation/climate-change-and-range-shift-projections.md
 references:
-  - id: "ref_cerling_2006"
-    title: "Stable isotopes in elephant hair as recorders of diet and environmental change"
-    authors: "Cerling T. E., Wittemyer G., Rasmussen H. B., Vollrath F., Cerling C. E., Robinson T. J., Douglas-Hamilton I."
+  - id: ref_cerling_2006
+    title: Stable isotopes in elephant hair as recorders of diet and environmental change
+    authors: Cerling T. E., Wittemyer G., Rasmussen H. B., Vollrath F., Cerling C. E., Robinson T. J., Douglas-Hamilton I.
     year: 2006
-    doi: "10.1073/pnas.0601931103"
-  - id: "ref_bocherens_2003"
-    title: "Isotopic biogeochemistry and Palaeoecology of the woolly mammoth (Mammuthus primigenius)"
-    authors: "Bocherens H."
+    doi: 10.1073/pnas.0601931103
+  - id: ref_bocherens_2003
+    title: Isotopic biogeochemistry and Palaeoecology of the woolly mammoth (Mammuthus primigenius)
+    authors: Bocherens H.
     year: 2003
-    doi: "10.1016/S0277-3791(03)00126-X"
-  - id: "ref_lister_2013"
-    title: "The role of climate in the quenching of the Pleistocene mammoth steppe"
-    authors: "Lister A. M., Sher A. V."
+    doi: 10.1016/S0277-3791(03)00126-X
+  - id: ref_lister_2013
+    title: The role of climate in the quenching of the Pleistocene mammoth steppe
+    authors: Lister A. M., Sher A. V.
     year: 2013
-    doi: "10.1126/science.1232333"
-  - id: "ref_szpak_2012"
-    title: "Stable isotope analyses of tooth enamel and collagen from mammoths and mastodons"
-    authors: "Szpak P., Orchard T. J., Gröcke D. R."
+    doi: 10.1126/science.1232333
+  - id: ref_szpak_2012
+    title: Stable isotope analyses of tooth enamel and collagen from mammoths and mastodons
+    authors: Szpak P., Orchard T. J., Gröcke D. R.
     year: 2012
-    doi: "10.1016/j.yqres.2012.03.003"
-  - id: "ref_metcalfe_2013"
-    title: "Proboscideans and paleoenvironments of the Pleistocene Great Lakes: landscape, vegetation, and stable isotopes"
-    authors: "Metcalfe J. Z., Longstaffe F. J., Hodgins G."
+    doi: 10.1016/j.yqres.2012.03.003
+  - id: ref_metcalfe_2013
+    title: 'Proboscideans and paleoenvironments of the Pleistocene Great Lakes: landscape, vegetation, and stable isotopes'
+    authors: Metcalfe J. Z., Longstaffe F. J., Hodgins G.
     year: 2013
-    doi: "10.1016/j.quascirev.2013.07.004"
-  - id: "ref_domingo_2012"
-    title: "Isotopic paleoecology of mammals and the Middle Miocene cooling event in the Madrid Basin (Spain)"
-    authors: "Domingo L., Koch P. L., Grimes S. T., Morales J., López-Martínez N."
+    doi: 10.1016/j.quascirev.2013.07.004
+  - id: ref_domingo_2012
+    title: Isotopic paleoecology of mammals and the Middle Miocene cooling event in the Madrid Basin (Spain)
+    authors: Domingo L., Koch P. L., Grimes S. T., Morales J., López-Martínez N.
     year: 2012
-    doi: "10.1016/j.palaeo.2012.04.026"
+    doi: 10.1016/j.palaeo.2012.04.026
 ---
 
 ## Кратко
@@ -95,7 +101,6 @@ $$\delta^{13}\mathrm{C} = \left( \frac{(^{13}\mathrm{C}/^{12}\mathrm{C})_{\mathr
 2. **Аридность тундростепи**: Экстремальная сухость климата мамонтовой степи приводила к снижению объемов вымывания легкого азота из почвы и росту общего почвенного показателя $\delta^{15}\mathrm{N}$, что отражалось на всей растительности [^ref_bocherens_2003][^ref_szpak_2012].
 
 ---
-
 ### 2. Кислородный палеотермометр ($\delta^{18}\mathrm{O}$) и изотопы стронция ($^{87}\mathrm{Sr}/^{86}\mathrm{Sr}$) в анализе миграций
 
 Изотопы кислорода в составе карбонат-замещенного гидроксиапатита эмали зубов ($Ca_{10}(PO_4)_6(CO_3)(OH)_2$) поступают в организм преимущественно с питьевой водой [^ref_cerling_2006]. Изотопное отношение $^{18}\mathrm{O}/^{16}\mathrm{O}$ в атмосферных осадках жестко контролируется температурой конденсации водяного пара в облаках: чем ниже локальная температура, тем более обедненными легким изотопом оказываются осадки [^ref_cerling_2006]. Соответственно, сигнатура $\delta^{18}\mathrm{O}$ в эмали зубов служит прямым прокси-показателем локальных палеотемператур плейстоцена [^ref_bocherens_2003].
@@ -122,7 +127,6 @@ $$\delta^{13}\mathrm{C} = \left( \frac{(^{13}\mathrm{C}/^{12}\mathrm{C})_{\mathr
 Проводя последовательное микропиление или лазерную абляцию вдоль линии роста бивня взрослого мамонта, ученые фиксируют траекторию его перемещений на протяжении жизни. Сезонные колебания $\delta^{18}\mathrm{O}$ (отражающие смену зимних и летних температур) накладываются на скачкообразные изменения отношения $^{87}\mathrm{Sr}/^{86}\mathrm{Sr}$ [^ref_bocherens_2003]. Это позволяет доказать, что мамонты не вели оседлый образ жизни, а совершали регулярные широтные или высотные миграции протяженностью до **$300\text{–}600\text{ км}$** в год, возвращаясь на зимовку в защищенные речные долины [^ref_bocherens_2003][^ref_lister_2013].
 
 ---
-
 ### 3. Биогеохимия разрушения тундростепи на рубеже голоцена
 
 Дискуссия о причинах исчезновения мамонтовой экосистемы («мамонтовой степи») велась десятилетиями. С помощью изотопного анализа удалось точно реконструировать экологический коллапс, произошедший в период потепления Бёллинг-Аллерёд ($14.7\text{–}12.9\text{ тыс. л.н.}$) [^ref_lister_2013].
@@ -133,7 +137,6 @@ $$\delta^{13}\mathrm{C} = \left( \frac{(^{13}\mathrm{C}/^{12}\mathrm{C})_{\mathr
 2. **Сдвиг $\delta^{13}\mathrm{C}$**: Произошла деградация высокопитательных злаковых сообществ. Мамонты были вынуждены перейти на питание низкокалорийными мхами, хвоей и закисленными осоками, что зафиксированным резким сдвигом $\delta^{13}\mathrm{C}$ в сторону более негативных значений (до $-24.5‰$ в коллагене костей) [^ref_bocherens_2003][^ref_lister_2013].
 
 ---
-
 ### 4. Методологические ограничения и диагенез ископаемого дентина
 
 Биогеохимические выводы палеоэкологии напрямую зависят от сохранности исходного изотопного сигнала в минеральном и органическом матриксах ископаемых остатков. На протяжении тысячелетий пребывания в почве ткани зубов подвергаются воздействию грунтовых вод и микробиологической деградации, что может приводить к диагенезу (вторичным химическим изменениям):
@@ -142,7 +145,6 @@ $$\delta^{13}\mathrm{C} = \left( \frac{(^{13}\mathrm{C}/^{12}\mathrm{C})_{\mathr
 *   **Аналитический инструментарий**: Измерение стабильных изотопов ($C, N, O$) традиционно проводится методом масс-спектрометрии изотопных отношений (IRMS) на газовых источниках [^ref_domingo_2012]. Для высокоразрешающего картирования стронция ($^{87}\mathrm{Sr}/^{86}\mathrm{Sr}$) применяется масс-спектрометрия с индуктивно связанной плазмой и лазерной абляцией (LA-ICP-MS), позволяющая сканировать приповерхностные слои эмалевых призм без полного разрушения образца [^ref_metcalfe_2013].
 
 ---
-
 ### 5. Сравнительная изотопия выживших слонов в антропоцене
 
 Изотопная методология, разработанная для палеонтологии, нашла прямое применение в консервации современных Elephantidae. В пионерском исследовании Тюре Керлинга (*Cerling et al., 2006*) было продемонстрировано использование изотопного анализа волоса хвоста слонов в качестве высокоточного непрерывного регистратора диеты [^ref_cerling_2006]. Скорость роста хвостового волоса слонов составляет около $1\text{–}1.2\text{ см}$ в месяц. Проводя посегментный анализ волоса длиной $30\text{ см}$, исследователи реконструируют рацион слона за последние 2.5 года жизни с временным разрешением до недель [^ref_cerling_2006]. 
@@ -163,7 +165,7 @@ $$\delta^{13}\mathrm{C} = \left( \frac{(^{13}\mathrm{C}/^{12}\mathrm{C})_{\mathr
 * **[Палеонтология и филогенетическая радиация Proboscidea](taxonomy/proboscidea-paleontology-and-trunk-evolution.md)** — Эволюционный морфогенез жевательного аппарата и полифиодонтии.
 * **[Климатические модели и прогнозирование сокращения ареалов хоботных до 2100 года](conservation/climate-change-and-range-shift-projections.md)** — Экологическое моделирование ниш и терморегуляторные ограничения в меняющемся климате.
 
-## Библиография
+## 📚 Литература
 
 [^ref_cerling_2006]: Cerling T. E., Wittemyer G., Rasmussen H. B., Vollrath F., Cerling C. E., Robinson T. J., Douglas-Hamilton I. (2006). Stable isotopes in elephant hair as recorders of diet and environmental change. *Proceedings of the National Academy of Sciences (PNAS)*, 103(1), 39-43. DOI: [10.1073/pnas.0601931103](https://doi.org/10.1073/pnas.0601931103)
 [^ref_bocherens_2003]: Bocherens H. (2003). Isotopic biogeochemistry and Palaeoecology of the woolly mammoth (*Mammuthus primigenius*). *Quaternary Science Reviews*, 22(10-12), 1045-1056. DOI: [10.1016/S0277-3791(03)00126-X](https://doi.org/10.1016/S0277-3791(03)00126-X)

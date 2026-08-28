@@ -1,35 +1,43 @@
 ---
-title: "Клиническая нейроанатомия, цитоархитектоника коры и нейробиологические основы долговременной памяти у Elephantidae: гиппокампальный комплекс, гирификация, височные доли и латерализация"
-description: "Академическая монография, исследующая макроструктурную и микроструктурную организацию мозга слонов, гиппокампальный комплекс, нейроны фон Экономо, механизмы долговременной памяти и патологии когнитивного угасания."
+title: 'Клиническая нейроанатомия, цитоархитектоника коры и нейробиологические основы долговременной памяти у Elephantidae: гиппокампальный комплекс, гирификация, височные доли и латерализация'
+description: Академическая монография, исследующая макроструктурную и микроструктурную организацию мозга слонов, гиппокампальный комплекс, нейроны фон Экономо, механизмы долговременной памяти и патологии когнитивного угасания.
 category: cognition
-tags: [нейроанатомия, цитоархитектоника, гиппокамп, височные доли, нейроны фон Экономо, латерализация, память, Elephantidae]
+tags:
+  - нейроанатомия
+  - цитоархитектоника
+  - гиппокамп
+  - височные доли
+  - нейроны фон Экономо
+  - латерализация
+  - память
+  - Elephantidae
 difficulty: advanced
 reading_time_min: 15
 evidence_level: established
 references:
   - id: ref_shoshani_2006
-    title: "Elephant brain. Part I: Gross morphology, functions, comparative anatomy, and evolution"
-    authors: "Shoshani J., Kupsky W. J., Marchant G. H."
+    title: 'Elephant brain. Part I: Gross morphology, functions, comparative anatomy, and evolution'
+    authors: Shoshani J., Kupsky W. J., Marchant G. H.
     year: 2006
   - id: ref_cozzi_2001
-    title: "An overview of the central nervous system of the elephant through a critical appraisal of the literature published in the XIX and XX centuries"
-    authors: "Cozzi B., Spagnoli S., Bruno L."
+    title: An overview of the central nervous system of the elephant through a critical appraisal of the literature published in the XIX and XX centuries
+    authors: Cozzi B., Spagnoli S., Bruno L.
     year: 2001
   - id: ref_hakeem_2009
-    title: "Von Economo neurons in the elephant brain"
-    authors: "Hakeem A. Y., Sherwood C. C., Bonar C. J., Butti C., Hof P. R., Allman J. M."
+    title: Von Economo neurons in the elephant brain
+    authors: Hakeem A. Y., Sherwood C. C., Bonar C. J., Butti C., Hof P. R., Allman J. M.
     year: 2009
   - id: ref_herculano_2014
-    title: "The elephant brain in numbers"
-    authors: "Herculano-Houzel S., Avelino-de-Souza M. J., Neves K., et al."
+    title: The elephant brain in numbers
+    authors: Herculano-Houzel S., Avelino-de-Souza M. J., Neves K., et al.
     year: 2014
   - id: ref_mccomb_2001
-    title: "Matriarchs as repositories of social knowledge in African elephants"
-    authors: "McComb K., Moss C., Durant S. M., Baker L., Sayialel S."
+    title: Matriarchs as repositories of social knowledge in African elephants
+    authors: McComb K., Moss C., Durant S. M., Baker L., Sayialel S.
     year: 2001
   - id: ref_jacobs_2011
-    title: "Comparative morphology of gigantopyramidal neurons in the motor cortex of the elephant"
-    authors: "Jacobs B., et al."
+    title: Comparative morphology of gigantopyramidal neurons in the motor cortex of the elephant
+    authors: Jacobs B., et al.
     year: 2011
 ---
 
@@ -48,7 +56,6 @@ references:
 | **Относительный объем мозжечка** | **18.6%** от общей массы мозга (у человека 10.3%) [^10] | Обеспечивает моторную микроманипуляцию кончика хобота. | [^10] |
 
 ---
-
 ## Основной раздел
 
 ### 1. Макроанатомия и биометрия головного мозга
@@ -89,7 +96,6 @@ references:
 *   **Пневматизированная защита черепа:** Мозг расположен глубоко в каудальной части черепа и защищен спереди массивным слоем лобных костей с сотовой пневматизацией (толщиной до 30–40 см) [^12]. Это диплоэтическое губчатое вещество действует как идеальный амортизатор, гасящий тяжелые ударные нагрузки на голову в лесной и социальной жизни слона [^12].
 
 ---
-
 ### 2. Цитоархитектоника и нейрональные сети
 
 Согласно пионерским исследованиям Сюзаны Эркулано-Узель (*Suzana Herculano-Houzel, 2014*), головной мозг слона содержит рекордное среди наземных млекопитающих количество нервных клеток — около **257 миллиардов нейронов** [^7]. Однако пространственное распределение этих клеток подчиняется уникальной аллометрической логике:
@@ -118,7 +124,6 @@ references:
 Функциональная асимметрия полушарий у слонов ярко выражена на моторном уровне. Проявляется феномен **tusk preference** («правшество» или «левшество» по использования бивней) [^16]. Животное выбирает ведущий бивень (*master tusk*) для тяжелой работы (выкорчевывание деревьев, копание солонцов, защита), что приводит к его укорочению и сточенности [^16]. Асимметрия также прослеживается в кинематике изгибов хобота: при захвате мелких объектов слоны демонстрируют строго индивидуальное направление закручивания хобота в левую или правую сторону, что коррелирует с асимметричным развитием двигательного ядра лицевого нерва (CN VII) в стволе мозга [^13][^16].
 
 ---
-
 ### 3. Нейробиология пространственной и социальной памяти
 
 Феноменальная память слонов («слон никогда не забывает») имеет под собой строгий анатомический субстрат — гигантский гиппокампальный комплекс. Объем гиппокампа взрослого слона достигает **~105 см³** (для сравнения: у человека — около 3.0–3.5 см³) [^9].
@@ -154,7 +159,6 @@ references:
 Лимбическая система слонов (включая амигдалу, поясную извилину и свод) тесно интегрирована с гиппокампом [^2]. Это обеспечивает мощный эмоциональный окрас воспоминаний, способствуя быстрому запоминанию опасных мест (точек браконьерства, засух, конфликтов с человеком HEC) [^2][^11]. Однако эта же интеграция делает мозг слона чрезвычайно уязвимым к психосоциальным травмам [^19]: свидетельство гибели сородичей (culling) вызывает необратимые повреждения гиппокампальных нейронов у сирот, приводя к тяжелой дезрегуляции гипоталамо-гипофизарно-надпочечниковой (HPA) оси и развитию синдрома комплексного ПТСР [^11][^19].
 
 ---
-
 ### 4. Доказательная база и клиническая нейропатология
 
 *   **[ESTABLISHED] Нейробиологические основы когнитивной сохранности матриархов:** 
@@ -167,7 +171,6 @@ references:
         3.  **Ольфакторное обогащение среды:** Регулярное экспонирование вольеров запаховыми следами незнакомых сородичей или хищников для активации лимбической системы и ольфакторных долей коры.
 
 ---
-
 ## Связанные знания
 *   **[Когнитивная архитектура и самосознание]** — Как гирификация и височное представительство обеспечивают прохождение зеркального теста.
 *   **[Биомеханика мышечного гидростата хобота]** — Роль гипертрофированного мозжечка и лицевого нерва в микроманипуляции кончиком хобота.
@@ -175,8 +178,7 @@ references:
 *   **[Психосоциальная травма и словесный ПТСР]** — Нейробиология атрофии гиппокампа при распаде традиционной слоновьей культуры.
 
 ---
-
-## Сноски (Footnotes)
+## 📚 Литература
 [^1]: См. монографию *`cognitive-architecture-and-self-awareness.md`* — «Когнитивная архитектура, зеркальное самосознание (MSR) и нейробиология высших психических функций у Elephantidae».
 [^2]: См. Shoshani J., Kupsky W. J., Marchant G. H. (2006). Elephant brain. Part I: Gross morphology, functions, comparative anatomy, and evolution. *Brain Research Bulletin*, 70(2), 124–157.
 [^3]: См. *the-amboseli-elephants-a-long-term-perspective-on-a-long-lived-mammal-9780226542263_compress.pdf* — Глава 11: «Elephant Cognition: What We Know about What Elephants Know» (стр. 174–182).

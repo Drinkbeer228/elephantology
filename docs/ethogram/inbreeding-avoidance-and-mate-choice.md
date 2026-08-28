@@ -1,48 +1,54 @@
 ---
-title: "Этологические механизмы избегания инбридинга, половой отбор и динамика расселения у Elephantidae"
-evidence_level: 'established'
-description: "Фундаментальная научная монография, исследующая поведенческие барьеры инбредной депрессии, половой диморфизм дисперсии, вокальное и хемосенсорное распознавание родственников, а также роль муста и выбор самок у хоботных."
+title: Этологические механизмы избегания инбридинга, половой отбор и динамика расселения у Elephantidae
+evidence_level: established
+description: Фундаментальная научная монография, исследующая поведенческие барьеры инбредной депрессии, половой диморфизм дисперсии, вокальное и хемосенсорное распознавание родственников, а также роль муста и выбор самок у хоботных.
 category: ethogram
-tags: [избегание инбридинга, расселение самцов, половой отбор, распознавание родственников, муст, генетика популяций]
+tags:
+  - избегание инбридинга
+  - расселение самцов
+  - половой отбор
+  - распознавание родственников
+  - муст
+  - генетика популяций
 difficulty: advanced
 reading_time_min: 15
-last_reviewed: 2026-08-24
+last_reviewed: '2026-08-24'
 references:
   - id: ref_archie_2007
-    title: "Behavioural inbreeding avoidance in wild African elephants"
-    authors: "Archie E. A., Hollister-Smith J. A., Poole J. H., Lee P. C., Moss C. J., Maldonado J. E., Fleischer R. C., Alberts S. C."
+    title: Behavioural inbreeding avoidance in wild African elephants
+    authors: Archie E. A., Hollister-Smith J. A., Poole J. H., Lee P. C., Moss C. J., Maldonado J. E., Fleischer R. C., Alberts S. C.
     year: 2007
   - id: ref_archie_2008
-    title: "Fine-scale population genetic structure in a fission-fusion society"
-    authors: "Archie E. A., Maldonado J. E., Hollister-Smith J. A., Poole J. H., Moss C. J., Fleischer R. C., Alberts S. C."
+    title: Fine-scale population genetic structure in a fission-fusion society
+    authors: Archie E. A., Maldonado J. E., Hollister-Smith J. A., Poole J. H., Moss C. J., Fleischer R. C., Alberts S. C.
     year: 2008
   - id: ref_archie_2009
-    title: "Major histocompatibility complex variation and evolution at a single, expressed DQA locus in two genera of elephants"
-    authors: "Archie E. A., Henry T., Maldonado J. E., Moss C. J., Poole J. H., Pearson V. R., Murray S., Alberts S. C., Fleischer R. C."
+    title: Major histocompatibility complex variation and evolution at a single, expressed DQA locus in two genera of elephants
+    authors: Archie E. A., Henry T., Maldonado J. E., Moss C. J., Poole J. H., Pearson V. R., Murray S., Alberts S. C., Fleischer R. C.
     year: 2009
   - id: ref_poole_1989a
-    title: "Announcing intent: the aggressive state of musth in African elephants"
-    authors: "Poole J. H."
+    title: 'Announcing intent: the aggressive state of musth in African elephants'
+    authors: Poole J. H.
     year: 1989
   - id: ref_poole_1989b
-    title: "Mate guarding, reproductive success and female choice in African elephants"
-    authors: "Poole J. H."
+    title: Mate guarding, reproductive success and female choice in African elephants
+    authors: Poole J. H.
     year: 1989
   - id: ref_mccomb_2000
-    title: "Unusually extensive networks of vocal recognition in African elephants"
-    authors: "McComb K., Moss C., Sayialel S., Baker L."
+    title: Unusually extensive networks of vocal recognition in African elephants
+    authors: McComb K., Moss C., Sayialel S., Baker L.
     year: 2000
   - id: ref_mccomb_2003
-    title: "Long-distance communication of acoustic cues to social identity in African elephants"
-    authors: "McComb K., Reby D., Baker L., Moss C., Sayialel S."
+    title: Long-distance communication of acoustic cues to social identity in African elephants
+    authors: McComb K., Reby D., Baker L., Moss C., Sayialel S.
     year: 2003
   - id: ref_de_2021
-    title: "Pan-India population genetics signifies the importance of habitat connectivity for wild Asian elephant conservation"
-    authors: "Rahul De, Reeta Sharma, Priya Davidar, et al."
+    title: Pan-India population genetics signifies the importance of habitat connectivity for wild Asian elephant conservation
+    authors: Rahul De, Reeta Sharma, Priya Davidar, et al.
     year: 2021
   - id: ref_vidya_2005
-    title: "Social organization of the Asian elephant (Elephas maximus) in southern India inferred from microsatellite DNA"
-    authors: "Vidya T. N. C., Sukumar R."
+    title: Social organization of the Asian elephant (Elephas maximus) in southern India inferred from microsatellite DNA
+    authors: Vidya T. N. C., Sukumar R.
     year: 2005
 ---
 
@@ -59,7 +65,6 @@ references:
 | **Репродуктивная доминанта муста (Musth)** | Экстремальный всплеск тестостерона у быков старше 35 лет; «двоение» социальной очереди [^ref_poole_1989a]. | Исключение спаривания с молодыми натальными родственниками без муста [^ref_archie_2007]. | Poole (1989a) [^ref_poole_1989a], Hollister-Smith et al. (2007) [^ref_poole_1989b] |
 
 ---
-
 ## Основной раздел: Механизмы избегания инбридинга и этология репродукции
 
 ### 1. Половая асимметрия расселения (Sex-biased Natal Dispersal)
@@ -89,7 +94,6 @@ references:
 ```
 
 ---
-
 ### 2. Социо-акустическое и хемосенсорное распознавание родственников (Kin Recognition)
 Предотвращение близкородственного скрещивания требует точной дифференциации как материнских (*maternal kin*), так и отцовских (*paternal kin*) родственников [^ref_archie_2007]. Слоны осуществляют этот аудит через два сенсорных канала:
 
@@ -104,7 +108,6 @@ references:
 *   **Генетический базис (MHC-DQA):** Химический индивидуальный «паспорт» кодируется высокополиморфным экспрессируемым локусом DQA класса II главного комплекса гистосовместимости (MHC) [^ref_archie_2009]. Сверхвысокая вариабельность этого локуса (обусловленная балансирующим отбором со значением \(d_N/d_S = 3.18\)) создает неповторимый ольфакторный профиль [^ref_archie_2009]. Слон сопоставляет MHC-код партнера со своим собственным генотипом, и при совпадении аллелей репродуктивное влечение блокируется [^ref_archie_2007][^ref_archie_2009].
 
 ---
-
 ### 3. Половой отбор и предпочтения самок (Female Mate Choice)
 Поскольку вклад самки в вынашивание (22 месяца гестации) и лактацию (до 4 лет) колоссален, цена ошибки при выборе полового партнера для нее максимальна [^ref_archie_2007]. В популяции хоботных половой отбор контролируется строгими этологическими предпочтениями самок в пользу самцов в состоянии **муста (musth)** [^ref_poole_1989b]:
 
@@ -122,7 +125,6 @@ references:
 ```
 
 ---
-
 ### 4. Генетические последствия фрагментации и изоляции популяций
 
 Несмотря на наличие совершенных этологических барьеров избегания инбридинга, антропогенный пресс и фрагментация ландшафтов создают критическую угрозу для выживания хоботных [^ref_de_2021]:
@@ -134,7 +136,6 @@ references:
     2.  *Искусственная транслокация:* Регулярный завоз и интродукция взрослых неродственных самцов-доноров (в возрасте >30–35 лет) из крупных генетически благополучных популяций непосредственно в изолированные резерваты для разбавления локального аллельного пула [^ref_de_2021].
 
 ---
-
 ## Связанные знания
 *   **[Fission-Fusion Social Structure](fission-fusion-social-structure.md)** — Как иерархическая структура семейных кланов и бондовых групп координирует миграции и встречи родственников.
 *   **[Musth Endocrinology](musth-ethology-and-endocrinology.md)** — Эндокринологические каскады муста, динамика секреции височных желез и влияние тестостерона на доминантный статус самцов.
@@ -142,7 +143,6 @@ references:
 *   **[Population Genetics and Connectivity](../ecology/spatial-ecology-and-connectivity-corridors.md)** — Математическое моделирование генетической дифференциации (\(F_{ST}\)) и влияние барьеров на изоляцию популяций.
 
 ---
-
 ## Источники и литература
 [^ref_archie_2007]: Archie E. A., Hollister-Smith J. A., Poole J. H., Lee P. C., Moss C. J., Maldonado J. E., Fleischer R. C., Alberts S. C. (2007). Behavioural inbreeding avoidance in wild African elephants. *Molecular Ecology*, 16(19), 4138–4148.
 [^ref_archie_2008]: Archie E. A., Maldonado J. E., Hollister-Smith J. A., Poole J. H., Moss C. J., Fleischer R. C., Alberts S. C. (2008). Fine-scale population genetic structure in a fission–fusion society. *Molecular Ecology*, 17(11), 2666–2679.

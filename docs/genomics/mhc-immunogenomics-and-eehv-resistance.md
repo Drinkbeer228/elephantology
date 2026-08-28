@@ -1,42 +1,51 @@
 ---
-title: "Иммуногеномика Elephantidae: эволюция главного комплекса гистосовместимости (MHC) и генетические механизмы устойчивости к герпесвирусу EEHV"
-description: "Академическая монография: молекулярная эволюция генов главного комплекса гистосовместимости класса II (DQA) у Loxodonta и Elephas, балансирующий и очищающий отбор, трансгеномный аллелизм и генетическая уязвимость перед EEHV."
-category: "genomics"
-tags: ["MHC", "DQA", "иммуногеномика", "балансирующий отбор", "трансвидовой аллелизм", "EEHV", "герпесвирус", "Loxodonta", "Elephas"]
+title: 'Иммуногеномика Elephantidae: эволюция главного комплекса гистосовместимости (MHC) и генетические механизмы устойчивости к герпесвирусу EEHV'
+description: 'Академическая монография: молекулярная эволюция генов главного комплекса гистосовместимости класса II (DQA) у Loxodonta и Elephas, балансирующий и очищающий отбор, трансгеномный аллелизм и генетическая уязвимость перед EEHV.'
+category: genomics
+tags:
+  - MHC
+  - DQA
+  - иммуногеномика
+  - балансирующий отбор
+  - трансвидовой аллелизм
+  - EEHV
+  - герпесвирус
+  - Loxodonta
+  - Elephas
 difficulty: advanced
 reading_time_min: 16
 evidence_level: established
-last_reviewed: "2026-08-27"
+last_reviewed: '2026-08-27'
 related_knowledge:
-  - "ethological-inbreeding-avoidance.md"
-  - "population-genetics-and-phylogeography.md"
-  - "eehv-clinical-protocol.md"
-  - "sensory_umwelt.md"
+  - ethological-inbreeding-avoidance.md
+  - population-genetics-and-phylogeography.md
+  - eehv-clinical-protocol.md
+  - sensory_umwelt.md
 references:
-  - id: "ref_archie_2009"
-    title: "Major histocompatibility complex variation and evolution at a single, expressed DQA locus in two genera of elephants"
-    authors: "Archie E. A., Henry T., Maldonado J. E., Moss C. J., Poole J. H., Pearson V. R., Murray S., Alberts S. C., Fleischer R. C."
+  - id: ref_archie_2009
+    title: Major histocompatibility complex variation and evolution at a single, expressed DQA locus in two genera of elephants
+    authors: Archie E. A., Henry T., Maldonado J. E., Moss C. J., Poole J. H., Pearson V. R., Murray S., Alberts S. C., Fleischer R. C.
     year: 2009
-    doi: "10.1007/s00251-009-0413-8"
-  - id: "ref_takehana_2022"
-    title: "Clinical review of Elephant endotheliotropic herpes virus (EEHV) associated disease in Asian elephants (Elephas maximus)"
-    authors: "Takehana K., Kawakami S., Thitaram C., Matsuno K."
+    doi: 10.1007/s00251-009-0413-8
+  - id: ref_takehana_2022
+    title: Clinical review of Elephant endotheliotropic herpes virus (EEHV) associated disease in Asian elephants (Elephas maximus)
+    authors: Takehana K., Kawakami S., Thitaram C., Matsuno K.
     year: 2022
-  - id: "ref_goodman_2009"
-    title: "Phylogenomic analyses reveal convergent patterns of adaptive evolution in elephant and human"
-    authors: "Goodman M. et al."
+  - id: ref_goodman_2009
+    title: Phylogenomic analyses reveal convergent patterns of adaptive evolution in elephant and human
+    authors: Goodman M. et al.
     year: 2009
-    doi: "10.1073/pnas.0911235106"
-  - id: "ref_richman_1999"
-    title: "Novel endotheliotropic herpesviruses fatal for Asian and African elephants"
-    authors: "Richman L. K. et al."
+    doi: 10.1073/pnas.0911235106
+  - id: ref_richman_1999
+    title: Novel endotheliotropic herpesviruses fatal for Asian and African elephants
+    authors: Richman L. K. et al.
     year: 1999
-    doi: "10.1226/science.283.5405.1171"
-  - id: "ref_dastjerdi_2016"
-    title: "Surviving and fatal elephant endotheliotropic herpesvirus-1A infections in juvenile Asian elephants–lessons learned and recommendations on anti-herpesviral therapy"
-    authors: "Dastjerdi A., Seilern-Moy K., Darpel K., Steinbach F., Molenaar F."
+    doi: 10.1226/science.283.5405.1171
+  - id: ref_dastjerdi_2016
+    title: Surviving and fatal elephant endotheliotropic herpesvirus-1A infections in juvenile Asian elephants–lessons learned and recommendations on anti-herpesviral therapy
+    authors: Dastjerdi A., Seilern-Moy K., Darpel K., Steinbach F., Molenaar F.
     year: 2016
-    doi: "10.1186/s12917-016-0798-y"
+    doi: 10.1186/s12917-016-0798-y
 ---
 
 ## Кратко
@@ -84,7 +93,6 @@ references:
 Анализ кодирующей рамки считывания всех выявленных аллелей не обнаружил преждевременных стоп-кодонов или сдвигов рамки (делеций/инсерций, кратных не трем нуклеотидам), что полностью исключило вероятность псевдогенизации исследуемого локуса [^ref_archie_2009]. Полное секвенирование кодирующей последовательности (CDS) выявило типичную пятиэкзонную структуру гена, кодирующую сигнальный пептид (экзон 1), полиморфный домен $\alpha_1$ (экзон 2), консервативный домен $\alpha_2$ (экзон 3), трансмембранный сегмент (экзон 4) и короткий цитоплазматический хвост (экзон 5) [^ref_archie_2009].
 
 ---
-
 ### 2. Движущие силы отбора: балансирующий отбор в ABR vs очищающий отбор в экзоне 3
 
 Иммуногенетическое разнообразие поддерживается за счет сложного баланса различных эволюционных сил. Математический анализ темпов накопления несинонимичных (изменяющих аминокислоту, $d_N$) и синонимичных (молчащих, $d_S$) нуклеотидных замен по методу Неи-Годжобори позволяет дифференцировать селективные векторы, действующие на отдельные домены молекулы MHC DQA [^ref_archie_2009].
@@ -106,7 +114,6 @@ $$\omega_{\text{exon3}} = 0.32 \quad (d_N = 0.013, \ d_S = 0.042 \text{ у } L. 
 Очищающий отбор эффективно отбраковывает любые несинонимичные мутации, способные нарушить пространственную конформацию белка и его способность встраиваться в мембрану иммуноцитов, поддерживая тем самым базовую функциональность молекулы [^ref_archie_2009].
 
 ---
-
 ### 3. Трансвидовой аллелизм генов MHC у Elephantidae
 
 Одним из наиболее ярких эволюционных феноменов, подтверждающих действие балансирующего отбора, является **трансвидовой (трансгеномный) аллелизм** [^ref_archie_2009]. Его суть заключается в том, что полиморфные аллельные линии MHC удерживаются отбором в генофондах на протяжении колоссальных промежутков времени, превышающих время дивергенции родственных видов и родов [^ref_archie_2009].
@@ -134,7 +141,6 @@ $$\omega_{\text{exon3}} = 0.32 \quad (d_N = 0.013, \ d_S = 0.042 \text{ у } L. 
 Такая глубина консервации аллелей, преодолевшая межродовой барьер, свидетельствует о том, что давление патогенов на древних хоботных носило высокостабильный, консервативный характер, требуя сохранения конкретных конфигураций антиген-презентирующих карманов на протяжении миллионов поколений [^ref_archie_2009].
 
 ---
-
 ### 4. Иммуногенетический профиль уязвимости перед герпесвирусом EEHV
 
 Несмотря на стабильное сохранение предкового полиморфизма в диких непрерывных популяциях, антропогенный пресс, фрагментация ареалов и бутылочные горлышки резко снижают иммуногенетический потенциал выживших стад. Падение эффективного размера популяции ($N_e$) ведет к стремительной утрате аллельного богатства и росту гомозиготности по локусам MHC, что делает молодняк уязвимым перед вирусными инфекциями [^ref_takehana_2022][^ref_dastjerdi_2016].
@@ -161,7 +167,7 @@ $$\omega_{\text{exon3}} = 0.32 \quad (d_N = 0.013, \ d_S = 0.042 \text{ у } L. 
 *   **[Эпидемиологический и ветеринарно-реанимационный протокол контроля EEHV](eehv-clinical-protocol.md)** — Терапевтические и реанимационные схемы лечения острых форм EEHV-HD с применением ацикловира и плазмотрансфузий.
 *   **[Сенсорный умвельт хоботных: тактильное, сейсмическое и хемосенсорное восприятие](sensory-umwelt-and-multimodal-perception.md)** — Механизмы детекции химических сигналов и молекул гистосовместимости через вомероназальный орган.
 
-## Библиография
+## 📚 Литература
 
 [^ref_archie_2009]: Archie E. A., Henry T., Maldonado J. E., Moss C. J., Poole J. H., Pearson V. R., Murray S., Alberts S. C., Fleischer R. C. (2009). Major histocompatibility complex variation and evolution at a single, expressed DQA locus in two genera of elephants. *Immunogenetics*, 62(2), 85–100. DOI: [10.1007/s00251-009-0413-8](https://doi.org/10.1007/s00251-009-0413-8)
 [^ref_takehana_2022]: Takehana K., Kawakami S., Thitaram C., Matsuno K. (2022). Clinical review of Elephant endotheliotropic herpes virus (EEHV) associated disease in Asian elephants (*Elephas maximus*). *Japanese Journal of Zoo and Wildlife Medicine* / *Animals*, 12, 1332.

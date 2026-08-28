@@ -1,53 +1,60 @@
 ---
-title: "Феноменология и этология муста у самцов Elephantidae: гормональный шторм, хемокоммуникация темпорина, иерархическое доминирование и аномалии поведения"
-evidence_level: 'established'
-description: "Научная монография, посвященная комплексному анализу феномена муста у самцов африканских и азиатских слонов, включая эндокринные маркеры, биохимический состав секрета височных желез, этологические перестройки и ветеринарный менеджмент в неволе."
+title: 'Феноменология и этология муста у самцов Elephantidae: гормональный шторм, хемокоммуникация темпорина, иерархическое доминирование и аномалии поведения'
+evidence_level: established
+description: Научная монография, посвященная комплексному анализу феномена муста у самцов африканских и азиатских слонов, включая эндокринные маркеры, биохимический состав секрета височных желез, этологические перестройки и ветеринарный менеджмент в неволе.
 category: ethogram
 related_knowledge:
   - type: associated_with
     target: ethogram/seismic-and-infrasonic-communication.md
   - type: causes
     target: conservation/human-elephant-conflict-mitigation.md
-tags: [муст, тестостерон, темпорин, фронталин, иерархия, этология, Пиланесберг]
+tags:
+  - муст
+  - тестостерон
+  - темпорин
+  - фронталин
+  - иерархия
+  - этология
+  - Пиланесберг
 difficulty: advanced
 reading_time_min: 15
-last_reviewed: 2026-08-23
+last_reviewed: '2026-08-23'
 references:
   - id: ref_poole_1981
-    title: "Musth in the African elephant, Loxodonta africana"
-    authors: "Poole J. H., Moss C. J."
+    title: Musth in the African elephant, Loxodonta africana
+    authors: Poole J. H., Moss C. J.
     year: 1981
   - id: ref_poole_1984
-    title: "Musth and urinary testosterone concentrations in the African elephant"
-    authors: "Poole J. H., Kasman L. H., Ramsay E. C., Lasley B. L."
+    title: Musth and urinary testosterone concentrations in the African elephant
+    authors: Poole J. H., Kasman L. H., Ramsay E. C., Lasley B. L.
     year: 1984
   - id: ref_poole_1987
-    title: "Rutting behaviour in African elephants: the phenomenon of musth"
-    authors: "Poole J. H."
+    title: 'Rutting behaviour in African elephants: the phenomenon of musth'
+    authors: Poole J. H.
     year: 1987
   - id: ref_poole_1989
-    title: "Announcing intent: the aggressive state of musth in African elephants"
-    authors: "Poole J. H."
+    title: 'Announcing intent: the aggressive state of musth in African elephants'
+    authors: Poole J. H.
     year: 1989
   - id: ref_slotow_2000
-    title: "Older bull elephants control young males"
-    authors: "Slotow R., van Dyk G., Poole J., Page B., Klocke A."
+    title: Older bull elephants control young males
+    authors: Slotow R., van Dyk G., Poole J., Page B., Klocke A.
     year: 2000
   - id: ref_rasmussen_1996
-    title: "Insect pheromone in elephants: (1D,5R)-dehydrofrontalin in Musth of Asian elephants"
-    authors: "Rasmussen L. E. L., Lee T. D., Roelofs W. L., et al."
+    title: 'Insect pheromone in elephants: (1D,5R)-dehydrofrontalin in Musth of Asian elephants'
+    authors: Rasmussen L. E. L., Lee T. D., Roelofs W. L., et al.
     year: 1996
   - id: ref_ganswindt_2002
-    title: "Assessment of testicular endocrine function in captive male African elephants by salivary and fecal androgen analysis"
-    authors: "Ganswindt A., Heistermann M., Borragan S., Hodges J. K."
+    title: Assessment of testicular endocrine function in captive male African elephants by salivary and fecal androgen analysis
+    authors: Ganswindt A., Heistermann M., Borragan S., Hodges J. K.
     year: 2002
   - id: ref_brown_2007
-    title: "Endocrinological and behavioral profiles of musth in male Asian elephants (Elephas maximus)"
-    authors: "Brown J. L., et al."
+    title: Endocrinological and behavioral profiles of musth in male Asian elephants (Elephas maximus)
+    authors: Brown J. L., et al.
     year: 2007
   - id: ref_hollister_smith_2007
-    title: "Age, musth and paternity in wild African elephants"
-    authors: "Hollister-Smith J. A., et al."
+    title: Age, musth and paternity in wild African elephants
+    authors: Hollister-Smith J. A., et al.
     year: 2007
 ---
 
@@ -80,7 +87,6 @@ references:
 Дополнительным хемосенсорным вектором служит синдром **непрерывного подтекания мочи (*urine dribbling*)**[^3]. Сфинктер мочевого пузыря расслабляется, и самец непрерывно выделяет мочу, обогащенную продуктами метаболизма андрогенов, мелкодисперсно разбрызгивая её на задние конечности и почву при ходьбе[^3]. Зеленоватый налет на пенисе и постоянные мочевые метки создают непрерывный пахучий шлейф, улавливаемый сородичами за несколько километров[^3][^6].
 
 ---
-
 ### 2. Кинематика фаз муста и гормональный профиль
 Ниже представлена динамическая ASCII-схема, отражающая колебания уровней тестостерона и сопутствующие этологические паттерны самца на протяжении трех ключевых фаз цикла муста[^2][^3][^7]:
 
@@ -102,7 +108,6 @@ references:
 ```
 
 ---
-
 ### 3. Социальная этология и репродуктивный приоритет
 Муст полностью трансформирует социальные взаимодействия внутри популяции. В обычное время иерархия самцов строго детерминирована их физическими размерами и массой тела[^3][^5]. Однако во время муста статус самца испытывает временный этологический апгрейд:
 
@@ -111,7 +116,6 @@ references:
 *   **Акустические дуэты:** Приближение мустующего самца стимулирует эстральных самок на генерацию низкочастотных инфразвуковых призывов («эстральный рокот»)[^4]. Самцы отвечают глубоким инфразвуковым «мустовым рокотом» частотой **14–20 Гц**, распространяющимся по воздуху и сейсмическому каналу на расстояние до 4–8 км[^4].
 
 ---
-
 ### 4. Аномалии поведения и экология агрессии (Pilanesberg Case)
 В нормальных условиях естественной популяции муст строго контролируется возрастной структурой стада[^5]. Старшие доминантные быки (в возрасте >40 лет) выступают в роли этологических супрессоров: их присутствие, акустические сигналы и феромоны подавляют развитие муста у молодых самцов, укорачивая их индивидуальные циклы муста до нескольких дней или недель[^5].
 
@@ -121,7 +125,6 @@ references:
 [ESTABLISHED] Данный кризис был полностью ликвидирован только после искусственной интродукции в популяцию 6 зрелых доминантных самцов весом более 5 тонн каждый[^5]. Присутствие старших быков мгновенно подавило преждевременный муст у молодых самцов, нормализовало их гормональный фон и полностью прекратило нападения на носорогов, что доказало фундаментальное значение возрастной структуры для этологической стабильности мегафауны[^5].
 
 ---
-
 ### 5. Ветеринарный менеджмент самцов в период муста
 
 Содержание взрослых самцов в состоянии муста в зоопарках и резервациях требует соблюдения важнейших мер безопасности и применения передовых терапевтических подходов:
@@ -131,14 +134,12 @@ references:
 *   **[CLINICAL GUIDANCE] Терапия GnRH-вакцинами:** Для подавления сверхострой патологической агрессии у captive-самцов успешно применяется метод иммунонейтрализации гонадотропин-рилизинг гормона (GnRH)[^8]. Введение вакцин (например, *Improvac*) индуцирует выработку антител к эндогенному GnRH, блокируя стимуляцию гипофиза и снижая выработку тестостерона клетками Лейдига до базальных значений в течение 2–4 недель, что позволяет безопасно купировать затянувшийся агрессивный статус[^8].
 
 ---
-
 ## Связанные знания
 * **[Урогенитальная система и тестикулохондрия]** — Анатомическое строение интраабдоминальных семенников и особенности их кровоснабжения, обеспечивающие сперматогенез при внутренней температуре тела.
 * **[Сенсорный умвельт хоботных]** — Механизмы восприятия половых феромонов темпорина и мочи через вомероназальный орган Якобсона.
 * **[Этологические механизмы избегания инбридинга]** — Как выбор самками мустующих быков и дисперсия молодых самцов предотвращают инбредный коллапс в диких популяциях.
 
 ---
-
 ## Источники и литература
 [^1]: Poole J. H., Moss C. J. (1981). Musth in the African elephant, *Loxodonta africana*. *Nature*, 292, 830–831.
 [^2]: Poole J. H., Kasman L. H., Ramsay E. C., Lasley B. L. (1984). Musth and urinary testosterone concentrations in the African elephant. *Journal of Reproduction and Fertility*, 70, 561–566.

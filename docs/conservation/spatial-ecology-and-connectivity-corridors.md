@@ -1,7 +1,7 @@
 ---
-title: "Пространственная экология, спутниковая телеметрия и ландшафтная связность у Elephantidae: расчет домашних ареалов, модели Least-Cost Path и проектирование миграционных коридоров"
-evidence_level: 'established'
-description: "Академическая монография о методах пространственной экологии слонов: спутниковая телеметрия, моделирование LCP, экодуки и проектирование миграционных коридоров."
+title: 'Пространственная экология, спутниковая телеметрия и ландшафтная связность у Elephantidae: расчет домашних ареалов, модели Least-Cost Path и проектирование миграционных коридоров'
+evidence_level: established
+description: 'Академическая монография о методах пространственной экологии слонов: спутниковая телеметрия, моделирование LCP, экодуки и проектирование миграционных коридоров.'
 category: conservation
 difficulty: advanced
 reading_time_min: 15
@@ -12,26 +12,26 @@ tags:
   - migration
   - corridors
   - gis
-last_reviewed: 2026-08-24
+last_reviewed: '2026-08-24'
 references:
-  - id: "ref_douglas_hamilton_2005"
-    title: "Movements and corridors of African elephants in relation to protected areas"
-    authors: "Douglas-Hamilton I., Krink T., Vollrath F."
+  - id: ref_douglas_hamilton_2005
+    title: Movements and corridors of African elephants in relation to protected areas
+    authors: Douglas-Hamilton I., Krink T., Vollrath F.
     year: 2005
-    doi: "10.1007/s00114-004-0606-9"
-  - id: "ref_de_2021"
-    title: "Pan-India population genetics signifies the importance of habitat connectivity for wild Asian elephant conservation"
-    authors: "De R., Sharma R., Davidar P., et al."
+    doi: 10.1007/s00114-004-0606-9
+  - id: ref_de_2021
+    title: Pan-India population genetics signifies the importance of habitat connectivity for wild Asian elephant conservation
+    authors: De R., Sharma R., Davidar P., et al.
     year: 2021
-    doi: "10.1016/j.gecco.2021.e01888"
-  - id: "ref_roever_2013"
-    title: "Functional connectivity within conservation networks: Delineating corridors for African elephants"
-    authors: "Roever C. A., van Aarde R. J., Leggett K."
+    doi: 10.1016/j.gecco.2021.e01888
+  - id: ref_roever_2013
+    title: 'Functional connectivity within conservation networks: Delineating corridors for African elephants'
+    authors: Roever C. A., van Aarde R. J., Leggett K.
     year: 2013
-    doi: "10.1016/j.biocon.2012.09.011"
-  - id: "ref_wittemyer_2007"
-    title: "The influence of environment on systematic and seasonal patterns of elephant movement"
-    authors: "Wittemyer G., Getz W. M., Vollrath F., Douglas-Hamilton I."
+    doi: 10.1016/j.biocon.2012.09.011
+  - id: ref_wittemyer_2007
+    title: The influence of environment on systematic and seasonal patterns of elephant movement
+    authors: Wittemyer G., Getz W. M., Vollrath F., Douglas-Hamilton I.
     year: 2007
 ---
 
@@ -40,7 +40,6 @@ references:
 Экологическое пространство хоботных (*Proboscidea*) представляет собой динамическую мозаику, в которой миграционная активность диктуется поиском высококалорийного корма, источников воды и половых партнеров, а также избеганием антропогенного прессинга [^26][^82]. В условиях прогрессирующей фрагментации глобальных экосистем понимание пространственной экологии слонов на ландшафтном уровне является критически важным для долгосрочного выживания метапопуляций как в Африке (*Loxodonta africana*, *Loxodonta cyclotis*), так и в Азии (*Elephas maximus*) [^127][^134][^158].
 
 ---
-
 ## 1. Методы пространственной телеметрии и биометрии перемещений
 
 Современный этап изучения перемещений хоботных базируется на использовании высокоточных систем спутниковой телеметрии с интеграцией модулей GPS/Iridium/GSM [^234][^261]. Эти устройства позволяют собирать непрерывные временные ряды координат с высоким временным разрешением (от 5-минутных до часовых интервалов фиксации) [^260].
@@ -86,7 +85,6 @@ references:
 * **Самки (семейные группы):** Демонстрируют высокоструктурированное использование пространства [^202]. Средний домашний ареал составляет **100–115 кв. км** у азиатских и **150–600 кв. км** у африканских семейств [^14][^233]. Перемещения жестко привязаны к сезонному распределению ресурсов и минимизации энергетических затрат, концентрируясь вокруг постоянных водопоев во время сухих сезонов [^82][^251].
 
 ---
-
 ## 2. Пространственное моделирование миграционных путей
 
 Проектирование коридоров связности требует точного математического описания того, как животные воспринимают сопротивление ландшафта [^134]. 
@@ -118,7 +116,6 @@ references:
 3. **Удаленность от водоисточников:** Для поддержания водно-электролитного баланса слону необходимо выпивать до 100–150 литров воды ежедневно [^234]. Вследствие этого сопротивление ландшафта возрастает экспоненциально по мере удаления от источников постоянной воды в сухой сезон [^82][^251].
 
 ---
-
 ## 3. Проектирование и защита коридоров связности (Corridors)
 
 Защита миграционных путей и создание искусственных инженерных развязок являются основой сохранения генетического разнообразия и предупреждения инбредной депрессии у изолированных метапопуляций слонов [^134][^232].
@@ -182,20 +179,20 @@ references:
 Синтез популяционной генетики и пространственного анализа доказывает, что блокирование путей миграции ведет к мгновенному падению гетерозиготности и росту коэффициента инбридинга (\\(F_{IS}\\)) [^134]. Сохранение коридоров между популяциями (например, между национальным парком Амбосели в Кении и склонами Килиманджаро в Танзании) является единственным немедикаментозным способом спасения малых субпопуляций от втягивания в генетическую «спираль вымирания» (*extinction vortex*) [^232].
 
 ---
-
 ## 4. Консервационный менеджмент и пространственные протоколы
 
 Эффективное ландшафтное планирование и непосредственные ветеринарно-этологические манипуляции с животными должны следовать строгим научно обоснованным регламентам.
 
-### `[ESTABLISHED]` Критерии выделения критических зон связности (IUCN)
+### `` Критерии выделения критических зон связности (IUCN)
+> **Уровень доказательности:** [ESTABLISHED]
 Согласно международным руководящим принципам IUCN по сохранению связности, выделение коридора основывается на жестких критериях:
 1. **Экологическая функциональность:** коридор должен связывать как минимум два крупных ядра обитания (*core habitats*) с подтвержденной репродуктивной активностью популяций [^134].
 2. **Постоянство использования:** траектория должна подтверждаться долгосрочными данными телеметрии (не менее 5 лет непрерывного мечения) или историческими этологическими свидетельствами (древние «тропы матриархов» / *trunk-trails*) [^85][^133].
 3. **Минимальная буферная ширина:** эффективная ширина коридора в лесной или саванной зоне должна составлять не менее **2–5 км** для минимизации пограничного антропогенного шума и химического загрязнения [^134].
 
 ---
-
-### `[CLINICAL GUIDANCE / CONSERVATION]` Протокол установки спутникового ошейника
+### `` Протокол установки спутникового ошейника
+> **Уровень доказательности:** [CLINICAL GUIDANCE / CONSERVATION]
 
 Процедура мечения слона является тяжелым физиологическим стрессом и требует безупречной технической точности ветеринарной бригады [^230].
 
@@ -227,7 +224,6 @@ references:
 4. Ветеринарная бригада вводит специфический антагонист опиоидов (налтрексон в соотношении 1:1 к эторфину) для немедленного и чистого реверсирования общей анестезии.
 
 ---
-
 ## Связанные знания
 
 * **Управление конфликтом «человек-слон»:** методы агроэкологической защиты посевов и создания буферных зон для перенаправления мигрирующих стад ([human-elephant-conflict-mitigation.md](human-elephant-conflict-mitigation.md)).
@@ -235,39 +231,3 @@ references:
 * **Криминалистическая генетика и популяционный анализ:** генетические методы картирования аллелей для доказательства ландшафтной связности изолированных субпопуляций ([../conservation/ivory-trade-and-forensic-genetics.md](../conservation/ivory-trade-and-forensic-genetics.md)).
 
 ---
-
-[^26]: Excerpts from "2010 Poole Report to EKZNW 09012010.pdf", passage index 26.
-[^82]: Excerpts from "CH16 Decision Making & Leadership in Using the Ecosystem.pdf", passage index 82.
-[^127]: Excerpts from "Mara ecosystem connectivity 20160512 redto3.8mb.pdf", passage index 127.
-[^134]: Excerpts from "Mara ecosystem connectivity 20160512 redto3.8mb.pdf", passage index 134.
-[^158]: Excerpts from "Mara ecosystem connectivity 20160512 redto3.8mb.pdf", passage index 158.
-[^234]: Excerpts from "the-amboseli-elephants-a-long-term-perspective-on-a-long-lived-mammal-9780226542263_compress.pdf", passage index 234.
-[^261]: Excerpts from "the-amboseli-elephants-a-long-term-perspective-on-a-long-lived-mammal-9780226542263_compress.pdf", passage index 261.
-[^260]: Excerpts from "the-amboseli-elephants-a-long-term-perspective-on-a-long-lived-mammal-9780226542263_compress.pdf", passage index 260.
-[^125]: Excerpts from "Joyce Poole Declaration (Pittsburgh) (revised) (clean).pdf", passage index 125.
-[^33]: Excerpts from "2014 Gift to the Maasai Mara, a Male Elephant is Born – National Geographic Blog.pdf", passage index 33.
-[^103]: Excerpts from "Gaynor_et_al-2018-African_Journal_of_Ecology.pdf", passage index 103.
-[^115]: Excerpts from "Gaynor_et_al-2018-African_Journal_of_Ecology.pdf", passage index 115.
-[^233]: Excerpts from "the-amboseli-elephants-a-long-term-perspective-on-a-long-lived-mammal-9780226542263_compress.pdf", passage index 233.
-[^238]: Excerpts from "the-amboseli-elephants-a-long-term-perspective-on-a-long-lived-mammal-9780226542263_compress.pdf", passage index 238.
-[^163]: Excerpts from "Moolman et al 2018 And then there was one.pdf", passage index 163.
-[^14]: Excerpts from "2008 01 15 Declaration of Joyce Poole LA zoo amended.pdf", passage index 14.
-[^235]: Excerpts from "the-amboseli-elephants-a-long-term-perspective-on-a-long-lived-mammal-9780226542263_compress.pdf", passage index 235.
-[^236]: Excerpts from "the-amboseli-elephants-a-long-term-perspective-on-a-long-lived-mammal-9780226542263_compress.pdf", passage index 236.
-[^202]: Excerpts from "_OceanofPDF.com_Elephant_Memories_Thirteen_years_in_the_life_of_an_elephant_-_Cynthia_Moss.txt", passage index 202.
-[^251]: Excerpts from "the-amboseli-elephants-a-long-term-perspective-on-a-long-lived-mammal-9780226542263_compress.pdf", passage index 251.
-[^160]: Excerpts from "Mara ecosystem connectivity 20160512 redto3.8mb.pdf", passage index 160.
-[^15]: Excerpts from "2008 01 15 Declaration of Joyce Poole LA zoo amended.pdf", passage index 15.
-[^25]: Excerpts from "2010 Af Ele Red List_Critique_SUBMITTED VERSION.pdf", passage index 25.
-[^99]: Excerpts from "ElephantVoices Mara Report 2013.pdf", passage index 99.
-[^101]: Excerpts from "ElephantVoices Mara Report 2014.pdf", passage index 101.
-[^142]: Excerpts from "Mara ecosystem connectivity 20160512 redto3.8mb.pdf", passage index 142.
-[^190]: Excerpts from "Pan-India population genetics signifies the importance of habitat connectivity for wild Asian elephant conservation", passage index 190.
-[^147]: Excerpts from "Mara ecosystem connectivity 20160512 redto3.8mb.pdf", passage index 147.
-[^113]: Excerpts from "Gaynor_et_al-2018-African_Journal_of_Ecology.pdf", passage index 113.
-[^232]: Excerpts from "the-amboseli-elephants-a-long-term-perspective-on-a-long-lived-mammal-9780226542263_compress.pdf", passage index 232.
-[^133]: Excerpts from "Mara ecosystem connectivity 20160512 redto3.8mb.pdf", passage index 133.
-[^85]: Excerpts from "CH16 Decision Making & Leadership in Using the Ecosystem.pdf", passage index 85.
-[^230]: Excerpts from "the-amboseli-elephants-a-long-term-perspective-on-a-long-lived-mammal-9780226542263_compress.pdf", passage index 230.
-[^3]: Excerpts from "196174216674_10153550202311675.pdf", passage index 3.
-[^8]: Excerpts from "1989 Poole Musth announces intent.pdf", passage index 8.

@@ -1,38 +1,45 @@
 ---
-title: "Хоботные как ключевые инженеры экосистем: модификация ландшафтов, зоохория крупных семян и гидрологическое бурение"
-evidence_level: 'established'
-description: "Научная монография, исследующая средообразующую роль слонов (Loxodonta и Elephas) как аллогенных инженеров экосистем, их вклад в гидрологию, минеральный обмен, мегазоохорию тропических лесов и современные этологические методы предотвращения конфликтов."
+title: 'Хоботные как ключевые инженеры экосистем: модификация ландшафтов, зоохория крупных семян и гидрологическое бурение'
+evidence_level: established
+description: Научная монография, исследующая средообразующую роль слонов (Loxodonta и Elephas) как аллогенных инженеров экосистем, их вклад в гидрологию, минеральный обмен, мегазоохорию тропических лесов и современные этологические методы предотвращения конфликтов.
 category: ecology
-tags: [инженеры экосистем, мегазоохория, гидрологическое бурение, ландшафтный инжиниринг, пчелиные заборы, Loxodonta, Elephas]
+tags:
+  - инженеры экосистем
+  - мегазоохория
+  - гидрологическое бурение
+  - ландшафтный инжиниринг
+  - пчелиные заборы
+  - Loxodonta
+  - Elephas
 difficulty: advanced
 reading_time_min: 12
-last_reviewed: 2026-08-23
+last_reviewed: '2026-08-23'
 references:
   - id: ref_campos_2011
-    title: "Megagardeners of the forest - the role of elephants in seed dispersal"
-    authors: "Campos-Arceiz, A., Blake, S."
+    title: Megagardeners of the forest - the role of elephants in seed dispersal
+    authors: Campos-Arceiz, A., Blake, S.
     year: 2011
     doi: 10.1016/j.actao.2011.05.001
   - id: ref_dublin_1990
-    title: "Elephants and fire as causes of multiple stable states for Serengeti-Mara woodlands"
-    authors: "Dublin, H. T., Sinclair, A. R. E., McGlade, J."
+    title: Elephants and fire as causes of multiple stable states for Serengeti-Mara woodlands
+    authors: Dublin, H. T., Sinclair, A. R. E., McGlade, J.
     year: 1990
   - id: ref_king_2011
-    title: "Beehive fences as effective deterrents for crop-raiding elephants"
-    authors: "King, L. E., Lawrence, A., Douglas-Hamilton, I."
+    title: Beehive fences as effective deterrents for crop-raiding elephants
+    authors: King, L. E., Lawrence, A., Douglas-Hamilton, I.
     year: 2011
     doi: 10.1016/j.actao.2011.05.001
   - id: ref_western_1989
-    title: "The ecological value of elephants: a keystone role in African ecosystems"
-    authors: "Western, D."
+    title: 'The ecological value of elephants: a keystone role in African ecosystems'
+    authors: Western, D.
     year: 1989
   - id: ref_owen_smith_1988
-    title: "Megaherbivores: The influence of very large body size on ecology"
-    authors: "Owen-Smith, N."
+    title: 'Megaherbivores: The influence of very large body size on ecology'
+    authors: Owen-Smith, N.
     year: 1988
   - id: ref_poole_2013
-    title: "Loxodonta africana (foraging, water dependence, and Mt Elgon salt licks)"
-    authors: "Poole, J. H., Granli, P., et al."
+    title: Loxodonta africana (foraging, water dependence, and Mt Elgon salt licks)
+    authors: Poole, J. H., Granli, P., et al.
     year: 2013
 ---
 
@@ -74,7 +81,6 @@ references:
 Помимо модификации растительности, слоны прокладывают многовековые миграционные тропы (*elephant pathways*)[^11]. Эти коридоры, вытаптываемые поколениями стад до твердости бетона, служат важнейшими дренажными каналами во время ливней и используются десятками других видов животных (от мелких грызунов до крупных кошачьих) как безопасные магистрали для передвижения сквозь непроходимые заросли[^11].
 
 ---
-
 ### 2. Гидрологическая деятельность и минеральный баланс
 Вода является лимитирующим фактором в аридных регионах. Зависимость слонов от ежедневного потребления воды (до **160–200 л** на особь) заставляет их выработать сложнейшие поисковые стратегии[^5][^12]. В засушливый период, когда открытые водоемы пересыхают, слоны используют свои бивни и дистальный отдел хобота как буровой инструмент для раскапывания песчаного дна временных рек на глубину до **1.0–1.5 метров**[^5][^6]. 
 
@@ -86,7 +92,6 @@ references:
 Слоны целенаправленно занимаются геофагией — поеданием богатых натрием, кальцием и калием почв солонцов и термитников[^5]. Ярким примером глубокого спелеологического инжиниринга является **пещера Китум на горе Элгон (Кения)**[^5]. На протяжении тысячелетий слоны проникали вглубь этой абсолютно темной вулканической пещеры, откалывали бивнями куски богатого солями туфа от стен и поглощали его, расширив размеры пещеры на тысячи кубических метров и создав уникальный подземный микроклимат для колоний летучих мышей[^5].
 
 ---
-
 ### 3. Лесная мегазоохория: Слоны как главные садовники
 А. Кампос-Арсеиз и С. Блейк (Campos-Arceiz & Blake, 2011) обосновали статус хоботных как «мегасадовников леса» (*megagardeners of the forest*)[^1][^7]. Из-за своих колоссальных размеров слоны способны заглатывать и успешно переносить крупнейшие плоды и семена, недоступные для других птиц и млекопитающих[^1][^7].
 
@@ -96,7 +101,6 @@ references:
 *   **Навозный субстрат:** Дефекация слона (до 150 кг навоза в сутки) обеспечивает семена идеальной влажной средой, богатой органическим азотом и фосфором, а также защищает проростки от мелких грызунов за счет маскирующего запаха[^5][^6]. Исчезновение лесных слонов в Центральной Африке уже привело к сокращению запасов углерода в лесах Конго из-за постепенного замещения тяжелых долгоживущих деревьев быстрорастущим мягколиственным подлеском[^7].
 
 ---
-
 ### 4. Консервационные риски и этологические методы управления (Mitigation)
 
 В эпоху Антропоцена, когда естественные ареалы хоботных зажаты в тиски антропогенного ландшафта, их средообразующая деятельность может приобретать деструктивный характер:
@@ -115,13 +119,11 @@ references:
 ```
 
 ---
-
 ## Связанные знания
 * **[Популяционная генетика и связность местообитаний]** — как поддержание коридоров миграции спасает слонов от инбредной депрессии и локального перенаселения.
 * **[Физиология пищеварения заднекишечных ферментаторов]** — биохимические процессы в ЖКТ слона, определяющие его аппетит, транзит семян и качество навоза.
 
 ---
-
 ## Источники и литература
 [^1]: Campos-Arceiz A., Blake S. (2011). Megagardeners of the forest - the role of elephants in seed dispersal. *Acta Oecologica*, 37(6), 542–553.
 [^2]: Dublin H. T., Sinclair A. R. E., McGlade J. (1990). Elephants and fire as causes of multiple stable states for Serengeti-Mara woodlands. *Journal of Animal Ecology*, 59, 1157–1164.

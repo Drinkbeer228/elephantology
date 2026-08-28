@@ -1,43 +1,50 @@
 ---
-title: "Экологическая физиология и биофизика выживания в экстремальном климате: механизмы защиты Elephantidae от гипертермии и обезвоживания"
-description: "Академическая монография: термодинамический баланс покровной системы Elephantidae, тепловые окна ушных раковин, трансэпидермальная потеря влаги (TEWL) и адаптивные этологические стратегии выживания в условиях глобального изменения климата."
+title: 'Экологическая физиология и биофизика выживания в экстремальном климате: механизмы защиты Elephantidae от гипертермии и обезвоживания'
+description: 'Академическая монография: термодинамический баланс покровной системы Elephantidae, тепловые окна ушных раковин, трансэпидермальная потеря влаги (TEWL) и адаптивные этологические стратегии выживания в условиях глобального изменения климата.'
 category: ecology
-tags: [терморегуляция, тепловой баланс, ушные тепловые окна, TEWL, обезвоживание, пахидермия, изменение климата]
+tags:
+  - терморегуляция
+  - тепловой баланс
+  - ушные тепловые окна
+  - TEWL
+  - обезвоживание
+  - пахидермия
+  - изменение климата
 difficulty: advanced
 evidence_level: established
 reading_time_min: 15
-last_reviewed: "2026-08-27"
+last_reviewed: '2026-08-27'
 related_knowledge:
-  - "anatomy/integumentary-system-and-skin-morphology.md"
-  - "anatomy/cardiovascular-system-and-hemodynamics.md"
-  - "ecology/feeding-ecology-nutrition-and-geophagy.md"
-  - "conservation/climate-change-and-range-shift-projections.md"
+  - anatomy/integumentary-system-and-skin-morphology.md
+  - anatomy/cardiovascular-system-and-hemodynamics.md
+  - ecology/feeding-ecology-nutrition-and-geophagy.md
+  - conservation/climate-change-and-range-shift-projections.md
 references:
-  - id: "ref_dunkin_2013"
-    title: "Climate change and the energetic cost of thermoregulation in African elephants"
-    authors: "Dunkin R. C., Wilson D., Way N., et al."
+  - id: ref_dunkin_2013
+    title: Climate change and the energetic cost of thermoregulation in African elephants
+    authors: Dunkin R. C., Wilson D., Way N., et al.
     year: 2013
-    doi: "10.1242/jeb.084145"
-  - id: "ref_weissenbock_2010"
-    title: "Active vasodilatation in the elephant's ear: a key mechanism for thermoregulation"
-    authors: "Weissenböck N. M., Weiss C. M., Schwammer H. M., Kratochvil H."
+    doi: 10.1242/jeb.084145
+  - id: ref_weissenbock_2010
+    title: 'Active vasodilatation in the elephant''s ear: a key mechanism for thermoregulation'
+    authors: Weissenböck N. M., Weiss C. M., Schwammer H. M., Kratochvil H.
     year: 2010
-    doi: "10.1007/s00360-010-0474-x"
-  - id: "ref_wright_1984"
-    title: "Thermoregulation in the African elephant (Loxodonta africana)"
-    authors: "Wright P. G."
+    doi: 10.1007/s00360-010-0474-x
+  - id: ref_wright_1984
+    title: Thermoregulation in the African elephant (Loxodonta africana)
+    authors: Wright P. G.
     year: 1984
-    doi: "10.1111/j.1469-7998.1984.tb02341.x"
-  - id: "ref_rowis_2018"
-    title: "Skin morphology and the biophysics of heat dissipation in pachyderms"
-    authors: "Rowis M. A., et al."
+    doi: 10.1111/j.1469-7998.1984.tb02341.x
+  - id: ref_rowis_2018
+    title: Skin morphology and the biophysics of heat dissipation in pachyderms
+    authors: Rowis M. A., et al.
     year: 2018
-    doi: "10.1111/zoj.12345"
-  - id: "ref_wittemyer_2007"
-    title: "The effects of weather on elephant demographics"
-    authors: "Wittemyer G., Rasmussen H. B., Douglas-Hamilton I."
+    doi: 10.1111/zoj.12345
+  - id: ref_wittemyer_2007
+    title: The effects of weather on elephant demographics
+    authors: Wittemyer G., Rasmussen H. B., Douglas-Hamilton I.
     year: 2007
-    doi: "10.1111/j.1469-7998.2007.00318.x"
+    doi: 10.1111/j.1469-7998.2007.00318.x
 ---
 
 ## Кратко
@@ -93,7 +100,6 @@ $$H_{\text{stored}} = M \pm R \pm C - E$$
 ```
 
 ---
-
 ### 2. Гемодинамический шунт и «ушные тепловые окна» (Ear Thermal Windows)
 
 Главным анатомо-физиологическим приспособлением слонов для управляемого сброса избыточного тепла служат их ушные раковины [^ref_weissenbock_2010]. Ушная пластина имеет развитую, высокоспециализированную сосудистую сеть на каудальной поверхности, состоящую из разветвленной системы заушной артерии (*a. auricularis posterior*) и густого сплетения анастомозирующих вен [^ref_wright_1984].
@@ -136,7 +142,6 @@ $$Q_{\text{ear}} = h_c \cdot A_{\text{ear}} \cdot (T_{\text{ear}} - T_{\text{amb
 При вазодилатации температура кожи уха ($T_{\text{ear}}$) приближается к температуре ядра тела ($+35.5^\circ\text{C} \text{ – } +36.2^\circ\text{C}$), создавая температурный градиент относительно воздуха [^ref_weissenbock_2010]. Активные взмахи ушами генерируют воздушный поток со скоростью до $1.5\text{–}2.5\text{ м/с}$, что увеличивает коэффициент $h_c$ в $2\text{–}3$ раза [^ref_weissenbock_2010]. Охлажденная в капиллярах ушного ложа венозная кровь оттекает по крупным ушным венам непосредственно в систему яремных вен, обеспечивая эффективное снижение температуры головного мозга и миокарда [^ref_wright_1984].
 
 ---
-
 ### 3. Трансэпидермальная потеря влаги (TEWL) и гидрологический баланс
 
 Когда температура воздуха превышает критический порог $+38.0^\circ\text{C}$, сухие радиационно-конвективные механизмы ($R$ и $C$) полностью теряют свою эффективность, так как градиент температур становится отрицательным [^ref_dunkin_2013]. В этот момент выживание животного начинает целиком зависеть от эффективности испарения воды (TEWL) [^ref_dunkin_2013].
@@ -150,7 +155,6 @@ $$Q_{\text{ear}} = h_c \cdot A_{\text{ear}} \cdot (T_{\text{ear}} - T_{\text{amb
 Ввиду ограниченной почечной концентрационной способности, слоны физически не способны переносить длительное лишение воды: дегидратация свыше $10\text{–}12\%$ массы тела (что наступает на 3–4 сутки без питья при высокой температуре) вызывает необратимый гиперосмолярный синдром, сгущение крови, резкое падение ударного объема сердца и фатальный тепловой удар [^ref_dunkin_2013][^ref_wright_1984].
 
 ---
-
 ### 4. Этофизиологическая адаптация и пространственная экология
 
 Для минимизации энергетических затрат на терморегуляцию слоны выработали высокоскоординированные этологические паттерны активности в засушливый период [^ref_wittemyer_2007]:
@@ -160,7 +164,6 @@ $$Q_{\text{ear}} = h_c \cdot A_{\text{ear}} \cdot (T_{\text{ear}} - T_{\text{amb
 *   **Использование тепловых рефугиумов**: Слоны активно ищут затененные берега рек, купальные бассейны и прохладные овраги с восходящими токами воздуха, используя их в качестве микроклиматических тепловых убежищ [^ref_weissenbock_2010][^ref_wittemyer_2007].
 
 ---
-
 ## Доказательная база
 
 *   `[ESTABLISHED]` — «Ушные тепловые окна» являются основным и наиболее регулируемым радиационно-конвективным механизмом сброса тепла у слонов. Скорость ушного кровотока напрямую коррелирует с температурой ядра тела и управляется симпатическим тонусом кровеносных сосудов [^ref_weissenbock_2010][^ref_wright_1984].
@@ -169,7 +172,6 @@ $$Q_{\text{ear}} = h_c \cdot A_{\text{ear}} \cdot (T_{\text{ear}} - T_{\text{amb
 *   `[CLINICAL GUIDANCE]` — В условиях содержания в неволе (в зоопарках или питомниках) во время аномальных волн жары свыше $+35^\circ\text{C}$ ветеринарный персонал обязан обеспечить постоянный доступ животных к тенистым укрытиям и купальным бассейнам. Запрещается принудительный моцион слонов в дневные часы (с 11:00 до 17:00), а также жестко предписывается ежедневный полив животных из шлангов прохладной водой под низким давлением с обязательным последующим предоставлением сухого суглинка или песка для самостоятельного нанесения защитной грязепылевой корки [^ref_rowis_2018][^ref_wright_1984].
 
 ---
-
 ## Связанные знания
 
 *   **[Морфология покровной системы и микроструктура кожи](anatomy/integumentary-system-and-skin-morphology.md)** — Детальный анатомический анализ толщины эпидермиса, дермальных сосочков и патогенеза микротрещин.
@@ -178,7 +180,6 @@ $$Q_{\text{ear}} = h_c \cdot A_{\text{ear}} \cdot (T_{\text{ear}} - T_{\text{amb
 *   **[Экология питания и биогеохимия геофагии](ecology/feeding-ecology-nutrition-and-geophagy.md)** — Пищевая потребность в воде, солевой баланс и детоксикационная роль глин.
 
 ---
-
 ## Источники и литература
 
 [^ref_dunkin_2013]: Dunkin R. C., Wilson D., Way N., Williams T. M. (2013). Climate change and the energetic cost of thermoregulation in African elephants. *Journal of Experimental Biology*, 216(15), 2930-2938. DOI: [10.1242/jeb.084145](https://doi.org/10.1242/jeb.084145)

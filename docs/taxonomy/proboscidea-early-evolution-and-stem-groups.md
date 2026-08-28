@@ -1,7 +1,7 @@
 ---
-title: "Базальная радиация и ранняя эволюция отряда Proboscidea в палеогене: от базальных афротериев к полуводным эоценовым формам"
-evidence_level: 'established'
-description: "Академическая монография о ранней эволюции хоботных: Eritherium, Phosphatherium, Numidotherium, Moeritherium и лофодонтная адаптация."
+title: 'Базальная радиация и ранняя эволюция отряда Proboscidea в палеогене: от базальных афротериев к полуводным эоценовым формам'
+evidence_level: established
+description: 'Академическая монография о ранней эволюции хоботных: Eritherium, Phosphatherium, Numidotherium, Moeritherium и лофодонтная адаптация.'
 category: taxonomy
 difficulty: advanced
 reading_time_min: 15
@@ -11,30 +11,30 @@ tags:
   - basal-proboscidea
   - fossil-record
   - teeth-replacement
-last_reviewed: 2026-08-24
+last_reviewed: '2026-08-24'
 references:
-  - id: "ref_gheerbrant_1998"
-    title: "Phosphatherium escuilliei du Thanétien du Bassin des Ouled Abdoun (Maroc), plus ancien proboscidien (Mammalia) d'Afrique"
-    authors: "Gheerbrant E., Sudre J., Cappetta H., Bignot G."
+  - id: ref_gheerbrant_1998
+    title: Phosphatherium escuilliei du Thanétien du Bassin des Ouled Abdoun (Maroc), plus ancien proboscidien (Mammalia) d'Afrique
+    authors: Gheerbrant E., Sudre J., Cappetta H., Bignot G.
     year: 1998
-    doi: "10.1016/S0016-6995(98)80041-7"
-  - id: "ref_gheerbrant_2009"
-    title: "Paleocene emergence of elephant relatives and the rapid radiation of African ungulates"
-    authors: "Gheerbrant E."
+    doi: 10.1016/S0016-6995(98)80041-7
+  - id: ref_gheerbrant_2009
+    title: Paleocene emergence of elephant relatives and the rapid radiation of African ungulates
+    authors: Gheerbrant E.
     year: 2009
-    doi: "10.1073/pnas.0900251106"
-  - id: "ref_sanders_2022"
-    title: "Evolution and Fossil Record of African Proboscidea"
-    authors: "Sanders W. J."
+    doi: 10.1073/pnas.0900251106
+  - id: ref_sanders_2022
+    title: Evolution and Fossil Record of African Proboscidea
+    authors: Sanders W. J.
     year: 2022
-  - id: "ref_liu_2008"
-    title: "Stable isotope evidence for an amphibious phase in early proboscidean evolution"
-    authors: "Liu A. G. S. C., Seiffert E. R., Simons E. L."
+  - id: ref_liu_2008
+    title: Stable isotope evidence for an amphibious phase in early proboscidean evolution
+    authors: Liu A. G. S. C., Seiffert E. R., Simons E. L.
     year: 2008
-    doi: "10.1073/pnas.0800884105"
-  - id: "ref_shoshani_1996"
-    title: "The Proboscidea: Evolution and Palaeoecology of Elephants and Their Relatives"
-    authors: "Shoshani J., Tassy P."
+    doi: 10.1073/pnas.0800884105
+  - id: ref_shoshani_1996
+    title: 'The Proboscidea: Evolution and Palaeoecology of Elephants and Their Relatives'
+    authors: Shoshani J., Tassy P.
     year: 1996
 ---
 
@@ -43,7 +43,6 @@ references:
 Эволюционная история отряда хоботных (*Proboscidea*) представляет собой один из наиболее задокументированных и детальных палеонтологических рядов в классе млекопитающих [^1]. Возникнув на изолированном Афро-Аравийском континенте в палеогене, отряд прошел колоссальный путь специализации — от крошечных базальных насекомоядно-всеядных форм размером с небольшую собаку до исполинских сухопутных фитофагов с гравипортальным локомоторным аппаратом и уникальной системой горизонтальной смены зубов [^1][^2]. Понимание базальной радиации стем-групп палеоцена и эоцена позволяет реконструировать поэтапный биомеханический и морфофизиологический генез ключевых синапоморфий, которые определили эволюционный триумф хоботных в неогене [^3].
 
 ---
-
 ## 1. Филогенетический контекст и базальные стем-группы (Палеоцен — Эоцен)
 
 Бассейн Улед-Абдун (*Ouled Abdoun Basin*) в Марокко является уникальным палеонтологическим архивом фосфатных отложений палеогена, где задокументирована древнейшая эволюционная радиация африканских копытных и их родичей [^2][^4]. Хоботные принадлежат к монофилетическому надотряду **Afrotheria** и вместе с сиренами (*Sirenia*) и даманами (*Hyracoidea*) формируют кладу **Paenungulata** (выделенную Джорджем Гейлордом Симпсоном в 1945 году) [^1][^5]. 
@@ -93,7 +92,6 @@ $$\text{I}\frac{3}{3}\text{, C}\frac{1}{1}\text{, P}\frac{4}{4}\text{, M}\frac{3
    Описанный Жаном-Жаком Жежером / *Jean-Jacques Jaeger* и Мустафой Махбуби / *Moustafa Mahboubi* в 1986 году, этот вид представляет собой резкий качественный скачок в биометрии Proboscidea [^7]. Вес животного достигал **250–300 кг** при высоте в холке около **90–100 см** [^7][^12]. Вентральный профиль черепа претерпевает реструктуризацию: затылочная область приподнимается над окклюзионной плоскостью зубов, черепные кости начинают пневматизироваться (формирование воздушных синусов для облегчения конструкции при увеличении объема головы) [^7]. Полностью утрачиваются клыки и первые премоляры ($P^1/p^1$), формируется выраженная диастема, разделяющая резцы и щечные зубы [^7]. Локомоторный аппарат *Numidotherium* сохранял полустопоходящую (полупальцеходящую) амбулаторную походку с элементами субэректного (полувыпрямленного) положения конечностей, что предшествовало истинному graviportal-строению [^7][^8].
 
 ---
-
 ## 2. Полуводная адаптация и морфология меритерия (*Moeritherium*)
 
 К концу эоцена (~37–35 млн лет назад) в северо-восточной Африке (особенно в Фаюмском бассейне Египта) формируется высокоспециализированная группа хоботных — семейство **Moeritheriidae** [^1][^6].
@@ -128,7 +126,6 @@ $$\text{I}\frac{3}{3}\text{, C}\frac{1}{1}\text{, P}\frac{4}{4}\text{, M}\frac{3
 2. **Продольное желобовидное углубление:** Межчелюстные (*premaxillae*) и челюстные (*maxillae*) кости образуют широкое плоское плато с продольными мышечными бороздами [^10]. Это свидетельствует о прикреплении мощных леваторов верхней губы (*m. levator labii superioris*) и носогубных мышц (*m. nasolabialis*), которые сформировали короткий, подвижный мышечно-кожный хоботок (пробосцис), аналогичный хоботу современных тапиров [^1][^10].
 
 ---
-
 ## 3. Формирование ключевых анатомических синапоморфий хоботных
 
 Переход от мелких базальных форм к крупным специализированным Proboscidea сопровождался кардинальной перестройкой зубочелюстной системы и локомоторного аппарата [^1][^3].
@@ -149,7 +146,6 @@ $$\text{I}\frac{3}{3}\text{, C}\frac{1}{1}\text{, P}\frac{4}{4}\text{, M}\frac{3
 * **Переход к дигитиградии:** Пальцехождение (*digitigrady*) задокументировано у меритериев и ранних мастодонтов [^8]. Для амортизации гигантской массы под костями запястья и предплюсны сформировалась упругая **дигитальная (жировая) подушка** [^8], состоящая из прочных коллагеновых и эластиновых волокон, заполненных гликопротеинами и адипоцитами. Это позволило равномерно распределять гидравлическое давление по площади стопы при наступании [^8].
 
 ---
-
 ## 4. Биостратиграфия и палеобиогеографические следствия
 
 Палеогеновый этап эволюции хоботных протекал в условиях географической изоляции Афро-Аравийского щита от Лавразии [^1][^10].
@@ -166,7 +162,6 @@ $$\text{I}\frac{3}{3}\text{, C}\frac{1}{1}\text{, P}\frac{4}{4}\text{, M}\frac{3
 2. **Иммиграция в Африку:** На континент проникли лавразийские хищники и копытные, что привело к быстрому вымиранию архаичных, узкоспециализированных стем-групп (таких как меритерии и баритерии), не выдержавших конкуренции с прогрессивными пришельцами [^1].
 
 ---
-
 ## Связанные знания
 
 * **[Proboscidea Phylogeny](proboscidea-evolution-and-phylogeny.md)** — Систематика и филогенетическое древо отряда, разбор неогенового и четвертичного этапов радиации.
@@ -174,8 +169,7 @@ $$\text{I}\frac{3}{3}\text{, C}\frac{1}{1}\text{, P}\frac{4}{4}\text{, M}\frac{3
 * **[Trunk Biomechanics](../anatomy/muscular_hydrostat.md)** — Миология и иннервация мышечного гидростата хобота современных слонов в сравнении с зачаточными структурами Moeritherium.
 
 ---
-
-## Сноски (Footnotes)
+## 📚 Литература
 
 [^1]: См. Sanders, W. J. (2022). *Evolution and Fossil Record of African Proboscidea*. CRC Press. Chapter 1: Introduction and Context of African Proboscidean Evolution.
 [^2]: См. Gheerbrant, E., Sudre, J., Cappetta, H., & Bignot, G. (1998). *Phosphatherium escuilliei* du Thanétien du Bassin des Ouled Abdoun (Maroc), plus ancien proboscidien (Mammalia) d'Afrique. *Geobios*, 30(2), 247-269.

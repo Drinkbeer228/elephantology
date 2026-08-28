@@ -1,7 +1,7 @@
 ---
-title: "Клиническая неонатология и интенсивная терапия слонят: физиология родов, биохимия молока, искусственное вскармливание и протоколы выхаживания сирот"
-evidence_level: 'established'
-description: "Академическая монография о физиологии родов у слонов, биохимии молока, искусственном вскармливании слонят и лечении неонатальных патологий."
+title: 'Клиническая неонатология и интенсивная терапия слонят: физиология родов, биохимия молока, искусственное вскармливание и протоколы выхаживания сирот'
+evidence_level: established
+description: Академическая монография о физиологии родов у слонов, биохимии молока, искусственном вскармливании слонят и лечении неонатальных патологий.
 category: veterinary
 difficulty: advanced
 reading_time_min: 15
@@ -11,32 +11,32 @@ tags:
   - calf-rearing
   - milk-composition
   - veterinary-protocols
-last_reviewed: 2026-08-24
+last_reviewed: '2026-08-24'
 references:
-  - id: "ref_brown_1995"
-    title: "Serum and urinary hormones during pregnancy and the peri- and postpartum period in an Asian elephant (Elephas maximus)"
-    authors: "Brown J. L., Lehnhardt J."
+  - id: ref_brown_1995
+    title: Serum and urinary hormones during pregnancy and the peri- and postpartum period in an Asian elephant (Elephas maximus)
+    authors: Brown J. L., Lehnhardt J.
     year: 1995
-    doi: "10.1002/zoo.1430140608"
-  - id: "ref_hodges_1998"
-    title: "The endocrine control of reproduction in the female elephant"
-    authors: "Hodges J. K."
+    doi: 10.1002/zoo.1430140608
+  - id: ref_hodges_1998
+    title: The endocrine control of reproduction in the female elephant
+    authors: Hodges J. K.
     year: 1998
-    doi: "10.1016/S0378-4320(98)00138-7"
-  - id: "ref_takehana_2022"
-    title: "Clinical review of Elephant endotheliotropic herpes virus (EEHV) associated disease in Asian elephants"
-    authors: "Takehana K., Kawakami S., Thitaram C., Matsuno K."
+    doi: 10.1016/S0378-4320(98)00138-7
+  - id: ref_takehana_2022
+    title: Clinical review of Elephant endotheliotropic herpes virus (EEHV) associated disease in Asian elephants
+    authors: Takehana K., Kawakami S., Thitaram C., Matsuno K.
     year: 2022
-  - id: "ref_peters_1972"
-    title: "Composition and nutrient content of elephant (Elephas maximus) milk"
-    authors: "Peters J. M., et al."
+  - id: ref_peters_1972
+    title: Composition and nutrient content of elephant (Elephas maximus) milk
+    authors: Peters J. M., et al.
     year: 1972
-    doi: "10.2307/1379051"
-  - id: "ref_lee_1986"
-    title: "Early maternal investment in male and female African elephant calves"
-    authors: "Lee P. C., Moss C. J."
+    doi: 10.2307/1379051
+  - id: ref_lee_1986
+    title: Early maternal investment in male and female African elephant calves
+    authors: Lee P. C., Moss C. J.
     year: 1986
-    doi: "10.1007/BF00300004"
+    doi: 10.1007/BF00300004
 ---
 
 # Клиническая неонатология и интенсивная терапия слонят: физиология родов, биохимия молока, искусственное вскармливание и протоколы выхаживания сирот
@@ -79,7 +79,6 @@ references:
 3. Тактильное приучение: проведение запахового и тактильного контакта через защитную решетку, смачивание тела слоненка околоплодными водами и мочой матери [^2, ^13]. Постепенная реинтеграция под контролем опытных самок-алломатерей, стабилизирующих психоэмоциональный фон группы [^13, ^17].
 
 ---
-
 ## 2. Неонатальная физиология и биохимия молока
 
 ### Клинический статус здорового новорожденного
@@ -106,7 +105,6 @@ references:
 > ⚠️ **КЛИНИЧЕСКИЙ ЗАПРЕТ**: Скармливание цельного коровьего или козьего молока новорожденным слонятам категорически запрещено! Высокое содержание лактозы и несовместимая структура казеина вызывают у слонят тяжелейшую осмотическую диарею, тотальный слущивающийся энтерит, молниеносную дегидратацию и гибель от системного токсического шока [^1, ^2, ^11].
 
 ---
-
 ## 3. Протоколы искусственного вскармливания сирот (Sheldrick Wildlife Trust & AZA)
 
 Выращивание осиротевших слонят-младенцев требует строгого соблюдения диетических протоколов, разработанных на основе многолетнего опыта Sheldrick Wildlife Trust [^15] и руководств Ассоциации зоопарков и аквариумов (AZA) [^2].
@@ -149,7 +147,6 @@ references:
 - С 4-го месяца жизни в рацион слоненка вводится фильтрат навозной жижи. Свежий навоз здорового взрослого донора (не получавшего антибиотики минимум 3 месяца) смешивается с теплой кипяченой водой (1:5), процеживается через двухслойную марлю и немедленно выпаивается слоненку в объеме **100–200 мл** один раз в сутки [^1, ^4]. Это обеспечивает интродукцию жизнеспособных штаммов *Fibrobacter succinogenes*, *Ruminococcus albus* и специфических ресничных цилиат [^1].
 
 ---
-
 ## 4. Клинические патологии неонатального периода
 
 ### Неонатальный сепсис и омфалофлебит (Omphalophlebitis)
@@ -163,7 +160,6 @@ references:
 > **`[CLINICAL GUIDANCE]`**: При падении уровня глюкозы крови ниже **2.5 ммоль/л** и признаках дегидратации (сухость ротовой полости, западение глазных яблок) показана экстренная катетеризация заушной вены (*v. auricularis posterior*) гибким катетером калибра 14–16G [^2, ^14]. Производится струйное введение **10% или 20% раствора декстрозы** (глюкозы) в дозе **1.0–2.0 мл/кг массы тела**, подогретого до 38°C [^2]. Далее подключается непрерывная капельная инфузия сбалансированных электролитов (раствор Рингера-Лактата, Стериофундин) из расчета **40–60 мл/кг/сутки** [^2, ^14] до восстановления глотательного рефлекса и способности самостоятельно стоять.
 
 ---
-
 ## ️ Алгоритм первой помощи новорожденному слоненку при дистоции / отказе матери
 
 ```
@@ -208,14 +204,12 @@ references:
 ```
 
 ---
-
 ## Связанные знания
 - **`eehv-clinical-protocol.md`** — Герпесвирусная инфекция EEHV как главная постнатальная и ювенильная инфекционная угроза для выживших сирот и калибровка гематологического мониторинга [^4].
 - **`gastrointestinal-physiology-and-colic.md`** — Физиология микробного брожения, биохимия ЛЖК и переход на вегетативную диету у подрастающих слонят [^1].
 - **`urogenital_system.md`** — Морфология репродуктивных органов самок, ложная матка, строение плаценты и эндокринный контроль эстрального цикла [^8].
 
 ---
-
 ## Источники и литература
 [^1]: Greene W., Dierenfeld E. S., Mikota S. K. (2019). A review of Asian and African elephant gastrointestinal anatomy, physiology and pharmacology. *Journal of Zoo and Aquarium Research*, 7(1), 1–14.
 [^2]: Fowler M. E., Mikota S. K. (2006). Biology, Medicine, and Surgery of Elephants. Blackwell Publishing, Ames, Iowa, pp. 152-198.

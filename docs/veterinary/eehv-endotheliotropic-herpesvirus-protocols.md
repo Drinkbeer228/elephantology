@@ -1,64 +1,70 @@
 ---
-title: "Клиническая вирусология, патогенез эндотелиального коллапса и протоколы интенсивной терапии эндотелиотропного герпесвируса слонов (EEHV / Elephant Endotheliotropic Herpesvirus)"
-evidence_level: 'established'
-description: "Академическое руководство по этиологии, молекулярной эпидемиологии, микрососудистому патогенезу, ранней ПЦР-диагностике и протоколам интенсивной терапии геморрагической болезни слонов (EEHV-HD)."
+title: Клиническая вирусология, патогенез эндотелиального коллапса и протоколы интенсивной терапии эндотелиотропного герпесвируса слонов (EEHV / Elephant Endotheliotropic Herpesvirus)
+evidence_level: established
+description: Академическое руководство по этиологии, молекулярной эпидемиологии, микрососудистому патогенезу, ранней ПЦР-диагностике и протоколам интенсивной терапии геморрагической болезни слонов (EEHV-HD).
 category: veterinary
-tags: [EEHV, вирусология, геморрагическая болезнь, фамцикловир, плазмотрансфузия, ветеринария]
+tags:
+  - EEHV
+  - вирусология
+  - геморрагическая болезнь
+  - фамцикловир
+  - плазмотрансфузия
+  - ветеринария
 difficulty: advanced
 reading_time_min: 15
-last_reviewed: 2026-08-24
+last_reviewed: '2026-08-24'
 references:
   - id: ref_takehana_2022
-    title: "Clinical review of Elephant endotheliotropic herpes virus (EEHV) associated disease in Asian elephants (Elephas maximus)"
-    authors: "Takehana K., Kawakami S., Thitaram C., Matsuno K."
+    title: Clinical review of Elephant endotheliotropic herpes virus (EEHV) associated disease in Asian elephants (Elephas maximus)
+    authors: Takehana K., Kawakami S., Thitaram C., Matsuno K.
     year: 2022
   - id: ref_takehana_2019
-    title: "Rapid and sensitive detection of elephant endotheliotropic herpesvirus 1 (EEHV1) in blood by loop-mediated isothermal amplification (LAMP)"
-    authors: "Takehana K., Kinjyo T., Nemoto M., Matsuno K."
+    title: Rapid and sensitive detection of elephant endotheliotropic herpesvirus 1 (EEHV1) in blood by loop-mediated isothermal amplification (LAMP)
+    authors: Takehana K., Kinjyo T., Nemoto M., Matsuno K.
     year: 2019
   - id: ref_long_2016
-    title: "Review of elephant endotheliotropic herpesviruses and acute hemorrhagic disease"
-    authors: "Long S. Y., Latimer E. M., Hayward G. S."
+    title: Review of elephant endotheliotropic herpesviruses and acute hemorrhagic disease
+    authors: Long S. Y., Latimer E. M., Hayward G. S.
     year: 2016
   - id: ref_zong_2014
-    title: "Comparative genome analysis of four elephant endotheliotropic herpesviruses"
-    authors: "Zong J. C., Latimer E. M., Long S. Y., et al."
+    title: Comparative genome analysis of four elephant endotheliotropic herpesviruses
+    authors: Zong J. C., Latimer E. M., Long S. Y., et al.
     year: 2014
   - id: ref_howard_2018
-    title: "Elephant Endotheliotropic Herpesvirus. In Miller-Fowler's Zoo and Wild Animal Medicine Current Therapy, Volume 9"
-    authors: "Howard L. L., Schaftenaar W."
+    title: Elephant Endotheliotropic Herpesvirus. In Miller-Fowler's Zoo and Wild Animal Medicine Current Therapy, Volume 9
+    authors: Howard L. L., Schaftenaar W.
     year: 2018
   - id: ref_cracknell_2008
-    title: "Elephant Endotheliotropic Herpesvirus (EEHV) protocol"
-    authors: "Cracknell J."
+    title: Elephant Endotheliotropic Herpesvirus (EEHV) protocol
+    authors: Cracknell J.
     year: 2008
   - id: ref_perrin_2021
-    title: "Retrospective review of 27 European cases of fatal elephant endotheliotropic herpesvirus-haemorrhagic disease reveals evidence of disseminated intravascular coagulation"
-    authors: "Perrin K. L., Kristensen A. T., Bertelsen M. F., Denk D."
+    title: Retrospective review of 27 European cases of fatal elephant endotheliotropic herpesvirus-haemorrhagic disease reveals evidence of disseminated intravascular coagulation
+    authors: Perrin K. L., Kristensen A. T., Bertelsen M. F., Denk D.
     year: 2021
   - id: ref_richman_1999
-    title: "Novel endotheliotropic herpesviruses fatal for Asian and African elephants"
-    authors: "Richman L. K., Montali R. J., Garber R. L., et al."
+    title: Novel endotheliotropic herpesviruses fatal for Asian and African elephants
+    authors: Richman L. K., Montali R. J., Garber R. L., et al.
     year: 1999
   - id: ref_guntawang_2021
-    title: "Pathogenesis of hemorrhagic disease caused by elephant endotheliotropic herpesvirus (EEHV) in Asian elephants (Elephas maximus)"
-    authors: "Guntawang T., Sittisak T., Kochagul V., et al."
+    title: Pathogenesis of hemorrhagic disease caused by elephant endotheliotropic herpesvirus (EEHV) in Asian elephants (Elephas maximus)
+    authors: Guntawang T., Sittisak T., Kochagul V., et al.
     year: 2021
   - id: ref_dastjerdi_2016
-    title: "Surviving and fatal elephant endotheliotropic herpesvirus-1A infections in juvenile Asian elephants"
-    authors: "Dastjerdi A., Seilern-Moy K., Darpel K., et al."
+    title: Surviving and fatal elephant endotheliotropic herpesvirus-1A infections in juvenile Asian elephants
+    authors: Dastjerdi A., Seilern-Moy K., Darpel K., et al.
     year: 2016
   - id: ref_fuery_2020
-    title: "Lethal hemorrhagic disease and clinical illness associated with elephant endotheliotropic herpesvirus 1 are caused by primary infection"
-    authors: "Fuery A., Pursell T., Tan J., et al."
+    title: Lethal hemorrhagic disease and clinical illness associated with elephant endotheliotropic herpesvirus 1 are caused by primary infection
+    authors: Fuery A., Pursell T., Tan J., et al.
     year: 2020
   - id: ref_sripiboon_2020
-    title: "Subclinical infection of captive Asian elephants (Elephas maximus) in Thailand with elephant endotheliotropic herpesvirus"
-    authors: "Sripiboon S., Ditcham W., Vaughan-Higgins R., et al."
+    title: Subclinical infection of captive Asian elephants (Elephas maximus) in Thailand with elephant endotheliotropic herpesvirus
+    authors: Sripiboon S., Ditcham W., Vaughan-Higgins R., et al.
     year: 2020
   - id: ref_hoornweg_2021
-    title: "Elephant endotheliotropic herpesvirus is omnipresent in elephants in European zoos and an Asian elephant range country"
-    authors: "Hoornweg T. E., Schaftenaar W., Maurer G., van den Doel P. B., et al."
+    title: Elephant endotheliotropic herpesvirus is omnipresent in elephants in European zoos and an Asian elephant range country
+    authors: Hoornweg T. E., Schaftenaar W., Maurer G., van den Doel P. B., et al.
     year: 2021
 ---
 
@@ -66,7 +72,6 @@ references:
 Эндотелиотропный герпесвирус слонов (EEHV / Elephant Endotheliotropic Herpesvirus) является наиболее опасным патогеном, вызывающим молниеносную системную геморрагическую болезнь (EEHV-HD) с летальностью до **80–85%** у молодых азиатских слонов (*Elephas maximus*)[^1][^3][^8]. Заболевание характеризуется стремительной деструкцией эндотелия кровеносных сосудов, каскадной коагулопатией потребления (ДВС-синдром), массивным выходом плазмы в интерстиций и гибелью животного от декомпенсированного гиповолемического шока в течение **12–72 часов** после появления первых клинических симптомов[^1][^7][^8]. Данная монография систематизирует современные клинические данные и регламентирует экстренные терапевтические протоколы реанимации и специфического противовирусного лечения[^1][^5].
 
 ---
-
 ## 1. Вирусологическая классификация и молекулярная эпидемиология EEHV
 
 Эндотелиотропный герпесвирус слонов (EEHV) представляет собой высокоспециализированное семейство двухцепочечных ДНК-содержащих вирусов, классифицированных в рамках подсемейства бетагерпесвирусов (**Betaherpesvirinae**) и выделенных в отдельный род пробосцивирусов (**Proboscivirus**)[^1][^5][^8].
@@ -99,7 +104,6 @@ references:
 *   **Фульминантное поражение молодняка:** Острая форма геморрагической болезни (EEHV-HD) поражает исключительно молодых слонят в возрасте от **1 до 8 лет** (пиковая уязвимость — **2–4 года**)[^1][^5]. Этот феномен напрямую связан с угасанием колострального (материнского) иммунитета и падением титра материнских нейтрализующих антител класса IgG, происходящим примерно к **36 месяцам жизни**[^1][^11]. Любой сильный психосоциальный триггер (отлучение от матери, транспортировка, начало тренинга, интеркуррентные инвазии) вызывает всплеск эндогенного кортизола, подавляющий клеточный иммунитет и запускающий лавинообразную реактивацию и репликацию вируса[^1][^11].
 
 ---
-
 ## 2. Патофизиология системного геморрагического синдрома
 
 Сверхвысокая летальность EEHV-HD обусловлена уникальным тканевым и клеточным тропизмом вируса к клеткам сосудистого эндотелия и моноцитам[^9][^10]. Процесс разрушения сердечно-сосудистого русла развивается по каскадному сценарию[^7][^9]:
@@ -146,7 +150,6 @@ references:
 5.  **Геморрагический шок и асистолия:** Падение объема циркулирующей крови (ОЦК) из-за утечки и множественных геморрагий в брыжейку и паренхиму печени приводит к падению центрального венозного давления[^3][^7]. При патологоанатомическом исследовании (исследования Томаса Хильдебрандта и др.) обнаруживаются обширные петехиальные и экхиматозные кровоизлияния в эпикарде, миокарде и эндокарде, а также характерные внутриядерные тельца включений типа Cowdry А в сохранившихся эндотелиоцитах капилляров сердца[^3][^7][^9].
 
 ---
-
 ## 3. Клиническая симптоматика и ранняя лабораторная диагностика
 
 Молниеносный характер течения EEHV-HD оставляет клиницисту крайне узкое терапевтическое окно[^3][^10]. Если лечение начато после манифестации терминальных симптомов, выживаемость составляет не более **10–15%**; при старте терапии в продромальном периоде выживаемость достигает **60–70%**[^3][^10].
@@ -170,7 +173,6 @@ references:
 *   **Полевой LAMP-анализ:** При отсутствии доступа к стационарной qPCR-лаборатории ветеринарный персонал обязан использовать экспресс-наборы петлевой изотермической амплификации (LAMP)[^2]. Метод позволяет получить точный качественный ответ о наличии ДНК EEHV1A/1B в течение 60 минут непосредственно у вольера[^2].
 
 ---
-
 ## 4. Протоколы интенсивной терапии и ветеринарный менеджмент
 
 При выявлении виремии или критической тромбоцитопении ветеринарная бригада вводится в режим ургентной реанимации. Каждая минута промедления снижает шансы на выживание[^3][^10].
@@ -237,7 +239,6 @@ references:
     *   *Гастропротекция:* С учетом высокого риска стрессовых язв желудка и двенадцатиперстной кишки — Омепразол **0.7–1.4 мг/кг перорально (PO)** один раз в сутки[^3].
 
 ---
-
 ## 5. Протоколы трансфузии цельной крови и гипериммунной плазмы
 
 При падении уровня тромбоцитов до критического порога **<30 × 10⁹/л** и манифестации ДВС-синдрома трансфузия крови от иммунокомпетентного взрослого донора является единственным жизнеспасающим мероприятием, позволяющим восстановить факторы свертывания и тромбоцитарный пул[^1][^3].
@@ -257,14 +258,12 @@ references:
 *   **Регламент введения:** Внутривенно, через катетер 14–16G в ушной вене реципиента[^3]. Первые 15 минут скорость введения минимальна — **0.1 мл/кг/час** для оценки анафилактоидной реакции (контроль одышки, тахикардии, крапивницы)[[^1], [^3]]. При отсутствии реакций скорость плавно повышают до **1.0–2.0 мл/кг/час**[^3].
 
 ---
-
 ## Связанные знания
 * **[Неонатология слонят и раннее развитие](elephant-neonatology-and-calves.md)** — Особенности угасания материнского колострального иммунитета в период 24–36 месяцев жизни слоненка.
 * **[Кардиоваскулярная система и гемодинамика](../anatomy/cardiovascular-system-and-hemodynamics.md)** — Механизмы регуляции артериального давления и анатомия поверхностного венозного русла ушных раковин для катетеризации.
 * **[Анестезиология и иммобилизация слонов](chemical-immobilization-and-anesthesia.md)** — Протоколы применения буторфанола и доксапрама для седации при лечении EEHV-HD.
 
 ---
-
 ## Источники и литература
 [^1]: Takehana K., Kawakami S., Thitaram C., Matsuno K. (2022). Clinical review of Elephant endotheliotropic herpes virus (EEHV) associated disease in Asian elephants (*Elephas maximus*). *Japanese Journal of Zoo and Wildlife Medicine* / *Animals* 12, 1332.
 [^2]: Takehana K., Kinjyo T., Nemoto M., Matsuno K. (2019). Rapid and sensitive detection of elephant endotheliotropic herpesvirus 1 (EEHV1) in blood by loop-mediated isothermal amplification (LAMP). *Journal of Veterinary Medical Science*, 30, 504-507.

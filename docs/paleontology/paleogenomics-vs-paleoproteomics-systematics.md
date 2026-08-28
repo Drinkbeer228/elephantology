@@ -1,42 +1,50 @@
 ---
-title: "Палеогеномика vs палеопротеомика: разрешение филогенетических споров в систематике Proboscidea"
-description: "Академическая монография: сравнительный анализ методов палеогеномики (древняя ДНК) и палеопротеомики (коллаген I типа) в систематике хоботных. Разрешение эволюционных связей Palaeoloxodon, Mammuthus, Loxodonta и Elephas."
-category: "paleontology"
-tags: ["палеогеномика", "палеопротеомика", "коллаген", "древняя ДНК", "Palaeoloxodon", "мамонты", "филогения", "Palkopoulou"]
+title: 'Палеогеномика vs палеопротеомика: разрешение филогенетических споров в систематике Proboscidea'
+description: 'Академическая монография: сравнительный анализ методов палеогеномики (древняя ДНК) и палеопротеомики (коллаген I типа) в систематике хоботных. Разрешение эволюционных связей Palaeoloxodon, Mammuthus, Loxodonta и Elephas.'
+category: paleontology
+tags:
+  - палеогеномика
+  - палеопротеомика
+  - коллаген
+  - древняя ДНК
+  - Palaeoloxodon
+  - мамонты
+  - филогения
+  - Palkopoulou
 difficulty: advanced
 evidence_level: established
 reading_time_min: 17
-last_reviewed: "2026-08-27"
+last_reviewed: '2026-08-27'
 related_knowledge:
-  - "paleontology/isotopic-paleoecology-of-pleistocene-megafauna-v2.md"
-  - "taxonomy/proboscidea-paleontology-and-trunk-evolution.md"
-  - "ecology/comparative-genomics-and-cancer-resistance.md"
+  - paleontology/isotopic-paleoecology-of-pleistocene-megafauna-v2.md
+  - taxonomy/proboscidea-paleontology-and-trunk-evolution.md
+  - ecology/comparative-genomics-and-cancer-resistance.md
 references:
-  - id: "ref_palkopoulou_2018"
-    title: "A comprehensive genomic history of extinct and living elephants"
-    authors: "Palkopoulou E., Lipson M., Mallick S., et al."
+  - id: ref_palkopoulou_2018
+    title: A comprehensive genomic history of extinct and living elephants
+    authors: Palkopoulou E., Lipson M., Mallick S., et al.
     year: 2018
-    doi: "10.1073/pnas.1720554115"
-  - id: "ref_meyer_2017"
-    title: "Palaeogenomes of Eurasian straight-tusked elephants challenge the current view of elephant evolution"
-    authors: "Meyer M., Palkopoulou E., Baleka S., et al."
+    doi: 10.1073/pnas.1720554115
+  - id: ref_meyer_2017
+    title: Palaeogenomes of Eurasian straight-tusked elephants challenge the current view of elephant evolution
+    authors: Meyer M., Palkopoulou E., Baleka S., et al.
     year: 2017
-    doi: "10.7554/eLife.25413"
-  - id: "ref_buckley_2009"
-    title: "Species identification of archaeological bone by collagen mass fingerprinting"
-    authors: "Buckley M., Collins M., Thomas-Oates J., et al."
+    doi: 10.7554/eLife.25413
+  - id: ref_buckley_2009
+    title: Species identification of archaeological bone by collagen mass fingerprinting
+    authors: Buckley M., Collins M., Thomas-Oates J., et al.
     year: 2009
-    doi: "10.1002/rcm.4310"
-  - id: "ref_cappellini_2012"
-    title: "Proteomic analysis of a Pleistocene mammoth femur reveals more than one hundred ancient proteins"
-    authors: "Cappellini E., Jensen L. J., Szklarczyk D., et al."
+    doi: 10.1002/rcm.4310
+  - id: ref_cappellini_2012
+    title: Proteomic analysis of a Pleistocene mammoth femur reveals more than one hundred ancient proteins
+    authors: Cappellini E., Jensen L. J., Szklarczyk D., et al.
     year: 2012
-    doi: "10.1021/pr200721u"
-  - id: "ref_welker_2015"
-    title: "Ancient proteins resolve the evolutionary history of Darwin’s South American ungulates"
-    authors: "Welker F., Pinilla-Bona F. M., Gardeisen A., et al."
+    doi: 10.1021/pr200721u
+  - id: ref_welker_2015
+    title: Ancient proteins resolve the evolutionary history of Darwin’s South American ungulates
+    authors: Welker F., Pinilla-Bona F. M., Gardeisen A., et al.
     year: 2015
-    doi: "10.1038/nature14249"
+    doi: 10.1038/nature14249
 ---
 
 ## Кратко
@@ -93,7 +101,6 @@ references:
 2.  **Тройная гибридизация *Palaeoloxodon*:** Геном прямобивневого слона несет в себе следы древнего смешения трех линий: до $35\text{–}42\%$ его ядерного генома происходит от предковой линии, общей с лесным слоном; еще часть получена в результате скрещивания с шерстистым мамонтом (*M. primigenius*), а остаток — от базальной западноафриканской линии слонов [^ref_palkopoulou_2018][^ref_meyer_2017].
 
 ---
-
 ### 2. Палеопротеомика и кристаллическая броня коллагена
 
 При переходе через временной порог в $1.0\text{–}1.5\text{ млн лет}$ в умеренных и теплых климатических зонах ДНК полностью деградирует из-за гидролитических разрывов фосфодиэфирного скелета [^ref_meyer_2017][^ref_welker_2015]. В этой палеонтологической зоне единственным источником молекулярных данных становится палеопротеомика [^ref_welker_2015].
@@ -123,7 +130,6 @@ references:
 Хотя коллаген эволюционирует медленнее ДНК (из-за жестких структурных ограничений триплетной спирали), специфические аминокислотные замены позволяют надежно идентифицировать видовую и родовую принадлежность фрагментов костей [^ref_buckley_2009]. Сравнительный анализ пептидных карт коллагена вымерших хоботных (включая миоценовых гомфотериев и плиоценовых ананкусов) показал высокую точность разделения таксонов на филогенетическом древе и подтвердил монофилию семейства *Elephantidae* [^ref_buckley_2009][^ref_welker_2015].
 
 ---
-
 ### 3. Биоинформатическая реконструкция и сверка молекулярных деревьев
 
 Объединение палеогеномных и палеопротеомических данных накладывает жесткие требования на биоинформатический анализ. Построение филогенетических деревьев проводится по двум различным матрицам:
@@ -175,7 +181,7 @@ $$\tau_{\text{divergence}} = \frac{D_{\text{xy}} - (\theta_{\text{anc1}} + \thet
 * **[Палеонтология и филогенетическая радиация Proboscidea](taxonomy/proboscidea-paleontology-and-trunk-evolution.md)** — Сравнительно-анатомический анализ эволюции зубов, бивней и скелета хоботных.
 * **[Сравнительная геномика, парадокс Пето и онкорезистентность Elephantidae](ecology/comparative-genomics-and-cancer-resistance.md)** — Эволюционные механизмы защиты генома от повреждений и экспрессия ретрогенов TP53/LIF6.
 
-## Библиография
+## 📚 Литература
 
 [^ref_palkopoulou_2018]: Palkopoulou E., Lipson M., Mallick S., Nielsen S., Rohland N., Baleka S., ... & Reich D. (2018). A comprehensive genomic history of extinct and living elephants. *Proceedings of the National Academy of Sciences (PNAS)*, 115(11), E1992-E1999. DOI: [10.1073/pnas.1720554115](https://doi.org/10.1073/pnas.1720554115)
 [^ref_meyer_2017]: Meyer M., Palkopoulou E., Baleka S., Hayashi H., Shipley A. E., Indriolo A., ... & Hofreiter M. (2017). Palaeogenomes of Eurasian straight-tusked elephants challenge the current view of elephant evolution. *eLife*, 6, e25413. DOI: [10.7554/eLife.25413](https://doi.org/10.7554/eLife.25413)

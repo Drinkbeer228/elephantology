@@ -1,39 +1,48 @@
 ---
-title: "Сакральные «белые слоны» Юго-Восточной Азии: генетика лейкизма, селекционный инбридинг и популяционный тупик captive-разведения"
-description: "Академическая монография: социокультурная сакрализация фенотипа Чанпхуак в ЮВА, мутации генов TYR, SLC45A2 и KIT, инбредная депрессия, утрата гетерозиготности и демографический коллапс королевских питомников."
-category: "culture"
-tags: ["белые слоны", "чанпхуак", "лейкизм", "альбинизм", "инбридинг", "инбредная депрессия", "Elephas maximus", "TYR", "SLC45A2"]
+title: 'Сакральные «белые слоны» Юго-Восточной Азии: генетика лейкизма, селекционный инбридинг и популяционный тупик captive-разведения'
+description: 'Академическая монография: социокультурная сакрализация фенотипа Чанпхуак в ЮВА, мутации генов TYR, SLC45A2 и KIT, инбредная депрессия, утрата гетерозиготности и демографический коллапс королевских питомников.'
+category: culture
+tags:
+  - белые слоны
+  - чанпхуак
+  - лейкизм
+  - альбинизм
+  - инбридинг
+  - инбредная депрессия
+  - Elephas maximus
+  - TYR
+  - SLC45A2
 difficulty: advanced
 evidence_level: established
 reading_time_min: 16
-last_reviewed: "2026-08-27"
+last_reviewed: '2026-08-27'
 related_knowledge:
-  - "culture/historical-anthropology-and-cultural-domestication.md"
-  - "genomics/mhc-immunogenomics-and-eehv-resistance.md"
-  - "ecology/population-genetics-and-phylogeography.md"
+  - culture/historical-anthropology-and-cultural-domestication.md
+  - genomics/mhc-immunogenomics-and-eehv-resistance.md
+  - ecology/population-genetics-and-phylogeography.md
 references:
-  - id: "ref_trautmann_2015"
-    title: "Elephants and Kings: An Environmental History"
-    authors: "Trautmann T. R."
+  - id: ref_trautmann_2015
+    title: 'Elephants and Kings: An Environmental History'
+    authors: Trautmann T. R.
     year: 2015
-  - id: "ref_sukumar_2003"
-    title: "The Living Elephants: Evolutionary Ecology, Behaviour, and Conservation"
-    authors: "Sukumar R."
+  - id: ref_sukumar_2003
+    title: 'The Living Elephants: Evolutionary Ecology, Behaviour, and Conservation'
+    authors: Sukumar R.
     year: 2003
-    doi: "10.1093/oso/9780195107784.001.0001"
-  - id: "ref_lacy_1993"
-    title: "VORTEX: a computer simulation model for population viability analysis"
-    authors: "Lacy R. C."
+    doi: 10.1093/oso/9780195107784.001.0001
+  - id: ref_lacy_1993
+    title: 'VORTEX: a computer simulation model for population viability analysis'
+    authors: Lacy R. C.
     year: 1993
-  - id: "ref_lamont_2020"
-    title: "Genetics of coat color variation in mammals"
-    authors: "Lamont S. et al."
+  - id: ref_lamont_2020
+    title: Genetics of coat color variation in mammals
+    authors: Lamont S. et al.
     year: 2020
-  - id: "ref_mar_2012"
-    title: "The effects of working life history on mortality of timber elephants in Myanmar"
-    authors: "Mar K. U. et al."
+  - id: ref_mar_2012
+    title: The effects of working life history on mortality of timber elephants in Myanmar
+    authors: Mar K. U. et al.
     year: 2012
-    doi: "10.1111/j.1469-1795.2012.00537.x"
+    doi: 10.1111/j.1469-1795.2012.00537.x
 ---
 
 ## Кратко
@@ -74,7 +83,6 @@ references:
 Для признания животного сакральным королевская комиссия брахманов и ветеринаров проводила строгую верификацию по древним трактатам (*Gajasastra* / *Tamra Chang*) [^ref_trautmann_2015]. Животные, удовлетворявшие всем семи каноническим критериям, освобождались от любых физических работ, получали королевские титулы, личную свиту из десятков слуг, золотые попоны и размещались в роскошных конюшнях при дворце [^ref_trautmann_2015].
 
 ---
-
 ### 2. Молекулярная генетика депигментации: лейкизм vs глазокожный альбинизм
 
 В строгом зоологическом смысле «белые слоны» не являются белоснежными; их фенотип варьирует от розовато-серого до кремового и светло-кофейного с выраженными участками гипопигментации на ушах, хоботе и плечах [^ref_sukumar_2003]. Данный фенотип является проявлением нарушений синтеза пигмента меланина [^ref_lamont_2020].
@@ -110,7 +118,6 @@ references:
 Оба типа мутаций наследуются по **классическому менделевскому аутосомно-рецессивному типу** [^ref_lamont_2020]. Для проявления признака особь должна быть гомозиготна по рецессивному аллелю ($aa$). В гетерозиготном состоянии ($Aa$) фенотип животного визуально неотличим от нормы, что делало невозможным прогнозирование появления белых слонят в условиях традиционного содержания [^ref_sukumar_2003].
 
 ---
-
 ### 3. Популяционная генетика: инбридинг и утрата гетерозиготности в captive-питомниках
 
 Желание монархических дворов постоянно иметь при себе сакральных животных стимулировало попытки их близкородственного разведения в неволе [^ref_trautmann_2015]. Однако изоляция единичных особей в королевских конюшнях создала классические условия **демографического и генетического бутылочного горлышка** [^ref_lacy_1993].
@@ -144,7 +151,6 @@ $$H_t = H_0 \left(1 - \frac{1}{2N_e}\right)^t$$
 *   **Иммунологический коллапс:** Гомозиготизация локусов главного комплекса гистосовместимости (MHC) делала слонят беззащитными перед эндотелиотропным герпесвирусом EEHV и бактериальными энтеритами, что приводило к $100\%$ смертности молодняка в возрасте до 4 лет [^ref_mar_2012].
 
 ---
-
 ### 4. Этологическая деградация и парадокс «Белого слона»
 
 Содержание слонов в условиях сакрального культа нанесло тяжелейший урон их физиологии и этологической структуре [^ref_trautmann_2015]. Королевский статус запрещал использование слонов на физических работах и прогулках, превращая их жизнь в пожизненную изоляцию в закрытых стойлах [^ref_trautmann_2015].
@@ -182,7 +188,7 @@ $$H_t = H_0 \left(1 - \frac{1}{2N_e}\right)^t$$
 * **[Иммуногеномика Elephantidae и устойчивость к герпесвирусу EEHV](genomics/mhc-immunogenomics-and-eehv-resistance.md)** — Механизмы утраты иммунного полиморфизма при близкородственном скрещивании.
 * **[Популяционная генетика, филогеография и геномика сохранения Elephantidae](ecology/population-genetics-and-phylogeography.md)** — Математические модели генетического дрейфа и расчет эффективного размера популяций.
 
-## Библиография
+## 📚 Литература
 
 [^ref_trautmann_2015]: Trautmann T. R. (2015). *Elephants and Kings: An Environmental History*. University of Chicago Press, Chicago. 416 pp.
 [^ref_sukumar_2003]: Sukumar R. (2003). *The Living Elephants: Evolutionary Ecology, Behaviour, and Conservation*. Oxford University Press, Oxford. 488 pp. DOI: [10.1093/oso/9780195107784.001.0001](https://doi.org/10.1093/oso/9780195107784.001.0001)

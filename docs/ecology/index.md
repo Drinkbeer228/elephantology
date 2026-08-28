@@ -1,12 +1,12 @@
 ---
-title: "Экология и социальная психология"
-evidence_level: 'established'
-description: "Влияние браконьерства, culling и потери миграционных коридоров на популяции слонов: ПТСР, синдром «Elephant Breakdown», генетика и изоляция."
+title: Экология и социальная психология
+evidence_level: established
+description: 'Влияние браконьерства, culling и потери миграционных коридоров на популяции слонов: ПТСР, синдром «Elephant Breakdown», генетика и изоляция.'
 tags:
   - экология
   - обзор
 difficulty: beginner
-last_reviewed: 2026-07-23
+last_reviewed: '2026-07-23'
 ---
 
 # Экология и социальная психология

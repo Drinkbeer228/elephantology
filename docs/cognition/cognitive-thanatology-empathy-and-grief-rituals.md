@@ -1,48 +1,55 @@
 ---
-title: "Когнитивная танатология, эмпатические коалиции и ритуалы скорби у Elephantidae: нейробиологические механизмы распознавания смерти и этология утешения"
-description: "Академическая монография: когнитивные и нейробиологические основы танатоэтологии и эмпатии слонов. Экспериментальные доказательства распознавания останков (MSR/skulls), веретеновидные нейроны фон Экономо, механизмы консоляции и психосоциальная терапия сирот."
-category: "cognition"
-tags: ["танатология", "эмпатия", "нейробиология", "нейроны фон Экономо", "консоляция", "Loxodonta africana", "исследования Маккомб"]
+title: 'Когнитивная танатология, эмпатические коалиции и ритуалы скорби у Elephantidae: нейробиологические механизмы распознавания смерти и этология утешения'
+description: 'Академическая монография: когнитивные и нейробиологические основы танатоэтологии и эмпатии слонов. Экспериментальные доказательства распознавания останков (MSR/skulls), веретеновидные нейроны фон Экономо, механизмы консоляции и психосоциальная терапия сирот.'
+category: cognition
+tags:
+  - танатология
+  - эмпатия
+  - нейробиология
+  - нейроны фон Экономо
+  - консоляция
+  - Loxodonta africana
+  - исследования Маккомб
 difficulty: advanced
 evidence_level: established
 reading_time_min: 16
-last_reviewed: "2026-08-27"
+last_reviewed: '2026-08-27'
 related_knowledge:
-  - "cognition/cognitive-architecture-and-self-awareness.md"
-  - "ethogram/comprehensive-ethogram-behavioral-catalogue.md"
-  - "veterinary/captive-welfare-and-protected-contact.md"
-  - "ethogram/trauma-and-social-learning-breakdown.md"
+  - cognition/cognitive-architecture-and-self-awareness.md
+  - ethogram/comprehensive-ethogram-behavioral-catalogue.md
+  - veterinary/captive-welfare-and-protected-contact.md
+  - ethogram/trauma-and-social-learning-breakdown.md
 references:
-  - id: "ref_mccomb_2006"
-    title: "African elephants show high levels of interest in the skulls and ivory of their own species"
-    authors: "McComb K., Baker L., Moss C."
+  - id: ref_mccomb_2006
+    title: African elephants show high levels of interest in the skulls and ivory of their own species
+    authors: McComb K., Baker L., Moss C.
     year: 2006
-    doi: "10.1098/rsbl.2005.0400"
-  - id: "ref_plotnik_2014"
-    title: "Asian elephants (Elephas maximus) show post-distress consolation"
-    authors: "Plotnik J. M., de Waal F. B. M."
+    doi: 10.1098/rsbl.2005.0400
+  - id: ref_plotnik_2014
+    title: Asian elephants (Elephas maximus) show post-distress consolation
+    authors: Plotnik J. M., de Waal F. B. M.
     year: 2014
-    doi: "10.7717/peerj.278"
-  - id: "ref_douglas_hamilton_2006"
-    title: "Behavioural reactions of elephants towards a dying and deceased matriarch"
-    authors: "Douglas-Hamilton I. et al."
+    doi: 10.7717/peerj.278
+  - id: ref_douglas_hamilton_2006
+    title: Behavioural reactions of elephants towards a dying and deceased matriarch
+    authors: Douglas-Hamilton I. et al.
     year: 2006
-    doi: "10.1016/j.applanim.2006.04.014"
-  - id: "ref_hof_2005"
-    title: "Von Economo neurons in the anterior cingulate and frontoinsular cortex of elephants"
-    authors: "Hof P. R., Sherwood C. C."
+    doi: 10.1016/j.applanim.2006.04.014
+  - id: ref_hof_2005
+    title: Von Economo neurons in the anterior cingulate and frontoinsular cortex of elephants
+    authors: Hof P. R., Sherwood C. C.
     year: 2005
-    doi: "10.1007/s00429-005-0013-0"
-  - id: "ref_goldenberg_2020"
-    title: "Reactions of African elephants (Loxodonta africana) to conspecific carcasses of different times since death"
-    authors: "Goldenberg S. Z., Wittemyer G."
+    doi: 10.1007/s00429-005-0013-0
+  - id: ref_goldenberg_2020
+    title: Reactions of African elephants (Loxodonta africana) to conspecific carcasses of different times since death
+    authors: Goldenberg S. Z., Wittemyer G.
     year: 2020
-    doi: "10.1002/ece3.5939"
-  - id: "ref_bates_2008"
-    title: "Do elephants show empathy?"
-    authors: "Bates L. A. et al."
+    doi: 10.1002/ece3.5939
+  - id: ref_bates_2008
+    title: Do elephants show empathy?
+    authors: Bates L. A. et al.
     year: 2008
-    doi: "10.1016/j.cub.2008.04.062"
+    doi: 10.1016/j.cub.2008.04.062
 ---
 
 ## Кратко
@@ -93,7 +100,6 @@ $$I_A = \frac{T_{\mathrm{conspecific}}}{T_{\mathrm{control}}} \approx 5.43$$
 При этом слоны демонстрировали прецизионное обследование кончиком хобота краниальных швов, скуловых дуг и альвеолярных лож бивней [^ref_mccomb_2006]. Напротив, в эксперименте 3 слоны не выявили достоверной избирательности к черепу своего родственника по сравнению с незнакомой особью ($p > 0.05$) [^ref_mccomb_2006]. Это доказывает, что слоны распознают останки сородичей на *обобщенном надиндивидуальном уровне*, идентифицируя их как категорию «свой вид», а не по специфическому следу индивидуального запаха на сухих костях [^ref_mccomb_2006].
 
 ---
-
 ### 2. Патофизиология и этология траурных реакций у постели умирающего
 
 Когда член семейной группы (особенно доминантная самка или новорожденный детеныш) переходит в терминальную стадию агонии, этологическая структура стада претерпевает кардинальную перестройку [^ref_douglas_hamilton_2006]. В отличие от стадных копытных, покидающих ослабленных особей при приближении хищников, слоны инициируют каскад когнитивно координируемой помощи (targeted helping) [^ref_douglas_hamilton_2006][^ref_bates_2008].
@@ -115,7 +121,6 @@ $$C(z, t) = C_0 \cdot \operatorname{erfc}\left(\frac{z}{2\sqrt{D \cdot t}}\right
 Это имеет прямое эволюционное значение, предотвращая привлечение крупных хищников и падальщиков в ядро индивидуального участка семьи.
 
 ---
-
 ### 3. Нейробиология эмпатии: цитоархитектоника коры и ретроградная проекция
 
 Нейроанатомическим фундаментом сложных эмпатических реакций, зеркального самосознания (MSR) и модели психического у Elephantidae служит уникальное строение их неокортекса [^ref_hof_2005]. 
@@ -153,7 +158,6 @@ VENs функционируют как координаторы быстрых �
 Абсолютный объем гиппокампа слонов ($\approx 105.4\text{ cm}^3$) в сочетании с высоким глиальным индексом коры обеспечивает глубокую эпизодическую память [^ref_hof_2005]. Эмпатический ответ реципрокно координируется через амигдалярный тракт, связывающий долговременную память о социальном статусе погибшего соматического партнера с вегетативными реакциями скорби (рост FGM, падение ЧСС, апатия).
 
 ---
-
 ### 4. Этология консоляции (утешения) и оперантные каскады
 
 Консоляция — это аффилиативное поведение свидетеля (*bystander*) по отношению к жертве недавнего стрессового инцидента (агрессии доминанта или испуга) [^ref_plotnik_2014]. В исследованиях Plotnik & de Waal на азиатских слонах было экспериментально доказано, что консоляция имеет направленный характер и значимо снижает уровень тревожности реципиента [^ref_plotnik_2014].
@@ -173,7 +177,6 @@ $$P_C = \frac{1}{1 + e^{-(\beta_0 + \beta_1 \cdot S_I - \beta_2 \cdot R_S)}}$$
 3. **Chirp vocalization (Высокочастотное чириканье):** Акустический фильтр, блокирующий инфразвуковые сигналы страха [^ref_plotnik_2014].
 
 ---
-
 ### 5. Клинико-психологические девиации и терапия слоновьего ПТСР
 
 Разрушение естественной социальной архитектуры (санитарные отстрелы, браконьерство) наносит хоботным тяжелейшую трансгенерационную травму, разрушая механизмы вертикальной передачи знаний и провоцируя развитие синдрома **Elephant Breakdown (слоновьего ПТСР)** [^ref_douglas_hamilton_2006].
@@ -227,7 +230,7 @@ $$P_C = \frac{1}{1 + e^{-(\beta_0 + \beta_1 \cdot S_I - \beta_2 \cdot R_S)}}$$
 * **[Систематический этологический каталог и поведенческий репертуар Elephantidae](ethogram/comprehensive-ethogram-behavioral-catalogue.md)** — Стандартизированная классификация поведенческих актов, включая приветственные и агонистические демонстрации.
 * **[Транслокация, реинтродукция и управление метапопуляциями Elephantidae](conservation/translocation-reintroduction-and-metapopulations.md)** — Логистика и ветеринарные протоколы переселения семейных кланов и реанимация при иммобилизации.
 
-## Библиография
+## 📚 Литература
 
 [^ref_mccomb_2006]: McComb K., Baker L., Moss C. (2006). African elephants show high levels of interest in the skulls and ivory of their own species. *Biology Letters*, 2(1), 26-28. DOI: [10.1098/rsbl.2005.0400](https://doi.org/10.1098/rsbl.2005.0400)
 [^ref_plotnik_2014]: Plotnik J. M., de Waal F. B. M. (2014). Asian elephants (*Elephas maximus*) show post-distress consolation. *PeerJ*, 2, e278. DOI: [10.7717/peerj.278](https://doi.org/10.7717/peerj.278)

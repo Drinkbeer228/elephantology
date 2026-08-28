@@ -1,7 +1,7 @@
 ---
-title: "Эволюционная танатология и эмпатия у Elephantidae: интерес к останкам сородичей, ритуалы погребения и утешительное поведение"
-evidence_level: 'moderate'
-description: "Настоящая монография систематизирует научные данные об эволюционной танатологии — уникальном этологическом феномене избирательного интереса слонов к останкам умерших сородичей, а также о нейробиологических основах эмпатии и целенаправленного утешения."
+title: 'Эволюционная танатология и эмпатия у Elephantidae: интерес к останкам сородичей, ритуалы погребения и утешительное поведение'
+evidence_level: moderate
+description: Настоящая монография систематизирует научные данные об эволюционной танатологии — уникальном этологическом феномене избирательного интереса слонов к останкам умерших сородичей, а также о нейробиологических основах эмпатии и целенаправленного утешения.
 category: cognition
 difficulty: advanced
 reading_time_min: 15
@@ -11,31 +11,31 @@ tags:
   - von-economo-neurons
   - ptsd
   - social-cognition
-last_reviewed: 2026-08-23
+last_reviewed: '2026-08-23'
 references:
   - id: ref_mccomb_2006
-    title: "African elephants show high levels of interest in the skulls and ivory of their own species"
-    authors: "McComb K., Baker L., Moss C."
+    title: African elephants show high levels of interest in the skulls and ivory of their own species
+    authors: McComb K., Baker L., Moss C.
     year: 2006
   - id: ref_moss_1988
-    title: "Elephant Memories: Thirteen Years in the Life of an Elephant Family"
-    authors: "Moss C. J."
+    title: 'Elephant Memories: Thirteen Years in the Life of an Elephant Family'
+    authors: Moss C. J.
     year: 1988
   - id: ref_plotnik_2014
-    title: "Asian elephants (Elephas maximus) show post-distress consolation"
-    authors: "Plotnik J. M., de Waal F. B. M."
+    title: Asian elephants (Elephas maximus) show post-distress consolation
+    authors: Plotnik J. M., de Waal F. B. M.
     year: 2014
   - id: ref_hof_2005
-    title: "Von Economo neurons in the anterior cingulate and frontoinsular cortex of elephants"
-    authors: "Hof P. R., Sherwood C. C."
+    title: Von Economo neurons in the anterior cingulate and frontoinsular cortex of elephants
+    authors: Hof P. R., Sherwood C. C.
     year: 2005
   - id: ref_bradshaw_2005
-    title: "Elephant breakdown: Social trauma: Early disruption of attachment can affect the physiology, behavior and social cohesion of elephants"
-    authors: "Bradshaw G. A., Schore A. N., Brown J. L., Poole J. H., Moss C. J."
+    title: 'Elephant breakdown: Social trauma: Early disruption of attachment can affect the physiology, behavior and social cohesion of elephants'
+    authors: Bradshaw G. A., Schore A. N., Brown J. L., Poole J. H., Moss C. J.
     year: 2005
   - id: ref_sheldrick_2016
-    title: "Elephant Orphans: Lessons in Rehabilitation and Trust"
-    authors: "Sheldrick D."
+    title: 'Elephant Orphans: Lessons in Rehabilitation and Trust'
+    authors: Sheldrick D.
     year: 2016
 ---
 
@@ -44,7 +44,6 @@ references:
 Интеллект и социальная структура хоботных (*Elephantidae*) опираются на мультимодальную систему коммуникации и когнитивные механизмы высокой сложности [^1]. Настоящая монография систематизирует научные данные об **эволюционной танатологии** — уникальном этологическом феномене избирательного интереса слонов к останкам умерших сородичей [^2], а также о нейробиологических основах **эмпатии и целенаправленного утешения (*targeted helping / consolation*)** [^3]. Понимание этих процессов критически важно для разработки современных клинических протоколов реабилитации осиротевших слонят, страдающих от посттравматического стрессового расстройства (ПТСР) [^4].
 
 ---
-
 ## Ключевые поведенческие маркеры
 
 Ниже приведена сводная сравнительная таблица танатологических и эмпатических поведенческих реакций слонов в сопоставлении с контрольными группами и научными источниками.
@@ -58,7 +57,6 @@ references:
 | **Целенаправленное утешение (*Consolation*)** | Тактильный контакт «хобот к рту» (*trunk-to-mouth*) и «хобот к височной железе», инфразвуковой сочувственный рокот [^3]. | Особи, испытавшие острый социальный стресс (после испуга или агрессии) [^3]. | Plotnik & de Waal, 2014 [^3]. |
 
 ---
-
 ## Эволюционная танатология и эмпатия слонов
 
 ### 1. Экспериментальная танатология: феномен распознавания останков
@@ -174,7 +172,6 @@ references:
 *   **[CLINICAL GUIDANCE] Ольфакторная и звуковая стабилизация**: Применение записей низкочастотных успокаивающих рокотов (*contact rumbles*) доминантных матриархов из дикой природы для подавления панических атак у вновь прибывших сирот [^11, ^15].
 
 ---
-
 ## Связанные знания
 
 *   **[Когнитивная этология и самосознание](cognitive-ethology-and-self-awareness.md)** — Подробный разбор зеркального теста Плотника, нейробиологии инсайта и использования орудий труда.
@@ -182,7 +179,6 @@ references:
 *   **[Сенсорный умвельт хоботных](sensory_umwelt.md)** — Механизмы тактильного восприятия стоп и хобота, анатомия органа Якобсона и вибросенсорные рецепторы.
 
 ---
-
 ## Источники и литература
 
 [^1]: *Bates L. A., Poole J. H., Byrne R. W.* Elephant cognition. // Current Biology. — 2008. — Vol. 18, No. 13. — P. R544–R546.

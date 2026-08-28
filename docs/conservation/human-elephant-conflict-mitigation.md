@@ -1,7 +1,7 @@
 ---
-title: "Экология и поведенческий менеджмент конфликта «человек — слон» (HEC): агроэкологические барьеры, биодетерренция и предиктивные ГИС-модели"
-evidence_level: 'established'
-description: "Академическая монография о стратегиях смягчения конфликта «человек-слон» (HEC): пчелиные заборы, геофенсинг, ландшафтное планирование и биодетерренция."
+title: 'Экология и поведенческий менеджмент конфликта «человек — слон» (HEC): агроэкологические барьеры, биодетерренция и предиктивные ГИС-модели'
+evidence_level: established
+description: 'Академическая монография о стратегиях смягчения конфликта «человек-слон» (HEC): пчелиные заборы, геофенсинг, ландшафтное планирование и биодетерренция.'
 category: conservation
 difficulty: advanced
 reading_time_min: 15
@@ -12,30 +12,30 @@ tags:
   - mitigation
   - geofencing
   - conservation
-last_reviewed: 2026-08-24
+last_reviewed: '2026-08-24'
 references:
-  - id: "ref_sukumar_2003"
-    title: "The Living Elephants: Evolutionary Ecology, Behavior, and Conservation"
-    authors: "Sukumar R."
+  - id: ref_sukumar_2003
+    title: 'The Living Elephants: Evolutionary Ecology, Behavior, and Conservation'
+    authors: Sukumar R.
     year: 2003
-  - id: "ref_king_2007"
-    title: "Beehive fences as effective deterrents for crop-raiding African elephants"
-    authors: "King L. E., Lawrence D., Douglas-Hamilton I., Vollrath F."
+  - id: ref_king_2007
+    title: Beehive fences as effective deterrents for crop-raiding African elephants
+    authors: King L. E., Lawrence D., Douglas-Hamilton I., Vollrath F.
     year: 2007
-    doi: "10.1016/j.cub.2007.07.038"
-  - id: "ref_sitati_2003"
-    title: "Predicting spatial patterns of human-elephant conflict in the Masai Mara ecosystem, Kenya"
-    authors: "Sitati N. W., Walpole C. E., Smith R. J., Leader-Williams N."
+    doi: 10.1016/j.cub.2007.07.038
+  - id: ref_sitati_2003
+    title: Predicting spatial patterns of human-elephant conflict in the Masai Mara ecosystem, Kenya
+    authors: Sitati N. W., Walpole C. E., Smith R. J., Leader-Williams N.
     year: 2003
-    doi: "10.1046/j.1365-2664.2003.00844.x"
-  - id: "ref_fernando_2008"
-    title: "Community-based electric fencing as a mitigation tool for human-elephant conflict"
-    authors: "Fernando P., Kumar M. A., Williams A. C., et al."
+    doi: 10.1046/j.1365-2664.2003.00844.x
+  - id: ref_fernando_2008
+    title: Community-based electric fencing as a mitigation tool for human-elephant conflict
+    authors: Fernando P., Kumar M. A., Williams A. C., et al.
     year: 2008
-    doi: "10.1016/j.biocon.2008.05.023"
-  - id: "ref_wittemyer_2007"
-    title: "The influence of environment on systematic and seasonal patterns of elephant movement"
-    authors: "Wittemyer G., Getz W. M., Vollrath F., Douglas-Hamilton I."
+    doi: 10.1016/j.biocon.2008.05.023
+  - id: ref_wittemyer_2007
+    title: The influence of environment on systematic and seasonal patterns of elephant movement
+    authors: Wittemyer G., Getz W. M., Vollrath F., Douglas-Hamilton I.
     year: 2007
 ---
 
@@ -46,13 +46,11 @@ references:
 | **`ecology`** | **`advanced`** | **`CR / EN (IUCN)`** |
 
 ---
-
 ## Введение: Кризис совместного существования
 
 Конфликт «человек — слон» (*Human-Elephant Conflict*, HEC) представляет собой одну из наиболее острых экологических и социально-экономических проблем в ареалах обитания мегафауны Азии и Африки [^1]. Быстрая трансформация естественных ландшафтов, расширение сельскохозяйственных угодий и фрагментация исторических миграционных путей превращают соприкосновение человека и крупнейших наземных млекопитающих в зону перманентного кризиса [^2]. Традиционные жесткие методы защиты (отстрелы, изоляция в резерватах) доказали свою неэффективность и пагубное этологическое воздействие на структуру семейных групп [^3]. Понимание этологических триггеров и внедрение нелетальных методов ландшафтного управления — единственный путь сохранения жизнеспособных популяций слонов [^1][^4].
 
 ---
-
 ## 1. Этологические и экологические триггеры HEC
 
 ### Биоэнергетика и феномен набегов на посевы (*Crop-raiding*)
@@ -83,7 +81,6 @@ references:
 2.  **Матрилинейные семьи (Family Units)**: Самки с детенышами ведут себя крайне осторожно и прибегают к набегам исключительно в периоды критической нехватки ресурсов и пересыхания водопоев [^2][^4]. Их заходы на фермерские земли носят вынужденный характер и сопряжены с высоким стрессом из-за угрозы для жизни телят [^4].
 
 ---
-
 ## 2. Методы активной и пассивной детерренции
 
 Современные этологические подходы делятся на пассивную защиту границ и методы активного сенсорного воздействия для перенаправления движения стад [^2][^6].
@@ -104,7 +101,6 @@ references:
 *   **Этологическая адаптация к барьерам**: Высокоинтеллектуальные доминантные самцы научились обходить электроизгороди [^1][^9]. Они используют сухие деревянные бревна или поваленные деревья (не проводящие ток) в качестве диэлектриков, прижимая ими проволоку к земле, чтобы безопасно переступить периметр, или целенаправленно толкают молодых немастующих самцов на изгородь, ломая опоры [^9]. Ввиду этого современные ограждения усиливают глубоким заложением столбов и установкой опорных наклонных бивень-отбойников [^9].
 
 ---
-
 ## 3. Ландшафтная экология и пространственное планирование
 
 Долгосрочное решение проблемы HEC лежит вне плоскости локального отпугивания и требует перестройки всей ландшафтной структуры совместного проживания [^2][^4][^10].
@@ -137,7 +133,6 @@ references:
 4.  **Зона человеческой активности**: Фермерские поля с традиционными съедобными культурами [^1].
 
 ---
-
 ## 4. Технологический мониторинг и компенсационные программы
 
 ### Предиктивный мониторинг и геофенсинг
@@ -162,7 +157,6 @@ references:
     3.  *Создание общинных фондов страхования микрокредитования*: Финансирование из доходов от экотуризма и продажи «слоновьего» меда, что превращает присутствие слонов из угрозы в экономически выгодный ресурс для местного населения [^6][^12].
 
 ---
-
 ## Связанные знания
 
 *   **[Хоботные как инженеры экосистем](ecosystem-engineers-and-keystone-ecology.md)**: Понимание того, как ландшафтная активность слонов формирует гидрологические объекты и тропы, используемые для планирования коридоров связности.
@@ -170,7 +164,6 @@ references:
 *   **[Акустическая и инфразвуковая коммуникация](../ethogram/seismic-and-infrasonic-communication.md)**: Использование записей сигналов тревоги (например, bee-alarm) и вокализаций доминирующих особей для этологического управления движением стад.
 
 ---
-
 ## Справочные источники (References)
 
 [^1]: Sukumar, R. (2003). *The Living Elephants: Evolutionary Ecology, Behavior, and Conservation*. Oxford University Press.

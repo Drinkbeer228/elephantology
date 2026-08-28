@@ -1,32 +1,38 @@
 ---
-title: "Биогеография и климатическое моделирование ареалов хоботных: прогнозирование сокращения пригодных биотопов к 2070 году (MaxEnt, IPCC SSP-сценарии) и управление рефугиумами"
-evidence_level: 'established'
-description: "Научная монография, исследующая влияние глобального изменения климата на пространственное распределение азиатских и африканских слонов, математическое моделирование экологических ниш (MaxEnt) и стратегии адаптивного управления рефугиумами."
+title: 'Биогеография и климатическое моделирование ареалов хоботных: прогнозирование сокращения пригодных биотопов к 2070 году (MaxEnt, IPCC SSP-сценарии) и управление рефугиумами'
+evidence_level: established
+description: Научная монография, исследующая влияние глобального изменения климата на пространственное распределение азиатских и африканских слонов, математическое моделирование экологических ниш (MaxEnt) и стратегии адаптивного управления рефугиумами.
 category: ecology
-tags: [климатическое моделирование, MaxEnt, IPCC, биоклиматические переменные, коридоры, рефугиумы]
+tags:
+  - климатическое моделирование
+  - MaxEnt
+  - IPCC
+  - биоклиматические переменные
+  - коридоры
+  - рефугиумы
 difficulty: advanced
 reading_time_min: 12
-last_reviewed: 2026-08-23
+last_reviewed: '2026-08-23'
 references:
   - id: ref_de_2021
-    title: "Pan-India population genetics signifies the importance of habitat connectivity for wild Asian elephant conservation"
-    authors: "Rahul De, Reeta Sharma, Priya Davidar, et al."
+    title: Pan-India population genetics signifies the importance of habitat connectivity for wild Asian elephant conservation
+    authors: Rahul De, Reeta Sharma, Priya Davidar, et al.
     year: 2021
   - id: ref_sukumar_2003
-    title: "The Living Elephants: Evolutionary Ecology, Behavior, and Conservation"
-    authors: "Raman Sukumar"
+    title: 'The Living Elephants: Evolutionary Ecology, Behavior, and Conservation'
+    authors: Raman Sukumar
     year: 2003
   - id: ref_williams_2020
-    title: "Predicting the potential distribution of Asian elephants using MaxEnt"
-    authors: "Williams C., et al."
+    title: Predicting the potential distribution of Asian elephants using MaxEnt
+    authors: Williams C., et al.
     year: 2020
   - id: ref_slotow_2010
-    title: "Elephant management in South Africa: Declaring and managing climate refugia"
-    authors: "Rob Slotow, et al."
+    title: 'Elephant management in South Africa: Declaring and managing climate refugia'
+    authors: Rob Slotow, et al.
     year: 2010
   - id: ref_hannah_2014
-    title: "Conservation Biology: Climate Change and Range Dynamics of Megafauna"
-    authors: "Lee Hannah"
+    title: 'Conservation Biology: Climate Change and Range Dynamics of Megafauna'
+    authors: Lee Hannah
     year: 2014
 ---
 
@@ -53,7 +59,6 @@ references:
 *   **\\(Bio5\\) (Максимальная температура самого теплого месяца):** Критический триггер теплового стресса[^2]. При превышении \\(Bio5 > 42^\circ\text{C}\\) слоны вынуждены резко сокращать время дневной локомоции и концентрироваться исключительно вокруг глубоких водных рефугиумов[^2, ^4].
 
 ---
-
 ### 2. Сценарии IPCC и пространственный коллапс ареалов
 Согласно климатическим моделям Международной группы экспертов по изменению климата (*IPCC*), рассматривающим сценарии умеренных (*SSP2-4.5*) и экстремальных (*SSP5-8.5*) антропогенных выбросов, к 2070 году географические границы пригодных биотопов подвергнутся беспрецедентному сжатию[^1].
 
@@ -73,7 +78,6 @@ references:
 2.  **Северо-Западная Индия (NW — Шивалик, Катарниагхат):** Ожидаемая потеря биотопов составляет до **67.0%**[^1]. Здесь усыхание речных долин Тераи вызовет фрагментацию единого некогда коридора на мелкие разрозненные очаги.
 
 ---
-
 ### 3. Смещение ниши, высотная миграция и «климатические ловушки»
 Под воздействием роста температур слоны демонстрируют этологическую пластичность, смещая свои индивидуальные участки в сторону более прохладных микроклиматических зон[^2, ^4]. Однако в условиях Антропоцена этот пространственный сдвиг натыкается на непреодолимые препятствия:
 
@@ -97,7 +101,6 @@ references:
 ```
 
 ---
-
 ### 4. Климатическая адаптация и консервационный менеджмент
 
 Сохранение генетического и демографического потенциала хоботных в условиях климатического кризиса требует перехода от пассивной охраны заповедников к активному экологическому инжинирингу:

@@ -1,5 +1,6 @@
+import { load } from 'js-yaml';
+
 export function parseFrontmatter(md: string) {
-  let frontmatter = null;
   let content = typeof md === 'string' ? md : '';
   let metadata: any = {
     title: null,
@@ -16,81 +17,80 @@ export function parseFrontmatter(md: string) {
   };
 
   if (typeof md === 'string' && md.startsWith('---')) {
-    const parts = md.split('---');
+    const parts = md.split(/^---\s*$/m);
     if (parts.length >= 3) {
-      const fm = parts[1];
-      
-      const fmTitleMatch = fm.match(/^title:\s*["']?([^"'\n]+)["']?/m);
-      if (fmTitleMatch) metadata.title = fmTitleMatch[1].trim();
-
-      const fmExcerptMatch = fm.match(/^excerpt:\s*["']?([^"'\n]+)["']?/m) || fm.match(/^description:\s*["']?([^"'\n]+)["']?/m);
-      if (fmExcerptMatch) metadata.excerpt = fmExcerptMatch[1].trim();
-      
-      metadata.category = fm.match(/^category:\s*["']?([^"'\n]+)["']?/m)?.[1]?.trim() || null;
-      
-      const rtMatch = fm.match(/^reading_time_min:\s*(\d+)/m);
-      if (rtMatch) metadata.readingTimeMin = parseInt(rtMatch[1], 10);
-
-      metadata.evidenceLevel = fm.match(/^evidence_level:\s*["']?([^"'\n]+)["']?/m)?.[1]?.trim() || null;
-      metadata.difficulty = fm.match(/^difficulty:\s*["']?([^"'\n]+)["']?/m)?.[1]?.trim() || null;
-      metadata.lastReviewed = fm.match(/^last_reviewed:\s*["']?([^"'\n]+)["']?/m)?.[1]?.trim() || null;
-      
-      const tagsMatch = fm.match(/^tags:\s*\[(.*?)\]/m) || fm.match(/^keywords:\s*\[(.*?)\]/m);
-      if (tagsMatch) {
-          metadata.tags = tagsMatch[1].split(',').map((t: string) => t.trim().replace(/['"]/g, ''));
-      }
-
-      const rkMatch = fm.match(/^related_knowledge:\s*([\s\S]*?)(?=^[a-z_]+:|\Z)/mi);
-      if (rkMatch) {
-          const block = rkMatch[1];
-          const items = block.split(/\n\s*-\s*/).filter(Boolean);
-          items.forEach(item => {
-              const typeMatch = item.match(/type:\s*([a-zA-Z_]+)/);
-              const targetMatch = item.match(/target:\s*["']?([^"'\n]+)["']?/);
-              if (typeMatch && targetMatch) {
-                  let target = targetMatch[1].trim();
-                  if (target.startsWith('/')) target = target.substring(1);
-                  metadata.related_knowledge.push({ type: typeMatch[1].trim(), target });
-              }
-          });
-      }
-
-      // Parse references block
-      const refMatch = fm.match(/^references:\s*([\s\S]*?)(?=^[a-z_]+:|(?![\s\S]))/mi);
-      if (refMatch) {
-          const block = refMatch[1];
-          // Check if references are in YAML dict format (- id: ...) or simple list (- Author, Year)
-          if (block.includes('- id:')) {
-              const refItems = block.split(/(?:^|\n)\s*-\s+id:\s*/).filter(Boolean);
-              refItems.forEach(item => {
-                 const lines = item.split('\n').map(l => l.trim()).filter(Boolean);
-                 let refObj: any = { id: lines[0].trim() };
-                 lines.slice(1).forEach(l => {
-                     const kv = l.split(':');
-                     if (kv.length >= 2) {
-                         const key = kv[0].trim();
-                         const val = kv.slice(1).join(':').trim().replace(/^["']|["']$/g, '');
-                         refObj[key] = val;
-                     }
-                 });
-                 metadata.references.push(refObj);
-              });
-          } else {
-              // Simple list format: - Author, Year or - Full Citation string
-              const lines = block.split(/\n\s*-\s+/).filter(Boolean);
-              lines.forEach((line, idx) => {
-                 const clean = line.trim().replace(/^["']|["']$/g, '');
-                 if (clean) {
-                   metadata.references.push({
-                     id: `ref-${idx + 1}`,
-                     title: clean
-                   });
-                 }
-              });
-          }
-          metadata.referenceCount = metadata.references.length;
-      }
+      const fmText = parts[1];
       content = parts.slice(2).join('---').trim();
+
+      try {
+        const parsedFm = (load(fmText) || {}) as Record<string, any>;
+        
+        if (parsedFm.title) metadata.title = String(parsedFm.title).trim();
+        if (parsedFm.description || parsedFm.excerpt) {
+          metadata.excerpt = String(parsedFm.description || parsedFm.excerpt).trim();
+        }
+        if (parsedFm.category) metadata.category = String(parsedFm.category).trim();
+        if (parsedFm.difficulty) metadata.difficulty = String(parsedFm.difficulty).trim();
+        if (parsedFm.evidence_level || parsedFm.evidenceLevel) {
+          metadata.evidenceLevel = String(parsedFm.evidence_level || parsedFm.evidenceLevel).trim();
+        }
+        if (parsedFm.last_reviewed || parsedFm.lastReviewed) {
+          metadata.lastReviewed = String(parsedFm.last_reviewed || parsedFm.lastReviewed).trim();
+        }
+        if (parsedFm.reading_time_min || parsedFm.readingTimeMin) {
+          metadata.readingTimeMin = parseInt(parsedFm.reading_time_min || parsedFm.readingTimeMin, 10) || 5;
+        }
+
+        // Tags parsing
+        if (Array.isArray(parsedFm.tags)) {
+          metadata.tags = parsedFm.tags.map((t: any) => String(t).trim()).filter(Boolean);
+        } else if (typeof parsedFm.tags === 'string') {
+          metadata.tags = parsedFm.tags.split(',').map((t: string) => t.trim()).filter(Boolean);
+        } else if (Array.isArray(parsedFm.keywords)) {
+          metadata.tags = parsedFm.keywords.map((t: any) => String(t).trim()).filter(Boolean);
+        }
+
+        // Related knowledge parsing
+        if (Array.isArray(parsedFm.related_knowledge)) {
+          parsedFm.related_knowledge.forEach((item: any) => {
+            if (typeof item === 'string') {
+              const target = item.trim().replace(/^\//, '');
+              metadata.related_knowledge.push({ type: 'article', target });
+            } else if (item && typeof item === 'object') {
+              const target = (item.target || item.path || item.link || '').trim().replace(/^\//, '');
+              const type = item.type || 'article';
+              if (target) metadata.related_knowledge.push({ type, target });
+            }
+          });
+        }
+
+        // References parsing
+        if (Array.isArray(parsedFm.references)) {
+          parsedFm.references.forEach((ref: any, idx: number) => {
+            if (typeof ref === 'string') {
+              metadata.references.push({
+                id: `ref_${idx + 1}`,
+                title: ref.trim()
+              });
+            } else if (ref && typeof ref === 'object') {
+              const cleanTitle = ref.title ? String(ref.title).replace(/\s*\(passage.*?\)/gi, '').trim() : '';
+              metadata.references.push({
+                id: ref.id ? String(ref.id) : `ref_${idx + 1}`,
+                title: cleanTitle,
+                authors: ref.authors ? String(ref.authors).trim() : undefined,
+                year: ref.year ? String(ref.year).trim() : undefined,
+                doi: ref.doi ? String(ref.doi).trim() : undefined,
+                isbn: ref.isbn ? String(ref.isbn).trim() : undefined,
+                journal: ref.journal ? String(ref.journal).trim() : undefined,
+                book: ref.book ? String(ref.book).trim() : undefined
+              });
+            }
+          });
+          metadata.referenceCount = metadata.references.length;
+        }
+      } catch (err) {
+        console.warn('YAML parsing fallback for markdown frontmatter:', err);
+      }
     }
   }
 
@@ -103,9 +103,14 @@ export function parseFrontmatter(md: string) {
   }
 
   if (!metadata.excerpt) {
-    const pMatch = content.match(/^(?!#|>|-|\*)\s*([^\r\n]+)/m);
-    if (pMatch && pMatch[1]) {
-      metadata.excerpt = pMatch[1].trim().substring(0, 150) + '...';
+    const leadMatch = content.match(/##\s*📌\s*Кратко\s*\(Lead\)\s*\n([\s\S]*?)(?=\n##|\Z)/i);
+    if (leadMatch && leadMatch[1].trim()) {
+      metadata.excerpt = leadMatch[1].trim().substring(0, 200).replace(/[\*\_`#]/g, '');
+    } else {
+      const pMatch = content.match(/^(?!#|>|-|\*)\s*([^\r\n]+)/m);
+      if (pMatch && pMatch[1]) {
+        metadata.excerpt = pMatch[1].trim().substring(0, 150) + '...';
+      }
     }
   }
 

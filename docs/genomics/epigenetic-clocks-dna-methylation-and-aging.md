@@ -1,42 +1,51 @@
 ---
-title: "Эпигенетическая регуляция развития, метилирование ДНК и молекулярные часы старения у Elephantidae"
-description: "Академическая монография: эпигенетическая регуляция онтогенеза, метилирование ДНК у Elephantidae, эпигенетические часы Хорвата, регуляция теломеразной активности и эволюционная K-стратегия."
-category: "genomics"
-tags: ["геномика", "эпигенетика", "метилирование ДНК", "часы Хорвата", "K-стратегия", "старение", "теломеры", "Loxodonta", "Elephas"]
+title: Эпигенетическая регуляция развития, метилирование ДНК и молекулярные часы старения у Elephantidae
+description: 'Академическая монография: эпигенетическая регуляция онтогенеза, метилирование ДНК у Elephantidae, эпигенетические часы Хорвата, регуляция теломеразной активности и эволюционная K-стратегия.'
+category: genomics
+tags:
+  - геномика
+  - эпигенетика
+  - метилирование ДНК
+  - часы Хорвата
+  - K-стратегия
+  - старение
+  - теломеры
+  - Loxodonta
+  - Elephas
 difficulty: advanced
 evidence_level: established
 reading_time_min: 16
-last_reviewed: "2026-08-27"
+last_reviewed: '2026-08-27'
 related_knowledge:
-  - "ecology/comparative-genomics-and-cancer-resistance.md"
-  - "ecology/elephant-ontogeny-and-life-history.md"
-  - "anatomy/neuroanatomy-brain-architecture-and-memory.md"
+  - ecology/comparative-genomics-and-cancer-resistance.md
+  - ecology/elephant-ontogeny-and-life-history.md
+  - anatomy/neuroanatomy-brain-architecture-and-memory.md
 references:
-  - id: "ref_horvath_2013"
-    title: "DNA methylation age of human tissues and cell types"
-    authors: "Horvath S."
+  - id: ref_horvath_2013
+    title: DNA methylation age of human tissues and cell types
+    authors: Horvath S.
     year: 2013
-    doi: "10.1186/gb-2013-14-10-r115"
-  - id: "ref_palkopoulou_2018"
-    title: "A comprehensive genomic history of extinct and living elephants"
-    authors: "Palkopoulou E. et al."
+    doi: 10.1186/gb-2013-14-10-r115
+  - id: ref_palkopoulou_2018
+    title: A comprehensive genomic history of extinct and living elephants
+    authors: Palkopoulou E. et al.
     year: 2018
-    doi: "10.1073/pnas.1720554115"
-  - id: "ref_parrott_2020"
-    title: "Epigenetic aging clocks in elephants and other long-lived mammals"
-    authors: "Parrott J. J. et al."
+    doi: 10.1073/pnas.1720554115
+  - id: ref_parrott_2020
+    title: Epigenetic aging clocks in elephants and other long-lived mammals
+    authors: Parrott J. J. et al.
     year: 2020
-    doi: "10.1111/mec.15610"
-  - id: "ref_abegglen_2015"
-    title: "Potential mechanisms for cancer resistance in elephants and comparative cellular response to DNA damage in humans"
-    authors: "Abegglen L. M. et al."
+    doi: 10.1111/mec.15610
+  - id: ref_abegglen_2015
+    title: Potential mechanisms for cancer resistance in elephants and comparative cellular response to DNA damage in humans
+    authors: Abegglen L. M. et al.
     year: 2015
-    doi: "10.1001/jama.2015.13134"
-  - id: "ref_gomes_2011"
-    title: "Comparative biology of mammalian telomeres and telomerase"
-    authors: "Gomes N. M. et al."
+    doi: 10.1001/jama.2015.13134
+  - id: ref_gomes_2011
+    title: Comparative biology of mammalian telomeres and telomerase
+    authors: Gomes N. M. et al.
     year: 2011
-    doi: "10.1111/j.1474-9726.2011.00684.x"
+    doi: 10.1111/j.1474-9726.2011.00684.x
 ---
 
 ## Кратко
@@ -54,7 +63,6 @@ references:
 | **Активность фермента теломеразы (TERT)** | Избирательно активна в мультипотентных стволовых пулах | Подавлена в большинстве дифференцированных тканей | Предотвращение преждевременного истощения пула стволовых клеток | Gomes et al. (2011) [^ref_gomes_2011]; Abegglen (2015) [^ref_abegglen_2015] |
 
 ---
-
 ## Основной раздел
 
 ### 1. Архитектура метилирования ДНК и эпигенетические часы у хоботных
@@ -94,7 +102,6 @@ $$\mathrm{Age}_{\mathrm{epigenetic}} = f \left( \sum_{i=1}^{N} \beta_i \times \m
 Исследования Джареда Парротта и соавторов показали, что у слонов наклон калибровочной кривой метилирования существенно более пологий, чем у человека или собак [^ref_parrott_2020]. Это указывает на физиологическое замедление процессов метиломового старения: слоны сохраняют высокую стабильность метилирования промоторов генов-супрессоров вплоть до 40–50 лет жизни [^ref_parrott_2020]. Замедление «эпигенетического маятника» напрямую коррелирует с их экстремальной K-стратегией — медленным соматическим созреванием, длительным периодом обучения и низкой частотой клеточного деления во взрослых тканях [^ref_parrott_2020].
 
 ---
-
 ### 2. Регуляция длины теломер и теломеразная активность у гигантов
 
 Теломеры — концевые гексануклеотидные повторы $TTAGGG$ на хромосомах млекопитающих, защищающие ДНК от деградации и слияния «конец в конец» при делениях клеток. Из-за неспособности ДНК-полимеразы полностью реплицировать концы отстающей цепи (проблема концевой недорепликации) при каждом цикле деления теломеры укорачиваются на величину предела Хейфлика, что в конечном итоге запускает клеточный арест или апоптоз.
@@ -124,7 +131,6 @@ $$\mathrm{Age}_{\mathrm{epigenetic}} = f \left( \sum_{i=1}^{N} \beta_i \times \m
 *   **Высокоэффективной системы репарации**: Мультипликация гена $TP53$ (20 копий) обеспечивает постоянную экспрессию белков репарации, минимизируя окислительное повреждение хромосомных концов свободными радикалами, что является главным фактором ускоренного укорочения теломер у других млекопитающих [^ref_abegglen_2015][^ref_gomes_2011].
 
 ---
-
 ### 3. Эпигенетические механизмы K-стратегии и онкорезистентности
 
 Эпигенетический статус генома слонов служит координатором их эволюционной адаптации. Мультипликация гена $TP53$ до 20 копий (из которых 19 являются ретрогенами без интронов $TP53RT$) потребовала коэволюции эпигенетических механизмов глушения для предотвращения летальной гипер-активации апоптоза в эмбриогенезе [^ref_sulak_2016].
@@ -136,7 +142,6 @@ $$\mathrm{Age}_{\mathrm{epigenetic}} = f \left( \sum_{i=1}^{N} \beta_i \times \m
 Параллельно эпигенетический статус регулирует экспрессию «зомби-ретрогена» **LIF6** [^ref_vazquez_2018]. Промоторная область $LIF6$ содержит специфический CpG-островок, богатый сайтами связывания для p53 [^ref_vazquez_2018]. В нормальном состоянии этот промотор частично метилирован, подавляя экспрессию токсичного белка LIF6. При повреждении ДНК метилирование снимается, и p53 беспрепятственно активирует транскрипцию $LIF6$, запуская митохондриальный апоптоз [^ref_vazquez_2018].
 
 ---
-
 ### 4. Эпигенетические часы как инструмент популяционного мониторинга
 
 Определение точного хронологического возраста диких слонов исторически представляло огромную проблему для экологов. Традиционные методы (оценка износа щечных зубов по Laws, остеометрия, диаметр следа стопы) дают погрешность до $\pm 5\text{–}10$ лет и применимы только при непосредственном контакте с животным или его останками.
@@ -174,7 +179,7 @@ $$\mathrm{Age}_{\mathrm{epigenetic}} = f \left( \sum_{i=1}^{N} \beta_i \times \m
 * **[Онтогенез, эволюционная стратегия жизненного цикла и возрастная демография у Elephantidae](ecology/elephant-ontogeny-and-life-history.md)** — K-стратегия жизненного цикла, гериатрический период и дентальный лимит долголетия.
 * **[Клиническая нейроанатомия и нейробиологические основы памяти](anatomy/neuroanatomy-brain-architecture-and-memory.md)** — Цитоархитектоника коры головного мозга и когнитивная сохранность стареющих матриархов.
 
-## Библиография
+## 📚 Литература
 
 [^ref_horvath_2013]: Horvath S. (2013). DNA methylation age of human tissues and cell types. *Genome Biology*, 14(10), R115. DOI: [10.1186/gb-2013-14-10-r115](https://doi.org/10.1186/gb-2013-14-10-r115)
 [^ref_palkopoulou_2018]: Palkopoulou E., Lipson M., Mallick S., et al. (2018). A comprehensive genomic history of extinct and living elephants. *Proceedings of the National Academy of Sciences (PNAS)*, 115(11), E2566-E2574. DOI: [10.1073/pnas.1720554115](https://doi.org/10.1073/pnas.1720554115)

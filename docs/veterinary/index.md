@@ -1,13 +1,13 @@
 ---
-title: "Ветеринария и уход"
-evidence_level: 'established'
-description: "Ветеринарные протоколы, уход за стопами, лечение EEHV, реабилитация слонят-сирот."
+title: Ветеринария и уход
+evidence_level: established
+description: Ветеринарные протоколы, уход за стопами, лечение EEHV, реабилитация слонят-сирот.
 tags:
   - ветеринария
   - уход
   - обзор
 difficulty: beginner
-last_reviewed: 2026-07-23
+last_reviewed: '2026-07-23'
 ---
 
 # Ветеринария и уход

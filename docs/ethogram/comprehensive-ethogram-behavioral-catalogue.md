@@ -1,35 +1,42 @@
 ---
-title: "Систематический этологический каталог и поведенческий репертуар Elephantidae: стандартизированная классификация паттернов покоя, локомоции, комфорта, аффилиации и защиты"
-description: "Академический этологический каталог слонов (Elephantidae) на основе стандартов ElephantVoices. Систематизирует паттерны сна, комфортного поведения, игры, аффилиации и агонистических реакций. Содержит клинические протоколы анализа бюджета времени для ветеринарного аудита благополучия."
+title: 'Систематический этологический каталог и поведенческий репертуар Elephantidae: стандартизированная классификация паттернов покоя, локомоции, комфорта, аффилиации и защиты'
+description: Академический этологический каталог слонов (Elephantidae) на основе стандартов ElephantVoices. Систематизирует паттерны сна, комфортного поведения, игры, аффилиации и агонистических реакций. Содержит клинические протоколы анализа бюджета времени для ветеринарного аудита благополучия.
 category: ethogram
-tags: [этограмма, этология, бюджет времени, поведение слонов, аффилиация, агонистическое поведение, благополучие]
+tags:
+  - этограмма
+  - этология
+  - бюджет времени
+  - поведение слонов
+  - аффилиация
+  - агонистическое поведение
+  - благополучие
 difficulty: advanced
 reading_time_min: 15
 evidence_level: established
 references:
   - id: ref_poole_granli_2021
-    title: "The Elephant Ethogram: A Library of Behavior and Communication"
-    authors: "Poole J. H., Granli P."
+    title: 'The Elephant Ethogram: A Library of Behavior and Communication'
+    authors: Poole J. H., Granli P.
     year: 2021
   - id: ref_moss_1988
-    title: "Elephant Memories: Thirteen Years in the Life of an Elephant Family"
-    authors: "Moss C. J."
+    title: 'Elephant Memories: Thirteen Years in the Life of an Elephant Family'
+    authors: Moss C. J.
     year: 1988
   - id: ref_eisenberg_1971
-    title: "The relative abundance and behavior of some Ceylon mammals"
-    authors: "Eisenberg J. F., Lockhart M., McKay G. M."
+    title: The relative abundance and behavior of some Ceylon mammals
+    authors: Eisenberg J. F., Lockhart M., McKay G. M.
     year: 1971
   - id: ref_mckay_1973
-    title: "Behavior and Ecology of the Asiatic Elephant in Southeastern Ceylon"
-    authors: "McKay G. M."
+    title: Behavior and Ecology of the Asiatic Elephant in Southeastern Ceylon
+    authors: McKay G. M.
     year: 1973
   - id: ref_lee_1987
-    title: "Allomothering in African elephants"
-    authors: "Lee P. C."
+    title: Allomothering in African elephants
+    authors: Lee P. C.
     year: 1987
   - id: ref_poole_1996
-    title: "Signals and Assessment in African Elephants"
-    authors: "Poole J. H."
+    title: Signals and Assessment in African Elephants
+    authors: Poole J. H.
     year: 1996
 ---
 
@@ -37,7 +44,6 @@ references:
 Поведенческий репертуар семейства *Elephantidae* представляет собой одну из наиболее сложных, пластичных и когнитивно опосредованных систем среди плацентарных млекопитающих [^ref_poole_granli_2021]. Высокий уровень энцефализации и сложная социальная организация (fission-fusion) определили эволюционную необходимость стандартизации визуальных, тактильных, ольфакторных и акустических сигналов [^ref_moss_1988][^ref_poole_1996]. Настоящая монография систематизирует этологический каталог слонов на основе стандартов, разработанных Джойс Пул и Петтером Гранли (ElephantVoices) [^ref_poole_granli_2021], и предлагает ветеринарный регламент суточного анализа бюджета времени (*Time-Budget Analysis*) в качестве объективного инструмента мониторинга клинического благополучия и ранней экспресс-диагностики боли и дистресса у животных [^ref_poole_granli_2021][^ref_poole_1996].
 
 ---
-
 ## 1. Методология этографического картирования
 
 Современное описание поведенческих актов хоботных базируется на строгой дескриптивной этологии, исключающей антропоморфизм и субъективную интерпретацию мотивационных состояний [^ref_poole_granli_2021][^ref_mckay_1973]. В соответствии со стандартами консорциума *ElephantVoices*, каждый паттерн кодируется в рамках единой аналитической матрицы [^ref_poole_granli_2021]:
@@ -58,7 +64,6 @@ references:
 Использование данной матрицы позволяет трансформировать субъективные наблюдения киперов в верифицируемые количественные данные, пригодные для статистической обработки методом параметрического и непараметрического анализа бюджета времени [^ref_poole_granli_2021][^ref_eisenberg_1971].
 
 ---
-
 ## 2. Систематический этологический каталог базовых кластеров
 
 ### Кластер А: Покой и сон (Resting & Sleep)
@@ -96,7 +101,6 @@ references:
 *   **Уровень доказательности:** `[ESTABLISHED]` [^ref_poole_granli_2021].
 
 ---
-
 ### Кластер Б: Комфортное поведение и гигиена (Comfort & Self-care)
 
 Данный кластер направлен на поддержание физиологического статуса кожных покровов, защиту от ультрафиолетового излучения, эктопаразитов и оптимизацию терморегуляции [^ref_poole_granli_2021][^ref_moss_1988].
@@ -125,7 +129,6 @@ references:
 *   **Уровень доказательности:** `[ESTABLISHED]` [^ref_poole_granli_2021].
 
 ---
-
 ### Кластер В: Игровое поведение (Play behaviour)
 
 Игровой репертуар — сложнейший маркер когнитивного развития, синаптогенеза и психосоциального благополучия хоботных [^ref_poole_granli_2021][^ref_lee_1987].
@@ -145,7 +148,6 @@ references:
 *   **Уровень доказательности:** `[ESTABLISHED]` [^ref_poole_granli_2021].
 
 ---
-
 ### Кластер Г: Аффилиативное (социально-сближающее) поведение (Affiliative behaviour)
 
 Обеспечивает поддержание тесных матрилинейных связей, снижение уровня внутригрупповой агрессии и интеграцию fission-fusion сообществ [^ref_poole_granli_2021][^ref_moss_1988].
@@ -170,7 +172,6 @@ references:
 *   **Уровень доказательности:** `[ESTABLISHED]` [^ref_poole_granli_2021].
 
 ---
-
 ### Кластер Д: Оборонительное, агонистическое и защитное поведение (Agonistic & Defensive)
 
 Направлено на защиту территории, потомства и индивидуального пространства от внешних угроз и межгрупповых конкурентов [^ref_poole_granli_2021][^ref_poole_1996].
@@ -190,18 +191,18 @@ references:
 *   **Уровень доказательности:** `[ESTABLISHED]` [^ref_poole_granli_2021].
 
 ---
-
 ## 3. Доказательная база и практическое применение этограммы
 
-### [ESTABLISHED] Этограмма как клинический инструмент мониторинга
+###  Этограмма как клинический инструмент мониторинга
+> **Уровень доказательности:** [ESTABLISHED]
 Внедрение стандартизированной этограммы Пул-Гранли позволило перевести оценку благополучия (*welfare*) хоботных в разряд точных доказательных дисциплин [^ref_poole_granli_2021][^ref_poole_1996]. Отклонение индивидуального поведения от референтных этологических нормативов служит первичным клиническим симптомом скрытой соматической боли, дистресса или системного заболевания до проявления выраженных физиологических маркеров (таких как хромота или кахексия) [^ref_poole_granli_2021]:
 
 1.  **Маркеры абдоминальной боли (колики, завалы кишечника):** резкое снижение частоты аффилиативных контактов, принятие вынужденного стернального положения вне нормативных часов сна, ритмичное прижимание хобота к паховой области, апатия и отказ от грязевых ванн [^ref_poole_granli_2021].
 2.  **Маркеры ортопедического дистресса (пододерматиты, артрозы):** аномальный рост частоты переноса веса тела между конечностями стоя (более 12 раз в минуту), длительный отказ от укладывания в латеральное REM-положение, вынужденный стоячий сон с опорой лбом или бивнями на элементы вольера [^ref_poole_granli_2021].
 
 ---
-
-### [CLINICAL GUIDANCE] Протокол суточного анализа бюджета времени (Time-Budget Analysis)
+###  Протокол суточного анализа бюджета времени (Time-Budget Analysis)
+> **Уровень доказательности:** [CLINICAL GUIDANCE]
 
 Для объективной верификации скрытых форм сенсорной депривации, депрессии и раннего выявления компульсивных расстройств в неволе ветеринарному персоналу предписывается проведение **регулярного 24-часового этологического аудита** [^ref_poole_granli_2021][^ref_poole_1996].
 
@@ -230,7 +231,6 @@ references:
 Обнаружение в бюджете времени паттернов монотонного маятникового раскачивания (*weaving*) или хождения по одной траектории вдоль барьера (*pacing*) объемом более **5%** от суточного лимита требует немедленного пересмотра программы обогащения среды, внедрения когнитивных головоломок и перевода животного на систему Protected Contact [^ref_poole_granli_2021].
 
 ---
-
 ## Связанные знания
 
 *   **[Multilevel Fission-Fusion Social Structure](fission-fusion-social-structure.md)** — Как динамическое деление и слияние кланов координируется аффилиативными приветственными ритуалами.
@@ -239,7 +239,6 @@ references:
 *   **[Captive Welfare and Protected Contact](captive-welfare-and-protected-contact.md)** — Практическое применение этограммы для аудита благополучия слонов в зоологических центрах и питомниках.
 
 ---
-
 [^ref_poole_granli_2021]: **Poole J. H., Granli P.** *The Elephant Ethogram: A Library of Behavior and Communication.* ElephantVoices, 2021, Version 1.0. Available online at: [www.elephantvoices.org](https://www.elephantvoices.org).
 [^ref_moss_1988]: **Moss C. J.** *Elephant Memories: Thirteen Years in the Life of an Elephant Family.* Morrow, New York, 1988, pp. 74-98.
 [^ref_eisenberg_1971]: **Eisenberg J. F., Lockhart M., McKay G. M.** *The relative abundance and behavior of some Ceylon mammals.* Smithsonian Contributions to Zoology, 1971, Vol. 101, pp. 1-112.

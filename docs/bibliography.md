@@ -1,12 +1,12 @@
 ---
-title: "Библиография"
-evidence_level: 'established'
-description: "Полный список источников, использованных в энциклопедии «Слонология»."
+title: Библиография
+evidence_level: established
+description: Полный список источников, использованных в энциклопедии «Слонология».
 tags:
   - библиография
   - источники
 difficulty: beginner
-last_reviewed: 2026-07-23
+last_reviewed: '2026-07-23'
 ---
 
 # Библиография
@@ -104,5 +104,4 @@ references:
 - **Palaeogene Paleontology** — *Fossil Proboscideans and Early Moeritherium Phylogeny*: [Открыть PDF](assets/books/app001362014.pdf)
 
 ---
-
 *Этот список обновляется по мере добавления новых статей. Всего источников: 29.*

@@ -1,40 +1,46 @@
 ---
-title: "Палеопатологии скелета древних Proboscidea: биомеханика травм, следы палеолитической охоты и сенильные дегенерации в ископаемой летописи"
-description: "Академическая монография: сравнительно-анатомический анализ скелетных патологий вымерших хоботных. Дегенеративные поражения суставов, травматические переломы бивней, остеомиелит и следы палеолитической охоты."
-category: "paleontology"
-tags: ["палеонтология", "палеопатология", "Proboscidea", "остеоартрит", "остеомиелит", "палеолитическая охота"]
+title: 'Палеопатологии скелета древних Proboscidea: биомеханика травм, следы палеолитической охоты и сенильные дегенерации в ископаемой летописи'
+description: 'Академическая монография: сравнительно-анатомический анализ скелетных патологий вымерших хоботных. Дегенеративные поражения суставов, травматические переломы бивней, остеомиелит и следы палеолитической охоты.'
+category: paleontology
+tags:
+  - палеонтология
+  - палеопатология
+  - Proboscidea
+  - остеоартрит
+  - остеомиелит
+  - палеолитическая охота
 difficulty: advanced
 evidence_level: established
 reading_time_min: 16
-last_reviewed: "2026-08-27"
+last_reviewed: '2026-08-27'
 related_knowledge:
-  - "paleontology/isotopic-paleoecology-of-pleistocene-megafauna-v2.md"
-  - "taxonomy/proboscidea-paleontology-and-trunk-evolution.md"
-  - "veterinary/elephant-foot-care-and-pododermatitis-v2.md"
+  - paleontology/isotopic-paleoecology-of-pleistocene-megafauna-v2.md
+  - taxonomy/proboscidea-paleontology-and-trunk-evolution.md
+  - veterinary/elephant-foot-care-and-pododermatitis-v2.md
 references:
-  - id: "ref_haynes_1991"
-    title: "Mammoths, Mastodonts, and Elephants: Biology, Behavior, and the Fossil Record"
-    authors: "Haynes G."
+  - id: ref_haynes_1991
+    title: 'Mammoths, Mastodonts, and Elephants: Biology, Behavior, and the Fossil Record'
+    authors: Haynes G.
     year: 1991
-    doi: "10.1017/CBO9780511623424"
-  - id: "ref_rothschild_1994"
-    title: "Paleopathology: Disease in the Fossil Record"
-    authors: "Rothschild B. M., Martin L. D."
+    doi: 10.1017/CBO9780511623424
+  - id: ref_rothschild_1994
+    title: 'Paleopathology: Disease in the Fossil Record'
+    authors: Rothschild B. M., Martin L. D.
     year: 1994
-  - id: "ref_fisher_1996"
-    title: "Extinction of Semiaquatic and Terrestrial Megafauna: The Role of Hunting"
-    authors: "Fisher D. C."
+  - id: ref_fisher_1996
+    title: 'Extinction of Semiaquatic and Terrestrial Megafauna: The Role of Hunting'
+    authors: Fisher D. C.
     year: 1996
-  - id: "ref_lister_2012"
-    title: "A skeleton of 'steppe' mammoth (Mammuthus trogontherii (Pohlig)) from Drmno, near Kostolac, Serbia"
-    authors: "Lister A. M. et al."
+  - id: ref_lister_2012
+    title: A skeleton of 'steppe' mammoth (Mammuthus trogontherii (Pohlig)) from Drmno, near Kostolac, Serbia
+    authors: Lister A. M. et al.
     year: 2012
-    doi: "10.1016/j.quaint.2012.03.011"
-  - id: "ref_shoshani_2016"
-    title: "Shoulder height, body mass, and shape of proboscideans"
-    authors: "Larramendi A."
+    doi: 10.1016/j.quaint.2012.03.011
+  - id: ref_shoshani_2016
+    title: Shoulder height, body mass, and shape of proboscideans
+    authors: Larramendi A.
     year: 2016
-    doi: "10.4081/abp.2016.321"
+    doi: 10.4081/abp.2016.321
 ---
 
 ## Кратко
@@ -84,7 +90,6 @@ $$\sigma = \frac{F}{A}$$
 Особый интерес представляет спондилоартропатия (*spondyloarthropathy*) — системное воспалительное заболевание, приводившее к полному сращению (анкилозу) позвонков у американских мастодонтов (*Mammut americanum*) [^ref_rothschild_1994]. В отличие от мамонтов, у которых анкилоз позвоночника встречается редко ($<2\%$), до $20\%$ исследованных скелетов мастодонтов несут сросшиеся блоки из 3–5 грудных позвонков [^ref_rothschild_1994]. Это указывает на экологические различия: обитавшие в густых лесах мастодонты совершали частые крутящие и скручивающие движения корпусом при маневрировании среди поваленных стволов, что вызывало постоянные микротравмы связочного аппарата позвоночника, перераставшие в оссифицирующий фиброз [^ref_haynes_1991][^ref_rothschild_1994].
 
 ---
-
 ### 2. Патология бивней и ретроградный челюстной остеомиелит
 
 Бивни хоботных представляют собой гипертрофированные вторые резцы, растущие непрерывно на протяжении всей жизни за счет отложения конических слоев дентина изнутри наружу пульпарной камеры [^ref_haynes_1991]. Пульпарная полость, заполненная кровеносными сосудами и нервными волокнами, простирается глубоко в альвеолярную часть предчелюстной кости черепа [^ref_shoshani_2016].
@@ -107,7 +112,6 @@ $$\sigma = \frac{F}{A}$$
 Бактериальная инвазия обнаженной пульпы вызывает острый гнойный пульпит. Инфекционный процесс распространяется ретроградно по пульпарному каналу к основанию черепа [^ref_haynes_1991]. Постоянный воспалительный процесс стимулирует компенсаторный дентиногенез — образование хаотично минерализованных костных конгломератов, известных как **пульпарные камни (дентикли)**, которые забивают канал бивня. При прорыве гнойного экссудата через стенки альвеолы развивается диффузный остеомиелит предчелюстной кости с последующей резорбцией челюсти и прорывом гноя в обширные лобные воздухоносные синусы диплоэ [^ref_rothschild_1994]. Такие животные были обречены на медленную смерть от истощения (сенильной кахексии), так как боли в челюсти делали невозможным нормальный процесс пережевывания пищи [^ref_haynes_1991].
 
 ---
-
 ### 3. Археозоологические свидетельства палеолитической охоты
 
 Долгое время велась острая научная дискуссия: являлись ли люди палеолита активными охотниками на хоботных или лишь утилизировали трупы павших животных (падальщиков). Ответ на этот вопрос был получен благодаря прецизионной фиксации прижизненных травм на ископаемых скелетах [^ref_fisher_1996].
@@ -123,7 +127,6 @@ $$\sigma = \frac{F}{A}$$
 * Скелет был целенаправленно погружен на дно древнего пруда и придавлен сверху крупными валунами и бревнами [^ref_fisher_1996]. Холодная бескислородная среда пруда, заселенная молочнокислыми бактериями, действовала как естественный «холодильник», предотвращая гниение мяса и консервируя его на зимний период [^ref_fisher_1996]. Данная практика подтверждается анализом микрослоев роста бивней мастодонта, показавшим его гибель в позднюю осень (период заготовки припасов) при отличных показателях прижизненной упитанности [^ref_fisher_1996].
 
 ---
-
 ### 4. Островной нанизм и реверсия патологий
 
 При географической изоляции крупных хоботных на островах Средиземного моря (Сицилия, Мальта, Крит) и у побережья Калифорнии (остров Санта-Роза) вступало в действие эволюционное правило Фостера («островное правило») [^ref_shoshani_2016]. Ограниченность пищевых ресурсов и отсутствие крупных хищников привели к формированию экстремально уменьшенных карликовых форм, таких как ***Palaeoloxodon falconeri*** (высота в холке до $90\text{–}100\text{ см}$, масса до $150\text{–}300\text{ кг}$) [^ref_shoshani_2016].
@@ -145,7 +148,7 @@ $$\sigma = \frac{F}{A}$$
 * **[Палеонтология и филогенетическая радиация Proboscidea](taxonomy/proboscidea-paleontology-and-trunk-evolution.md)** — Макроэволюция гигантизма, аллометрический рост и биомеханика колоннообразного скелета.
 * **[Изотопная палеоэкология плейстоценовой мегафауны](paleontology/isotopic-paleoecology-of-pleistocene-megafauna-v2.md)** — Реконструкция миграций и структуры питания по годичным слоям дентина бивней.
 
-## Библиография
+## 📚 Литература
 
 [^ref_haynes_1991]: Haynes G. (1991). *Mammoths, Mastodonts, and Elephants: Biology, Behavior, and the Fossil Record*. Cambridge University Press, Cambridge. 413 pp. DOI: [10.1017/CBO9780511623424](https://doi.org/10.1017/CBO9780511623424)
 [^ref_rothschild_1994]: Rothschild B. M., Martin L. D. (1994). *Paleopathology: Disease in the Fossil Record*. CRC Press, Boca Raton. 384 pp.

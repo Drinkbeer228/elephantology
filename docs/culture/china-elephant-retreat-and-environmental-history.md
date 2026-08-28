@@ -1,7 +1,7 @@
 ---
-title: "Экологическая история и 3000-летнее отступление азиатского слона (Elephas maximus) в Китае: трансформация ландшафтов, климатический сдвиг и рефугиум в провинции Юньнань"
-evidence_level: 'established'
-description: "Академическая монография о 3000-летнем отступлении слонов в Китае, трансформации ландшафтов, климатических изменениях и рефугиуме в провинции Юньнань."
+title: 'Экологическая история и 3000-летнее отступление азиатского слона (Elephas maximus) в Китае: трансформация ландшафтов, климатический сдвиг и рефугиум в провинции Юньнань'
+evidence_level: established
+description: Академическая монография о 3000-летнем отступлении слонов в Китае, трансформации ландшафтов, климатических изменениях и рефугиуме в провинции Юньнань.
 category: culture
 difficulty: advanced
 reading_time_min: 15
@@ -11,28 +11,28 @@ tags:
   - china
   - migration
   - climate-change
-last_reviewed: 2026-08-24
+last_reviewed: '2026-08-24'
 references:
-  - id: "ref_elvin_2004"
-    title: "The Retreat of the Elephants: An Environmental History of China"
-    authors: "Elvin M."
+  - id: ref_elvin_2004
+    title: 'The Retreat of the Elephants: An Environmental History of China'
+    authors: Elvin M.
     year: 2004
-  - id: "ref_zhang_2015"
-    title: "Asian elephants in China: estimating population size and evaluating habitat suitability"
-    authors: "Zhang L., Dong L., Lin L., Feng L., Yan F., Wang L., Guo X., Luo A."
+  - id: ref_zhang_2015
+    title: 'Asian elephants in China: estimating population size and evaluating habitat suitability'
+    authors: Zhang L., Dong L., Lin L., Feng L., Yan F., Wang L., Guo X., Luo A.
     year: 2015
-    doi: "10.1371/journal.pone.0124834"
-  - id: "ref_wen_1995"
-    title: "Studies on changes in plants and animals in China during historical times"
-    authors: "Wen H., et al."
+    doi: 10.1371/journal.pone.0124834
+  - id: ref_wen_1995
+    title: Studies on changes in plants and animals in China during historical times
+    authors: Wen H., et al.
     year: 1995
-  - id: "ref_sukumar_2003"
-    title: "The Living Elephants: Evolutionary Ecology, Behavior, and Conservation"
-    authors: "Sukumar R."
+  - id: ref_sukumar_2003
+    title: 'The Living Elephants: Evolutionary Ecology, Behavior, and Conservation'
+    authors: Sukumar R.
     year: 2003
-  - id: "ref_shoshani_1982"
-    title: "Mammalian Species No. 182: Elephas maximus"
-    authors: "Shoshani J., Eisenberg J. F."
+  - id: ref_shoshani_1982
+    title: 'Mammalian Species No. 182: Elephas maximus'
+    authors: Shoshani J., Eisenberg J. F.
     year: 1982
 ---
 
@@ -63,7 +63,6 @@ references:
 Археологические раскопки в столице поздней династии Шан — **Иньсюй (Yinxu)** в окрестностях Аньяна — выявили многочисленные скелетные останки слонов, включая нижние челюсти, лопатки и бивни, захороненные совместно с бронзовым оружием и колесницами [^1, ^2]. Оракулы на гадательных панцирях черепах и лопатках быков содержат прямые текстовые упоминания ритуальных жертвоприношений слонов духам предков [^2]. Высокий статус животного подтверждается и выдающимися шедеврами древнекитайской металлургии: бронзовыми ритуальными сосудами **«цзунь» (zun)** в форме слонов, изготовленными в конце периода Шан [^1, ^2]. Несмотря на стилизованный орнамент их поверхности, пропорции тела, изгиб хобота и форма ушных раковин переданы с поразительной анатомической точностью, что указывает на глубокое знакомство мастеров-литейщиков с живыми моделями [^1, ^2].
 
 ---
-
 ## 2. Драйверы 3000-летнего сжатия ареала (по Марку Элвину)
 
 Выдающийся историк-эколог Марк Элвин (*Mark Elvin*) в своей фундаментальной работе *«The Retreat of the Elephants: An Environmental History of China»* описывает процесс исчезновения хоботных из Китая как многовековое системное противостояние, получившее название **«Трехтысячелетняя война человека и слона»** (*The Three Thousand Years War*) [^2, ^3]. Данный процесс определялся синергетическим эффектом трех ключевых драйверов:
@@ -87,7 +86,6 @@ references:
 Поскольку слоны обладают крайне медленным репродуктивным циклом (гравидарность длится 22 месяца, рождается один детеныш, а интервал между родами составляет несколько лет), популяции не имели возможности восстанавливать численность после холодных зимних заморов и антропогенного изъятия, что вело к локальным вымираниям [^1, ^2].
 
 ---
-
 ## 3. Пространственно-временная динамика вытеснения ареала на юг
 
 Пространственная траектория отступления азиатского слона представляет собой зеркальное отражение колонизации ландшафтов Китая ханьским этносом и продвижения сельского хозяйства с севера на юг [^2]. На основе картографических реконструкций профессора Вэнь Хуаньжаня (*Wen Huanran*), выделившего 90 ключевых палеонтологических и исторических точек, откат северной границы ареала происходил поэтапно [^1, ^2]:
@@ -130,7 +128,6 @@ references:
 5.  **Эпоха Цин и современность (1644 г. н.э. — н.в.):** Ареал полностью изолируется на крайнем юго-западе Китая, сужаясь до нескольких горных уездов в провинции Юньнань [^1, ^3].
 
 ---
-
 ## 4. Современный статус и феномен «миграции 2021 года»
 
 ### Современный статус
@@ -161,7 +158,6 @@ references:
         4.  *Фуражировочный маневр:* Вдоль расчетной траектории движения в безопасных лесных зонах было выложено более 180 тонн пищевых приманок (бананы, кукуруза, ананасы), что позволило плавно скорректировать вектор движения стада и развернуть его обратно на юг без применения транквилизаторов и физического насилия [^8].
 
 ---
-
 ## Связанные знания
 
 *   **Митигация конфликтов «человек — слон» (HEC):** [human-elephant-conflict-mitigation.md](human-elephant-conflict-mitigation.md) — современные методы нелетальной защиты агроценозов, ГИС-моделирование и системы раннего оповещения.
@@ -169,7 +165,6 @@ references:
 *   **Климатическое моделирование ареалов:** [climate-change-and-range-dynamics.md](climate-change-and-range-dynamics.md) — прогнозы сжатия пригодных биотопов в Юньнани к 2070 году по сценариям IPCC.
 
 ---
-
 ## Справочные источники (References)
 
 [^1]: См. палеоклиматические реконструкции и зоогеографические исследования Вэнь Хуаньжаня: *Wen Huanran et al., Studies on changes in plants and animals in China during historical times* (Chongqing, 1995), гл. 15–17.

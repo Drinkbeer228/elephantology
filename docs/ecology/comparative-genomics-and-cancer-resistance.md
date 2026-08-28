@@ -1,45 +1,54 @@
 ---
-title: "Сравнительная геномика слоновых: парадокс Пето, копийность TP53 и ген LIF6"
-description: "Академическая монография: молекулярные механизмы резистентности к онкогенезу у Elephantidae. Анализ парадокса Пето, ретрогена LIF6 и мультипликации аллелей TP53."
+title: 'Сравнительная геномика слоновых: парадокс Пето, копийность TP53 и ген LIF6'
+description: 'Академическая монография: молекулярные механизмы резистентности к онкогенезу у Elephantidae. Анализ парадокса Пето, ретрогена LIF6 и мультипликации аллелей TP53.'
 category: ecology
-tags: [геномика, онкология, парадокс Пето, TP53, LIF6, апоптоз, мутации, ДНК, Loxodonta, Elephas]
+tags:
+  - геномика
+  - онкология
+  - парадокс Пето
+  - TP53
+  - LIF6
+  - апоптоз
+  - мутации
+  - ДНК
+  - Loxodonta
+  - Elephas
 difficulty: expert
 reading_time_min: 16
 evidence_level: established
-last_reviewed: 2026-08-27
+last_reviewed: '2026-08-27'
 references:
   - id: ref_abegglen_2015
-    title: "Potential mechanisms for cancer resistance in elephants and comparative cellular response to DNA damage in humans"
-    authors: "Abegglen L. M., Caulin A. F., Chan A., et al."
+    title: Potential mechanisms for cancer resistance in elephants and comparative cellular response to DNA damage in humans
+    authors: Abegglen L. M., Caulin A. F., Chan A., et al.
     year: 2015
-    doi: "10.1001/jama.2015.13134"
+    doi: 10.1001/jama.2015.13134
   - id: ref_sulak_2016
-    title: "TP53 copy number expansion is associated with the evolution of increased body size and an enhanced DNA damage response in elephants"
-    authors: "Sulak M., Fong L., Mika K., et al."
+    title: TP53 copy number expansion is associated with the evolution of increased body size and an enhanced DNA damage response in elephants
+    authors: Sulak M., Fong L., Mika K., et al.
     year: 2016
-    doi: "10.7554/eLife.11994"
+    doi: 10.7554/eLife.11994
   - id: ref_vazquez_2018
-    title: "A Zombie LIF Gene in Elephants Is Upregulated by TP53 to Induce Apoptosis in Response to DNA Damage"
-    authors: "Vazquez J. M., Sulak M., Chigurupati S., Lynch V. J."
+    title: A Zombie LIF Gene in Elephants Is Upregulated by TP53 to Induce Apoptosis in Response to DNA Damage
+    authors: Vazquez J. M., Sulak M., Chigurupati S., Lynch V. J.
     year: 2018
-    doi: "10.1016/j.celrep.2018.07.042"
+    doi: 10.1016/j.celrep.2018.07.042
   - id: ref_peto_1977
-    title: "Epidemiology, multistage models, and short-term mutagenesis tests"
-    authors: "Peto R."
+    title: Epidemiology, multistage models, and short-term mutagenesis tests
+    authors: Peto R.
     year: 1977
-    doi: "10.1016/b978-0-12-340750-1.50073-6"
+    doi: 10.1016/b978-0-12-340750-1.50073-6
   - id: ref_lynch_2015
-    title: "Elephantid Genomes Reveal the Molecular Bases of Afrotherian Phylogeny and Cancer Resistance"
-    authors: "Lynch V. J., Bedoya-Reina O. C., Ratan A., et al."
+    title: Elephantid Genomes Reveal the Molecular Bases of Afrotherian Phylogeny and Cancer Resistance
+    authors: Lynch V. J., Bedoya-Reina O. C., Ratan A., et al.
     year: 2015
-    doi: "10.1093/molbev/msv230"
+    doi: 10.1093/molbev/msv230
 ---
 
 ## Кратко (Lead)
 «Парадокс Пето» формулирует фундаментальное эволюционно-биологическое противоречие: несмотря на колоссальное количество клеток и длительный жизненный цикл, вероятность развития злокачественных новообразований не коррелирует с массой тела вида. У слонов (масса до 6000 кг, более $3.7 \times 10^{13}$ клеток) смертность от рака составляет менее 4.81% (по данным некропсий), тогда как у человека (масса 70 кг, $3.0 \times 10^{13}$ клеток) она превышает 11–25% [^ref_abegglen_2015][^ref_peto_1977]. Полногеномное секвенирование представителей семейства *Elephantidae* выявило уникальную молекулярную архитектуру подавления онкогенеза: слоны обладают **20 копиями гена-супрессора опухолей TP53** (у человека — только одна копия) [^ref_abegglen_2015][^ref_sulak_2016] и экспрессируют воскрешенный ретроген **LIF6** (ген-«зомби»), который под управлением p53 запускает стремительный каскадный апоптоз при малейших двунитевых разрывах ДНК [^ref_vazquez_2018]. Данная стратегия («убить поврежденную клетку, а не чинить ее») стала ключевым механизмом выживания мегафауны.
 
 ---
-
 ## Ключевые геномные и онкологические метрики
 
 Эволюционный успех хоботных напрямую связан с мультипликацией генетических локусов, ответственных за репарацию ДНК и программируемую клеточную гибель.
@@ -54,7 +63,6 @@ references:
 | **Масса тела / Кол-во клеток** | до 6000 кг / $\approx 3.7 \times 10^{13}$ | 70 кг / $\approx 3.0 \times 10^{13}$ | Высокий кумулятивный риск мутаций в течение 60-летней жизни нейтрализуется геномом. | [^ref_peto_1977] |
 
 ---
-
 ## Парадокс Пето (Peto's Paradox)
 
 В 1977 году Ричард Пето (*Richard Peto*) сформулировал математическое противоречие [^ref_peto_1977]. Онкогенез — это стохастический процесс накопления соматических мутаций в ходе клеточных делений. Вероятность того, что клетка станет злокачественной, является функцией двух переменных:
@@ -66,7 +74,6 @@ references:
 Эволюционный механизм преодоления этого парадокса у слонов кроется в радикальной перестройке генома, направленной на сверхраннее выявление и уничтожение мутантных клеток.
 
 ---
-
 ## Мультипликация TP53: Страж генома на стероидах
 
 Центральным узлом противоопухолевой защиты у позвоночных является транскрипционный фактор **p53** (ген **TP53**). Он работает как тетрамер (собирается из 4 белковых субъединиц) и при обнаружении повреждений ДНК активирует гены, блокирующие клеточный цикл (p21) или запускающие апоптоз (PUMA, NOXA, BAX).
@@ -80,7 +87,6 @@ references:
 4. **Защита от потери гетерозиготности (LOH):** Если в одной клетке слона случайная мутация инактивирует один аллель TP53, остаются еще 39 рабочих аллелей. Вероятность одновременной мутации всех 40 аллелей в одной клетке стремится к абсолютному нулю.
 
 ---
-
 ## Воскрешение «Зомби-гена» LIF6
 
 В 2018 году команда В. Линча (*Vincent Lynch*) обнаружила второй, не менее впечатляющий механизм онкорезистентности слонов — ретроген **LIF6** [^ref_vazquez_2018]. 
@@ -127,7 +133,6 @@ references:
 При повреждении ДНК гипер-экспрессированный p53 связывается с промотором LIF6 и запускает синтез этого белка. Белок LIF6 мигрирует к митохондриям и вызывает быструю деполяризацию их мембраны (открытие пор), что ведет к утечке цитохрома С в цитоплазму и мгновенной гибели клетки (апоптозу) [^ref_vazquez_2018]. 
 
 ---
-
 ## Стратегия «Смерть вместо ремонта»
 
 Сравнительные лабораторные эксперименты *in vitro* (Abegglen et al., 2015), в которых первичные фибробласты и мононуклеарные клетки периферической крови (PBMC) слонов и людей подвергали ионизирующему излучению (гамма-облучение 2–10 Гр) и воздействию доксорубицина, выявили принципиальную разницу в клеточных стратегиях [^ref_abegglen_2015]:
@@ -138,22 +143,19 @@ references:
 Эта эволюционная стратегия — убивать любые клетки с малейшими повреждениями генома вместо их починки — оказалась единственным способом защитить гигантский многоклеточный организм от стохастического онкогенеза [^ref_abegglen_2015].
 
 ---
-
 ## ️ Доказательная база и медицинское значение
 
 *   **`[ESTABLISHED]` Клеточные линии и транскриптомика:** Исследования проводились на первичных культурах лимфоцитов, полученных из крови слонов зоопарков Сан-Диего и Юты. Мультипликация TP53 и экспрессия p53RTG подтверждены методами qPCR, полногеномного секвенирования (WGS) и РНК-секвенирования (RNA-Seq) [^ref_abegglen_2015][^ref_sulak_2016].
 *   **`[TRANSLATIONAL MEDICINE]` Перспективы для онкологии человека:** Открытие слоновьего механизма p53/LIF6 инициировало разработку новых направлений в генной терапии рака. Искусственное введение синтетических аналогов слоновьих ретрогенов p53 или аналогов LIF6 с помощью вирусных векторов в опухолевые клетки человека *in vitro* приводило к их успешному апоптозу (особенно при саркомах и глиобластомах, нечувствительных к химиотерапии) [^ref_vazquez_2018].
 
 ---
-
 ## Связанные знания
 *   **[Эмбриология и репродуктивная физиология](../veterinary/embryology-and-reproductive-physiology.md)** — Защита зародышевых клеток от мутаций.
 *   **[Вирусный эндотелиотропный герпес слонов (EEHV)](../veterinary/elephant-endotheliotropic-herpesvirus-eehv.md)** — Как гипер-апоптотический статус клеток влияет на молниеносный патогенез вирусного геморрагического шока у молодняка.
 *   **[Палеонтология и филогенетическая радиация](../taxonomy/proboscidea-paleontology-and-trunk-evolution.md)** — Как эволюция в сторону гравипортального гигантизма у плиоценовых хоботных шла параллельно с дублированием локусов TP53.
 
 ---
-
-## Библиография
+## 📚 Литература
 
 [^ref_abegglen_2015]: Abegglen L. M., Caulin A. F., Chan A., et al. (2015). Potential mechanisms for cancer resistance in elephants and comparative cellular response to DNA damage in humans. *JAMA*, 314(17), 1850-1860. doi:10.1001/jama.2015.13134.
 [^ref_sulak_2016]: Sulak M., Fong L., Mika K., et al. (2016). TP53 copy number expansion is associated with the evolution of increased body size and an enhanced DNA damage response in elephants. *eLife*, 5, e11994. doi:10.7554/eLife.11994.

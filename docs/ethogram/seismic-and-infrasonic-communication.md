@@ -1,32 +1,39 @@
 ---
-title: "Биофизика инфразвуковой и сейсмической коммуникации Elephantidae: волны Рэлея, форманты вокального тракта и пространственная триангуляция"
-evidence_level: 'established'
-description: "Академическая монография о механизмах генерации и рецепции низкочастотных акустических и сейсмических сигналов слонами, их эволюционном значении для коммуникации на дальних дистанциях и педоакустическом восприятии."
+title: 'Биофизика инфразвуковой и сейсмической коммуникации Elephantidae: волны Рэлея, форманты вокального тракта и пространственная триангуляция'
+evidence_level: established
+description: Академическая монография о механизмах генерации и рецепции низкочастотных акустических и сейсмических сигналов слонами, их эволюционном значении для коммуникации на дальних дистанциях и педоакустическом восприятии.
 category: ethogram
-tags: [инфразвук, сейсмика, волны Рэлея, тельца Пачини, акустика, коммуникация, вокальный тракт]
+tags:
+  - инфразвук
+  - сейсмика
+  - волны Рэлея
+  - тельца Пачини
+  - акустика
+  - коммуникация
+  - вокальный тракт
 difficulty: advanced
 reading_time_min: 15
-last_reviewed: 2026-08-23
+last_reviewed: '2026-08-23'
 references:
   - id: ref_oconnell_2007
-    title: "Wild African elephants (Loxodonta africana) discriminate between familiar and unfamiliar seismic alarm calls"
-    authors: "O'Connell-Rodwell C. E. et al."
+    title: Wild African elephants (Loxodonta africana) discriminate between familiar and unfamiliar seismic alarm calls
+    authors: O'Connell-Rodwell C. E. et al.
     year: 2007
   - id: ref_garstang_2004
-    title: "Long-distance, low-frequency elephant communication"
-    authors: "Garstang M."
+    title: Long-distance, low-frequency elephant communication
+    authors: Garstang M.
     year: 2004
   - id: ref_mccomb_2003
-    title: "Vocal recognition in the African elephant"
-    authors: "McComb K., Reby D., Baker L., Moss C., Sayialel S."
+    title: Vocal recognition in the African elephant
+    authors: McComb K., Reby D., Baker L., Moss C., Sayialel S.
     year: 2003
   - id: ref_christian_2012
-    title: "Seismic transmission of elephant vocalizations and movement"
-    authors: "Christian A. S. et al."
+    title: Seismic transmission of elephant vocalizations and movement
+    authors: Christian A. S. et al.
     year: 2012
   - id: ref_payne_1986
-    title: "Infrasonic calls of the Asian elephant"
-    authors: "Payne K. B., Langbauer W. R., Thomas E. M."
+    title: Infrasonic calls of the Asian elephant
+    authors: Payne K. B., Langbauer W. R., Thomas E. M.
     year: 1986
 ---
 
@@ -91,14 +98,12 @@ references:
 *   **[CLINICAL GUIDANCE] Мониторинг в зоопарках:** Инфразвуковые микрофоны и геофоны все чаще внедряются в вольеры крупных зоопарков. Скрытый инфразвуковой рокот (который не слышен киперам) позволяет ветеринарам и биологам на ранних стадиях выявлять эструс у самок, начало агрессивных конфликтов или состояние физиологического дискомфорта у животных [^3].
 
 ---
-
 ## Связанные знания
 * **[Анатомия дигитальной подушки]** — Биомеханика стопы и амортизация веса.
 * **[Когнитивная этология и социальная матрица]** — Как инфразвуковая связь поддерживает родственные связи в матриархальном стаде.
 * **[Феномен муста]** — Инфразвуковые дуэты между эстральными самками и мустующими самцами.
 
 ---
-
 ## Источники и литература
 [^1]: O'Connell-Rodwell C. E. et al. (2007). Wild African elephants (Loxodonta africana) discriminate between familiar and unfamiliar seismic alarm calls. *JASA*, 122, 823–830.
 [^2]: Garstang M. (2004). Long-distance, low-frequency elephant communication. *Journal of Comparative Physiology A*, 190, 791–805.

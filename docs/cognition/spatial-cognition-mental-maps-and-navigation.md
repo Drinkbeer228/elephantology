@@ -1,42 +1,50 @@
 ---
-title: "Пространственный интеллект, ментальные карты и когнитивная экология Elephantidae: навигационные алгоритмы матриархов"
-description: "Академическая монография: когнитивная картография, пространственная память долгоживущих матриархов, GPS-анализ путей перемещения, навигационные ошибки и адаптивное планирование маршрутов."
-category: "cognition"
-tags: ["пространственный интеллект", "ментальные карты", "когнитивная экология", "GPS-телеметрия", "навигация", "матриархи", "Foley", "McComb"]
+title: 'Пространственный интеллект, ментальные карты и когнитивная экология Elephantidae: навигационные алгоритмы матриархов'
+description: 'Академическая монография: когнитивная картография, пространственная память долгоживущих матриархов, GPS-анализ путей перемещения, навигационные ошибки и адаптивное планирование маршрутов.'
+category: cognition
+tags:
+  - пространственный интеллект
+  - ментальные карты
+  - когнитивная экология
+  - GPS-телеметрия
+  - навигация
+  - матриархи
+  - Foley
+  - McComb
 difficulty: advanced
 evidence_level: established
 reading_time_min: 15
-last_reviewed: "2026-08-27"
+last_reviewed: '2026-08-27'
 related_knowledge:
-  - "anatomy/neuroanatomy-brain-architecture-and-memory.md"
-  - "ethogram/comprehensive-ethogram-behavioral-catalogue.md"
-  - "ecology/spatial-ecology-and-connectivity-corridors.md"
+  - anatomy/neuroanatomy-brain-architecture-and-memory.md
+  - ethogram/comprehensive-ethogram-behavioral-catalogue.md
+  - ecology/spatial-ecology-and-connectivity-corridors.md
 references:
-  - id: "ref_foley_2008"
-    title: "Severe drought and elephant group leadership of Tarangire National Park, Tanzania"
-    authors: "Foley C. A. H. et al."
+  - id: ref_foley_2008
+    title: Severe drought and elephant group leadership of Tarangire National Park, Tanzania
+    authors: Foley C. A. H. et al.
     year: 2008
-    doi: "10.1111/j.1523-1739.2008.00974.x"
-  - id: "ref_mccomb_2011"
-    title: "Leadership in elephants: the adaptive value of age"
-    authors: "McComb K., Shannon G., Durant S. M., Sayialel K., Slotow R., Poole J., Moss C."
+    doi: 10.1111/j.1523-1739.2008.00974.x
+  - id: ref_mccomb_2011
+    title: 'Leadership in elephants: the adaptive value of age'
+    authors: McComb K., Shannon G., Durant S. M., Sayialel K., Slotow R., Poole J., Moss C.
     year: 2011
-    doi: "10.1098/rspb.2011.0168"
-  - id: "ref_polansky_2015"
-    title: "Elucidating the role of cognitive maps in spatial decisions of free-ranging elephants"
-    authors: "Polansky L., Kilian W., Wittemyer G."
+    doi: 10.1098/rspb.2011.0168
+  - id: ref_polansky_2015
+    title: Elucidating the role of cognitive maps in spatial decisions of free-ranging elephants
+    authors: Polansky L., Kilian W., Wittemyer G.
     year: 2015
-    doi: "10.1007/s10071-015-0891-1"
-  - id: "ref_leggett_2006"
-    title: "Effect of wind on the movement of desert-dwelling elephants (Loxodonta africana) in northwestern Namibia"
-    authors: "Leggett K. E. A."
+    doi: 10.1007/s10071-015-0891-1
+  - id: ref_leggett_2006
+    title: Effect of wind on the movement of desert-dwelling elephants (Loxodonta africana) in northwestern Namibia
+    authors: Leggett K. E. A.
     year: 2006
-    doi: "10.1111/j.1365-2028.2006.00650.x"
-  - id: "ref_bates_2007"
-    title: "Elephants classify human ethnic groups"
-    authors: "Bates L. A. et al."
+    doi: 10.1111/j.1365-2028.2006.00650.x
+  - id: ref_bates_2007
+    title: Elephants classify human ethnic groups
+    authors: Bates L. A. et al.
     year: 2007
-    doi: "10.1016/j.cub.2007.09.060"
+    doi: 10.1016/j.cub.2007.09.060
 ---
 
 ## Кратко
@@ -85,7 +93,6 @@ references:
 3. **Эпизодическое кодирование:** Доказано, что слоны способны извлекать пространственную информацию, записанную единожды за $35\text{–}40 \text{ лет}$ до события, что подтверждает гиппокампальный механизм долгосрочной консолидации эпизодов памяти [^ref_foley_2008].
 
 ---
-
 ### 2. Математический анализ путей по результатам GPS-телеметрии
 
 Современное использование высокочастотных GPS-ошейников (с шагом фиксации координат до 5–15 минут) позволяет математически деконструировать поисковую активность и пространственные решения слонов [^ref_polansky_2015].
@@ -115,7 +122,6 @@ $$r = \frac{D}{\sum_{i=1}^{n} L_i}$$
 Спутником прямолинейного движения выступает феномен **скоростной инверсии** [^ref_polansky_2015]. При движении сквозь опасные антропогенные зоны (коридоры, граничащие с фермерскими полями) слоны переходят на «бег в коридоре» (*corridoring*): они удваивают скорость локомоции (до $6\text{–}10 \text{ км/ч}$ вместо стандартных $2.5 \text{ км/ч}$), сводят к нулю время остановок и движутся строго в темное время суток, ориентируясь по акустическим и ольфакторным маркерам [^ref_leggett_2006][^ref_polansky_2015].
 
 ---
-
 ### 3. Навигационные ошибки и адаптивное планирование маршрутов
 
 Ментальная карта слона не является статичным отпечатком ландшафта, она подвергается постоянному динамическому обновлению на основе сенсорной обратной связи [^ref_polansky_2015]. Это выявляется при анализе так называемых **навигационных ошибок** — ситуаций, когда исторические миграционные пути натыкаются на новые антропогенные барьеры (электрические ограждения, каналы, автомагистрали) [^ref_leggett_2006].
@@ -128,7 +134,6 @@ $$r = \frac{D}{\sum_{i=1}^{n} L_i}$$
 Важнейшим ольфакторным навигационным ассистентом выступает **ветер** [^ref_leggett_2006]. Исследования К. Леггетта в пустынях Намибии показали, что слоны способны прецизионно корректировать свои суточные маршруты в соответствии с направлением ветра, который приносит летучие органические соединения (ЛОС) влажной почвы и вегетации из оазисов на расстоянии до $15 \text{ км}$ [^ref_leggett_2006]. Движение против ветра позволяет минимизировать энергетические затраты на поиск воды в аридных зонах [^ref_leggett_2006].
 
 ---
-
 ### 4. Количественное познание (Numerical Cognition) и принятие групповых решений
 
 Навигационные решения в группах слонов не принимаются деспотично; они требуют этологически координированного сбора консенсуса всей семьи [^ref_mccomb_2011]. Особое значение здесь приобретает способность слонов к оценке численности социальных и антропогенных угроз [^ref_bates_2007][^ref_mccomb_2011].
@@ -177,7 +182,7 @@ $$r = \frac{D}{\sum_{i=1}^{n} L_i}$$
 * **[Систематический этологический каталог и поведенческий репертуар Elephantidae](ethogram/comprehensive-ethogram-behavioral-catalogue.md)** — Тонкая структура аффилиативных сигналов и оборонительного поведения (*bunching*).
 * **[Пространственная экология, миграционные коридоры и ландшафтная связность](ecology/spatial-ecology-and-connectivity-corridors.md)** — Проектирование экокоридоров и влияние антропогенных преград на генетическую изоляцию.
 
-## Библиография
+## 📚 Литература
 
 [^ref_foley_2008]: Foley C. A. H., Pettorelli N., Foley L., Askey P., Coldwell L. (2008). Severe drought and elephant group leadership of Tarangire National Park, Tanzania. *Conservation Biology*, 22(4), 1061-1078. DOI: [10.1111/j.1523-1739.2008.00974.x](https://doi.org/10.1111/j.1523-1739.2008.00974.x)
 [^ref_mccomb_2011]: McComb K., Shannon G., Durant S. M., Sayialel K., Slotow R., Poole J., Moss C. (2011). Leadership in elephants: the adaptive value of age. *Proceedings of the Royal Society B: Biological Sciences*, 278(1722), 3270-3276. DOI: [10.1098/rspb.2011.0168](https://doi.org/10.1098/rspb.2011.0168)

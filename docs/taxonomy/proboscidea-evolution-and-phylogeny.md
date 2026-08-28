@@ -1,48 +1,53 @@
 ---
-title: "Филогения и макроэволюция хоботных (Proboscidea): от меритерия (Moeritherium) до современных линий Loxodonta и Elephas"
-evidence_level: 'established'
-description: "Фундаментальная научная монография, анализирующая макроэволюционные тренды, краниодентальные адаптации и молекулярно-генетическую филогению отряда Proboscidea от палеоценовых базальных форм до современных видов."
+title: 'Филогения и макроэволюция хоботных (Proboscidea): от меритерия (Moeritherium) до современных линий Loxodonta и Elephas'
+evidence_level: established
+description: Фундаментальная научная монография, анализирующая макроэволюционные тренды, краниодентальные адаптации и молекулярно-генетическую филогению отряда Proboscidea от палеоценовых базальных форм до современных видов.
 category: taxonomy
-tags: [палеонтология, филогения, макроэволюция, краниодентальный конвейер, палеогеномика]
+tags:
+  - палеонтология
+  - филогения
+  - макроэволюция
+  - краниодентальный конвейер
+  - палеогеномика
 difficulty: advanced
 reading_time_min: 15
-last_reviewed: 2026-08-23
+last_reviewed: '2026-08-23'
 references:
   - id: ref_gheerbrant_2009
-    title: "Paleocene emergence of elephant relatives and the rapid radiation of African ungulates"
-    authors: "Gheerbrant E."
+    title: Paleocene emergence of elephant relatives and the rapid radiation of African ungulates
+    authors: Gheerbrant E.
     year: 2009
   - id: ref_gheerbrant_1996
-    title: "A Palaeocene proboscidean from Morocco"
-    authors: "Gheerbrant E., Sudre J., Cappetta H."
+    title: A Palaeocene proboscidean from Morocco
+    authors: Gheerbrant E., Sudre J., Cappetta H.
     year: 1996
   - id: ref_andrews_1906
-    title: "A Descriptive Catalogue of the Tertiary Vertebrata of the Fayum, Egypt"
-    authors: "Andrews C. W."
+    title: A Descriptive Catalogue of the Tertiary Vertebrata of the Fayum, Egypt
+    authors: Andrews C. W.
     year: 1906
   - id: ref_shoshani_tassy_1996
-    title: "The Proboscidea: Evolution and Palaeoecology of Elephants and Their Relatives"
-    authors: "Shoshani J., Tassy P."
+    title: 'The Proboscidea: Evolution and Palaeoecology of Elephants and Their Relatives'
+    authors: Shoshani J., Tassy P.
     year: 1996
   - id: ref_rohland_2010
-    title: "Genomic DNA sequences from mastodon and woolly mammoth reveal deep speciation of forest and savanna elephants"
-    authors: "Rohland N., Reich D., Mallick S., et al."
+    title: Genomic DNA sequences from mastodon and woolly mammoth reveal deep speciation of forest and savanna elephants
+    authors: Rohland N., Reich D., Mallick S., et al.
     year: 2010
   - id: ref_tetaert_2026
-    title: "Functional adaptations to body mass in proboscidean ankle bones"
-    authors: "Tetaert C., Houssaye A."
+    title: Functional adaptations to body mass in proboscidean ankle bones
+    authors: Tetaert C., Houssaye A.
     year: 2026
   - id: ref_liu_2008
-    title: "Stable isotope evidence for an amphibious phase in early proboscidean evolution"
-    authors: "Liu A. G. S. C., Seiffert E. R., Simons E. L."
+    title: Stable isotope evidence for an amphibious phase in early proboscidean evolution
+    authors: Liu A. G. S. C., Seiffert E. R., Simons E. L.
     year: 2008
   - id: ref_larramendi_2016
-    title: "Proboscideans: shoulder height, body mass and shape"
-    authors: "Larramendi A."
+    title: 'Proboscideans: shoulder height, body mass and shape'
+    authors: Larramendi A.
     year: 2016
   - id: ref_lister_2012
-    title: "A skeleton of 'steppe' mammoth (Mammuthus trogontherii) from Kostolac, Serbia"
-    authors: "Lister A. M., Dimitrijevic V., Markovic Z., et al."
+    title: A skeleton of 'steppe' mammoth (Mammuthus trogontherii) from Kostolac, Serbia
+    authors: Lister A. M., Dimitrijevic V., Markovic Z., et al.
     year: 2012
 ---
 
@@ -103,7 +108,6 @@ Eritherium   Phosphatherium  Numidotherium                                   Mam
 > Переход к сухопутному образу жизни и резкое увеличение массы тела в эоцене привели к перестройке тарсального сустава. У полуводного *Moeritherium* пяточная кость (*calcaneus*) сохраняла примитивные сочленения, тогда как у более прогрессивного сухопутного *Numidotherium* таранная кость (*astragalus*) приобрела уплощенную форму, перераспределяя колоссальные осевые нагрузки на жировую подушку стопы[^6].
 
 ---
-
 ### 2. Великий переход: Дентальная макроэволюция и конвейерный дрейф
 По мере аридизации климата в миоцене и распространения жестких злаков \\(C_4\\)-типа, хоботные столкнулись с проблемой быстрого истирания зубной коронки[^4]. Это привело к двум параллельным макроэволюционным процессам в группе *Elephantimorpha*:
 
@@ -129,7 +133,6 @@ Eritherium   Phosphatherium  Numidotherium                                   Mam
 *   ***Mammutidae (Мастодонты)***: сохранили консервативный зигодонтный тип коренных зубов с острыми эмалевыми гребнями для разрывания лесной веточной растительности, не перейдя к питанию травами саванн[^4].
 
 ---
-
 ### 3. Молекулярная филогенетика современных линий
 Долгое время систематика современных африканских хоботных оставалась дискуссионной: лесной и саванный слоны рассматривались как морфологические подвиды одного вида *Loxodonta africana*[^5]. Однако геномное исследование Н. Роланда и соавторов (2010), основанное на секвенировании и сравнительном анализе геномов американского мастодонта (*Mammut americanum*), шерстистого мамонта (*Mammuthus primigenius*), азиатского слона (*Elephas maximus*) и обеих африканских линий, изменило филогенетическое древо[^5]:
 
@@ -140,7 +143,6 @@ Eritherium   Phosphatherium  Numidotherium                                   Mam
 > Скорость эволюции ядерной ДНК в ветвях человека и слона продемонстрировала конвергентное замедление (в сравнении с мышами и тенреками)[^4]. Это напрямую ассоциировано с резким удлинением интервала генераций и продолжительности жизни у крупных млекопитающих, а также с развитием более эффективных внутриклеточных систем репарации ДНК, защищающих долгоживущие нейроны крупного мозга от окислительного стресса[^4].
 
 ---
-
 ### 4. Эволюционные и консервационные выводы
 
 *   **[ESTABLISHED] Статус *Loxodonta cyclotis* и криптическое вымирание**: Официальное разделение рода *Loxodonta* на два самостоятельных вида имеет критическое значение для охраны природы[^5]. Лесные слоны (*L. cyclotis*) характеризуются более мелкими размерами, круглыми ушами, прямыми тонкими бивнями и уникальной экологической ролью мегасадовников дождевых лесов Конго[^5]. Ввиду того, что их популяции сокращаются из-за браконьерства значительно быстрее саванных сородичей, объединение их в один надвид маскировало катастрофический темп вымирания лесного вида (криптическое вымирание)[^5].
