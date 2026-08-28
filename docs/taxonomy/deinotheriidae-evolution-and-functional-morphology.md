@@ -1,4 +1,5 @@
 ---
+reading_time: 15 мин
 title: Эволюционная радиация, краниодентальная биомеханика и палеоэкология Deinotheriidae
 evidence_level: established
 description: Академическая монография об эволюции деинотериев, биомеханике каудально загнутых бивней, лофодонтии и их вымирании.
@@ -188,14 +189,14 @@ references:
 ---
 ## Связанные знания
 
-*   **[Proboscidea Early Evolution](proboscidea-early-evolution-and-stem-groups.md)** — Филогенетические корни хоботных в палеогене: от базальных афротериев к меритериям.
-*   **[Skeletal System Cranial](../anatomy/skeletal_system_cranial.md)** — Сравнительная остеология черепа, краниальная пневматизация и эволюция резцов.
+*   **[Proboscidea Early Evolution](../taxonomy/proboscidea-early-evolution-and-stem-groups.md)** — Филогенетические корни хоботных в палеогене: от базальных афротериев к меритериям.
+*   **[Skeletal System Cranial](../anatomy/skeletal-system-cranial-and-dentition.md)** — Сравнительная остеология черепа, краниальная пневматизация и эволюция резцов.
 *   **[Ecosystem Engineers](../ecology/ecosystem-engineers-and-keystone-ecology.md)** — Средообразующая роль крупных хоботных и трофические последствия их исчезновения.
 
 ---
 ## 📚 Литература
 
-[^5]: См. монографию *[skeletal_system_cranial.md](../anatomy/skeletal_system_cranial.md)* — «Сравнительная краниология, дентальная морфология и биомеханика жевания хоботных».
+[^5]: См. монографию *[skeletal_system_cranial.md](../anatomy/skeletal-system-cranial-and-dentition.md)* — «Сравнительная краниология, дентальная морфология и биомеханика жевания хоботных».
 [^6]: См. *2017 Joyce Poole NhRP affidavit NEW YORK FINAL.pdf* — Сравнительные данные по нейроанатомии, дентальной гистологии и филогении хоботных.
 [^8]: См. *2_50.pdf* (Family Deinotheriidae Bonaparte, 1845) — Описание строения черепа, нижней челюсти и уникальной структуры бивней деинотериев.
 [^9]: См. *2_50.pdf* (p. 367) — Жевательная система, строение гребней моляров и адаптация к мягкой растительности.
@@ -229,7 +230,7 @@ references:
 [^185]: См. *preview-9781482254778_A40656411.pdf* (Chapter 4) — Миграционные события и распространение Deinotheriidae в неогене Евразии.
 [^191]: См. *preview-9781482254778_A40656411.pdf* (p. 3-4) — Нестабильность филогенетического положения ранних хоботных и сестринские связи деинотериев с элефантоформами.
 [^195]: См. *preview-9781482254778_A40656411.pdf* (Table 1.1) — Систематика семейства Deinotheriidae и разделение на подсемейства Chilgatheriinae и Deinotheriinae.
-[^203]: См. монографию *[elephant-foot-care-and-pododermatitis.md](../veterinary/elephant-foot-care-and-pododermatitis.md)* — «Эволюция опорного аппарата хоботных в антропогене».
+[^203]: См. монографию *[elephant-foot-care-and-pododermatitis.md](../veterinary/clinical-podiatry-and-foot-care.md)* — «Эволюция опорного аппарата хоботных в антропогене».
 [^212]: См. *preview-9781482254778_A40656411.pdf* (p. 10) — Специфика зубной формулы, одновременного прорезывания зубов и загнутых бивней у Deinotheriidae.
 [^213]: См. *preview-9781482254778_A40656411.pdf* (p. 10) — Переходные черты строения моляров Chilgatherium harrisi.
 [^214]: См. *preview-9781482254778_A40656411.pdf* (p. 11) — Синапоморфии Deinotheriidae и их филогенетический анализ по Тасси (1994).

@@ -1,4 +1,5 @@
 ---
+reading_time: 5 мин
 title: Экология и социальная психология
 evidence_level: established
 description: 'Влияние браконьерства, culling и потери миграционных коридоров на популяции слонов: ПТСР, синдром «Elephant Breakdown», генетика и изоляция.'
@@ -17,5 +18,5 @@ last_reviewed: '2026-07-23'
 
 | Статья | Описание | Сложность |
 |--------|----------|-----------|
-| [ПТСР и синдром «Elephant Breakdown»](elephant_breakdown_syndrome.md) | Психологическая травма, культура агрессии, реабилитация | advanced |
-| [Онтогенез и жизненный цикл слонов](ontogeny_life_cycle.md) | Алломатеринство, материнские инвестиции, половая сегрегация | beginner |
+| [ПТСР и синдром «Elephant Breakdown»](ecology/ecosystem-breakdown-syndrome.md) | Психологическая травма, культура агрессии, реабилитация | advanced |
+| [Онтогенез и жизненный цикл слонов](ecology/ontogeny-and-life-history.md) | Алломатеринство, материнские инвестиции, половая сегрегация | beginner |

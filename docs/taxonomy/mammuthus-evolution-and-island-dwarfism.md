@@ -1,4 +1,5 @@
 ---
+reading_time: 14 мин
 title: Эволюционная радиация рода Mammuthus и биомеханика островной карликовости
 evidence_level: established
 description: Академическая монография о филогенетическом ряде мамонтов, гиперпластинчатости зубов и анатомии островной карликовости.
@@ -151,8 +152,8 @@ references:
 ---
 ## Связанные знания
 
-* **[Mammutidae vs Elephantidae](mammutidae-vs-elephantidae-evolution-and-biomechanics.md)** — Сравнительный анализ окклюзального аппарата: бугорчатая зиголофодонтия мастодонтов против ламеллярной гипсодонтии мамонтов.
-* **[Cranial Skeleton and Polyphyodonty](../anatomy/skeletal_system_cranial.md)** — Остеология черепа Elephantidae, формирование альвеолярных карманов для бивней ($I2$) и биомеханика горизонтальной смены зубов.
+* **[Mammutidae vs Elephantidae](../taxonomy/mammutidae-vs-elephantidae-evolution-and-biomechanics.md)** — Сравнительный анализ окклюзального аппарата: бугорчатая зиголофодонтия мастодонтов против ламеллярной гипсодонтии мамонтов.
+* **[Cranial Skeleton and Polyphyodonty](../anatomy/skeletal-system-cranial-and-dentition.md)** — Остеология черепа Elephantidae, формирование альвеолярных карманов для бивней ($I2$) и биомеханика горизонтальной смены зубов.
 * **[Paleoecology and Megafaunal Extinction](../ecology/paleoecology-and-megafaunal-extinction.md)** — Хронология гибели последних островных популяций мамонтов (о. Врангеля, о. Сент-Пол) под влиянием экстремального инбридинга и генетического распада генома.
 
 ---

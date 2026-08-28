@@ -1,4 +1,6 @@
 ---
+reading_time: 14 мин
+evidence_level: established
 title: 'Физиология ферментации в толстом кишечнике (Hindgut Fermentation), микробиомная архитектоника и биохимия летучих жирных кислот у Elephantidae: симбиотический метаболизм и кинетика гидролиза лигноцеллюлозы'
 category: anatomy
 difficulty: advanced
@@ -173,7 +175,7 @@ $$CO_2 + 4H_2 \rightarrow CH_4 + 2H_2O$$
 ---
 ## Связанные знания
 
-*   **[Macroanatomy of Digestive System](digestive_system.md)** — Топография, связки и макроанатомическое строение отделов желудочно-кишечного тракта слонов.
+*   **[Macroanatomy of Digestive System](../anatomy/digestive-system-macroanatomy-and-vascularization.md)** — Топография, связки и макроанатомическое строение отделов желудочно-кишечного тракта слонов.
 *   **[Gastrointestinal Physiology and Colic](../veterinary/gastrointestinal-physiology-and-colic.md)** — Патофизиология колик, метеоризма, завалов кишечника и хирургические ограничения при абдоминальных операциях.
 *   **[Elephant Neonatology and Calves](../veterinary/elephant-neonatology-and-calves.md)** — Ранний неонатальный метаболизм, состав молозива и практические протоколы выхаживания сирот в Sheldrick Wildlife Trust.
 

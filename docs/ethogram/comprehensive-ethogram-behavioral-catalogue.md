@@ -1,4 +1,5 @@
 ---
+reading_time: 15 мин
 title: 'Систематический этологический каталог и поведенческий репертуар Elephantidae: стандартизированная классификация паттернов покоя, локомоции, комфорта, аффилиации и защиты'
 description: Академический этологический каталог слонов (Elephantidae) на основе стандартов ElephantVoices. Систематизирует паттерны сна, комфортного поведения, игры, аффилиации и агонистических реакций. Содержит клинические протоколы анализа бюджета времени для ветеринарного аудита благополучия.
 category: ethogram
@@ -233,10 +234,10 @@ references:
 ---
 ## Связанные знания
 
-*   **[Multilevel Fission-Fusion Social Structure](fission-fusion-social-structure.md)** — Как динамическое деление и слияние кланов координируется аффилиативными приветственными ритуалами.
-*   **[Aggression, Dominance and Reconciliation](aggression-dominance-and-reconciliation.md)** — Роль турнирных спаррингов в минимизации физического травматизма при установлении социальной иерархии.
-*   **[Empathy and Mourning Rituals](empathy-and-mourning-rituals.md)** — Детализированный разбор реакций слонов на смерть сородичей и этология утешения пострадавших особей.
-*   **[Captive Welfare and Protected Contact](captive-welfare-and-protected-contact.md)** — Практическое применение этограммы для аудита благополучия слонов в зоологических центрах и питомниках.
+*   **[Multilevel Fission-Fusion Social Structure](../ethogram/fission-fusion-social-structure.md)** — Как динамическое деление и слияние кланов координируется аффилиативными приветственными ритуалами.
+*   **[Aggression, Dominance and Reconciliation](../ethogram/aggression-dominance-and-reconciliation.md)** — Роль турнирных спаррингов в минимизации физического травматизма при установлении социальной иерархии.
+*   **[Empathy and Mourning Rituals](../cognition/empathy-and-mourning-rituals.md)** — Детализированный разбор реакций слонов на смерть сородичей и этология утешения пострадавших особей.
+*   **[Captive Welfare and Protected Contact](../veterinary/clinical-welfare-and-protected-contact.md)** — Практическое применение этограммы для аудита благополучия слонов в зоологических центрах и питомниках.
 
 ---
 [^ref_poole_granli_2021]: **Poole J. H., Granli P.** *The Elephant Ethogram: A Library of Behavior and Communication.* ElephantVoices, 2021, Version 1.0. Available online at: [www.elephantvoices.org](https://www.elephantvoices.org).

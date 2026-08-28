@@ -1,4 +1,5 @@
 ---
+reading_time: 5 мин
 title: Библиография
 evidence_level: established
 description: Полный список источников, использованных в энциклопедии «Слонология».

@@ -1,4 +1,5 @@
 ---
+reading_time: 7 мин
 title: Эволюционная радиация и биомеханика Gomphotheriidae и Amebelodontidae
 evidence_level: established
 description: Академическая монография о четверобивневых гомфотериях, лопатозубые амебелодонты, кинематике срезания растительности и Великом межамериканском обмене.
@@ -102,9 +103,9 @@ references:
 ---
 ## Связанные знания
 
-* **[Mammutidae vs Elephantidae](mammutidae-vs-elephantidae-evolution-and-biomechanics.md)** — Сравнительный анализ дивергенции мастодонтов и настоящих слонов, их жевательной биомеханики.
-* **[Deinotheriidae Evolution](deinotheriidae-evolution-and-functional-morphology.md)** — Альтернативная стратегия развития бивней у деинотериев (редукция верхних, загибание нижних).
-* **[Cranial Skeletal System](../anatomy/skeletal_system_cranial.md)** — Анатомия альвеол бивней и формирование горизонтальной смены зубов у хоботных.
+* **[Mammutidae vs Elephantidae](../taxonomy/mammutidae-vs-elephantidae-evolution-and-biomechanics.md)** — Сравнительный анализ дивергенции мастодонтов и настоящих слонов, их жевательной биомеханики.
+* **[Deinotheriidae Evolution](../taxonomy/deinotheriidae-evolution-and-functional-morphology.md)** — Альтернативная стратегия развития бивней у деинотериев (редукция верхних, загибание нижних).
+* **[Cranial Skeletal System](../anatomy/skeletal-system-cranial-and-dentition.md)** — Анатомия альвеол бивней и формирование горизонтальной смены зубов у хоботных.
 
 ---
 ## 📚 Литература

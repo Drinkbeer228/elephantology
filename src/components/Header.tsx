@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, BookOpen } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 
 export function Header() {
   return (
@@ -15,34 +15,12 @@ export function Header() {
           </div>
           <div className="flex flex-col items-start text-left">
             <h1 className="font-bold text-base sm:text-lg text-white group-hover:text-kingdom-gold transition-colors duration-300 tracking-[0.15em] uppercase font-serif">
-              ЭЛЕФАНТОЛОГИЯ
+              СЛОНОЛОГИЯ
             </h1>
           </div>
         </button>
-
-        {/* Search Bar */}
-        <button
-          onClick={() => window.dispatchEvent(new CustomEvent('toggle-search', { detail: { force: true } }))}
-          className="flex-1 max-w-md hidden md:flex items-center justify-between bg-black/40 hover:bg-black/60 border border-white/10 hover:border-kingdom-gold/40 rounded-xl px-4 py-2.5 text-sm text-gray-400 transition-all group focus:outline-none focus-visible:ring-1 focus-visible:ring-kingdom-gold shadow-inner cursor-pointer"
-        >
-          <div className="flex items-center gap-2.5">
-            <Search className="w-4 h-4 text-gray-500 group-hover:text-kingdom-gold transition-colors" />
-            <span className="font-medium">Поиск по энциклопедии...</span>
-          </div>
-        </button>
-
-        {/* Actions Toolbar */}
-        <div className="flex items-center gap-2 shrink-0">
-          {/* Mobile Search Button */}
-          <button
-            onClick={() => window.dispatchEvent(new CustomEvent('toggle-search', { detail: { force: true } }))}
-            title="Поиск статей"
-            className="md:hidden w-9 h-9 flex items-center justify-center rounded-xl bg-[#1b1d24] border border-white/10 text-gray-300 hover:text-white hover:border-kingdom-gold/40 transition-all cursor-pointer"
-          >
-            <Search className="w-4 h-4" />
-          </button>
-        </div>
       </div>
     </header>
   );
 }
+

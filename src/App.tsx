@@ -121,10 +121,10 @@ export default function App() {
       <footer className="mt-auto border-t border-kingdom-border bg-kingdom-card/60 py-8 text-xs text-kingdom-muted">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <BookOpen className="w-6 h-6 text-kingdom-gold" />
+            <BookOpen className="w-5 h-5 text-kingdom-gold shrink-0" />
             <div>
-              <span className="font-bold text-kingdom-gold tracking-[0.15em] uppercase font-serif">ЭЛЕФАНТОЛОГИЯ</span> — Академическая цифровая энциклопедия о слонах.
-              <p className="text-[11px] text-kingdom-muted">Est. 2026 • Crafted with Academic Precision</p>
+              <span className="font-medium text-slate-300">Академическая цифровая энциклопедия</span>
+              <p className="text-[11px] text-kingdom-muted mt-0.5">2026 • Монографии и систематизированные материалы по биологии, анатомии и сохранению Proboscidea</p>
             </div>
           </div>
           <div className="flex items-center gap-4 text-[11px]">

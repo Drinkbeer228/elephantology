@@ -1,4 +1,5 @@
 ---
+reading_time: 15 мин
 title: 'Клиническая макроанатомия, синтопия и сосудистая архитектоника желудочно-кишечного тракта Elephantidae: топография слепой кишки, брыжеечные артериальные сплетения и хирургическая топография брюшной полости'
 evidence_level: established
 description: Фундаментальная научная монография, исследующая макроанатомию, топографические взаимоотношения, васкуляризацию и иннервацию ЖКТ слонов, а также хирургические доступы и гравитационные ограничения брюшной полости.
@@ -194,9 +195,9 @@ references:
 ---
 ## Связанные знания
 
-*   **[Microbiome & Hindgut Fermentation](microbiome-and-hindgut-fermentation.md)** — Физиологические механизмы целлюлозолитического брожения в слепой и ободочной кишках.
+*   **[Microbiome & Hindgut Fermentation](../anatomy/microbiome-and-hindgut-fermentation.md)** — Физиологические механизмы целлюлозолитического брожения в слепой и ободочной кишках.
 *   **[Gastrointestinal Physiology and Colic](../veterinary/gastrointestinal-physiology-and-colic.md)**  — Патофизиология обструктивных, песчаных и газовых колик, методы их консервативной терапии.
-*   **[Cardiovascular System & Hemodynamics](cardiovascular-system-and-hemodynamics.md)** — Особенности системного артериального давления и венозного возврата через подошвенную помпу при анестезиологических рисках.
+*   **[Cardiovascular System & Hemodynamics](../anatomy/cardiovascular-system-and-hemodynamics.md)** — Особенности системного артериального давления и венозного возврата через подошвенную помпу при анестезиологических рисках.
 *   **[Chemical Immobilization & Anesthesia](../veterinary/chemical-immobilization-and-anesthesia.md)** — Протоколы безопасного наркоза, ИВЛ и мониторинга газов крови при вынужденной рекумбенции.
 
 ---

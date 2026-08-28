@@ -1,4 +1,8 @@
 ---
+title: Энциклопедия «Слонология»
+category: general
+evidence_level: established
+reading_time: 3 мин
 hide:
   - navigation
   - toc

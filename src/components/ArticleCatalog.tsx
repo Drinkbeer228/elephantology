@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ChevronDown, ChevronRight, BookOpen, Sparkles, Clock, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, Layers, ChevronsUpDown } from 'lucide-react';
+import { ChevronDown, ChevronRight, BookOpen, Sparkles, Clock, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, Layers, ChevronsUpDown, Search } from 'lucide-react';
 import { ArticleItem } from '../lib/searchEngine';
 import { getStaticArticles } from '../lib/articles';
 import { CategoryDef } from './catalog/CategoryTile';
@@ -250,25 +250,45 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
   return (
     <div className="animate-fade-in max-w-5xl mx-auto space-y-8 pb-16 pt-6 px-2 sm:px-0">
       
-      {/* Catalog Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/5 pb-5">
-        <div className="space-y-1.5">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight flex items-center gap-2.5">
-            <Layers className="w-6 h-6 text-kingdom-gold" />
-            Слонология
-          </h2>
-          <p className="text-sm text-gray-400 max-w-2xl leading-relaxed">
-            Систематизированный академический каталог. Выберите тему для раскрытия списка статей.
-          </p>
+      {/* Catalog Header with Search */}
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/5 pb-5">
+          <div className="space-y-1.5">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight flex items-center gap-2.5">
+              <Layers className="w-6 h-6 text-kingdom-gold" />
+              База знаний
+            </h2>
+            <p className="text-sm text-gray-400 max-w-2xl leading-relaxed">
+              Тематический рубрикатор и 72 статьи по биологии, анатомии, палеонтологии и ветеринарии Proboscidea.
+            </p>
+          </div>
+
+          <button
+            onClick={toggleAllCategories}
+            className="self-start sm:self-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#1a1c26] text-gray-300 hover:text-kingdom-gold border border-white/10 hover:border-kingdom-gold/40 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <ChevronsUpDown className="w-3.5 h-3.5" />
+            <span>{allExpanded ? 'Свернуть все' : 'Развернуть все'}</span>
+          </button>
         </div>
 
-        <button
-          onClick={toggleAllCategories}
-          className="self-start sm:self-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#1a1c26] text-gray-300 hover:text-kingdom-gold border border-white/10 hover:border-kingdom-gold/40 transition-all cursor-pointer shadow-sm shrink-0"
-        >
-          <ChevronsUpDown className="w-3.5 h-3.5" />
-          <span>{allExpanded ? 'Свернуть все' : 'Развернуть все'}</span>
-        </button>
+        {/* Search input field with magnifying glass icon above categories */}
+        <div className="relative">
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('toggle-search', { detail: { force: true } }))}
+            className="w-full flex items-center justify-between px-4 py-3 bg-[#161822] hover:bg-[#1b1e2b] border border-white/10 hover:border-kingdom-gold/40 rounded-xl text-left transition-all group shadow-inner cursor-pointer"
+          >
+            <div className="flex items-center gap-3">
+              <Search className="w-4 h-4 text-gray-400 group-hover:text-kingdom-gold transition-colors shrink-0" />
+              <span className="text-sm text-gray-400 font-normal">
+                Поиск по 72 статьям энциклопедии (термины, латынь, патологии, DOI)...
+              </span>
+            </div>
+            <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-gray-400">
+              Поиск
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* 2 Independent Column Stacks */}

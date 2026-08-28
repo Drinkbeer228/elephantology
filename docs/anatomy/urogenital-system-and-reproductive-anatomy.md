@@ -1,4 +1,5 @@
 ---
+reading_time: 13 мин
 title: Клиническая урология, репродуктивная анатомия и эндокринология Elephantidae
 evidence_level: established
 description: Фундаментальная научная монография, систематизирующая морфологические и эндокринологические параметры урогенитального комплекса хоботных, включая феномен тестикондности и двухволновой LH-цикл.
@@ -183,10 +184,10 @@ references:
 ---
 ## Связанные знания
 
-*   **[Musth Endocrinology](musth-ethology-and-endocrinology.md)** — Тонкие механизмы выработки тестостерона во время муста и хемосенсорной детекции сородичей.
-*   **[Elephant Neonatology and Calves](elephant-neonatology-and-calves.md)** — Физиология родов после 22 месяцев гравидарности и развитие новорожденных слонят.
-*   **[Cardiovascular System and Hemodynamics](cardiovascular-system-and-hemodynamics.md)** — Физика высокого артериального давления и терморегуляция органов брюшной полости.
-*   **[Digestive System Macroanatomy](digestive-system-macroanatomy-and-vascularization.md)** — Синтопия кишечного тракта и топографическое давление ЖКТ на матку во время беременности.
+*   **[Musth Endocrinology](../ethogram/musth-ethology-and-endocrinology.md)** — Тонкие механизмы выработки тестостерона во время муста и хемосенсорной детекции сородичей.
+*   **[Elephant Neonatology and Calves](../veterinary/elephant-neonatology-and-calves.md)** — Физиология родов после 22 месяцев гравидарности и развитие новорожденных слонят.
+*   **[Cardiovascular System and Hemodynamics](../anatomy/cardiovascular-system-and-hemodynamics.md)** — Физика высокого артериального давления и терморегуляция органов брюшной полости.
+*   **[Digestive System Macroanatomy](../anatomy/digestive-system-macroanatomy-and-vascularization.md)** — Синтопия кишечного тракта и топографическое давление ЖКТ на матку во время беременности.
 
 ---
 ## 📚 Литература

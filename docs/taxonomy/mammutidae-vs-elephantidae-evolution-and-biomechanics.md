@@ -1,4 +1,5 @@
 ---
+reading_time: 13 мин
 title: Филогенетическая дивергенция, краниодентальная биомеханика и палеоэкология Mammutidae
 evidence_level: established
 description: Академическая монография о дивергенции мастодонтов и Elephantidae, зиголофодонтии, палеогенетике и краниальной биомеханике.
@@ -189,8 +190,8 @@ references:
 ---
 ## Связанные знания
 
-*   **[Proboscidea Early Evolution](proboscidea-early-evolution-and-stem-groups.md)** — Анализ палеогеновых стем-групп и перехода к лофодонтной морфологии зубов.
-*   **[Cranial Skeletal System](../anatomy/skeletal_system_cranial.md)** — Краниодентальная биомеханика, окклюзия и физиология полифиодонтии у современных Elephantidae.
+*   **[Proboscidea Early Evolution](../taxonomy/proboscidea-early-evolution-and-stem-groups.md)** — Анализ палеогеновых стем-групп и перехода к лофодонтной морфологии зубов.
+*   **[Cranial Skeletal System](../anatomy/skeletal-system-cranial-and-dentition.md)** — Краниодентальная биомеханика, окклюзия и физиология полифиодонтии у современных Elephantidae.
 *   **[Paleoecology and Megafaunal Extinction](../ecology/paleoecology-and-megafaunal-extinction.md)** — Масштаб четвертичного экологического кризиса, гипотеза антропогенного оверкилла и роль спор копрофильных грибов *Sporormiella*.
 
 ---
@@ -198,7 +199,7 @@ references:
 
 [^1]: См. Shoshani, J., & Tassy, P. (Eds.). (1996). *The Proboscidea: Evolution and Palaeoecology of Elephants and Their Relatives*. Oxford University Press.
 [^2]: См. Dobson, A.P., & Poole, J.H. (1998). Conspecific aggregation and conservation biology: Inferences from elephant social structure. *Conspecific Aggregation and Conservation*, 193-208.
-[^3]: См. монографию *[skeletal_system_cranial.md](../anatomy/skeletal_system_cranial.md)* — «Краниодентальная биомеханика, архитектура жевательного аппарата и полифиодонтия у Elephantidae».
+[^3]: См. монографию *[skeletal_system_cranial.md](../anatomy/skeletal-system-cranial-and-dentition.md)* — «Краниодентальная биомеханика, архитектура жевательного аппарата и полифиодонтия у Elephantidae».
 [^4]: См. Cerling, T.E., Harris, J.M., & Leakey, M.G. (1999). Browsing and grazing in African elephants. *Science*, 285(5429), 811.
 [^5]: См. Sanders, W.J., Gheerbrant, E., Harris, J.M., Saegusa, H., & Delmer, C. (2010). Cenozoic antiquity of Africa’s evolutionary unique mammals: Proboscidea. *African Megafauna*, 161–194.
 [^6]: См. Larramendi, A. (2016). Shoulder height, body mass, and shape of proboscideans. *Acta Palaeontologica Polonica*, 61(3), 537–574.

@@ -21,7 +21,7 @@ export function CitationModal() {
       const currentPath = win.currentArticlePath || window.location.pathname;
       const found = allArticles.find((a: any) => a.path === currentPath);
       
-      const docTitle = title || (found ? found.title : document.title.replace(' — Элефантология', '').replace('Энциклопедия «Элефантология»', '')) || 'Академическая статья';
+      const docTitle = title || (found ? found.title : document.title.replace(' — Слонология', '').replace('Энциклопедия «Слонология»', '')) || 'Академическая статья';
       const cat = category || (found && found.category ? found.category.toUpperCase() : 'ЭНЦИКЛОПЕДИЯ');
       
       setArticleTitle(docTitle);
@@ -61,18 +61,18 @@ export function CitationModal() {
   const currentUrl = window.location.href;
 
   const citations = {
-    gost: `Элефантология: Академическая энциклопедия хоботных (Proboscidea). Статья «${articleTitle}». — 2026. URL: ${currentUrl} (дата обращения: ${dateFormattedRu}).`,
+    gost: `Слонология: Академическая энциклопедия хоботных (Proboscidea). Статья «${articleTitle}». — 2026. URL: ${currentUrl} (дата обращения: ${dateFormattedRu}).`,
     apa: `Elephantology Research Guild. (2026). ${articleTitle}. In Elephantology Knowledge Base. Retrieved ${dateFormattedEn}, from ${currentUrl}`,
     bibtex: `@misc{elephantology2026_${articleTitle.toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 16)},
   title = {${articleTitle}},
   author = {{Elephantology Research Guild}},
   year = {2026},
   howpublished = {\\url{${currentUrl}}},
-  note = {Энциклопедия «Элефантология». Дата обращения: ${dateFormattedRu}}
+  note = {Энциклопедия «Слонология». Дата обращения: ${dateFormattedRu}}
 }`,
     quote: selectedText 
-      ? `> «${selectedText}»\n\n— Источник: Энциклопедия «Элефантология», статья «${articleTitle}» (${currentUrl})`
-      : `> «${articleTitle} — фундаментальный материал из академической базы знаний по биологии хоботных.»\n\n— Энциклопедия «Элефантология», раздел ${categoryName} (${currentUrl})`
+      ? `> «${selectedText}»\n\n— Источник: Энциклопедия «Слонология», статья «${articleTitle}» (${currentUrl})`
+      : `> «${articleTitle} — фундаментальный материал из академической базы знаний по биологии хоботных.»\n\n— Энциклопедия «Слонология», раздел ${categoryName} (${currentUrl})`
   };
 
   const activeContent = citations[activeTab];
@@ -192,7 +192,7 @@ export function CitationModal() {
         {/* Footer Actions */}
         <div className="p-4 bg-[#13141b] border-t border-[#34384a] flex items-center justify-between gap-3">
           <span className="text-[11px] text-gray-500 hidden sm:inline font-mono">
-            Энциклопедия «Элефантология» • Открытая база знаний
+            Энциклопедия «Слонология» • Открытая база знаний
           </span>
 
           <div className="flex items-center gap-2 ml-auto">

@@ -1,5 +1,7 @@
 ---
-title: 'Clinical pulmonology, breathing biophysics and vocal tract anatomy in Elephantidae: pleural space obliteration, snorkeling mechanics and laryngeal acoustic architecture'
+reading_time: 13 мин
+evidence_level: established
+title: 'Клиническая пульмонология, биофизика дыхания и анатомия вокального тракта Elephantidae: облитерация плевральной полости, механика сноркелинга и акустическая архитектоника гортани'
 category: anatomy
 difficulty: advanced
 tags:
@@ -24,7 +26,7 @@ references:
     title: Stoeger et al., 2012
 ---
 
-# Clinical pulmonology, breathing biophysics and vocal tract anatomy in Elephantidae: pleural space obliteration, snorkeling mechanics and laryngeal acoustic architecture
+# Клиническая пульмонология, биофизика дыхания и анатомия вокального тракта Elephantidae: облитерация плевральной полости, механика сноркелинга и акустическая архитектоника гортани
 
 Дыхательная система и вокальный тракт хоботных (*Elephantidae*) представляют собой один из наиболее радикальных примеров эволюционной морфофункциональной специализации среди млекопитающих [1]. Полная облитерация плевральной полости и ее замещение плотным соединительнотканным интерстицием выступают уникальной биофизической адаптацией, позволяющей этим гигантам осуществлять глубоководный сноркелинг под воздействием колоссального гидростатического давления [2, 3]. Одновременно с этим, гигантские масштабы гортани и наличие специализированных резонирующих камер определяют уникальную способность хоботных к генерации и модуляции инфразвуковых сигналов высокой интенсивности, выступающих основой их трансграничной социальной коммуникации [1, 4].
 
@@ -217,10 +219,10 @@ $$\Delta P = \rho \cdot g \cdot h$$
 ---
 ## Связанные знания
 
-*   **[Cardiovascular System & Hemodynamics](cardiovascular-system-and-hemodynamics.md)** — Синергия высокого артериального давления и механики венозного возврата при экстремальных гидростатических нагрузках сноркелинга.
+*   **[Cardiovascular System & Hemodynamics](../anatomy/cardiovascular-system-and-hemodynamics.md)** — Синергия высокого артериального давления и механики венозного возврата при экстремальных гидростатических нагрузках сноркелинга.
 *   **[Seismic and Infrasonic Communication](../ethogram/seismic-and-infrasonic-communication.md)** — Как инфразвуковые румбли гортани трансформируются в сейсмические волны Рэлея и улавливаются рецепторами конечностей.
 *   **[Chemical Immobilization & Anesthesia](../veterinary/chemical-immobilization-and-anesthesia.md)** — Анестезиологические риски, позиционный коллапс легких и полные протоколы респираторной поддержки под наркозом.
-*   **[Muscular Hydrostat of the Trunk](muscular-hydrostat-and-trunk-biomechanics.md)** — Мышечная биомеханика расширения носовых каналов при наборе воды и механика герметичного закрытия ноздрей.
+*   **[Muscular Hydrostat of the Trunk](../anatomy/muscular-hydrostat-and-trunk-biomechanics.md)** — Мышечная биомеханика расширения носовых каналов при наборе воды и механика герметичного закрытия ноздрей.
 
 ---
 ## Источники и литература

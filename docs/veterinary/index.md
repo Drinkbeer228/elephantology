@@ -18,6 +18,6 @@ last_reviewed: '2026-07-23'
 
 | Статья | Описание | Сложность |
 |--------|----------|-----------|
-| [Протокол ухода за стопами](foot_care_protocol.md) | Профилактика, лечение, инструментарий | intermediate |
-| [Экстренные схемы лечения EEHV](eehv_protocol.md) | Диагностика, терапия, мониторинг | advanced |
-| [Выхаживание слонят-сирот](orphan_calf_rehabilitation.md) | Питание, социализация, реабилитация | advanced |
+| [Протокол ухода за стопами](../veterinary/clinical-podiatry-and-foot-care.md) | Профилактика, лечение, инструментарий | intermediate |
+| [Экстренные схемы лечения EEHV](../veterinary/eehv-endotheliotropic-herpesvirus-protocols.md) | Диагностика, терапия, мониторинг | advanced |
+| [Выхаживание слонят-сирот](../veterinary/elephant-neonatology-and-calves.md) | Питание, социализация, реабилитация | advanced |

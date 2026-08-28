@@ -1,4 +1,5 @@
 ---
+reading_time: 5 мин
 title: Таксономия и эволюция
 evidence_level: established
 description: Систематика слонов, эволюционная история, филогения современных и вымерших видов.
@@ -18,4 +19,4 @@ last_reviewed: '2026-07-23'
 
 | Статья | Описание | Сложность |
 |--------|----------|-----------|
-| [Обзор](taxonomy_evolution.md) | Филогения, систематика, история вида | intermediate |
+| [Обзор](../taxonomy/proboscidea-evolution-and-phylogeny.md) | Филогения, систематика, история вида | intermediate |

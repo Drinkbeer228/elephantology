@@ -1,4 +1,5 @@
 ---
+reading_time: 13 мин
 title: Этологические механизмы избегания инбридинга, половой отбор и динамика расселения у Elephantidae
 evidence_level: established
 description: Фундаментальная научная монография, исследующая поведенческие барьеры инбредной депрессии, половой диморфизм дисперсии, вокальное и хемосенсорное распознавание родственников, а также роль муста и выбор самок у хоботных.
@@ -137,10 +138,10 @@ references:
 
 ---
 ## Связанные знания
-*   **[Fission-Fusion Social Structure](fission-fusion-social-structure.md)** — Как иерархическая структура семейных кланов и бондовых групп координирует миграции и встречи родственников.
-*   **[Musth Endocrinology](musth-ethology-and-endocrinology.md)** — Эндокринологические каскады муста, динамика секреции височных желез и влияние тестостерона на доминантный статус самцов.
-*   **[Chemosensory and VNO](chemosensory-communication-and-vomeronasal-system.md)** — Анатомическая архитектоника вомероназального органа и биофизика нагнетания жидких проб феромонов мочи.
-*   **[Population Genetics and Connectivity](../ecology/spatial-ecology-and-connectivity-corridors.md)** — Математическое моделирование генетической дифференциации (\(F_{ST}\)) и влияние барьеров на изоляцию популяций.
+*   **[Fission-Fusion Social Structure](../ethogram/fission-fusion-social-structure.md)** — Как иерархическая структура семейных кланов и бондовых групп координирует миграции и встречи родственников.
+*   **[Musth Endocrinology](../ethogram/musth-ethology-and-endocrinology.md)** — Эндокринологические каскады муста, динамика секреции височных желез и влияние тестостерона на доминантный статус самцов.
+*   **[Chemosensory and VNO](../ethogram/chemosensory-communication-and-vomeronasal-system.md)** — Анатомическая архитектоника вомероназального органа и биофизика нагнетания жидких проб феромонов мочи.
+*   **[Population Genetics and Connectivity](../conservation/spatial-ecology-and-connectivity-corridors.md)** — Математическое моделирование генетической дифференциации (\(F_{ST}\)) и влияние барьеров на изоляцию популяций.
 
 ---
 ## Источники и литература

@@ -1,4 +1,5 @@
 ---
+reading_time: 13 мин
 title: 'Базальная радиация и ранняя эволюция отряда Proboscidea в палеогене: от базальных афротериев к полуводным эоценовым формам'
 evidence_level: established
 description: 'Академическая монография о ранней эволюции хоботных: Eritherium, Phosphatherium, Numidotherium, Moeritherium и лофодонтная адаптация.'
@@ -164,9 +165,9 @@ $$\text{I}\frac{3}{3}\text{, C}\frac{1}{1}\text{, P}\frac{4}{4}\text{, M}\frac{3
 ---
 ## Связанные знания
 
-* **[Proboscidea Phylogeny](proboscidea-evolution-and-phylogeny.md)** — Систематика и филогенетическое древо отряда, разбор неогенового и четвертичного этапов радиации.
-* **[Skeletal Cranial Morphology](../anatomy/skeletal_system_cranial.md)** — Остеология черепа, анатомия воздушных синусов и эволюция костных альвеол бивней современных Elephantidae.
-* **[Trunk Biomechanics](../anatomy/muscular_hydrostat.md)** — Миология и иннервация мышечного гидростата хобота современных слонов в сравнении с зачаточными структурами Moeritherium.
+* **[Proboscidea Phylogeny](../taxonomy/proboscidea-evolution-and-phylogeny.md)** — Систематика и филогенетическое древо отряда, разбор неогенового и четвертичного этапов радиации.
+* **[Skeletal Cranial Morphology](../anatomy/skeletal-system-cranial-and-dentition.md)** — Остеология черепа, анатомия воздушных синусов и эволюция костных альвеол бивней современных Elephantidae.
+* **[Trunk Biomechanics](../anatomy/muscular-hydrostat-and-trunk-biomechanics.md)** — Миология и иннервация мышечного гидростата хобота современных слонов в сравнении с зачаточными структурами Moeritherium.
 
 ---
 ## 📚 Литература

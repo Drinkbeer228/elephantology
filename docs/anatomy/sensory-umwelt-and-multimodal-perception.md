@@ -1,4 +1,5 @@
 ---
+reading_time: 12 мин
 title: Сенсорный умвельт (Umwelt) и мультимодальная нейрофизиология Elephantidae
 evidence_level: established
 description: Детальный нейрофизиологический разбор виброакустической, соматосенсорной и оптической систем хоботных, а также концепция сенсорного мира (Умвельта) Якоба фон Икскюля.
@@ -143,10 +144,10 @@ references:
 ---
 ## Связанные знания
 
-*   **[Seismic & Infrasonic Communication](seismic-and-infrasonic-communication.md)** — Детальный разбор распространения инфразвука в воздушной среде и волн Рэлея в почве.
-*   **[Appendicular Skeleton & Biomechanics](skeletal-system-appendicular-and-biomechanics.md)** — Анатомия дистального отдела конечностей, жировой подушки стопы и остеология весонесущих колонн конечностей.
-*   **[Trunk Biomechanics & Myology](muscular-hydrostat-and-trunk-biomechanics.md)** — Структура инфраорбитального нерва и моторно-сенсорный контроль мышечного гидростата хобота.
-*   **[Cardiovascular System & Hemodynamics](cardiovascular-system-and-hemodynamics.md)** — Подошвенная гемодинамическая венозная помпа стопы, функционирующая в синергии с жировой подушкой.
+*   **[Seismic & Infrasonic Communication](../ethogram/seismic-and-infrasonic-communication.md)** — Детальный разбор распространения инфразвука в воздушной среде и волн Рэлея в почве.
+*   **[Appendicular Skeleton & Biomechanics](../anatomy/skeletal-system-appendicular-and-biomechanics.md)** — Анатомия дистального отдела конечностей, жировой подушки стопы и остеология весонесущих колонн конечностей.
+*   **[Trunk Biomechanics & Myology](../anatomy/muscular-hydrostat-and-trunk-biomechanics.md)** — Структура инфраорбитального нерва и моторно-сенсорный контроль мышечного гидростата хобота.
+*   **[Cardiovascular System & Hemodynamics](../anatomy/cardiovascular-system-and-hemodynamics.md)** — Подошвенная гемодинамическая венозная помпа стопы, функционирующая в синергии с жировой подушкой.
 
 ---
 ## 📚 Литература

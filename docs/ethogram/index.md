@@ -1,4 +1,5 @@
 ---
+reading_time: 5 мин
 title: Этограмма и поведение
 evidence_level: established
 description: 'Обзор поведенческих паттернов слонов: коммуникация, социальная структура, агрессия, когниция.'
@@ -18,8 +19,8 @@ last_reviewed: '2026-07-23'
 
 | Статья | Описание | Сложность |
 |--------|----------|-----------|
-| [Когнитивная архитектура](cognitive_architecture.md) | Самосознание, память, обучение, решение задач | advanced |
-| [Сейсмическая коммуникация](seismic_communication.md) | Вибрационные сигналы, сейсмические волны | advanced |
-| [Акустические паттерны](acoustic_patterns.md) | Инфразвук, вокализации, спектрограммы | intermediate |
-| [Агрессивные паттерны](aggression_patterns.md) | Маркеры угрозы, мустанг, конфликты | intermediate |
-| [Социальные паттерны](social_patterns.md) | Матриархат, ритуалы, социальная интеграция | intermediate |
+| [Когнитивная архитектура](../cognition/cognitive-architecture-and-self-awareness.md) | Самосознание, память, обучение, решение задач | advanced |
+| [Сейсмическая коммуникация](../ethogram/seismic-and-infrasonic-communication.md) | Вибрационные сигналы, сейсмические волны | advanced |
+| [Акустические паттерны](../ethogram/seismic-and-infrasonic-communication.md) | Инфразвук, вокализации, спектрограммы | intermediate |
+| [Агрессивные паттерны](../ethogram/aggression-dominance-and-reconciliation.md) | Маркеры угрозы, мустанг, конфликты | intermediate |
+| [Социальные паттерны](../ethogram/fission-fusion-social-structure.md) | Матриархат, ритуалы, социальная интеграция | intermediate |

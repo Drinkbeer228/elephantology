@@ -197,8 +197,8 @@ references:
 ## Связанные знания
 *   **[Skeletal System: Appendicular and Biomechanics](../anatomy/skeletal-system-appendicular-and-biomechanics.md)** — Подробный анализ гравипортальной архитектоники конечностей, роли ложного шестого пальца (*Prepux*) и биомеханики углов суставов.
 *   **[Cardiovascular System and Hemodynamics](../anatomy/cardiovascular-system-and-hemodynamics.md)** — Физиология высокого системного давления и механизмы венозного возврата через подошвенную помпу дигитальной подушки.
-*   **[Elephant Endotheliotropic Herpesvirus (EEHV)](eehv-endotheliotropic-herpesvirus-protocols.md)** — Дифференциальная диагностика отеков головы и конечностей при вирусном эндотелиозе и застойных явлениях.
-*   **[Cognitive Architecture and Self-Awareness](../ethogram/cognitive-architecture-and-self-awareness.md)** — Обучение слонов ортопедическому уходу и расчистке по методу положительного подкрепления (PRT) в условиях защищенного контакта (PC).
+*   **[Elephant Endotheliotropic Herpesvirus (EEHV)](../veterinary/eehv-endotheliotropic-herpesvirus-protocols.md)** — Дифференциальная диагностика отеков головы и конечностей при вирусном эндотелиозе и застойных явлениях.
+*   **[Cognitive Architecture and Self-Awareness](../cognition/cognitive-architecture-and-self-awareness.md)** — Обучение слонов ортопедическому уходу и расчистке по методу положительного подкрепления (PRT) в условиях защищенного контакта (PC).
 
 ---
 ## Источники и литература

@@ -1,4 +1,6 @@
 ---
+reading_time: 13 мин
+evidence_level: moderate
 title: 'Позднеплейстоценовое вымирание хоботных (Quaternary Megafauna Extinction): климатическая перестройка, гипотеза антропогенного оверкилла (Overkill) и коллапс мамонтовой степи'
 category: ecology
 difficulty: advanced
@@ -153,9 +155,9 @@ references:
 ---
 ## Связанные знания
 
-*   **[Ecosystem Engineers and Keystone Ecology](ecosystem-engineers-and-keystone-ecology.md)** — Средообразующая деятельность современных хоботных: выкорчевывание деревьев, создание троп и гидрологическое бурение.
+*   **[Ecosystem Engineers and Keystone Ecology](../ecology/ecosystem-engineers-and-keystone-ecology.md)** — Средообразующая деятельность современных хоботных: выкорчевывание деревьев, создание троп и гидрологическое бурение.
 *   **[Proboscidea Evolution and Phylogeny](../taxonomy/proboscidea-evolution-and-phylogeny.md)** — Филогенетическое древо отряда, эволюционные связи мамонтов (*Mammuthus*), мастодонтов (*Mammut*) и современных слонов.
-*   **[Climate Change and Range Dynamics](climate-change-and-range-dynamics.md)** — Моделирование экологических ниш (MaxEnt) и прогнозирование современных сдвигов ареалов под влиянием изменения климата.
+*   **[Climate Change and Range Dynamics](../ecology/climate-change-and-range-dynamics.md)** — Моделирование экологических ниш (MaxEnt) и прогнозирование современных сдвигов ареалов под влиянием изменения климата.
 
 ---
 ## 📚 Литература
