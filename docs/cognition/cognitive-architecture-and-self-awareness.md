@@ -2,7 +2,7 @@
 reading_time: 16 мин
 title: Когнитивная архитектура, зеркальное самосознание (MSR) и нейробиология высших психических функций у Elephantidae
 evidence_level: moderate
-description: Академическая монография, исследующая нейроанатомические основы интеллекта слонов, веретеновидные нейроны фон Экономо, экспериментальные доказательства зеркального самосознания (MSR), орудийную деятельность, модель психического (Theory of Mind) и терапевтические аспекты когнитивной стимуляции.
+description: Академическая статья, исследующая нейроанатомические основы интеллекта слонов, веретеновидные нейроны фон Экономо, экспериментальные доказательства зеркального самосознания (MSR), орудийную деятельность, модель психического (Theory of Mind) и терапевтические аспекты когнитивной стимуляции.
 category: cognition
 tags:
   - когнитивная этология
@@ -171,7 +171,7 @@ references:
 
 ---
 ## Источники и литература
-[^1]: См. монографию *`sensory-umwelt-and-multimodal-perception.md`* — «Сенсорный умвельт (Umwelt) и мультимодальная нейрофизиология Elephantidae».
+[^1]: См. статью *`sensory-umwelt-and-multimodal-perception.md`* — «Сенсорный умвельт (Umwelt) и мультимодальная нейрофизиология Elephantidae».
 [^2]: См. *2009 Poole and Granli Mind and Movement Meeting the Interests of Elephants.pdf* — Когнитивные потребности и этология хоботных в контексте благополучия.
 [^3]: См. Cozzi B., Spagnoli S., Bruno L. (2001). An overview of the central nervous system of the elephant... *Brain Research Bulletin*, 54(3), 219–227.
 [^4]: См. Hakeem A.Y., Sherwood C.C., Bonar C.J., Butti C., Hof P.R., Allman J.M. (2009). Von Economo neurons in the elephant brain. *The Anatomical Record*, 292(2), 242–248.

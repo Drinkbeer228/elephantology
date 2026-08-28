@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BookOpen } from "lucide-react";
 import { Header } from './components/Header';
+import { useLanguage } from './i18n/LanguageContext';
 import { ArticleCatalog } from './components/ArticleCatalog';
 
 const ArticleViewer = lazy(() => import('./components/ArticleViewer').then(m => ({ default: m.ArticleViewer })));
@@ -8,6 +9,7 @@ const SearchModal = lazy(() => import('./components/SearchModal').then(m => ({ d
 const CitationModal = lazy(() => import('./components/CitationModal').then(m => ({ default: m.CitationModal })));
 
 export default function App() {
+  const { t } = useLanguage();
   const [currentView, setCurrentView] = useState<'home' | 'article' | 'module'>('home');
   const [currentArticlePath, setCurrentArticlePath] = useState<string | null>(null);
 
@@ -123,12 +125,12 @@ export default function App() {
           <div className="flex items-center gap-3">
             <BookOpen className="w-5 h-5 text-kingdom-gold shrink-0" />
             <div>
-              <span className="font-medium text-slate-300">Академическая цифровая энциклопедия</span>
-              <p className="text-[11px] text-kingdom-muted mt-0.5">2026 • Монографии и систематизированные материалы по биологии, анатомии и сохранению Proboscidea</p>
+              <span className="font-medium text-slate-300">{t.footer.title}</span>
+              <p className="text-[11px] text-kingdom-muted mt-0.5">{t.footer.text}</p>
             </div>
           </div>
           <div className="flex items-center gap-4 text-[11px]">
-            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="hover:text-kingdom-gold transition-colors cursor-pointer">Наверх ↑</button>
+            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="hover:text-kingdom-gold transition-colors cursor-pointer">{t.footer.toTop}</button>
           </div>
         </div>
       </footer>

@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import React, { useState, useEffect } from 'react';
 import { Quote, X, Copy, Check, BookOpen, FileText, Code2, Sparkles } from 'lucide-react';
 
@@ -6,6 +7,7 @@ interface CitationModalProps {
 }
 
 export function CitationModal() {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [articleTitle, setArticleTitle] = useState('Анатомия и физиология хоботных');
   const [categoryName, setCategoryName] = useState('Анатомия');
@@ -200,7 +202,7 @@ export function CitationModal() {
               onClick={() => setIsOpen(false)}
               className="px-4 py-2 rounded-xl bg-[#242733] hover:bg-[#2c303f] border border-white/10 text-gray-300 text-xs font-semibold transition-all cursor-pointer"
             >
-              Закрыть
+              {t.citation.close}
             </button>
 
             <button

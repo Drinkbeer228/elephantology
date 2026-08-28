@@ -5,11 +5,11 @@ title: 'Позднеплейстоценовое вымирание хоботн
 category: ecology
 difficulty: advanced
 tags:
-  - paleoecology
-  - quaternary-extinction
-  - overkill-hypothesis
-  - mammoth-steppe
-  - pleistocene-rewilding
+  - палеоэкология
+  - четвертичное вымирание
+  - гипотеза перепромысла
+  - мамонтовая степь
+  - плейстоценовый ревайлдинг
 references:
   - id: ref_1
     title: Martin, 1967

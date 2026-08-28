@@ -2,16 +2,16 @@
 reading_time: 13 мин
 title: 'Базальная радиация и ранняя эволюция отряда Proboscidea в палеогене: от базальных афротериев к полуводным эоценовым формам'
 evidence_level: established
-description: 'Академическая монография о ранней эволюции хоботных: Eritherium, Phosphatherium, Numidotherium, Moeritherium и лофодонтная адаптация.'
+description: 'Научная статья о ранней эволюции хоботных: Eritherium, Phosphatherium, Numidotherium, Moeritherium и лофодонтная адаптация.'
 category: taxonomy
 difficulty: advanced
 reading_time_min: 15
 tags:
-  - paleogene
-  - afrotheria
-  - basal-proboscidea
-  - fossil-record
-  - teeth-replacement
+  - палеоген
+  - афротерии
+  - базальные хоботные
+  - палеонтологическая летопись
+  - смена зубов
 last_reviewed: '2026-08-24'
 references:
   - id: ref_gheerbrant_1998

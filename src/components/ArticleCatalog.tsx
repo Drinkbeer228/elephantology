@@ -1,87 +1,109 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronDown, ChevronRight, BookOpen, Sparkles, Clock, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, Layers, ChevronsUpDown, Search } from 'lucide-react';
 import { ArticleItem } from '../lib/searchEngine';
 import { getStaticArticles } from '../lib/articles';
 import { CategoryDef } from './catalog/CategoryTile';
 
-const ACADEMIC_CATEGORIES: (CategoryDef & { icon: string; description: string })[] = [
+const ACADEMIC_CATEGORIES: (CategoryDef & { icon: string; description: string; nameEn?: string; descriptionEn?: string })[] = [
   { 
     id: 'taxonomy', 
-    name: 'Таксономия и Эволюция',
+    name: 'Таксономия и Эволюция', 
+    nameEn: 'Taxonomy and Evolution',
     icon: '🌳',
-    description: 'Систематика хоботных, филогения, классификация видов и эволюционные ветви.'
+    description: 'Систематика хоботных, филогения, классификация видов и эволюционные ветви.', 
+    descriptionEn: 'Systematics of Proboscidea, phylogeny, species classification, and evolutionary branches.'
   },
   { 
     id: 'anatomy', 
-    name: 'Анатомия и Физиология',
+    name: 'Анатомия и Физиология', 
+    nameEn: 'Anatomy and Physiology',
     icon: '🫀',
-    description: 'Морфология хобота, бивней, зубной системы, опорно-двигательный аппарат и терморегуляция.'
+    description: 'Морфология хобота, бивней, зубной системы, опорно-двигательный аппарат и терморегуляция.', 
+    descriptionEn: 'Morphology of trunk, tusks, dentition, musculoskeletal system, and thermoregulation.'
   },
   { 
     id: 'ethogram', 
-    name: 'Этология и Поведение',
+    name: 'Этология и Поведение', 
+    nameEn: 'Ethology and Behavior',
     icon: '🐘',
-    description: 'Матриархальная структура, инфразвуковая коммуникация, ритуалы и социальная иерархия.'
+    description: 'Матриархальная структура, инфразвуковая коммуникация, ритуалы и социальная иерархия.', 
+    descriptionEn: 'Matriarchal structure, infrasonic communication, rituals, and social hierarchy.'
   },
   { 
     id: 'cognition', 
-    name: 'Когнитивистика и Память',
+    name: 'Когнитивистика и Память', 
+    nameEn: 'Cognition and Memory',
     icon: '🧠',
-    description: 'Зеркальный тест самосознания, долговременная топографическая память и орудийная деятельность.'
+    description: 'Зеркальный тест самосознания, долговременная топографическая память и орудийная деятельность.', 
+    descriptionEn: 'Mirror self-recognition test, long-term topographic memory, and tool use.'
   },
   { 
     id: 'veterinary', 
-    name: 'Ветеринария и Патологии',
+    name: 'Ветеринария и Патологии', 
+    nameEn: 'Veterinary and Pathologies',
     icon: '🩺',
-    description: 'Эндотелиотропный герпесвирус (EEHV), пододерматиты, анестезиология и превентивная медицина.'
+    description: 'Эндотелиотропный герпесвирус (EEHV), пододерматиты, анестезиология и превентивная медицина.', 
+    descriptionEn: 'Endotheliotropic herpesvirus (EEHV), pododermatitis, anesthesiology, and preventive medicine.'
   },
   { 
     id: 'ecology', 
-    name: 'Экология и Среда обитания',
+    name: 'Экология и Среда обитания', 
+    nameEn: 'Ecology and Habitat',
     icon: '🌿',
-    description: 'Средообразующая роль мегагербиворов, дисперсия семян, зоогенная гидрология и кормовой бюджет.'
+    description: 'Средообразующая роль мегагербиворов, дисперсия семян, зоогенная гидрология и кормовой бюджет.', 
+    descriptionEn: 'Habitat-forming role of megaherbivores, seed dispersal, zoogenic hydrology, and foraging budget.'
   },
   { 
     id: 'conservation', 
-    name: 'Охрана и Сохранение видов',
+    name: 'Охрана и Сохранение видов', 
+    nameEn: 'Conservation and Protection',
     icon: '🛡️',
-    description: 'Борьба с браконьерством, фрагментация ареалов, коридоры миграции и мониторинг популяций.'
+    description: 'Борьба с браконьерством, фрагментация ареалов, коридоры миграции и мониторинг популяций.', 
+    descriptionEn: 'Anti-poaching, habitat fragmentation, migration corridors, and population monitoring.'
   },
   { 
     id: 'culture', 
-    name: 'Антропозоология и Культура',
+    name: 'Антропозоология и Культура', 
+    nameEn: 'Anthrozoology and Culture',
     icon: '🏛️',
-    description: 'Слоны в мифологии, религиях Востока, военном деле античности и этика сосуществования.'
+    description: 'Слоны в мифологии, религиях Востока, военном деле античности и этика сосуществования.', 
+    descriptionEn: 'Elephants in mythology, Eastern religions, ancient warfare, and coexistence ethics.'
   },
   { 
     id: 'paleontology', 
-    name: 'Палеонтология и Ископаемые',
+    name: 'Палеонтология и Ископаемые', 
+    nameEn: 'Paleontology and Fossils',
     icon: '🦴',
-    description: 'Мамонтовая фауна, мастодонты, гомфотерии, дейнотерии и островная карликовость.'
+    description: 'Мамонтовая фауна, мастодонты, гомфотерии, дейнотерии и островная карликовость.', 
+    descriptionEn: 'Mammoth fauna, mastodons, gomphotheres, deinotheres, and island dwarfism.'
   },
   { 
     id: 'genomics', 
     name: 'Геномика и Молекулярная биология',
+    nameEn: 'Genomics and Molecular Biology',
     icon: '🔬',
-    description: 'Парадокс Пето, ген TP53, древняя ДНК мамонтов и эпигенетические адаптации.'
+    description: 'Парадокс Пето, ген TP53, древняя ДНК мамонтов и эпигенетические адаптации.',
+    descriptionEn: "Peto's paradox, TP53 duplication, ancient mammoth DNA, and epigenetic adaptations."
   }
 ];
 
 export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: string) => void }) {
+  const { t, lang } = useLanguage();
   const [articles, setArticles] = useState<ArticleItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     try {
-      const parsedArticles = getStaticArticles();
+      const parsedArticles = getStaticArticles(lang);
       setArticles(parsedArticles);
     } catch (err) {
       console.error('Failed to load static articles:', err);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [lang]);
 
   const openArticle = useCallback((path: string) => {
     if (onArticleClick) {
@@ -116,11 +138,11 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
   const getEvidenceBadge = (level: string | undefined) => {
     if (!level) return null;
     const mapping: Record<string, {text: string, classes: string, icon: any}> = {
-      'established': { text: 'ХОРОШО УСТАНОВЛЕНО', classes: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20', icon: ShieldCheck },
-      'moderate': { text: 'ДОСТАТОЧНАЯ БАЗА', classes: 'text-amber-400 bg-amber-400/10 border-amber-400/20', icon: Scale },
-      'limited': { text: 'ОГРАНИЧЕННЫЕ ДАННЫЕ', classes: 'text-orange-400 bg-orange-400/10 border-orange-400/20', icon: AlertCircle },
-      'hypothesis': { text: 'ГИПОТЕЗА', classes: 'text-sky-400 bg-sky-400/10 border-sky-400/20', icon: Lightbulb },
-      'contested': { text: 'ДИСКУССИОННО', classes: 'text-rose-400 bg-rose-400/10 border-rose-400/20', icon: HelpCircle },
+      'established': { text: t.evidence.established.toUpperCase(), classes: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20', icon: ShieldCheck },
+      'moderate': { text: t.evidence.moderate.toUpperCase(), classes: 'text-amber-400 bg-amber-400/10 border-amber-400/20', icon: Scale },
+      'limited': { text: t.evidence.limited.toUpperCase(), classes: 'text-orange-400 bg-orange-400/10 border-orange-400/20', icon: AlertCircle },
+      'hypothesis': { text: t.evidence.hypothesis.toUpperCase(), classes: 'text-sky-400 bg-sky-400/10 border-sky-400/20', icon: Lightbulb },
+      'contested': { text: t.evidence.contested.toUpperCase(), classes: 'text-rose-400 bg-rose-400/10 border-rose-400/20', icon: HelpCircle },
     };
     const badge = mapping[level.toLowerCase()] || mapping['established'];
     const Icon = badge.icon;
@@ -137,7 +159,7 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
     return (
       <div className="flex flex-col items-center justify-center py-20 text-kingdom-muted space-y-4">
         <div className="w-8 h-8 border-2 border-kingdom-gold border-t-transparent animate-spin rounded-full"></div>
-        <p className="text-sm tracking-wider">Подготовка базы знаний...</p>
+        <p className="text-sm tracking-wider">{t.catalog.loading || 'Подготовка базы знаний...'}</p>
       </div>
     );
   }
@@ -171,10 +193,10 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
               <h3 className={`font-semibold text-sm leading-snug truncate transition-colors ${
                 isExpanded ? 'text-kingdom-gold' : 'text-gray-200 group-hover:text-white'
               }`}>
-                {cat.name}
+                {lang === 'en' && cat.nameEn ? cat.nameEn : cat.name}
               </h3>
               <p className="text-[11px] text-gray-400 truncate mt-0.5 max-w-[280px] sm:max-w-[340px]">
-                {cat.description}
+                {lang === 'en' && cat.descriptionEn ? cat.descriptionEn : cat.description}
               </p>
             </div>
           </div>
@@ -185,7 +207,7 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
                 ? 'bg-kingdom-gold text-black font-bold border-kingdom-gold'
                 : 'bg-black/30 text-gray-400 border-white/5 group-hover:text-kingdom-gold group-hover:border-kingdom-gold/20'
             }`}>
-              {count} ст.
+              {count} {t.catalog.articlesCount}
             </span>
             <div className={`p-1 rounded-md transition-all ${
               isExpanded ? 'bg-kingdom-gold/15 text-kingdom-gold rotate-180' : 'text-gray-500 group-hover:text-gray-300'
@@ -199,10 +221,10 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
         {isExpanded && (
           <div className="border-t border-white/5 bg-[#0f1117]/90 p-3 sm:p-3.5 space-y-2.5 animate-fade-in">
             {categoryArticles.length === 0 ? (
-              <p className="text-xs text-gray-500 italic py-2 text-center">В этой категории пока нет опубликованных статей.</p>
+              <p className="text-xs text-gray-500 italic py-2 text-center">{t.search.noResults}</p>
             ) : (
               categoryArticles.map((article) => {
-                const readingTime = article.readingTime || '4 мин';
+                const readingTime = article.readingTime || `4 ${t.catalog.readingTime}`;
                 return (
                   <div 
                     key={article.path}
@@ -227,7 +249,7 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
                         {getEvidenceBadge(article.evidenceLevel)}
                         {article.difficulty && (
                           <span className="text-kingdom-gold/80 font-semibold uppercase text-[9px]">
-                            {article.difficulty === 'advanced' ? 'Продвинутый' : article.difficulty === 'intermediate' ? 'Средний' : 'Базовый'}
+                            {article.difficulty === 'advanced' ? t.catalog.difficulty.advanced : article.difficulty === 'intermediate' ? t.catalog.difficulty.intermediate : t.catalog.difficulty.basic}
                           </span>
                         )}
                       </div>
@@ -256,10 +278,10 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
           <div className="space-y-1.5">
             <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight flex items-center gap-2.5">
               <Layers className="w-6 h-6 text-kingdom-gold" />
-              База знаний
+              {t.catalog.title}
             </h2>
             <p className="text-sm text-gray-400 max-w-2xl leading-relaxed">
-              Тематический рубрикатор и 72 статьи по биологии, анатомии, палеонтологии и ветеринарии Proboscidea.
+              {t.catalog.subtitle}
             </p>
           </div>
 
@@ -268,7 +290,7 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
             className="self-start sm:self-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#1a1c26] text-gray-300 hover:text-kingdom-gold border border-white/10 hover:border-kingdom-gold/40 transition-all cursor-pointer shadow-sm shrink-0"
           >
             <ChevronsUpDown className="w-3.5 h-3.5" />
-            <span>{allExpanded ? 'Свернуть все' : 'Развернуть все'}</span>
+            <span>{allExpanded ? t.catalog.collapseAll : t.catalog.expandAll}</span>
           </button>
         </div>
 
@@ -281,12 +303,10 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
             <div className="flex items-center gap-3">
               <Search className="w-4 h-4 text-gray-400 group-hover:text-kingdom-gold transition-colors shrink-0" />
               <span className="text-sm text-gray-400 font-normal">
-                Поиск по 72 статьям энциклопедии (термины, латынь, патологии, DOI)...
+                {t.catalog.searchPlaceholder}
               </span>
             </div>
-            <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-gray-400">
-              Поиск
-            </span>
+            <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-gray-400">{t.search.searchTitle}</span>
           </button>
         </div>
       </div>
@@ -306,4 +326,3 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
     </div>
   );
 }
-

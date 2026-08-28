@@ -2,17 +2,17 @@
 reading_time: 13 мин
 title: Филогенетическая дивергенция, краниодентальная биомеханика и палеоэкология Mammutidae
 evidence_level: established
-description: Академическая монография о дивергенции мастодонтов и Elephantidae, зиголофодонтии, палеогенетике и краниальной биомеханике.
+description: Научная статья о дивергенции мастодонтов и Elephantidae, зиголофодонтии, палеогенетике и краниальной биомеханике.
 category: taxonomy
 difficulty: advanced
 reading_time_min: 15
 tags:
-  - mammutidae
-  - elephantidae
-  - biomechanics
-  - paleogeography
-  - zygolophodonty
-  - dental-occlusion
+  - мастодонты
+  - слоновые
+  - биомеханика
+  - палеогеография
+  - зиголофодонтия
+  - окклюзия зубов
 last_reviewed: '2026-08-24'
 references:
   - id: ref_1
@@ -199,7 +199,7 @@ references:
 
 [^1]: См. Shoshani, J., & Tassy, P. (Eds.). (1996). *The Proboscidea: Evolution and Palaeoecology of Elephants and Their Relatives*. Oxford University Press.
 [^2]: См. Dobson, A.P., & Poole, J.H. (1998). Conspecific aggregation and conservation biology: Inferences from elephant social structure. *Conspecific Aggregation and Conservation*, 193-208.
-[^3]: См. монографию *[skeletal_system_cranial.md](../anatomy/skeletal-system-cranial-and-dentition.md)* — «Краниодентальная биомеханика, архитектура жевательного аппарата и полифиодонтия у Elephantidae».
+[^3]: См. статью *[skeletal_system_cranial.md](../anatomy/skeletal-system-cranial-and-dentition.md)* — «Краниодентальная биомеханика, архитектура жевательного аппарата и полифиодонтия у Elephantidae».
 [^4]: См. Cerling, T.E., Harris, J.M., & Leakey, M.G. (1999). Browsing and grazing in African elephants. *Science*, 285(5429), 811.
 [^5]: См. Sanders, W.J., Gheerbrant, E., Harris, J.M., Saegusa, H., & Delmer, C. (2010). Cenozoic antiquity of Africa’s evolutionary unique mammals: Proboscidea. *African Megafauna*, 161–194.
 [^6]: См. Larramendi, A. (2016). Shoulder height, body mass, and shape of proboscideans. *Acta Palaeontologica Polonica*, 61(3), 537–574.
@@ -208,6 +208,6 @@ references:
 [^9]: См. Shoshani, J. (1998). Understanding proboscidean evolution: a formidable task. *Trends in Ecology & Evolution*, 13(12), 480-487.
 [^10]: См. Warren, J.C. (1852). *The Mastodon Giganteus of North America*. Boston: John Wilson and Son.
 [^11]: См. Fisher, D.C., Lepper, B.T., & Hooge, P.E. (1994). Evidence for butcher and underwater storage of a late Pleistocene mastodon. *Journal of Vertebrate Paleontology*, 14, 25A.
-[^12]: См. монографию *[paleoecology-and-megafaunal-extinction.md](../ecology/paleoecology-and-megafaunal-extinction.md)* — «Позднеплейстоценовое вымирание хоботных: климатическая перестройка, гипотеза антропогенного оверкилла и коллапс мамонтовой степи».
+[^12]: См. статью *[paleoecology-and-megafaunal-extinction.md](../ecology/paleoecology-and-megafaunal-extinction.md)* — «Позднеплейстоценовое вымирание хоботных: климатическая перестройка, гипотеза антропогенного оверкилла и коллапс мамонтовой степи».
 [^13]: См. Waters, M.R., et al. (2011). The Manis Mastodon site: an early pre-Clovis site on the Olympic Peninsula of Washington. *Science*, 334(6054), 351–353.
 [^14]: См. Fisher, D.C. (1996). Extinction of Semiaquatic and Terrestrial Megafauna: The Role of Hunting. *The Proboscidea*, 321-344.

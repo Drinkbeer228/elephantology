@@ -2,16 +2,16 @@
 reading_time: 12 мин
 title: 'Экологическая история и 3000-летнее отступление азиатского слона (Elephas maximus) в Китае: трансформация ландшафтов, климатический сдвиг и рефугиум в провинции Юньнань'
 evidence_level: established
-description: Академическая монография о 3000-летнем отступлении слонов в Китае, трансформации ландшафтов, климатических изменениях и рефугиуме в провинции Юньнань.
+description: Научная статья о 3000-летнем отступлении слонов в Китае, трансформации ландшафтов, климатических изменениях и рефугиуме в провинции Юньнань.
 category: culture
 difficulty: advanced
 reading_time_min: 15
 tags:
-  - ecology
-  - environmental-history
-  - china
-  - migration
-  - climate-change
+  - экология
+  - экологическая история
+  - китай
+  - миграция
+  - изменение климата
 last_reviewed: '2026-08-24'
 references:
   - id: ref_elvin_2004
@@ -169,7 +169,7 @@ references:
 ## Справочные источники (References)
 
 [^1]: См. палеоклиматические реконструкции и зоогеографические исследования Вэнь Хуаньжаня: *Wen Huanran et al., Studies on changes in plants and animals in China during historical times* (Chongqing, 1995), гл. 15–17.
-[^2]: Детальный исторический анализ представлен в монографии: *Mark Elvin, The Retreat of the Elephants: An Environmental History of China* (Yale University Press, 2004), гл. 1–2.
+[^2]: Детальный исторический анализ представлен в статье: *Mark Elvin, The Retreat of the Elephants: An Environmental History of China* (Yale University Press, 2004), гл. 1–2.
 [^3]: Описание трех фронтов войны с хоботными и практики аграрной экспансии см. в: *Elvin M., Humans v. Elephants: The Three Thousand Years War*, там же, с. 9–18.
 [^4]: Исторический очерк о роли слонов у южных народностей КНР представлен в китайских переводах: *Wen H., Plants and Animals*, с. 196 (цитируя хроники Фань Чжо эпохи Тан).
 [^5]: Современные оценки численности юньнаньской популяции задокументированы в: *Zhang L. et al., Asian elephants in China: estimating population size and evaluating habitat suitability* (PLoS One, 2015).

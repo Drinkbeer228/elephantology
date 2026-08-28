@@ -5,11 +5,11 @@ title: 'Эволюционная радиация, краниальная арх
 category: taxonomy
 difficulty: advanced
 tags:
-  - palaeoloxodon
-  - gigantism
-  - insular-dwarfism
-  - paleogenomics
-  - parieto-occipital-crest
+  - палеолоксодон
+  - гигантизм
+  - островная карликовость
+  - палеогеномика
+  - теменно-затылочный гребень
 references:
   - id: ref_1
     title: Meyer et al., 2017
@@ -169,15 +169,15 @@ references:
 ## 📚 Литература
 
 [^1]: См. Matsumoto, H. (1924). On the Archetypal Mammoths of Japan and China. *Science Reports of the Tohoku Imperial University*, 7(2), 115–157.
-[^2]: См. монографию *[proboscidea-evolution-and-phylogeny.md](../taxonomy/proboscidea-evolution-and-phylogeny.md)* — «Филогенетическая радиация и глобальная биостратиграфия отряда Proboscidea в неогене и плейстоцене».
+[^2]: См. статью *[proboscidea-evolution-and-phylogeny.md](../taxonomy/proboscidea-evolution-and-phylogeny.md)* — «Филогенетическая радиация и глобальная биостратиграфия отряда Proboscidea в неогене и плейстоцене».
 [^3]: См. Larramendi, A. (2016). Shoulder height, body mass, and shape of proboscideans. *Acta Palaeontologica Polonica*, 61(3), 537–574.
 [^4]: См. Meyer, M., Palkopoulou, E., Baleka, S., et al. (2017). Palaeogenomics of Niches and Lineages: Reconstruction of Elephantid Phylogeny. *eLife*, 6, e25413.
 [^5]: См. Gaudzinski-Windheuser, S., et al. (2023). Hunting and processing of straight-tusked elephants (*Palaeoloxodon antiquus*) by Neanderthals. *Science Advances*, 9, eade9009.
 [^6]: См. *preview-9781482254778_A40656411.pdf* — Данные по африканской радиации рода *Palaeoloxodon* и таксономическому статусу *P. recki*.
-[^7]: См. монографию *[climate-change-and-range-dynamics.md](../ecology/climate-change-and-range-dynamics.md)* — «Динамика ареалов хоботных в плейстоцене под воздействием орбитальных циклов Миланковича».
+[^7]: См. статью *[climate-change-and-range-dynamics.md](../ecology/climate-change-and-range-dynamics.md)* — «Динамика ареалов хоботных в плейстоцене под воздействием орбитальных циклов Миланковича».
 [^8]: См. *the-retreat-of-the-elephants-an-environmental-history-of-china-9780300133530_compress.pdf* — Палеогеография и историческое вытеснение плейстоценовых хоботных в Восточном Китае.
-[^9]: См. монографию *[skeletal_system_cranial.md](../anatomy/skeletal-system-cranial-and-dentition.md)* — «Остеология и краниодентальная биомеханика черепа Elephantidae: пневматизация диплоэ и жевательный аппарат».
+[^9]: См. статью *[skeletal_system_cranial.md](../anatomy/skeletal-system-cranial-and-dentition.md)* — «Остеология и краниодентальная биомеханика черепа Elephantidae: пневматизация диплоэ и жевательный аппарат».
 [^10]: См. *196174216674_10153550202311675.pdf* — Сравнительная анатомия шейных мышц (*m. splenius*, *m. rectus capitis*) и выйной связки у хоботных.
-[^11]: См. монографию *[mammuthus-evolution-and-island-dwarfism.md](../taxonomy/mammuthus-evolution-and-island-dwarfism.md)* — «Эволюционная радиация рода Mammuthus и биомеханика островной карликовости».
+[^11]: См. статью *[mammuthus-evolution-and-island-dwarfism.md](../taxonomy/mammuthus-evolution-and-island-dwarfism.md)* — «Эволюционная радиация рода Mammuthus и биомеханика островной карликовости».
 [^12]: См. Ambrosetti, P. (1968). The Pleistocene dwarf elephants of Spinagallo (Siracusa, South-Eastern Sicily). *Geologica Romana*, 7, 277–398.
-[^13]: См. монографию *[ecosystem-engineers-and-keystone-ecology.md](../ecology/ecosystem-engineers-and-keystone-ecology.md)* — «Хоботные как ключевые инженеры экосистем: мозаичность лесных сообществ».
+[^13]: См. статью *[ecosystem-engineers-and-keystone-ecology.md](../ecology/ecosystem-engineers-and-keystone-ecology.md)* — «Хоботные как ключевые инженеры экосистем: мозаичность лесных сообществ».

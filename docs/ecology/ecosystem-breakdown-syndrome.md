@@ -2,16 +2,16 @@
 reading_time: 11 мин
 title: 'Синдром популяционного и экосистемного распада у Elephantidae: нейробиология трансгенерационной травмы, утрата социальной культуры и каскадные трофические эффекты'
 evidence_level: hypothesis
-description: Академическая монография о феномене Elephant Breakdown, ПТСР у слонов, нейробиологии травмы и каскадном экосистемном коллапсе.
+description: Научная статья о феномене Elephant Breakdown, ПТСР у слонов, нейробиологии травмы и каскадном экосистемном коллапсе.
 category: ecology
 difficulty: advanced
 reading_time_min: 15
 tags:
-  - elephant-breakdown
-  - neurobiology
-  - ptsd
-  - trophic-cascade
-  - conservation
+  - слоновий срыв
+  - нейробиология
+  - птср
+  - трофический каскад
+  - охрана природы
 last_reviewed: '2026-08-24'
 references:
   - id: ref_1
@@ -135,15 +135,15 @@ references:
 ---
 ## 📚 Литература
 
-[^1]: См. монографию *[ecosystem-engineers-and-keystone-ecology.md](../ecology/ecosystem-engineers-and-keystone-ecology.md)* — «Хоботные как ключевые инженеры экосистем: модификация ландшафтов, зоохория крупных семян и гидрологическое бурение».
+[^1]: См. статью *[ecosystem-engineers-and-keystone-ecology.md](../ecology/ecosystem-engineers-and-keystone-ecology.md)* — «Хоботные как ключевые инженеры экосистем: модификация ландшафтов, зоохория крупных семян и гидрологическое бурение».
 [^2]: См. Bradshaw, G.A., Schore, A.N., Brown, J.L., Poole, J.H., & Moss, C.J. (2005). Elephant Breakdown. *Nature*, 433, 807.
-[^3]: См. монографию *[human-elephant-conflict-mitigation.md](../conservation/human-elephant-conflict-mitigation.md)* — «Экология и поведенческий менеджмент конфликта "человек — слон"».
+[^3]: См. статью *[human-elephant-conflict-mitigation.md](../conservation/human-elephant-conflict-mitigation.md)* — «Экология и поведенческий менеджмент конфликта "человек — слон"».
 [^4]: См. *CH21 Ethical Approaches to Ele Conservation.pdf* — Анализ этических аспект culling и отделения слонят.
 [^5]: См. Shoshani, J., Kupsky, W.J., & Marchant, G.H. (2006). Elephant brain. Part I: Gross morphology and evolution. *Brain Research Bulletin*, 70(2), 124–157.
 [^6]: См. *2017 Joyce Poole NhRP affidavit NEW YORK FINAL.pdf* — Данные по количеству кортикальных нейронов ($1.1 \times 10^{10}$) и наличию веретеновидных нейронов фон Экономо (*VENs*).
 [^7]: См. Glaeser, S.S., Edwards, K.L., & Brown, J.L. (2022). Characterization of Longitudinal Testosterone, Cortisol, and Musth in Male Asian Elephants. *Animals*, 12, 1332.
 [^8]: См. *1998 An Exploration of a Commonality between Ourselves and Elephants.pdf* — Описание депрессии, ПТСР и кошмаров у осиротевших слонят по наблюдениям Д. Шелдрик.
-[^9]: См. монографию *[vocal-learning-and-individual-identity.md](../ethogram/seismic-and-infrasonic-communication.md)* — «Вокальное обучение, акустическая мимикрия и феномен персональных голосовых меток у Elephantidae».
+[^9]: См. статью *[vocal-learning-and-individual-identity.md](../ethogram/seismic-and-infrasonic-communication.md)* — «Вокальное обучение, акустическая мимикрия и феномен персональных голосовых меток у Elephantidae».
 [^10]: См. *2007 0606-St-Louis-zoo-Rani-elephant.pdf* — Документированные факты отсутствия материнских навыков и девиантного поведения (отказа от новорожденных) у нерожавших самок в неволе.
 [^11]: См. Slotow, R., van Dyk, G., Poole, J., Page, B., & Klocke, A. (2000). Older bull elephants control young males. *Nature*, 408, 425–426.
 [^12]: См. *CH17 Male Social Dynamics Independence and Beyond.pdf* — Возрастная динамика отделения самцов от материнских групп и особенности их интеграции в сообщество самцов.

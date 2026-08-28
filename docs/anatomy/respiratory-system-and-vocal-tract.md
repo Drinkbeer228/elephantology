@@ -5,12 +5,12 @@ title: 'Клиническая пульмонология, биофизика д
 category: anatomy
 difficulty: advanced
 tags:
-  - pulmonology
-  - vocal-tract
-  - snorkeling
-  - infrasound
-  - anatomy
-  - veterinary
+  - пульмонология
+  - вокальный тракт
+  - сноркелинг
+  - инфразвук
+  - анатомия
+  - ветеринария
 references:
   - id: ref_1
     title: West, 2002

@@ -5,11 +5,11 @@ title: 'Клиническая миология, биомеханика мыше
 category: anatomy
 difficulty: advanced
 tags:
-  - clinical-myology
-  - muscular-hydrostat
-  - trunk-biomechanics
-  - neuroanatomy
-  - veterinary-neurology
+  - клиническая миология
+  - мышечный гидростат
+  - биомеханика хобота
+  - нейроанатомия
+  - ветеринарная неврология
 references:
   - id: ref_1
     title: Shoshani et al., 2006
@@ -153,12 +153,12 @@ $$V = \pi \cdot r^2 \cdot L = \text{const}$$
 [^2]: См. *ProboscidaeMorph_RG.pdf* — Общие морфологические характеристики и упругие свойства мышечного гидростата хобота.
 [^3]: См. *2013 Poole et al. Loxodonta africana reduced copy.pdf* — Патологии хобота, Flaccid Trunk Syndrome и рецепторный аппарат кончика proboscis.
 [^4]: См. Wilson, J. F., Mahajan, U., Wainwright, S. A., & Croner, L. J. (1991). A continuum model of elephant trunks. *Journal of Biomechanical Engineering*, 113(1), 79–84.
-[^5]: См. монографию *`muscular_hydrostat.md`* — Математическое обоснование несжимаемости внутренней жидкой среды хобота.
+[^5]: См. статью *`muscular_hydrostat.md`* — Математическое обоснование несжимаемости внутренней жидкой среды хобота.
 [^6]: См. *196174216674_10153550202311675.pdf* — Подробная послойная миология хобота, анатомия дорсальных леваторов и вентральных депрессоров.
 [^7]: См. Rasmussen, L. E. L., & Munger, B. (1996). The sensorimotor specializations of the trunk tip of the Asian elephant, *Elephas maximus*. *The Anatomical Record*, 246, 127–134.
 [^8]: См. Shoshani, J., Kupsky, W. J., & Marchant, G. H. (2006). Elephant brain. Part I: Gross morphology and evolution. *Brain Research Bulletin*, 70(2), 124–157.
 [^9]: См. *647125137-gajah.pdf* — Тактильные функции вибрисс и чувствительная иннервация максиллярной ветвью тройничного нерва.
-[^10]: См. монографию *[digestive_system.md](../anatomy/digestive-system-macroanatomy-and-vascularization.md)* — Объемные показатели засасывания жидкостей, архитектоника носоглоточных клапанов и клинический уход.
+[^10]: См. статью *[digestive_system.md](../anatomy/digestive-system-macroanatomy-and-vascularization.md)* — Объемные показатели засасывания жидкостей, архитектоника носоглоточных клапанов и клинический уход.
 [^11]: См. Schulz, A. K., Boyle, M., Reidenberg, J., & Hu, D. L. (2021). Suction feeding by elephants. *Journal of the Royal Society Interface*, 18(179), 20210215.
 [^12]: См. *A_manual_of_the_diseases_of_the_elephant_and_of_his_management_and_uses_(IA_cu31924000918486).pdf* — Механика засасывания воды и структура носоглоточного сифона.
 [^13]: См. Kock, M. D., et al. (1994). Flaccid trunk syndrome in African elephants (*Loxodonta africana*) in the Kariba area, Zimbabwe. *Journal of Wildlife Diseases*, 30(2), 220–225.

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Clock, ChevronRight, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle } from 'lucide-react';
-import { ArticleItem, ARTICLE_SEMANTIC_TAGS } from '../../lib/searchEngine';
+import { ArticleItem } from '../../lib/searchEngine';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 interface ArticleCardProps {
   article: ArticleItem;
@@ -8,16 +9,17 @@ interface ArticleCardProps {
 }
 
 export const ArticleCard = React.memo(function ArticleCard({ article, onClick }: ArticleCardProps) {
-  const readingTime = article.readingTime || '4 мин';
+  const { t } = useLanguage();
+  const readingTime = article.readingTime || `4 ${t.catalog.readingTime}`;
   
   const getEvidenceBadge = (level: string | undefined) => {
     if (!level) return null;
     const mapping: Record<string, {text: string, classes: string, icon: any}> = {
-      'established': { text: 'ХОРОШО УСТАНОВЛЕНО', classes: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20', icon: ShieldCheck },
-      'moderate': { text: 'ДОСТАТОЧНАЯ БАЗА', classes: 'text-amber-400 bg-amber-400/10 border-amber-400/20', icon: Scale },
-      'limited': { text: 'ОГРАНИЧЕННЫЕ ДАННЫЕ', classes: 'text-orange-400 bg-orange-400/10 border-orange-400/20', icon: AlertCircle },
-      'hypothesis': { text: 'ГИПОТЕЗА', classes: 'text-sky-400 bg-sky-400/10 border-sky-400/20', icon: Lightbulb },
-      'contested': { text: 'ДИСКУССИОННО', classes: 'text-rose-400 bg-rose-400/10 border-rose-400/20', icon: HelpCircle },
+      'established': { text: t.evidence.established.toUpperCase(), classes: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20', icon: ShieldCheck },
+      'moderate': { text: t.evidence.moderate.toUpperCase(), classes: 'text-amber-400 bg-amber-400/10 border-amber-400/20', icon: Scale },
+      'limited': { text: t.evidence.limited.toUpperCase(), classes: 'text-orange-400 bg-orange-400/10 border-orange-400/20', icon: AlertCircle },
+      'hypothesis': { text: t.evidence.hypothesis.toUpperCase(), classes: 'text-sky-400 bg-sky-400/10 border-sky-400/20', icon: Lightbulb },
+      'contested': { text: t.evidence.contested.toUpperCase(), classes: 'text-rose-400 bg-rose-400/10 border-rose-400/20', icon: HelpCircle },
     };
     const badge = mapping[level.toLowerCase()] || mapping['established'];
     const Icon = badge.icon;
@@ -30,6 +32,13 @@ export const ArticleCard = React.memo(function ArticleCard({ article, onClick }:
     );
   };
 
+  const getDifficultyLabel = (diff?: string) => {
+    if (!diff) return null;
+    if (diff === 'advanced') return t.catalog.difficulty.advanced;
+    if (diff === 'intermediate') return t.catalog.difficulty.intermediate;
+    return t.catalog.difficulty.basic;
+  };
+
   return (
     <button 
       onClick={() => onClick(article.path)}
@@ -40,7 +49,7 @@ export const ArticleCard = React.memo(function ArticleCard({ article, onClick }:
           {getEvidenceBadge(article.evidenceLevel)}
           {article.difficulty && (
             <span className="text-[10px] uppercase font-mono tracking-wider text-kingdom-gold font-semibold">
-              {article.difficulty === 'advanced' ? 'Продвинутый' : article.difficulty === 'intermediate' ? 'Средний' : 'Начальный'}
+              {getDifficultyLabel(article.difficulty)}
             </span>
           )}
         </div>
@@ -69,9 +78,9 @@ export const ArticleCard = React.memo(function ArticleCard({ article, onClick }:
         
         {article.tags && article.tags.length > 0 && (
           <div className="flex items-center gap-1 overflow-hidden">
-            {article.tags.slice(0, 2).map((t, idx) => (
+            {article.tags.slice(0, 2).map((tTag, idx) => (
               <span key={idx} className="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-gray-400 border border-white/5">
-                #{t}
+                #{tTag}
               </span>
             ))}
           </div>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Brain, Ear, Activity, Footprints, Wind, Sparkles } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
-const elephantData = {
+const elephantDataRu = {
   brain: {
     title: 'Мозг и Когнитивная архитектура',
     icon: <Brain className="w-5 h-5 text-purple-400" />,
@@ -34,8 +35,44 @@ const elephantData = {
   }
 };
 
+const elephantDataEn = {
+  brain: {
+    title: 'Brain & Cognitive Architecture',
+    icon: <Brain className="w-5 h-5 text-purple-400" />,
+    desc: 'Brain mass reaches 5 kg. A giant hippocampus drives extensive spatial memory (tracking waterholes across hundreds of kilometers), while spindle neurons support empathy, grieving, and complex social cognition.',
+    link: '/article/ethogram/cognitive_architecture'
+  },
+  ears: {
+    title: 'Ears (Thermoregulatory Radiators)',
+    icon: <Ear className="w-5 h-5 text-sky-400" />,
+    desc: 'African elephant ears are permeated by dense capillary networks. Flapping lowers blood temperature by up to 9°C to reduce core body heat. Ears also function in visual agonistic threat displays.',
+    link: '/article/anatomy/integumentary_system'
+  },
+  trunk: {
+    title: 'Trunk (Muscular Hydrostat)',
+    icon: <Wind className="w-5 h-5 text-teal-400" />,
+    desc: 'A boneless organ composed of over 40,000 muscle fascicles. The proboscis can lift a 250 kg log or delicately pluck a single blade of grass. It functions in respiration (including snorkeling), olfaction, tactile exploration, and acoustic trumpeting.',
+    link: '/article/anatomy/muscular_hydrostat'
+  },
+  tusks: {
+    title: 'Tusks (Elongated Incisors)',
+    icon: <Activity className="w-5 h-5 text-amber-400" />,
+    desc: 'Modified upper second incisors continuously growing throughout life. Elephants exhibit distinct lateralization ("right-tusked" or "left-tusked"). Tusks are vital tools for debarking, digging minerals, and defense.',
+    link: '/article/anatomy/skeletal_system_cranial'
+  },
+  feet: {
+    title: 'Feet & Seismic Substrate Sensor',
+    icon: <Footprints className="w-5 h-5 text-emerald-400" />,
+    desc: 'Immense body mass is cushioned by an elastic digital cushion. It functions as an acoustic transducer, registering low-frequency seismic rumbles transmitted through the ground from herds over 30 km away.',
+    link: '/article/anatomy/skeletal_system_appendicular'
+  }
+};
+
 export function InteractiveAnatomy() {
-  const [activePart, setActivePart] = useState<keyof typeof elephantData | null>(null);
+  const { lang } = useLanguage();
+  const [activePart, setActivePart] = useState<keyof typeof elephantDataRu | null>(null);
+
+  const data = lang === 'en' ? elephantDataEn : elephantDataRu;
 
   const callVanilla = (path: string) => {
     const win = window as any;
@@ -52,7 +89,7 @@ export function InteractiveAnatomy() {
       <div className="relative w-full md:w-1/2 p-6 flex flex-col items-center justify-center bg-gradient-to-br from-black/60 to-[#121318]">
         <div className="absolute top-4 left-4 flex items-center gap-2">
           <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-kingdom-gold/20 text-kingdom-gold border border-kingdom-gold/40 tracking-wider">
-            ИНТЕРАКТИВНЫЙ МОДУЛЬ
+            {lang === 'en' ? 'INTERACTIVE ATLAS' : 'ИНТЕРАКТИВНЫЙ МОДУЛЬ'}
           </span>
         </div>
         
@@ -72,7 +109,7 @@ export function InteractiveAnatomy() {
             </filter>
           </defs>
           
-          {/* Base Silhouette (African Elephant Profile) */}
+          {/* Base Silhouette */}
           <path 
             d="M 405,170 C 420,170 435,210 425,270 C 415,320 405,340 395,335 C 385,330 400,280 400,240 C 390,200 375,150 340,110 C 310,80 270,70 230,80 C 180,90 140,110 100,160 C 80,180 50,190 40,180 C 20,160 30,120 70,80 C 120,40 180,20 250,30 C 330,40 400,70 430,120 C 460,170 470,250 450,310 C 440,340 420,360 400,350 C 380,340 410,250 405,170 Z M 220,120 C 270,120 320,130 350,150 C 330,220 280,280 260,250 C 240,220 230,180 220,120 Z" 
             fill="url(#elephantGrad)" 
@@ -157,7 +194,7 @@ export function InteractiveAnatomy() {
         </svg>
 
         <p className="absolute bottom-4 left-0 w-full text-center text-xs text-kingdom-muted font-medium">
-          Кликните на подсвеченные зоны для изучения систем
+          {lang === 'en' ? 'Click on illuminated anatomical hotspots to explore organ systems' : 'Кликните на подсвеченные зоны для изучения систем'}
         </p>
       </div>
 
@@ -167,20 +204,20 @@ export function InteractiveAnatomy() {
           <div key={activePart} className="animate-in fade-in slide-in-from-right-4 duration-300">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 rounded-xl bg-black/40 border border-white/10 flex items-center justify-center shadow-inner">
-                {elephantData[activePart].icon}
+                {data[activePart].icon}
               </div>
               <h3 className="text-xl md:text-2xl font-bold text-white font-heading">
-                {elephantData[activePart].title}
+                {data[activePart].title}
               </h3>
             </div>
             <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
-              {elephantData[activePart].desc}
+              {data[activePart].desc}
             </p>
             <button 
-              onClick={() => callVanilla(elephantData[activePart].link)}
+              onClick={() => callVanilla(data[activePart].link)}
               className="px-5 py-2.5 text-sm font-bold bg-kingdom-gold/10 text-kingdom-gold hover:bg-kingdom-gold/20 hover:scale-105 border border-kingdom-gold/30 rounded-lg transition-all cursor-pointer shadow-[0_0_15px_rgba(255,209,102,0.1)] active:scale-95"
             >
-              Читать полную статью →
+              {lang === 'en' ? 'Read full article →' : 'Читать полную статью →'}
             </button>
           </div>
         ) : (
@@ -188,9 +225,11 @@ export function InteractiveAnatomy() {
             <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-2 animate-pulse shadow-inner">
               <Sparkles className="w-8 h-8 text-kingdom-gold/50" />
             </div>
-            <h3 className="text-lg font-bold text-gray-300">Анатомический Атлас</h3>
+            <h3 className="text-lg font-bold text-gray-300">
+              {lang === 'en' ? 'Anatomical Atlas' : 'Анатомический Атлас'}
+            </h3>
             <p className="max-w-[240px] text-sm leading-relaxed">
-              Наведите курсор или кликните на активные биологические системы на модели слона слева.
+              {lang === 'en' ? 'Hover or click on the anatomical hotspots on the elephant model to inspect biological structures.' : 'Наведите курсор или кликните на активные биологические системы на модели слона слева.'}
             </p>
           </div>
         )}

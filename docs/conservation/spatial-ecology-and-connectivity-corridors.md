@@ -2,17 +2,17 @@
 reading_time: 12 мин
 title: 'Пространственная экология, спутниковая телеметрия и ландшафтная связность у Elephantidae: расчет домашних ареалов, модели Least-Cost Path и проектирование миграционных коридоров'
 evidence_level: established
-description: 'Академическая монография о методах пространственной экологии слонов: спутниковая телеметрия, моделирование LCP, экодуки и проектирование миграционных коридоров.'
+description: 'Научная статья о методах пространственной экологии слонов: спутниковая телеметрия, моделирование LCP, экодуки и проектирование миграционных коридоров.'
 category: conservation
 difficulty: advanced
 reading_time_min: 15
 tags:
-  - ecology
-  - spatial-ecology
-  - telemetry
-  - migration
-  - corridors
-  - gis
+  - экология
+  - пространственная экология
+  - телеметрия
+  - миграция
+  - коридоры
+  - гис
 last_reviewed: '2026-08-24'
 references:
   - id: ref_douglas_hamilton_2005

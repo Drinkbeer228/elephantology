@@ -82,9 +82,9 @@ references:
 
 - AZA Elephant TAG/SSP (2019). *Elephant Care Manual*. Association of Zoos and Aquariums.
 
-## Цифровая Библиотека PDF-монографий и протоколов
+## Цифровая Библиотека PDF-публикаций и протоколов
 
-Прямой доступ к полнотекстовым PDF-документам и научным монографиям из архива энциклопедии:
+Прямой доступ к полнотекстовым PDF-документам и научным публикациям из архива энциклопедии:
 
 - **Shoshani J., Tassy P. (1996)** — *The Proboscidea: Evolution and Palaeoecology of Elephants and Their Relatives*: [Открыть PDF (45MB)](assets/books/the-proboscidea-evolution-and-palaeoecology-of-elephants-and-their-relatives.pdf)
 - **Moss C.J., Poole J.H. (2011)** — *The Amboseli Elephants: A Long-Term Perspective on a Long-Lived Mammal*: [Открыть PDF (38MB)](assets/books/the-amboseli-elephants-a-long-term-perspective-on-a-long-lived-mammal-9780226542263_compress.pdf)

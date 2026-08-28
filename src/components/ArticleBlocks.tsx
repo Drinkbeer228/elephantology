@@ -3,11 +3,13 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, CheckCircle2, HelpCircle as HelpIcon, AlertTriangle } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 /**
  * Рендерит бейдж уровня доказательности (Established, Moderate, Limited, Hypothesis, Contested)
  */
 export function EvidenceBadge({ level, showTooltip = true }: { level?: string; showTooltip?: boolean }) {
+  const { t } = useLanguage();
   if (!level) return null;
 
   const normalized = level.toLowerCase();
@@ -16,7 +18,7 @@ export function EvidenceBadge({ level, showTooltip = true }: { level?: string; s
   // established (зелёный), moderate (синий), limited (жёлтый), hypothesis (оранжевый), contested (красный)
   const configMap: Record<string, { label: string; bg: string; text: string; border: string; icon: any; description: string }> = {
     established: {
-      label: 'УСТАНОВЛЕНО',
+      label: t.evidence.established.toUpperCase(),
       bg: 'bg-emerald-50 dark:bg-emerald-950/40',
       text: 'text-emerald-700 dark:text-emerald-300',
       border: 'border-emerald-200 dark:border-emerald-800',
@@ -24,7 +26,7 @@ export function EvidenceBadge({ level, showTooltip = true }: { level?: string; s
       description: 'Установленный научный факт: подтверждено множественными независимыми исследованиями и консенсусом.'
     },
     moderate: {
-      label: 'ДОСТАТОЧНАЯ БАЗА',
+      label: t.evidence.moderate.toUpperCase(),
       bg: 'bg-blue-50 dark:bg-blue-950/40',
       text: 'text-blue-700 dark:text-blue-300',
       border: 'border-blue-200 dark:border-blue-800',
@@ -32,7 +34,7 @@ export function EvidenceBadge({ level, showTooltip = true }: { level?: string; s
       description: 'Достаточная доказательная база: подтверждено валидированными клиническими или эмпирическими данными.'
     },
     limited: {
-      label: 'ОГРАНИЧЕННЫЕ ДАННЫЕ',
+      label: t.evidence.limited.toUpperCase(),
       bg: 'bg-amber-50 dark:bg-amber-950/40',
       text: 'text-amber-700 dark:text-amber-300',
       border: 'border-amber-200 dark:border-amber-800',
@@ -40,7 +42,7 @@ export function EvidenceBadge({ level, showTooltip = true }: { level?: string; s
       description: 'Ограниченные данные: наблюдения единичных когорт или предварительные пилотные исследования.'
     },
     hypothesis: {
-      label: 'ГИПОТЕЗА',
+      label: t.evidence.hypothesis.toUpperCase(),
       bg: 'bg-orange-50 dark:bg-orange-950/40',
       text: 'text-orange-700 dark:text-orange-300',
       border: 'border-orange-200 dark:border-orange-800',
@@ -48,7 +50,7 @@ export function EvidenceBadge({ level, showTooltip = true }: { level?: string; s
       description: 'Научная гипотеза: теоретическая модель или экстраполяция, требующая дальнейшей экспериментальной верификации.'
     },
     contested: {
-      label: 'ДИСКУССИОННО',
+      label: t.evidence.contested.toUpperCase(),
       bg: 'bg-rose-50 dark:bg-rose-950/40',
       text: 'text-rose-700 dark:text-rose-300',
       border: 'border-rose-200 dark:border-rose-800',

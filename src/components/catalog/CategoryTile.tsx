@@ -1,8 +1,11 @@
 import React from 'react';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 export interface CategoryDef {
   id: string;
   name: string;
+  nameEn?: string;
+  descriptionEn?: string;
   shortName?: string;
   emoji?: string;
   intent?: string;
@@ -27,6 +30,8 @@ export const CategoryTile = React.memo(function CategoryTile({
   isActive, 
   onClick 
 }: CategoryTileProps) {
+  const { t, lang } = useLanguage();
+
   if (isAll) {
     return (
       <button 
@@ -40,7 +45,7 @@ export const CategoryTile = React.memo(function CategoryTile({
         <div className="flex items-center gap-2.5 min-w-0">
           <span className="text-base shrink-0">📚</span>
           <div className="min-w-0">
-            <div className="text-sm font-bold truncate">Все статьи</div>
+            <div className="text-sm font-bold truncate">{t.catalog.allCategories}</div>
           </div>
         </div>
         <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-md shrink-0 ${
@@ -54,18 +59,20 @@ export const CategoryTile = React.memo(function CategoryTile({
 
   if (!category) return null;
 
+  const categoryName = lang === 'en' && category.nameEn ? category.nameEn : category.name;
+
   return (
     <button 
       onClick={onClick}
       className={`p-3 rounded-xl border flex items-center justify-between gap-2.5 transition-all text-left cursor-pointer group ${
-        isActive 
+      isActive 
           ? 'bg-kingdom-gold text-black font-bold border-kingdom-gold shadow-[0_0_15px_rgba(255,209,102,0.25)]' 
           : 'bg-[#121318] border-[#34384a] text-gray-300 hover:text-white hover:border-kingdom-gold/40 hover:bg-[#1e202a]'
       }`}
     >
       <div className="flex items-center gap-2.5 min-w-0">
         <div className="min-w-0">
-          <div className="text-sm font-bold truncate">{category.name}</div>
+          <div className="text-sm font-bold truncate">{categoryName}</div>
         </div>
       </div>
       <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-md shrink-0 ${

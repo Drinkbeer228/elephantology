@@ -17,42 +17,7 @@ import {
 } from 'lucide-react';
 import { searchArticles, ArticleItem, ARTICLE_SEMANTIC_TAGS } from '../lib/searchEngine';
 import { getStaticArticles } from '../lib/articles';
-
-const DISCIPLINES = [
-  { id: 'all', name: 'Все категории', shortName: 'Все' },
-  { id: 'anatomy', name: 'Анатомия и Морфология', shortName: 'Анатомия' },
-  { id: 'cognition', name: 'Когнитивистика и Память', shortName: 'Когнитивистика' },
-  { id: 'conservation', name: 'Охрана и Сохранение видов', shortName: 'Охрана' },
-  { id: 'culture', name: 'История и Культура', shortName: 'Культура' },
-  { id: 'ecology', name: 'Экология и Популяции', shortName: 'Экология' },
-  { id: 'ethogram', name: 'Этограмма и Поведение', shortName: 'Этограмма' },
-  { id: 'genomics', name: 'Геномика и Генетика', shortName: 'Геномика' },
-  { id: 'paleontology', name: 'Палеонтология и Ископаемые', shortName: 'Палеонтология' },
-  { id: 'taxonomy', name: 'Таксономия и Эволюция', shortName: 'Таксономия' },
-  { id: 'veterinary', name: 'Ветеринария и Медицина', shortName: 'Ветеринария' }
-];
-
-const EVIDENCE_LEVELS = [
-  { id: 'all', label: 'Любой статус' },
-  { id: 'established', label: 'Хорошо установлено (A1)' },
-  { id: 'moderate', label: 'Достаточная база (A2)' },
-  { id: 'limited', label: 'Ограниченные данные (B)' },
-  { id: 'hypothesis', label: 'Гипотеза / Дискуссионно (C)' }
-];
-
-const READING_TIMES = [
-  { id: 'all', label: 'Любой объём' },
-  { id: 'short', label: '< 10 мин (Короткие)' },
-  { id: 'medium', label: '10–25 мин (Средние)' },
-  { id: 'long', label: '> 25 мин (Фундаментальные)' }
-];
-
-const SORT_OPTIONS = [
-  { id: 'relevance', label: 'По релевантности' },
-  { id: 'title_asc', label: 'По названию (А–Я)' },
-  { id: 'time_asc', label: 'По объёму (сначала короткие)' },
-  { id: 'time_desc', label: 'По объёму (сначала глубокие)' }
-];
+import { useLanguage } from '../i18n/LanguageContext';
 
 function highlightMatch(text: string, query: string) {
   if (!query.trim() || !text) return text;
@@ -78,6 +43,7 @@ function highlightMatch(text: string, query: string) {
 }
 
 export function SearchModal() {
+  const { t, lang } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -93,14 +59,50 @@ export function SearchModal() {
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsContainerRef = useRef<HTMLDivElement>(null);
 
+  const disciplines = useMemo(() => [
+    { id: 'all', name: t.catalog.allCategories, shortName: lang === 'en' ? 'All' : 'Все' },
+    { id: 'taxonomy', name: lang === 'en' ? 'Taxonomy & Evolution' : 'Таксономия и Эволюция', shortName: lang === 'en' ? 'Taxonomy' : 'Таксономия' },
+    { id: 'anatomy', name: lang === 'en' ? 'Anatomy & Morphology' : 'Анатомия и Морфология', shortName: lang === 'en' ? 'Anatomy' : 'Анатомия' },
+    { id: 'ethogram', name: lang === 'en' ? 'Ethogram & Behavior' : 'Этограмма и Поведение', shortName: lang === 'en' ? 'Ethogram' : 'Этограмма' },
+    { id: 'cognition', name: lang === 'en' ? 'Cognitive Science & Memory' : 'Когнитивистика и Память', shortName: lang === 'en' ? 'Cognition' : 'Когнитивистика' },
+    { id: 'veterinary', name: lang === 'en' ? 'Veterinary & Medicine' : 'Ветеринария и Медицина', shortName: lang === 'en' ? 'Veterinary' : 'Ветеринария' },
+    { id: 'ecology', name: lang === 'en' ? 'Ecology & Populations' : 'Экология и Популяции', shortName: lang === 'en' ? 'Ecology' : 'Экология' },
+    { id: 'conservation', name: lang === 'en' ? 'Conservation & Protection' : 'Охрана и Сохранение видов', shortName: lang === 'en' ? 'Conservation' : 'Охрана' },
+    { id: 'culture', name: lang === 'en' ? 'Anthrozoology & Culture' : 'История и Культура', shortName: lang === 'en' ? 'Culture' : 'Культура' },
+    { id: 'paleontology', name: lang === 'en' ? 'Paleontology & Fossils' : 'Палеонтология и Ископаемые', shortName: lang === 'en' ? 'Paleontology' : 'Палеонтология' },
+    { id: 'genomics', name: lang === 'en' ? 'Genomics & Genetics' : 'Геномика и Генетика', shortName: lang === 'en' ? 'Genomics' : 'Геномика' }
+  ], [t, lang]);
+
+  const evidenceLevels = useMemo(() => [
+    { id: 'all', label: lang === 'en' ? 'Any evidence status' : 'Любой статус' },
+    { id: 'established', label: `${t.evidence.established} (A1)` },
+    { id: 'moderate', label: `${t.evidence.moderate} (A2)` },
+    { id: 'limited', label: `${t.evidence.limited} (B)` },
+    { id: 'hypothesis', label: `${t.evidence.hypothesis} (C)` }
+  ], [t, lang]);
+
+  const readingTimes = useMemo(() => [
+    { id: 'all', label: lang === 'en' ? 'Any volume' : 'Любой объём' },
+    { id: 'short', label: `< 10 ${t.catalog.readingTime} (${lang === 'en' ? 'Short' : 'Короткие'})` },
+    { id: 'medium', label: `10–25 ${t.catalog.readingTime} (${lang === 'en' ? 'Medium' : 'Средние'})` },
+    { id: 'long', label: `> 25 ${t.catalog.readingTime} (${lang === 'en' ? 'In-depth' : 'Фундаментальные'})` }
+  ], [t, lang]);
+
+  const sortOptions = useMemo(() => [
+    { id: 'relevance', label: lang === 'en' ? 'By relevance' : 'По релевантности' },
+    { id: 'title_asc', label: lang === 'en' ? 'By title (A–Z)' : 'По названию (А–Я)' },
+    { id: 'time_asc', label: lang === 'en' ? 'By volume (shortest first)' : 'По объёму (сначала короткие)' },
+    { id: 'time_desc', label: lang === 'en' ? 'By volume (deepest first)' : 'По объёму (сначала глубокие)' }
+  ], [lang]);
+
   // Load articles
   useEffect(() => {
     try {
-      setArticles(getStaticArticles());
+      setArticles(getStaticArticles(lang));
     } catch (e) {
       console.error('Failed to load articles in SearchModal:', e);
     }
-  }, []);
+  }, [lang]);
 
   // Event listener for opening modal with optional pre-selected tag, category, or query
   useEffect(() => {
@@ -161,8 +163,8 @@ export function SearchModal() {
     articles.forEach(a => {
       const staticTags = ARTICLE_SEMANTIC_TAGS[a.path] || [];
       const allArticleTags = [...(a.tags || []), ...staticTags];
-      allArticleTags.forEach(t => {
-        const clean = t.trim().toLowerCase();
+      allArticleTags.forEach(tTag => {
+        const clean = tTag.trim().toLowerCase();
         if (clean.length > 2) {
           counts[clean] = (counts[clean] || 0) + 1;
         }
@@ -215,9 +217,9 @@ export function SearchModal() {
     if (selectedTag) {
       const targetTag = selectedTag.toLowerCase();
       list = list.filter(a => {
-        const staticTags = (ARTICLE_SEMANTIC_TAGS[a.path] || []).map(t => t.toLowerCase());
-        const customTags = (a.tags || []).map(t => t.toLowerCase());
-        return customTags.includes(targetTag) || staticTags.includes(targetTag) || staticTags.some(t => t.includes(targetTag));
+        const staticTags = (ARTICLE_SEMANTIC_TAGS[a.path] || []).map(tTag => tTag.toLowerCase());
+        const customTags = (a.tags || []).map(tTag => tTag.toLowerCase());
+        return customTags.includes(targetTag) || staticTags.includes(targetTag) || staticTags.some(tTag => tTag.includes(targetTag));
       });
     }
 
@@ -290,8 +292,8 @@ export function SearchModal() {
   };
 
   const getCategoryLabel = (category: string) => {
-    const found = DISCIPLINES.find(d => d.id === category?.toLowerCase());
-    return found ? found.name : 'Статья';
+    const found = disciplines.find(d => d.id === category?.toLowerCase());
+    return found ? found.name : (lang === 'en' ? 'Article' : 'Статья');
   };
 
   const renderEvidenceBadge = (level?: string) => {
@@ -299,22 +301,22 @@ export function SearchModal() {
     const l = level.toLowerCase();
     if (l === 'established') return (
       <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-        <ShieldCheck className="w-3 h-3" /> A1 Установлено
+        <ShieldCheck className="w-3 h-3" /> A1 {t.evidence.established}
       </span>
     );
     if (l === 'moderate') return (
       <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-        <Scale className="w-3 h-3" /> A2 Достаточно
+        <Scale className="w-3 h-3" /> A2 {t.evidence.moderate}
       </span>
     );
     if (l === 'limited') return (
       <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/20">
-        <AlertCircle className="w-3 h-3" /> B Ограниченно
+        <AlertCircle className="w-3 h-3" /> B {t.evidence.limited}
       </span>
     );
     if (l === 'hypothesis') return (
       <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">
-        <Lightbulb className="w-3 h-3" /> C Гипотеза
+        <Lightbulb className="w-3 h-3" /> C {t.evidence.hypothesis}
       </span>
     );
     return null;
@@ -348,7 +350,7 @@ export function SearchModal() {
               setSelectedIndex(0);
             }}
             onKeyDown={handleKeyDownInInput}
-            placeholder="Поиск по статьям: термины, анатомия, гены, авторы, синонимы..." 
+            placeholder={t.search.placeholder} 
             className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none text-sm sm:text-base font-medium"
           />
 
@@ -357,7 +359,7 @@ export function SearchModal() {
               id="btn-clear-search-query"
               onClick={() => setQuery('')}
               className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
-              title="Очистить поисковый запрос"
+              title={lang === 'en' ? 'Clear query' : 'Очистить поисковый запрос'}
             >
               <X className="w-4 h-4" />
             </button>
@@ -371,10 +373,10 @@ export function SearchModal() {
                 ? 'bg-kingdom-gold/15 text-kingdom-gold border-kingdom-gold/40 shadow-sm'
                 : 'bg-[#1f222e] text-gray-300 hover:text-white border-white/10'
             }`}
-            title="Параметры фильтрации"
+            title={lang === 'en' ? 'Filter settings' : 'Параметры фильтрации'}
           >
             <SlidersHorizontal className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Фильтры</span>
+            <span className="hidden sm:inline">{lang === 'en' ? 'Filters' : 'Фильтры'}</span>
             {activeAdvancedFiltersCount > 0 && (
               <span className="w-4 h-4 rounded-full bg-kingdom-gold text-black text-[10px] font-extrabold flex items-center justify-center">
                 {activeAdvancedFiltersCount}
@@ -396,9 +398,9 @@ export function SearchModal() {
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <span className="text-[11px] uppercase tracking-wider text-gray-400 font-semibold flex items-center gap-1.5">
-                <ListFilter className="w-3.5 h-3.5 text-kingdom-gold" /> Категории
+                <ListFilter className="w-3.5 h-3.5 text-kingdom-gold" /> {lang === 'en' ? 'Categories' : 'Категории'}
               </span>
-              <span className="text-[10px] text-gray-500 font-mono">({DISCIPLINES.length - 1})</span>
+              <span className="text-[10px] text-gray-500 font-mono">({disciplines.length - 1})</span>
             </div>
 
             {selectedCategory !== 'all' && (
@@ -406,13 +408,13 @@ export function SearchModal() {
                 onClick={() => setSelectedCategory('all')}
                 className="text-[11px] text-kingdom-gold hover:underline transition-colors cursor-pointer font-medium"
               >
-                Все категории
+                {t.catalog.allCategories}
               </button>
             )}
           </div>
 
           <div className="flex flex-wrap gap-1.5">
-            {DISCIPLINES.map(cat => {
+            {disciplines.map(cat => {
               const isSelected = selectedCategory === cat.id;
               const count = cat.id === 'all' 
                 ? articles.length 
@@ -445,14 +447,14 @@ export function SearchModal() {
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5 text-[11px] text-gray-400">
               <Tag className="w-3 h-3 text-kingdom-gold/70" />
-              <span className="font-semibold uppercase tracking-wider text-[10px]">Тематические теги:</span>
+              <span className="font-semibold uppercase tracking-wider text-[10px]">{lang === 'en' ? 'Thematic tags:' : 'Тематические теги:'}</span>
             </div>
             {popularTags.length > 20 && (
               <button
                 onClick={() => setExpandTags(prev => !prev)}
                 className="text-[10px] text-gray-400 hover:text-kingdom-gold transition-colors cursor-pointer font-medium"
               >
-                {expandTags ? 'Свернуть теги' : `Показать все (${popularTags.length})`}
+                {expandTags ? (lang === 'en' ? 'Collapse tags' : 'Свернуть теги') : (lang === 'en' ? `Show all (${popularTags.length})` : `Показать все (${popularTags.length})`)}
               </button>
             )}
           </div>
@@ -483,14 +485,14 @@ export function SearchModal() {
             {/* Evidence Level */}
             <div className="space-y-1">
               <label className="text-[11px] text-gray-400 font-medium flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Доказательность:
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> {lang === 'en' ? 'Evidence:' : 'Доказательность:'}
               </label>
               <select
                 value={selectedEvidence}
                 onChange={(e) => setSelectedEvidence(e.target.value)}
                 className="w-full bg-[#1e212d] text-gray-200 border border-[#34384a] rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-kingdom-gold cursor-pointer"
               >
-                {EVIDENCE_LEVELS.map(lvl => (
+                {evidenceLevels.map(lvl => (
                   <option key={lvl.id} value={lvl.id}>{lvl.label}</option>
                 ))}
               </select>
@@ -499,14 +501,14 @@ export function SearchModal() {
             {/* Reading Time */}
             <div className="space-y-1">
               <label className="text-[11px] text-gray-400 font-medium flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-amber-400" /> Объём / Время чтения:
+                <Clock className="w-3.5 h-3.5 text-amber-400" /> {lang === 'en' ? 'Reading Time:' : 'Объём / Время чтения:'}
               </label>
               <select
                 value={selectedReadingTime}
                 onChange={(e) => setSelectedReadingTime(e.target.value)}
                 className="w-full bg-[#1e212d] text-gray-200 border border-[#34384a] rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-kingdom-gold cursor-pointer"
               >
-                {READING_TIMES.map(rt => (
+                {readingTimes.map(rt => (
                   <option key={rt.id} value={rt.id}>{rt.label}</option>
                 ))}
               </select>
@@ -515,14 +517,14 @@ export function SearchModal() {
             {/* Sorting */}
             <div className="space-y-1">
               <label className="text-[11px] text-gray-400 font-medium flex items-center gap-1">
-                <SlidersHorizontal className="w-3.5 h-3.5 text-kingdom-gold" /> Сортировка:
+                <SlidersHorizontal className="w-3.5 h-3.5 text-kingdom-gold" /> {lang === 'en' ? 'Sort:' : 'Сортировка:'}
               </label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 className="w-full bg-[#1e212d] text-gray-200 border border-[#34384a] rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-kingdom-gold cursor-pointer"
               >
-                {SORT_OPTIONS.map(opt => (
+                {sortOptions.map(opt => (
                   <option key={opt.id} value={opt.id}>{opt.label}</option>
                 ))}
               </select>
@@ -534,7 +536,7 @@ export function SearchModal() {
         <div className="px-4 py-2.5 bg-[#0e1015] border-b border-white/5 flex items-center justify-between flex-wrap gap-2 text-[11px] text-gray-400">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-gray-300">
-              Найдено статей: <strong className="text-kingdom-gold font-bold text-xs">{results.length}</strong> из {articles.length}
+              {lang === 'en' ? 'Articles found:' : 'Найдено статей:'} <strong className="text-kingdom-gold font-bold text-xs">{results.length}</strong> {lang === 'en' ? 'of' : 'из'} {articles.length}
             </span>
 
             {selectedCategory !== 'all' && (
@@ -553,14 +555,14 @@ export function SearchModal() {
 
             {selectedEvidence !== 'all' && (
               <span className="inline-flex items-center gap-1 bg-[#222634] text-gray-200 px-2 py-0.5 rounded-md border border-white/10">
-                {EVIDENCE_LEVELS.find(l => l.id === selectedEvidence)?.label}
+                {evidenceLevels.find(l => l.id === selectedEvidence)?.label}
                 <button onClick={() => setSelectedEvidence('all')} className="hover:text-white cursor-pointer"><X className="w-3 h-3" /></button>
               </span>
             )}
 
             {selectedReadingTime !== 'all' && (
               <span className="inline-flex items-center gap-1 bg-[#222634] text-gray-200 px-2 py-0.5 rounded-md border border-white/10">
-                {READING_TIMES.find(l => l.id === selectedReadingTime)?.label}
+                {readingTimes.find(l => l.id === selectedReadingTime)?.label}
                 <button onClick={() => setSelectedReadingTime('all')} className="hover:text-white cursor-pointer"><X className="w-3 h-3" /></button>
               </span>
             )}
@@ -573,7 +575,7 @@ export function SearchModal() {
               className="inline-flex items-center gap-1 text-[11px] text-gray-400 hover:text-kingdom-gold transition-colors cursor-pointer font-medium"
             >
               <RotateCcw className="w-3 h-3" />
-              <span>Сбросить все</span>
+              <span>{lang === 'en' ? 'Reset all' : 'Сбросить все'}</span>
             </button>
           )}
         </div>
@@ -588,16 +590,16 @@ export function SearchModal() {
               <div className="flex justify-center mb-1">
                 <HelpCircle className="w-10 h-10 text-rose-400/70" />
               </div>
-              <p className="text-sm text-gray-200 font-semibold">Статей по заданным критериям не найдено.</p>
+              <p className="text-sm text-gray-200 font-semibold">{t.search.noResults}</p>
               <p className="text-xs text-gray-400 max-w-md mx-auto leading-relaxed">
-                Попробуйте изменить поисковые слова, выбрать другую категорию или сбросить активные фильтры.
+                {lang === 'en' ? 'Try changing keywords, selecting a different category, or resetting active filters.' : 'Попробуйте изменить поисковые слова, выбрать другую категорию или сбросить активные фильтры.'}
               </p>
               <button 
                 onClick={resetAllFilters}
                 className="mt-2 px-4 py-2 bg-[#202330] hover:bg-[#2a2e40] text-kingdom-gold border border-[#34384a] rounded-xl text-xs font-bold transition-all cursor-pointer inline-flex items-center gap-2 shadow-sm"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                Сбросить все параметры
+                {lang === 'en' ? 'Reset all parameters' : 'Сбросить все параметры'}
               </button>
             </div>
           ) : (
@@ -645,9 +647,9 @@ export function SearchModal() {
                         </span>
                       )}
 
-                      {displayTags.map((t, tIdx) => (
+                      {displayTags.map((tTag, tIdx) => (
                         <span key={tIdx} className="text-[10px] text-gray-400 bg-white/5 px-1.5 py-0.5 rounded font-mono">
-                          #{t}
+                          #{tTag}
                         </span>
                       ))}
                     </div>
@@ -665,10 +667,10 @@ export function SearchModal() {
         {/* Footer Hint Bar */}
         <div className="px-4 py-2 bg-[#0c0e12] border-t border-white/5 flex items-center justify-between text-[10px] text-gray-500">
           <div className="flex items-center gap-3">
-            <span>Используйте <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">↑</kbd> <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">↓</kbd> для навигации</span>
-            <span><kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">Enter</kbd> для открытия</span>
+            <span>{lang === 'en' ? 'Use' : 'Используйте'} <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">↑</kbd> <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">↓</kbd> {lang === 'en' ? 'to navigate' : 'для навигации'}</span>
+            <span><kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">Enter</kbd> {lang === 'en' ? 'to open' : 'для открытия'}</span>
           </div>
-          <span className="text-gray-400 font-mono">Всего статей: {articles.length}</span>
+          <span className="text-gray-400 font-mono">{lang === 'en' ? 'Total articles:' : 'Всего статей:'} {articles.length}</span>
         </div>
 
       </div>

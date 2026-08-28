@@ -2,16 +2,16 @@
 reading_time: 7 мин
 title: Эволюционная радиация и биомеханика Gomphotheriidae и Amebelodontidae
 evidence_level: established
-description: Академическая монография о четверобивневых гомфотериях, лопатозубые амебелодонты, кинематике срезания растительности и Великом межамериканском обмене.
+description: Научная статья о четверобивневых гомфотериях, лопатозубые амебелодонты, кинематике срезания растительности и Великом межамериканском обмене.
 category: taxonomy
 difficulty: advanced
 reading_time_min: 15
 tags:
-  - gomphotheriidae
-  - amebelodontidae
-  - platybelodon
-  - great-american-biotic-interchange
-  - biomechanics
+  - гомфотерииды
+  - амебелодонтиды
+  - платибелодон
+  - великий межамериканский обмен
+  - биомеханика
 last_reviewed: '2026-08-24'
 references:
   - id: ref_1

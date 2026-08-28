@@ -6,12 +6,12 @@ description: Детальный нейрофизиологический раз�
 category: anatomy
 difficulty: advanced
 tags:
-  - sensory-umwelt
-  - neurobiology
-  - seismic-communication
-  - somatosensory-cortex
-  - vision
-  - conservation
+  - сенсорный умвельт
+  - нейробиология
+  - сейсмическая коммуникация
+  - соматосенсорная кора
+  - зрение
+  - охрана природы
 references:
   - id: ref_1
     title: O'Connell-Rodwell et al., 2006
@@ -33,7 +33,7 @@ references:
 
 # Сенсорный умвельт (Umwelt) и мультимодальная нейрофизиология Elephantidae: виброакустическая сейсморецепция стопы, соматосенсорная кора и оптико-пространственная интеграция
 
-Понимание биологии хоботных (*Elephantidae*) невозможно без глубокого анализа их сенсорного мира — **Умвельта (Umwelt)**, концепция которого была сформулирована Якобом фон Юкскюллем (*Jakob von Uexküll*) [^1]. В отличие от приматов и человека, у которых доминирует оптический канал восприятия, слоны живут в сложном мультимодальном сенсорном пространстве [^2]. В их картине мира преобладают низкочастотные акустические резонансы, сейсмические толчки почвы и тончайшие градиенты летучих химических соединений (феромонов), в то время как зрительный анализатор выполняет вспомогательную, преимущественно сумеречную роль [^2][^3]. Данная монография посвящена детальному нейрофизиологическому разбору виброакустической, соматосенсорной и оптической систем хоботных, а также их значению для выживания видов в антропогене.
+Понимание биологии хоботных (*Elephantidae*) невозможно без глубокого анализа их сенсорного мира — **Умвельта (Umwelt)**, концепция которого была сформулирована Якобом фон Юкскюллем (*Jakob von Uexküll*) [^1]. В отличие от приматов и человека, у которых доминирует оптический канал восприятия, слоны живут в сложном мультимодальном сенсорном пространстве [^2]. В их картине мира преобладают низкочастотные акустические резонансы, сейсмические толчки почвы и тончайшие градиенты летучих химических соединений (феромонов), в то время как зрительный анализатор выполняет вспомогательную, преимущественно сумеречную роль [^2][^3]. Данная статья посвящена детальному нейрофизиологическому разбору виброакустической, соматосенсорной и оптической систем хоботных, а также их значению для выживания видов в антропогене.
 
 ---
 ## 1. Сейсмическая и виброакустическая рецепция
@@ -152,20 +152,20 @@ references:
 ---
 ## 📚 Литература
 
-[^1]: См. монографию *`cognitive-ethology-and-self-awareness.md`* — Раздел по теоретическим основам этологии и концепции Umwelt.
+[^1]: См. статью *`cognitive-ethology-and-self-awareness.md`* — Раздел по теоретическим основам этологии и концепции Umwelt.
 [^2]: См. *Poole_Moss_Chap4_Ele_Page_Proofs_2008.pdf* — Сравнительный анализ доминирования слухового и ольфакторного каналов у хоботных над зрительным.
 [^3]: См. *1998 Communication of African Elephants Care for the Wild article.pdf* — Разделы «Eyesight, expressions and postures» и «Tactile Communication».
 [^4]: См. O’Connell-Rodwell, C. E., Wood, J. D., Rodwell, T. C., et al. (2007). Wild African elephants (*Loxodonta africana*) discriminate between familiar and unfamiliar conspecific seismic alarm calls. *Journal of the Acoustical Society of America*, 122, 823-830.
 [^5]: См. *2009 09 24 joyce_poole_affidavit_sanwild.pdf* — Сейсмическая рецепция, скорость распространения волн Рэлея в почве (248–264 м/с) и физиология телец Пачини.
 [^6]: См. *2013 Poole et al. Loxodonta africana reduced copy.pdf* — Раздел по адаптациям слуховых косточек среднего уха и рептилоидной улитке у хоботных.
-[^7]: См. монографию *`skeletal-system-appendicular-and-biomechanics.md`* — Остеология аппендикулярного скелета и гистология подошвенного амортизатора.
+[^7]: См. статью *`skeletal-system-appendicular-and-biomechanics.md`* — Остеология аппендикулярного скелета и гистология подошвенного амортизатора.
 [^8]: См. Rasmussen, L. E. L., & Munger, B. L. (1996). The sensorineural specializations of the trunk tip (finger) of the Asian elephant, *Elephas maximus*. *The Anatomical Record*, 246, 127–134.
 [^9]: См. *20130509_TNA38Nicol.pdf* — Анатомия жировой подушки стопы и её роль в качестве акустического трансмиттера по костным путям.
 [^10]: См. Nummela, S. (1995). Scaling of the mammalian middle ear. *Hearing Research*, 85, 18-30.
-[^11]: См. монографию *`seismic-and-infrasonic-communication.md`* — Этограмма сейсмического поведения, реакция «замораживания» и триангуляция.
+[^11]: См. статью *`seismic-and-infrasonic-communication.md`* — Этограмма сейсмического поведения, реакция «замораживания» и триангуляция.
 [^12]: См. *2017 Joyce Poole NhRP affidavit NEW YORK FINAL.pdf* — Данные энцефализации (EQ 1.3–2.3), количество нейронов ($1.1 \times 10^{10}$) и строение коры.
 [^13]: См. Fowler, M. E., & Mikota, S. K. (2006). *Biology, Medicine, and Surgery of Elephants*. Blackwell Publishing, Ames, Iowa.
-[^14]: См. монографию *`muscular-hydrostat-and-trunk-biomechanics.md`* — Анатомическая структура инфраорбитального нервного тракта (CN V2) и моторная координация хобота.
+[^14]: См. статью *`muscular-hydrostat-and-trunk-biomechanics.md`* — Анатомическая структура инфраорбитального нервного тракта (CN V2) и моторная координация хобота.
 [^15]: См. *ProboscidaeMorph_RG.pdf* — Раздел по остеологии и нейроанатомии (мозжечок слона составляет рекордные 18.6% от общей массы мозга).
 [^16]: См. Stone, J., & Halasz, P. (1989). Topography of the retina in the elephant, *Loxodonta africana*. *Brain, Behavior and Evolution*, 34, 84–95.
 [^17]: См. Yokoyama, S., Takenaka, N., Agnew, D. W., & Shoshani, J. (2005). Elephants and human color-blind deuteranopes have identical sets of visual pigments. *Genetics*, 170, 335–344.
