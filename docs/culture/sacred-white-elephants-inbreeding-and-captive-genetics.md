@@ -44,6 +44,9 @@ references:
     authors: Mar K. U. et al.
     year: 2012
     doi: 10.1111/j.1469-1795.2012.00537.x
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко

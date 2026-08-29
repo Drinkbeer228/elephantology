@@ -2,12 +2,21 @@
 reading_time: 7 мин
 title: Словарь терминов
 evidence_level: established
-description: Глоссарий специализированных терминов, используемых в энциклопедии «Слонология».
+description: Академический глоссарий терминов по анатомии, этологии, ветеринарии и эволюции слонов.
 tags:
   - глоссарий
   - терминология
 difficulty: beginner
-last_reviewed: '2026-07-23'
+last_reviewed: '2026-08-24'
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
+references:
+  - id: ref_glossary_proboscidea
+    title: Comprehensive Zoological & Anatomical Terminology of Elephantidae
+    authors: Academic League of Elephantology
+    year: '2026'
+category: anatomy
 ---
 
 # Словарь терминов

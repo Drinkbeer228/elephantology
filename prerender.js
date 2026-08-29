@@ -4,7 +4,7 @@ import { marked } from 'marked';
 import { markedHighlight } from 'marked-highlight';
 import hljs from 'highlight.js';
 import markedFootnote from 'marked-footnote';
-import { parseFrontmatter } from './seo-helper.js';
+import { parseFrontmatter, generateSchemaJsonLd, CANONICAL_DOMAIN } from './seo-helper.js';
 
 marked.use(markedHighlight({
   langPrefix: 'hljs language-',
@@ -20,7 +20,7 @@ marked.use({ renderer, gfm: true });
 
 const docsDir = './docs';
 const distDir = './dist';
-const domain = 'https://elephantology-wiki.ai.studio';
+const domain = CANONICAL_DOMAIN;
 const templatePath = path.join(distDir, 'index.html');
 
 if (!fs.existsSync(templatePath)) {
@@ -31,22 +31,24 @@ if (!fs.existsSync(templatePath)) {
 const templateHTML = fs.readFileSync(templatePath, 'utf8');
 
 function getFiles(dir, fileList = []) {
+  if (!fs.existsSync(dir)) return fileList;
   const files = fs.readdirSync(dir);
   for (const file of files) {
-    const stat = fs.statSync(path.join(dir, file));
+    const fullPath = path.join(dir, file);
+    const stat = fs.statSync(fullPath);
     if (stat.isDirectory()) {
       if (file !== 'assets') {
-        fileList = getFiles(path.join(dir, file), fileList);
+        fileList = getFiles(fullPath, fileList);
       }
     } else if (file.endsWith('.md')) {
-      fileList.push(path.join(dir, file));
+      fileList.push(fullPath);
     }
   }
   return fileList;
 }
 
 const files = getFiles(docsDir);
-console.log(`Starting SSG for ${files.length} articles...`);
+console.log(`Starting SSG prerender pipeline for ${files.length} articles on domain ${domain}...`);
 
 files.forEach(file => {
   const content = fs.readFileSync(file, 'utf8');
@@ -63,10 +65,14 @@ files.forEach(file => {
   const h1Match = mdContent.match(/^#\s+(.+)$/m);
   const fallbackTitle = h1Match ? h1Match[1].trim() : 'Монография';
   
-  // Prepare SEO meta tags
-  const title = meta.title ? `${meta.title} | Элефантология` : `${fallbackTitle} | Элефантология`;
-  const description = meta.description || 'Энциклопедия о слонах';
-  const ogTags = `
+  // Prepare SEO meta tags & Structured Data (JSON-LD)
+  const title = meta.title ? `${meta.title} | Слонология` : `${fallbackTitle} | Слонология`;
+  const description = meta.description || 'Академическая цифровая энциклопедия о слонах (Elephantidae).';
+  const ogImage = `${domain}/assets/images/og-home-elephants.jpg`;
+  
+  const jsonLdScript = generateSchemaJsonLd(meta, fullUrl);
+
+  const headInjection = `
     <title>${title}</title>
     <meta name="description" content="${description}">
     <link rel="canonical" href="${fullUrl}">
@@ -74,23 +80,33 @@ files.forEach(file => {
     <meta property="og:description" content="${description}">
     <meta property="og:url" content="${fullUrl}">
     <meta property="og:type" content="article">
+    <meta property="og:image" content="${ogImage}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${title}">
+    <meta name="twitter:description" content="${description}">
+    <meta name="twitter:image" content="${ogImage}">
+    ${jsonLdScript}
   `;
   
-  // Inject SEO tags into head and content into body
   let outHTML = templateHTML;
-  // Remove original OG tags globally
+  // Remove default/original tags from template to avoid duplicates
+  outHTML = outHTML.replace(/<title>.*?<\/title>/is, '');
+  outHTML = outHTML.replace(/<meta name="description"[^>]*>/ig, '');
+  outHTML = outHTML.replace(/<link rel="canonical"[^>]*>/ig, '');
   outHTML = outHTML.replace(/<meta property="og:title"[^>]*>/ig, '');
   outHTML = outHTML.replace(/<meta property="og:description"[^>]*>/ig, '');
   outHTML = outHTML.replace(/<meta property="og:url"[^>]*>/ig, '');
   outHTML = outHTML.replace(/<meta property="og:type"[^>]*>/ig, '');
-  
-  // Now replace title with new tags (which include new OG tags)
-  outHTML = outHTML.replace(/<title>.*?<\/title>/i, ogTags);
+  outHTML = outHTML.replace(/<meta property="og:image"[^>]*>/ig, '');
+  outHTML = outHTML.replace(/<meta name="twitter:[^"]*"[^>]*>/ig, '');
+
+  // Inject new head tags right before </head>
+  outHTML = outHTML.replace('</head>', `${headInjection}\n</head>`);
+
+  // Inject pre-rendered prose content inside #root
   outHTML = outHTML.replace('<div id="root"></div>', `<div id="root"><div id="article-prose-content" class="markdown-body">${htmlContent}</div></div>`);
   
-  // Ensure the page loads this article by default using window state or similar, 
-  // but since we render it for crawlers, we just need it in the HTML.
-  // We can also inject a script to hydrate it if JS loads.
+  // Inject state hydration marker
   outHTML = outHTML.replace('</body>', `<script>window.__PRERENDERED_ARTICLE__ = "${urlPath}";</script></body>`);
   
   // Write to dist/article/.../index.html
@@ -99,4 +115,4 @@ files.forEach(file => {
   fs.writeFileSync(path.join(outDir, 'index.html'), outHTML);
 });
 
-console.log('SSG complete!');
+console.log(`✅ SSG prerender complete: ${files.length} article pages generated.`);

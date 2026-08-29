@@ -40,6 +40,10 @@ references:
     title: Comparative morphology of gigantopyramidal neurons in the motor cortex of the elephant
     authors: Jacobs B., et al.
     year: 2011
+last_reviewed: '2026-08-24'
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

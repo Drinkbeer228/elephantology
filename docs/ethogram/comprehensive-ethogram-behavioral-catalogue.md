@@ -39,6 +39,10 @@ references:
     title: Signals and Assessment in African Elephants
     authors: Poole J. H.
     year: 1996
+last_reviewed: '2026-08-24'
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

@@ -66,6 +66,9 @@ references:
     title: Elephant endotheliotropic herpesvirus is omnipresent in elephants in European zoos and an Asian elephant range country
     authors: Hoornweg T. E., Schaftenaar W., Maurer G., van den Doel P. B., et al.
     year: 2021
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

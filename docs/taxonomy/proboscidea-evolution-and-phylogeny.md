@@ -50,6 +50,9 @@ references:
     title: A skeleton of 'steppe' mammoth (Mammuthus trogontherii) from Kostolac, Serbia
     authors: Lister A. M., Dimitrijevic V., Markovic Z., et al.
     year: 2012
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

@@ -40,6 +40,9 @@ references:
     title: 'Chemical signals of elephants: Estrogen, temporin, and the vomeronasal organ'
     authors: Rasmussen L. E. L.
     year: 2002
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

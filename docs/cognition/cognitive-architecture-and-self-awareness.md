@@ -57,6 +57,9 @@ references:
     authors: Bates L.A., Byrne R.W.
     year: 2014
     book: 'The Amboseli Elephants: A Long-Term Perspective on a Long-Lived Mammal'
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

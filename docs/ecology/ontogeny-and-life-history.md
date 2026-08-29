@@ -36,6 +36,9 @@ references:
     title: Shoulder height, body mass, and shape of proboscideans
     authors: Larramendi A.
     year: 2016
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

@@ -36,6 +36,9 @@ references:
     authors: McComb K., Shannon G., Durant S. M., Sayialel K., Slotow R., Poole J., Moss C.
     year: 2011
     doi: 10.1098/rspb.2011.0168
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Иерархия доминирования, ритуализированная агрессия и постконфликтное примирение у Elephantidae: демонстрация силы, турнирные поединки и аффилиация

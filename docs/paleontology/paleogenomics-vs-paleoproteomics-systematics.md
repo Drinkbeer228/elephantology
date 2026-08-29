@@ -46,6 +46,9 @@ references:
     authors: Welker F., Pinilla-Bona F. M., Gardeisen A., et al.
     year: 2015
     doi: 10.1038/nature14249
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко

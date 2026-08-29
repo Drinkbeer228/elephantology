@@ -7,12 +7,14 @@ type Translations = typeof ru;
 
 interface LanguageContextType {
   lang: Language;
+  isEn: boolean;
   t: Translations;
   setLang: (lang: Language) => void;
 }
 
 const LanguageContext = createContext<LanguageContextType>({
   lang: 'ru',
+  isEn: false,
   t: ru,
   setLang: () => {},
 });
@@ -31,9 +33,10 @@ export const LanguageProvider: React.FC<{children: React.ReactNode}> = ({ childr
   }, [lang]);
 
   const t = lang === 'en' ? en : ru;
+  const isEn = lang === 'en';
 
   return (
-    <LanguageContext.Provider value={{ lang, t, setLang }}>
+    <LanguageContext.Provider value={{ lang, isEn, t, setLang }}>
       {children}
     </LanguageContext.Provider>
   );

@@ -7,6 +7,7 @@ export interface ReferenceItem {
   isbn?: string;
   journal?: string;
   book?: string;
+  url?: string;
 }
 
 export interface RelatedKnowledgeItem {
@@ -14,15 +15,22 @@ export interface RelatedKnowledgeItem {
   target: string;
 }
 
+export type EvidenceLevel = 'established' | 'moderate' | 'limited' | 'hypothesis' | 'contested';
+
+export type EvidenceBasisType = 'peer_reviewed' | 'systematic_review' | 'primary_studies' | 'consensus' | 'expert_assessment' | string;
+
 export interface ArticleMetadata {
   title?: string;
   excerpt?: string;
   category?: string;
   tags?: string[];
-  difficulty?: string;
+  difficulty?: 'basic' | 'intermediate' | 'advanced' | string;
   readingTimeMin?: number;
-  evidenceLevel?: 'established' | 'moderate' | 'limited' | 'hypothesis' | 'contested' | string;
+  evidenceLevel?: EvidenceLevel | string;
+  evidenceBasis?: EvidenceBasisType[];
+  datePublished?: string;
   lastReviewed?: string;
+  authors?: string;
   referenceCount?: number;
   references?: ReferenceItem[];
   related_knowledge?: RelatedKnowledgeItem[];

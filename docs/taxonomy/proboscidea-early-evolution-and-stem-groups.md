@@ -37,6 +37,9 @@ references:
     title: 'The Proboscidea: Evolution and Palaeoecology of Elephants and Their Relatives'
     authors: Shoshani J., Tassy P.
     year: 1996
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Базальная радиация и ранняя эволюция отряда Proboscidea в палеогене: от базальных афротериев к полуводным эоценовым формам

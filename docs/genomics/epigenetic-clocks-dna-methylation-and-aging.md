@@ -47,6 +47,9 @@ references:
     authors: Gomes N. M. et al.
     year: 2011
     doi: 10.1111/j.1474-9726.2011.00684.x
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко

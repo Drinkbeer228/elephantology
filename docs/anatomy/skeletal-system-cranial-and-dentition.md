@@ -44,6 +44,9 @@ references:
     title: Oral Biology of the Elephant
     authors: Miles A. E. W., Grigson C.
     year: 1972
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

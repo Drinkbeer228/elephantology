@@ -41,6 +41,9 @@ references:
     authors: Fernando P., Kumar M. A., Williams A. C., et al.
     year: 2012
     doi: 10.1371/journal.pone.0050917
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

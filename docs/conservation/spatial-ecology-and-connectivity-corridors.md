@@ -34,6 +34,9 @@ references:
     title: The influence of environment on systematic and seasonal patterns of elephant movement
     authors: Wittemyer G., Getz W. M., Vollrath F., Douglas-Hamilton I.
     year: 2007
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Пространственная экология, спутниковая телеметрия и ландшафтная связность у Elephantidae: расчет домашних ареалов, модели Least-Cost Path и проектирование миграционных коридоров

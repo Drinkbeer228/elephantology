@@ -10,6 +10,20 @@ tags:
 difficulty: beginner
 last_reviewed: '2026-08-23'
 category: anatomy
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
+references:
+  - id: ref_proboscidea_compendium
+    title: 'The Proboscidea: Evolution and Palaeoecology of Elephants and Their Relatives'
+    authors: Shoshani, J., & Tassy, P.
+    year: '2005'
+    isbn: 978-0198546528
+  - id: ref_elephant_biology_medicine
+    title: Biology, Medicine, and Surgery of Elephants
+    authors: Fowler, M. E., & Mikota, S. K.
+    year: '2006'
+    isbn: 978-0813806761
 ---
 
 # Анатомия слона: Эволюционная биомеханика

@@ -35,6 +35,9 @@ references:
     title: 'Mammalian Species No. 182: Elephas maximus'
     authors: Shoshani J., Eisenberg J. F.
     year: 1982
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Экологическая история и 3000-летнее отступление азиатского слона (*Elephas maximus*) в Китае: трансформация ландшафтов, климатический сдвиг и рефугиум в провинции Юньнань

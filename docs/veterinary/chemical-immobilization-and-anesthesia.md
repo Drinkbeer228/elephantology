@@ -33,6 +33,9 @@ references:
     title: Clinical evaluation of thiafentanil oxalate (A3080) in captive Asian elephants
     authors: Glaser A. L., Hildebrandt T. B.
     year: 2009
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Клиническая анестезиология и полевая химическая иммобилизация Elephantidae: протоколы сверхактивных опиоидов, антагонистическая десатурация и профилактика позиционного кардиореспираторного коллапса

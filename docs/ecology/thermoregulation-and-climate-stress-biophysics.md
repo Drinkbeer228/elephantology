@@ -46,6 +46,9 @@ references:
     authors: Wittemyer G., Rasmussen H. B., Douglas-Hamilton I.
     year: 2007
     doi: 10.1111/j.1469-7998.2007.00318.x
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко

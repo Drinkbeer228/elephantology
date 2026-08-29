@@ -43,6 +43,9 @@ references:
     title: Clinical review of Elephant endotheliotropic herpes virus (EEHV) associated disease in Asian elephants (Elephas maximus)
     authors: Takehana K., Kawakami S., Thitaram C., Matsuno K.
     year: 2022
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

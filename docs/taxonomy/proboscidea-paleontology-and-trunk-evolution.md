@@ -41,6 +41,9 @@ references:
     authors: Gheerbrant E.
     year: 2009
     doi: 10.1073/pnas.0900251106
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

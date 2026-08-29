@@ -25,6 +25,11 @@ references:
     title: Rasmussen & Munger, 1996
   - id: ref_7
     title: Hildebrandt et al., 2011
+last_reviewed: '2026-08-24'
+description: Хобот (proboscis) семейства Слоновые (Elephantidae) представляет собой один из самых совершенных и биомеханически сложных пренезильных органов в царстве животных 1. Являясь результатом глубокой...
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Клиническая миология, биомеханика мышечного гидростата и нейросенсорный контроль хобота (Proboscis) у Elephantidae: архитектоника мышечных пучков, гидростатический скелет и микроманипуляция

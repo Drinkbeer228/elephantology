@@ -26,6 +26,10 @@ references:
     title: Christiansen, 2007
   - id: ref_6
     title: Larramendi, 2016
+last_reviewed: '2026-08-24'
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Клиническая остеология, гравипортальная биомеханика и анатомия локомоторного аппарата Elephantidae: колоннообразный скелет, препустепная дигитиградия и феномен ложного шестого пальца (Prepux)

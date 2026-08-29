@@ -36,6 +36,9 @@ references:
     title: Infrasonic calls of the Asian elephant
     authors: Payne K. B., Langbauer W. R., Thomas E. M.
     year: 1986
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

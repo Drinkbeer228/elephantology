@@ -32,40 +32,15 @@ import { EvidenceBadge, EditorialStatusBlock } from './ArticleBlocks';
 import { useLanguage } from '../i18n/LanguageContext';
 import { ARTICLE_TRANSLATIONS_EN } from '../lib/articleTranslations';
 import { translateMarkdownToEnglish } from '../lib/translateMarkdown';
+import { CATEGORY_MAP_RU, CATEGORY_MAP_EN } from '../data/categories';
 
 interface ArticleViewerProps {
   path: string;
   onBack: () => void;
 }
 
-const CATEGORY_NAMES_RU: Record<string, string> = {
-  taxonomy: 'Таксономия и Эволюция',
-  anatomy: 'Анатомия и Физиология',
-  ethogram: 'Этология и Поведение',
-  cognition: 'Когнитивистика и Память',
-  veterinary: 'Ветеринария и Патологии',
-  ecology: 'Экология и Среда обитания',
-  conservation: 'Охрана и Сохранение видов',
-  culture: 'Антропозоология и Культура',
-  paleontology: 'Палеонтология и Ископаемые',
-  genomics: 'Геномика и Молекулярная биология'
-};
-
-const CATEGORY_NAMES_EN: Record<string, string> = {
-  taxonomy: 'Taxonomy & Evolution',
-  anatomy: 'Anatomy & Physiology',
-  ethogram: 'Ethology & Behavior',
-  cognition: 'Cognitive Science & Memory',
-  veterinary: 'Veterinary & Pathology',
-  ecology: 'Ecology & Habitat',
-  conservation: 'Conservation & Species Protection',
-  culture: 'Anthrozoology & Culture',
-  paleontology: 'Paleontology & Fossils',
-  genomics: 'Genomics & Molecular Biology'
-};
-
 export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
-  const { t, lang, setLang } = useLanguage();
+  const { t, lang, setLang, isEn } = useLanguage();
   const [content, setContent] = useState<string>('');
   const [rawContent, setRawContent] = useState<string>('');
   const [meta, setMeta] = useState<any>({});
@@ -73,6 +48,8 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [relatedArticles, setRelatedArticles] = useState<ArticleItem[]>([]);
+
+  const categoryDict = isEn ? CATEGORY_MAP_EN : CATEGORY_MAP_RU;
   const [prevArticle, setPrevArticle] = useState<ArticleItem | null>(null);
   const [nextArticle, setNextArticle] = useState<ArticleItem | null>(null);
 
@@ -80,9 +57,6 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   const [rawKeyFindings, setRawKeyFindings] = useState<string | null>(null);
   const [rawUncertainty, setRawUncertainty] = useState<{ known?: string; probable?: string; unknown?: string } | null>(null);
   const [rawCleanBody, setRawCleanBody] = useState<string>('');
-
-  const isEn = lang === 'en';
-  const categoryDict = isEn ? CATEGORY_NAMES_EN : CATEGORY_NAMES_RU;
 
   const safePath = path.endsWith('.md') ? path : `${path}.md`;
   const cleanPath = safePath.replace(/^\//, '');
@@ -751,8 +725,10 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
         {/* 7. Editorial Status Block */}
         <EditorialStatusBlock
           lastReviewed={lastReviewedDate}
+          datePublished={meta.datePublished}
           category={meta.category}
           evidenceLevel={meta.evidenceLevel}
+          evidenceBasis={meta.evidenceBasis}
         />
 
         {/* Previous / Next Article Navigation */}

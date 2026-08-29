@@ -24,6 +24,9 @@ references:
     title: Prado et al., 2005
   - id: ref_5
     title: Sanders, 2022
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Эволюционная радиация и биомеханика Gomphotheriidae и Amebelodontidae: четверобивневые формы, лопатообразные симфизы и Великий межамериканский обмен

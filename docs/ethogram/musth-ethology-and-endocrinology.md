@@ -57,6 +57,9 @@ references:
     title: Age, musth and paternity in wild African elephants
     authors: Hollister-Smith J. A., et al.
     year: 2007
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

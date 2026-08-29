@@ -38,6 +38,9 @@ references:
     title: Stable isotope ecology of modern elephants
     authors: Cerling T. E., Wittemyer G., Ehleringer J. R., et al.
     year: 2009
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Криминалистическая генетика, стабильно-изотопный анализ и динамика нелегального оборота слоновой кости: методы отслеживания браконьерских синдикатов

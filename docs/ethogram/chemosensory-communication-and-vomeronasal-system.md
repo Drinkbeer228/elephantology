@@ -39,6 +39,9 @@ references:
     title: The sensorimotor specializations of the trunk tip of the Asian elephant, Elephas maximus
     authors: Rasmussen L. E. L., Munger B. L.
     year: 1996
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

@@ -27,6 +27,9 @@ references:
     title: Sanders, 2010
   - id: ref_6
     title: Larramendi, 2016
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Филогенетическая дивергенция, краниодентальная биомеханика и палеоэкология Mammutidae: сравнительный анализ с Elephantidae, зиголофодонтия и анатомия Mammut americanum

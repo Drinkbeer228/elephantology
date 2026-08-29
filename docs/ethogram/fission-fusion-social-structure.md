@@ -39,6 +39,9 @@ references:
     authors: Pardo M. A., Fristrup K., Lolchuragi D. S., Poole J. H., et al.
     year: 2024
     doi: 10.1038/s41559-024-02420-w
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Многоуровневая социальная структура и динамика деления-объединения (Fission-Fusion) у Elephantidae: матриархат, кланы и экология сплоченности

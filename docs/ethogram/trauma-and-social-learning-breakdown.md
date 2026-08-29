@@ -45,6 +45,9 @@ references:
     journal: Science
     volume: '292'
     pages: 491-494
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

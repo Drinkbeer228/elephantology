@@ -34,6 +34,9 @@ references:
     title: 'The Living Elephants: Evolutionary Ecology, Behavior, and Conservation'
     authors: Sukumar R.
     year: 2003
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Боевые слоны в военном искусстве античности и средневекового Востока: селекция видов, тактическое применение, психология паники и полевая ветеринария

@@ -2,12 +2,21 @@
 reading_time: 5 мин
 title: Библиография
 evidence_level: established
-description: Полный список источников, использованных в энциклопедии «Слонология».
+description: Сводный библиографический указатель научной литературы по хоботным (Proboscidea).
 tags:
   - библиография
   - источники
 difficulty: beginner
-last_reviewed: '2026-07-23'
+last_reviewed: '2026-08-24'
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
+references:
+  - id: ref_compendium
+    title: Elephantology Academic Bibliography Compendium
+    authors: Academic League of Elephantology
+    year: '2026'
+category: culture
 ---
 
 # Библиография

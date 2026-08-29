@@ -49,6 +49,9 @@ references:
     authors: Domingo L., Koch P. L., Grimes S. T., Morales J., López-Martínez N.
     year: 2012
     doi: 10.1016/j.palaeo.2012.04.026
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко

@@ -35,6 +35,9 @@ references:
     title: Molar progression, foot care, and medical management of geriatric elephants
     authors: D. Wendler, L. Gage
     year: 2019
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

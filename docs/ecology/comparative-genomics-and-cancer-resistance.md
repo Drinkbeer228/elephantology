@@ -44,6 +44,9 @@ references:
     authors: Lynch V. J., Bedoya-Reina O. C., Ratan A., et al.
     year: 2015
     doi: 10.1093/molbev/msv230
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

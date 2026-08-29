@@ -37,6 +37,9 @@ references:
     title: An Exploration of a Commonality between Ourselves and Elephants
     authors: Poole J. H.
     year: 1998
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Когнитивная этология и кооперативное поведение Elephantidae: парадигма совместного вытягивания каната, орудийная деятельность и спонтанный инсайт

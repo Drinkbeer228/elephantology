@@ -1,15 +1,19 @@
 import { load } from 'js-yaml';
+import { ArticleMetadata, ReferenceItem, RelatedKnowledgeItem } from '../types';
 
-export function parseFrontmatter(md: string) {
+export function parseFrontmatter(md: string): { metadata: ArticleMetadata; content: string } {
   let content = typeof md === 'string' ? md : '';
-  let metadata: any = {
-    title: null,
-    excerpt: null,
-    evidenceLevel: null,
-    difficulty: null,
-    lastReviewed: null,
+  const metadata: ArticleMetadata = {
+    title: undefined,
+    excerpt: undefined,
+    evidenceLevel: undefined,
+    evidenceBasis: undefined,
+    difficulty: undefined,
+    datePublished: undefined,
+    lastReviewed: undefined,
+    authors: undefined,
     referenceCount: 0,
-    category: null,
+    category: undefined,
     tags: [],
     related_knowledge: [],
     references: [],
@@ -31,11 +35,24 @@ export function parseFrontmatter(md: string) {
         }
         if (parsedFm.category) metadata.category = String(parsedFm.category).trim();
         if (parsedFm.difficulty) metadata.difficulty = String(parsedFm.difficulty).trim();
+        
         if (parsedFm.evidence_level || parsedFm.evidenceLevel) {
           metadata.evidenceLevel = String(parsedFm.evidence_level || parsedFm.evidenceLevel).trim();
         }
+
+        if (Array.isArray(parsedFm.evidence_basis || parsedFm.evidenceBasis)) {
+          metadata.evidenceBasis = (parsedFm.evidence_basis || parsedFm.evidenceBasis).map((b: any) => String(b).trim()).filter(Boolean);
+        }
+
+        // Strict separation of publication date vs last reviewed date
+        if (parsedFm.date_published || parsedFm.datePublished) {
+          metadata.datePublished = String(parsedFm.date_published || parsedFm.datePublished).trim();
+        }
         if (parsedFm.last_reviewed || parsedFm.lastReviewed) {
           metadata.lastReviewed = String(parsedFm.last_reviewed || parsedFm.lastReviewed).trim();
+        }
+        if (parsedFm.authors || parsedFm.author) {
+          metadata.authors = String(parsedFm.authors || parsedFm.author).trim();
         }
         if (parsedFm.reading_time_min || parsedFm.readingTimeMin) {
           metadata.readingTimeMin = parseInt(parsedFm.reading_time_min || parsedFm.readingTimeMin, 10) || 5;
@@ -55,26 +72,27 @@ export function parseFrontmatter(md: string) {
           parsedFm.related_knowledge.forEach((item: any) => {
             if (typeof item === 'string') {
               const target = item.trim().replace(/^\//, '');
-              metadata.related_knowledge.push({ type: 'article', target });
+              metadata.related_knowledge?.push({ type: 'article', target });
             } else if (item && typeof item === 'object') {
               const target = (item.target || item.path || item.link || '').trim().replace(/^\//, '');
               const type = item.type || 'article';
-              if (target) metadata.related_knowledge.push({ type, target });
+              if (target) metadata.related_knowledge?.push({ type, target });
             }
           });
         }
 
         // References parsing
         if (Array.isArray(parsedFm.references)) {
+          const refs: ReferenceItem[] = [];
           parsedFm.references.forEach((ref: any, idx: number) => {
             if (typeof ref === 'string') {
-              metadata.references.push({
+              refs.push({
                 id: `ref_${idx + 1}`,
                 title: ref.trim()
               });
             } else if (ref && typeof ref === 'object') {
               const cleanTitle = ref.title ? String(ref.title).replace(/\s*\(passage.*?\)/gi, '').trim() : '';
-              metadata.references.push({
+              refs.push({
                 id: ref.id ? String(ref.id) : `ref_${idx + 1}`,
                 title: cleanTitle,
                 authors: ref.authors ? String(ref.authors).trim() : undefined,
@@ -82,11 +100,13 @@ export function parseFrontmatter(md: string) {
                 doi: ref.doi ? String(ref.doi).trim() : undefined,
                 isbn: ref.isbn ? String(ref.isbn).trim() : undefined,
                 journal: ref.journal ? String(ref.journal).trim() : undefined,
-                book: ref.book ? String(ref.book).trim() : undefined
+                book: ref.book ? String(ref.book).trim() : undefined,
+                url: ref.url ? String(ref.url).trim() : undefined
               });
             }
           });
-          metadata.referenceCount = metadata.references.length;
+          metadata.references = refs;
+          metadata.referenceCount = refs.length;
         }
       } catch (err) {
         console.warn('YAML parsing fallback for markdown frontmatter:', err);

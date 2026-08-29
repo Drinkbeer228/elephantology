@@ -28,6 +28,9 @@ references:
     title: Tikhonov et al., 2003
   - id: ref_7
     title: Agenbroad, 2012
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Эволюционная радиация рода Mammuthus и биомеханика островной карликовости: филогенетический ряд, гиперпластинчатость моляров и анатомия карликовых форм

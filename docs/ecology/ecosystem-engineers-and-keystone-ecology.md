@@ -42,6 +42,9 @@ references:
     title: Loxodonta africana (foraging, water dependence, and Mt Elgon salt licks)
     authors: Poole, J. H., Granli, P., et al.
     year: 2013
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

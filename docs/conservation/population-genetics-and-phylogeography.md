@@ -48,6 +48,9 @@ references:
     title: Post-bottleneck genetic diversity of the Addo elephant population
     authors: Whitehouse A. M., Harley E. H.
     year: 2001
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

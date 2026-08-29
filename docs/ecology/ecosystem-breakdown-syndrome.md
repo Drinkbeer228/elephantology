@@ -26,6 +26,9 @@ references:
     title: Poole & Moss, 2008
   - id: ref_6
     title: Western, 1989
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Синдром популяционного и экосистемного распада у Elephantidae: нейробиология трансгенерационной травмы, утрата социальной культуры и каскадные трофические эффекты

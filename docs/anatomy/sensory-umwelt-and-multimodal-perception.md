@@ -29,6 +29,10 @@ references:
     title: Garstang, 2015
   - id: ref_8
     title: Rylander, 2004
+last_reviewed: '2026-08-24'
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Сенсорный умвельт (Umwelt) и мультимодальная нейрофизиология Elephantidae: виброакустическая сейсморецепция стопы, соматосенсорная кора и оптико-пространственная интеграция

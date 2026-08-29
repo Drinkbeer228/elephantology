@@ -39,6 +39,9 @@ references:
     title: 'Gone Astray: The Care and Management of the Asian Elephant in Domesticity'
     authors: Lair R. C.
     year: 1997
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

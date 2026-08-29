@@ -47,6 +47,9 @@ references:
     authors: Dastjerdi A., Seilern-Moy K., Darpel K., Steinbach F., Molenaar F.
     year: 2016
     doi: 10.1186/s12917-016-0798-y
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко

@@ -42,6 +42,9 @@ references:
     authors: Larramendi A.
     year: 2016
     doi: 10.4081/abp.2016.321
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко

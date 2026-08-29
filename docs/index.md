@@ -1,11 +1,21 @@
 ---
 title: Энциклопедия «Слонология»
-category: general
+category: taxonomy
 evidence_level: established
 reading_time: 3 мин
 hide:
   - navigation
   - toc
+last_reviewed: '2026-08-24'
+description: Академическая цифровая энциклопедия о слонах (Elephantidae).
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
+references:
+  - id: ref_shoshani_2005
+    title: 'The Proboscidea: Evolution and Palaeoecology of Elephants and Their Relatives'
+    authors: Shoshani, J., & Tassy, P.
+    year: '2005'
 ---
 
 # Энциклопедия «Слонология»

@@ -40,6 +40,9 @@ references:
     title: Elephant brain and cardiovascular structures
     authors: Shoshani J., Kupsky W.J.
     year: 2006
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Клиническая кардиология, сосудистая архитектоника и гравитационная гемодинамика Elephantidae

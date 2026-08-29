@@ -43,6 +43,10 @@ references:
     title: Biology, Medicine, and Surgery of Elephants
     authors: Fowler M. E., Mikota S. K.
     year: 2008
+last_reviewed: '2026-08-24'
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

@@ -51,6 +51,9 @@ references:
     title: Social organization of the Asian elephant (Elephas maximus) in southern India inferred from microsatellite DNA
     authors: Vidya T. N. C., Sukumar R.
     year: 2005
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

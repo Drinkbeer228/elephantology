@@ -35,6 +35,9 @@ references:
     title: 'Conservation Biology: Climate Change and Range Dynamics of Megafauna'
     authors: Lee Hannah
     year: 2014
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

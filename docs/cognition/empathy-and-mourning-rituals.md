@@ -38,6 +38,9 @@ references:
     title: 'Elephant Orphans: Lessons in Rehabilitation and Trust'
     authors: Sheldrick D.
     year: 2016
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

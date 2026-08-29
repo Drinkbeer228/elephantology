@@ -34,6 +34,10 @@ references:
     title: Steel, 1885
   - id: ref_10
     title: Hildebrandt et al., 2012
+last_reviewed: '2026-08-24'
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

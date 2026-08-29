@@ -25,6 +25,10 @@ references:
     title: Short, 1984
   - id: ref_6
     title: Fowler & Mikota, 2006
+last_reviewed: '2026-08-24'
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Клиническая урология, репродуктивная анатомия и эндокринология Elephantidae: интраабдоминальные тестикулы, противоточная терморегуляция, вестибулярный тракт самок и двухволновой LH-цикл

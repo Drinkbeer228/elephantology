@@ -26,6 +26,9 @@ references:
     title: Tetaert & Houssaye, 2026
   - id: ref_6
     title: Tassy, 1994
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 # Эволюционная радиация, краниодентальная биомеханика и палеоэкология Deinotheriidae: анатомия каудально загнутых мандибулярных бивней, тафономия и угасание в плейстоцене

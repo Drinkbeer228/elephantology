@@ -40,6 +40,9 @@ references:
     title: Concepts in the care and welfare of captive elephants
     authors: Veasey J. S.
     year: 2006
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)

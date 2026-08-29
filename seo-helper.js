@@ -1,27 +1,63 @@
 import fs from 'fs';
 import path from 'path';
+import { load } from 'js-yaml';
+
+export const CANONICAL_DOMAIN = 'https://elephantology.ai.studio';
 
 export function parseFrontmatter(content) {
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   const meta = { tags: [] };
   if (match) {
-    const yaml = match[1];
-    const titleMatch = yaml.match(/title:\s*(.*)/);
-    if (titleMatch) meta.title = titleMatch[1].replace(/['"]/g, '').trim();
+    try {
+      const parsed = load(match[1]) || {};
+      if (parsed.title) meta.title = String(parsed.title).trim();
+      if (parsed.description || parsed.excerpt) {
+        meta.description = String(parsed.description || parsed.excerpt).trim();
+      }
+      if (parsed.category) meta.category = String(parsed.category).trim();
+      if (parsed.evidence_level || parsed.evidenceLevel) {
+        meta.evidenceLevel = String(parsed.evidence_level || parsed.evidenceLevel).trim();
+      }
+      if (parsed.date_published || parsed.datePublished) {
+        meta.datePublished = String(parsed.date_published || parsed.datePublished).trim();
+      }
+      if (parsed.last_reviewed || parsed.lastReviewed) {
+        meta.lastReviewed = String(parsed.last_reviewed || parsed.lastReviewed).trim();
+        meta.dateModified = meta.lastReviewed;
+      }
+      if (Array.isArray(parsed.tags)) {
+        meta.tags = parsed.tags.map(t => String(t).trim()).filter(Boolean);
+      } else if (typeof parsed.tags === 'string') {
+        meta.tags = parsed.tags.split(',').map(t => t.trim()).filter(Boolean);
+      }
+    } catch (e) {
+      // Fallback regex parsing if yaml fails
+      const yamlStr = match[1];
+      const titleMatch = yamlStr.match(/title:\s*["']?([^"'\r\n]+)["']?/);
+      if (titleMatch) meta.title = titleMatch[1].trim();
 
-    const descMatch = yaml.match(/description:\s*(.*)/);
-    if (descMatch) meta.description = descMatch[1].replace(/['"]/g, '').trim();
-    
-    const catMatch = yaml.match(/category:\s*(.*)/);
-    if (catMatch) meta.category = catMatch[1].replace(/['"]/g, '').trim();
+      const descMatch = yamlStr.match(/(?:description|excerpt):\s*["']?([^"'\r\n]+)["']?/);
+      if (descMatch) meta.description = descMatch[1].trim();
+      
+      const catMatch = yamlStr.match(/category:\s*["']?([^"'\r\n]+)["']?/);
+      if (catMatch) meta.category = catMatch[1].trim();
 
-    const tagsMatch = yaml.match(/tags:\s*\[(.*?)\]/);
-    if (tagsMatch) {
-      meta.tags = tagsMatch[1].split(',').map(t => t.trim().replace(/['"]/g, ''));
+      const tagsMatch = yamlStr.match(/tags:\s*\[(.*?)\]/);
+      if (tagsMatch) {
+        meta.tags = tagsMatch[1].split(',').map(t => t.trim().replace(/['"]/g, ''));
+      }
+      
+      const lastMatch = yamlStr.match(/last_reviewed:\s*["']?([^"'\r\n]+)["']?/);
+      if (lastMatch) {
+        meta.lastReviewed = lastMatch[1].trim();
+        meta.dateModified = meta.lastReviewed;
+      }
+
+      const pubMatch = yamlStr.match(/date_published:\s*["']?([^"'\r\n]+)["']?/);
+      if (pubMatch) {
+        meta.datePublished = pubMatch[1].trim();
+      }
     }
-    
-    const dateMatch = yaml.match(/last_reviewed:\s*(.*)/);
-    if (dateMatch) meta.dateModified = dateMatch[1].replace(/['"]/g, '').trim();
   }
   return meta;
 }
@@ -29,53 +65,67 @@ export function parseFrontmatter(content) {
 export function generateSchemaJsonLd(meta, url) {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "TechArticle",
+    "@type": "ScholarlyArticle",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": url
     },
-    "headline": meta.title || "Статья",
-    "description": meta.description || "",
-    "datePublished": meta.dateModified || new Date().toISOString().split('T')[0],
-    "dateModified": meta.dateModified || new Date().toISOString().split('T')[0],
+    "headline": meta.title || "Монография",
+    "description": meta.description || "Академическая статья о слонах в энциклопедии Слонология.",
+    "inLanguage": "ru",
     "author": {
       "@type": "Organization",
       "name": "Академическая Лига Слонологии",
-      "url": "https://elephantology.ru"
+      "url": CANONICAL_DOMAIN
     },
     "publisher": {
       "@type": "Organization",
       "name": "Слонология",
+      "url": CANONICAL_DOMAIN,
       "logo": {
         "@type": "ImageObject",
-        "url": "https://elephantology.ru/assets/logo.png"
+        "url": `${CANONICAL_DOMAIN}/icons/icon.svg`
       }
     },
     "about": [
       {
-        "@type": "Thing",
+        "@type": "Taxon",
         "name": "Elephantidae",
+        "scientificName": "Elephantidae",
+        "taxonRank": "family",
         "sameAs": "https://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%BD%D0%BE%D0%B2%D1%8B%D0%B5"
       }
     ]
   };
 
+  // Only attach datePublished if explicitly defined in frontmatter (never fake it with last_reviewed)
+  if (meta.datePublished) {
+    schema.datePublished = meta.datePublished;
+  }
+  
+  if (meta.lastReviewed || meta.dateModified) {
+    schema.dateModified = meta.lastReviewed || meta.dateModified;
+  }
+
   const latinTaxa = [
     'Loxodonta africana', 'Elephas maximus', 'Mammuthus primigenius', 
-    'Loxodonta cyclotis', 'Mammuthus', 'Deinotherium', 'Palaeoloxodon'
+    'Loxodonta cyclotis', 'Mammuthus', 'Deinotherium', 'Palaeoloxodon',
+    'Proboscidea', 'Elephas', 'Loxodonta'
   ];
   
-  meta.tags.forEach(tag => {
-    const isLatin = latinTaxa.some(latin => tag.toLowerCase() === latin.toLowerCase() || tag.toLowerCase().includes(latin.toLowerCase()));
-    if (isLatin || /^[A-Z][a-z]+ [a-z]+$/.test(tag)) { // Simple heuristic for latin names
-      schema.about.push({
-        "@type": "Taxon",
-        "name": tag,
-        "scientificName": tag,
-        "taxonRank": tag.includes(' ') ? "species" : "genus"
-      });
-    }
-  });
+  if (Array.isArray(meta.tags)) {
+    meta.tags.forEach(tag => {
+      const isLatin = latinTaxa.some(latin => tag.toLowerCase() === latin.toLowerCase() || tag.toLowerCase().includes(latin.toLowerCase()));
+      if (isLatin || /^[A-Z][a-z]+(\s+[a-z]+)?$/.test(tag)) {
+        schema.about.push({
+          "@type": "Taxon",
+          "name": tag,
+          "scientificName": tag,
+          "taxonRank": tag.includes(' ') ? "species" : "genus"
+        });
+      }
+    });
+  }
 
   return `<script type="application/ld+json">\n${JSON.stringify(schema, null, 2)}\n</script>`;
 }
@@ -88,19 +138,21 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
   }));
 
   const docsDir = args.docs || './docs';
-  const domain = args.domain || 'https://elephantology.ru';
-  const outPath = args.out || './public/sitemap.xml';
+  const domain = args.domain || CANONICAL_DOMAIN;
+  const outPath = args.out || './dist/sitemap.xml';
 
   function getFiles(dir, fileList = []) {
+    if (!fs.existsSync(dir)) return fileList;
     const files = fs.readdirSync(dir);
     for (const file of files) {
-      const stat = fs.statSync(path.join(dir, file));
+      const fullPath = path.join(dir, file);
+      const stat = fs.statSync(fullPath);
       if (stat.isDirectory()) {
         if (file !== 'assets') {
-          fileList = getFiles(path.join(dir, file), fileList);
+          fileList = getFiles(fullPath, fileList);
         }
       } else if (file.endsWith('.md')) {
-        fileList.push(path.join(dir, file));
+        fileList.push(fullPath);
       }
     }
     return fileList;
@@ -110,26 +162,29 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
   const urls = [];
   
   // Add homepage
-  urls.push(`  <url>\n    <loc>${domain}/</loc>\n    <priority>1.0</priority>\n    <changefreq>daily</changefreq>\n  </url>`);
+  const today = new Date().toISOString().split('T')[0];
+  urls.push(`  <url>\n    <loc>${domain}/</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>`);
 
   files.forEach(file => {
     const content = fs.readFileSync(file, 'utf8');
     const meta = parseFrontmatter(content);
     
-    // Convert path (e.g. docs/anatomy/test.md -> /article/anatomy/test)
     const relativePath = path.relative(docsDir, file).replace(/\\/g, '/');
+    // Skip auxiliary files if not articles
+    if (relativePath.startsWith('assets/')) return;
+
     const urlPath = `/article/${relativePath.replace(/\.md$/, '')}`;
     const fullUrl = `${domain}${urlPath}`;
     
-    const priority = (meta.category === 'anatomy' || meta.category === 'taxonomy') ? '0.8' : '0.6';
-    const lastmod = meta.dateModified || new Date().toISOString().split('T')[0];
+    const priority = (meta.category === 'anatomy' || meta.category === 'taxonomy' || meta.category === 'ethogram') ? '0.9' : '0.8';
+    const lastmod = meta.lastReviewed || meta.dateModified || today;
     
-    urls.push(`  <url>\n    <loc>${fullUrl}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <priority>${priority}</priority>\n    <changefreq>weekly</changefreq>\n  </url>`);
+    urls.push(`  <url>\n    <loc>${fullUrl}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${priority}</priority>\n  </url>`);
   });
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>`;
   
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, sitemap);
-  console.log(`✅ Sitemap successfully generated at ${outPath} with ${urls.length} URLs.`);
+  console.log(`✅ Sitemap successfully generated at ${outPath} with ${urls.length} URLs for ${domain}`);
 }

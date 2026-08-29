@@ -46,6 +46,9 @@ references:
     authors: Bates L. A. et al.
     year: 2007
     doi: 10.1016/j.cub.2007.09.060
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко

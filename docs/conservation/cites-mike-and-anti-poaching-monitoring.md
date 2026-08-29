@@ -42,6 +42,9 @@ references:
     authors: Burn R. W. et al.
     year: 2011
     doi: 10.1371/journal.pone.0024165
+evidence_basis:
+  - peer_reviewed
+  - primary_studies
 ---
 
 ## Кратко (Lead)
