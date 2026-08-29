@@ -103,11 +103,12 @@ export function resolveArticlePath(requestedPath: string, modulesKeys: string[])
   return null;
 }
 
+export const MODULES_CACHE = import.meta.glob('/docs/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+
 export function getStaticArticles(lang?: string): ArticleItem[] {
-  const modules = import.meta.glob('/docs/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
   const isEn = lang === 'en';
   
-  return Object.entries(modules)
+  return Object.entries(MODULES_CACHE)
     .filter(([filePath]) => 
       !filePath.includes('/assets/') &&
       !filePath.endsWith('index.md') && 

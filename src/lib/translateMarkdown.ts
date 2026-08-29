@@ -154,6 +154,8 @@ const SENTENCE_DICTIONARY: Record<string, string> = {
     'Proboscidean evolution is distinguished by marked morphological parallelisms and progressive cranial-dental specialization during the dietary transition from soft browse to abrasive C4 graminoids'
 };
 
+const SORTED_TERM_REPLACEMENTS = [...TERM_REPLACEMENTS].sort((a, b) => b[0].source.length - a[0].source.length);
+
 /**
  * Translates a Russian markdown article into fluent, structured academic English.
  */
@@ -173,9 +175,22 @@ export function translateMarkdownToEnglish(markdown: string): string {
     result = result.replace(headingRegex, `$1${en}`);
   });
 
-  // 3. Apply regex scientific and biological terminology replacements
-  TERM_REPLACEMENTS.forEach(([regex, replacement]) => {
+  // 3. Protect markdown link and image URLs
+  const linkUrls: string[] = [];
+  result = result.replace(/(\[[^\]]*\]\()([^)]+)(\))/g, (_, prefix, url, suffix) => {
+    const index = linkUrls.length;
+    linkUrls.push(url);
+    return `${prefix}__LINK_URL_${index}__${suffix}`;
+  });
+
+  // 4. Apply regex scientific and biological terminology replacements
+  SORTED_TERM_REPLACEMENTS.forEach(([regex, replacement]) => {
     result = result.replace(regex, replacement);
+  });
+
+  // 5. Restore protected URLs
+  result = result.replace(/__LINK_URL_(\d+)__/g, (match, idx) => {
+    return linkUrls[Number(idx)] || match;
   });
 
   return result;

@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://elephantology-wiki.ai.studio/sitemap.xml
+Sitemap: https://elephantology.ai.studio/sitemap.xml

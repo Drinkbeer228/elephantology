@@ -33,6 +33,15 @@ import { useLanguage } from '../i18n/LanguageContext';
 import { ARTICLE_TRANSLATIONS_EN } from '../lib/articleTranslations';
 import { translateMarkdownToEnglish } from '../lib/translateMarkdown';
 import { CATEGORY_MAP_RU, CATEGORY_MAP_EN } from '../data/categories';
+import { ArticleMetadata, ReferenceItem, EvidenceBasisType } from '../types';
+
+declare global {
+  interface Window {
+    loadArticle?: (path: string) => void;
+    currentArticlePath?: string;
+    __PRERENDERED_ARTICLE__?: string;
+  }
+}
 
 interface ArticleViewerProps {
   path: string;
@@ -43,15 +52,12 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   const { t, lang, setLang, isEn } = useLanguage();
   const [content, setContent] = useState<string>('');
   const [rawContent, setRawContent] = useState<string>('');
-  const [meta, setMeta] = useState<any>({});
+  const [meta, setMeta] = useState<ArticleMetadata>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
-  const [relatedArticles, setRelatedArticles] = useState<ArticleItem[]>([]);
 
   const categoryDict = isEn ? CATEGORY_MAP_EN : CATEGORY_MAP_RU;
-  const [prevArticle, setPrevArticle] = useState<ArticleItem | null>(null);
-  const [nextArticle, setNextArticle] = useState<ArticleItem | null>(null);
 
   // Extracted structured sections (raw Russian)
   const [rawKeyFindings, setRawKeyFindings] = useState<string | null>(null);
@@ -64,7 +70,8 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   const translationKey = pathPart.replace(/^docs\//, '');
   const translationData = ARTICLE_TRANSLATIONS_EN[translationKey];
 
-  useEffect(() => {
+  // Neighbor articles (prev / next) computed dynamically from lang and path
+  const { prevArticle, nextArticle } = useMemo(() => {
     try {
       const allArticles = getStaticArticles(lang);
       const sorted = [...allArticles].sort((a, b) => {
@@ -80,16 +87,46 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
       });
 
       if (currentIndex >= 0) {
-        setPrevArticle(currentIndex > 0 ? sorted[currentIndex - 1] : null);
-        setNextArticle(currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : null);
-      } else {
-        setPrevArticle(null);
-        setNextArticle(null);
+        return {
+          prevArticle: currentIndex > 0 ? sorted[currentIndex - 1] : null,
+          nextArticle: currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : null
+        };
       }
     } catch (e) {
       console.warn('Failed to compute neighbor articles:', e);
     }
+    return { prevArticle: null, nextArticle: null };
+  }, [lang, pathPart]);
 
+  // Related articles computed dynamically from lang, meta, and path
+  const relatedArticles = useMemo(() => {
+    try {
+      const allArticles = getStaticArticles(lang);
+      const categoryMatches = allArticles.filter(
+        a => a.category?.toLowerCase() === meta.category?.toLowerCase() &&
+             a.path.replace(/\.md$/, '') !== pathPart
+      );
+
+      let relatedList = categoryMatches;
+      if (relatedList.length < 3) {
+        const tagMatches = allArticles.filter(a => {
+          if (a.path.replace(/\.md$/, '') === pathPart) return false;
+          if (categoryMatches.some(cm => cm.path === a.path)) return false;
+          const myTags = meta.tags || [];
+          const otherTags = a.tags || [];
+          return myTags.some((tTag: string) => otherTags.includes(tTag));
+        });
+        relatedList = [...relatedList, ...tagMatches];
+      }
+
+      return relatedList.slice(0, 3);
+    } catch {
+      return [];
+    }
+  }, [lang, meta.category, meta.tags, pathPart]);
+
+  // Load raw article markdown content only on path changes
+  useEffect(() => {
     setLoading(true);
     setError(null);
 
@@ -100,7 +137,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
 
       if (matchedKey && modules[matchedKey]) {
         const contentObj = modules[matchedKey];
-        const textContent = typeof contentObj === 'string' ? contentObj : (contentObj as any).default || '';
+        const textContent = typeof contentObj === 'string' ? contentObj : (contentObj as { default?: string }).default || '';
         const { metadata, content: rawMd } = parseFrontmatter(textContent);
 
         // 1. Extract and separate Key Findings
@@ -145,38 +182,18 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
         setRawUncertainty(extractedUncertainty);
         setRawCleanBody(processedContent.trim());
         setRawContent(processedContent.trim());
-
-        // Find related articles
-        const allArticles = getStaticArticles(lang);
-        const categoryMatches = allArticles.filter(
-          a => a.category?.toLowerCase() === metadata.category?.toLowerCase() &&
-               a.path.replace(/\.md$/, '') !== pathPart
-        );
-
-        let relatedList = categoryMatches;
-        if (relatedList.length < 3) {
-          const tagMatches = allArticles.filter(a => {
-            if (a.path.replace(/\.md$/, '') === pathPart) return false;
-            if (categoryMatches.some(cm => cm.path === a.path)) return false;
-            const myTags = metadata.tags || [];
-            const otherTags = a.tags || [];
-            return myTags.some((tTag: string) => otherTags.includes(tTag));
-          });
-          relatedList = [...relatedList, ...tagMatches];
-        }
-
-        setRelatedArticles(relatedList.slice(0, 3));
         setLoading(false);
       } else {
         setError(`Article not found: ${path}`);
         setLoading(false);
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error('Error loading article:', e);
-      setError(e?.message || 'Error reading article');
+      const msg = e instanceof Error ? e.message : 'Error reading article';
+      setError(msg);
       setLoading(false);
     }
-  }, [path, lang]);
+  }, [path]);
 
   // Derived translated content
   const displayTitle = useMemo(() => {
@@ -224,7 +241,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   useEffect(() => {
     if (displayTitle) {
       document.title = `${displayTitle} — ${isEn ? 'Elephantology' : 'Слонология'}`;
-      (window as any).currentArticlePath = path;
+      window.currentArticlePath = path;
     }
     return () => {
       document.title = isEn ? 'Elephantology — Academic Encyclopedia' : 'Слонология — Академическая энциклопедия';
@@ -240,7 +257,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   };
 
   const handleCite = () => {
-    const catName = categoryDict[meta.category?.toLowerCase()] || meta.category || (isEn ? 'GENERAL BIOLOGY' : 'ОБЩАЯ БИОЛОГИЯ');
+    const catName = categoryDict[meta.category?.toLowerCase() || ''] || meta.category || (isEn ? 'GENERAL BIOLOGY' : 'ОБЩАЯ БИОЛОГИЯ');
     window.dispatchEvent(
       new CustomEvent('openCitationModal', {
         detail: {
@@ -260,9 +277,8 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   };
 
   const navigateToArticle = (targetPath: string) => {
-    const win = window as any;
-    if (win.loadArticle) {
-      win.loadArticle(targetPath);
+    if (window.loadArticle) {
+      window.loadArticle(targetPath);
     } else {
       window.dispatchEvent(new CustomEvent('load-article', { detail: targetPath }));
     }
@@ -311,7 +327,8 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
     );
   }
 
-  const categoryTitle = categoryDict[meta.category?.toLowerCase()] || meta.category || (isEn ? 'General Biology' : 'Общая биология');
+  const categoryKey = meta.category?.toLowerCase() || '';
+  const categoryTitle = categoryDict[categoryKey] || meta.category || (isEn ? 'General Biology' : 'Общая биология');
   const readingTime = meta.readingTimeMin || 8;
   const lastReviewedDate = meta.lastReviewed || '2026-08-28';
   const referencesList = meta.references || [];
@@ -514,7 +531,15 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
               td: ({ node, ...props }) => (
                 <td className="px-4 py-2.5 border-t border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300" {...props} />
               ),
-              a: ({ href, children, ...props }: any) => {
+              img: ({ node, ...props }) => (
+                <img
+                  {...props}
+                  loading="lazy"
+                  decoding="async"
+                  className="rounded-xl my-6 max-w-full h-auto border border-slate-200 dark:border-slate-800 shadow-sm"
+                />
+              ),
+              a: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
                 if (href?.startsWith('http://') || href?.startsWith('https://')) {
                   return (
                     <a
@@ -572,8 +597,9 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   </a>
                 );
               },
-              section: ({ node, className, children, ...props }: any) => {
-                if (props['data-footnotes'] || className === 'footnotes' || (props.className && props.className.includes('footnotes'))) {
+              section: (props: any) => {
+                const { className, children, ...rest } = props;
+                if (props['data-footnotes'] || className === 'footnotes' || (typeof className === 'string' && className.includes('footnotes'))) {
                   return (
                     <div className="mt-12 pt-6 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
                       <h4 className="font-semibold text-sm text-slate-800 dark:text-slate-200 mb-3">{isEn ? 'Notes & Footnotes' : 'Примечания'}</h4>
@@ -581,7 +607,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                     </div>
                   );
                 }
-                return <section className={className} {...props}>{children}</section>;
+                return <section className={className} {...rest}>{children}</section>;
               }
             }}
           >
@@ -648,27 +674,30 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-              {relatedArticles.map((rel) => (
-                <button
-                  key={rel.path}
-                  onClick={() => navigateToArticle(rel.path)}
-                  className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 text-left transition-all group flex flex-col justify-between cursor-pointer"
-                >
-                  <div>
-                    <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
-                      {categoryDict[rel.category?.toLowerCase()] || rel.category}
-                    </span>
-                    <h4 className="text-xs font-semibold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 leading-snug">
-                      {rel.title}
-                    </h4>
-                  </div>
-                  {rel.excerpt && (
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 mt-2">
-                      {rel.excerpt}
-                    </p>
-                  )}
-                </button>
-              ))}
+              {relatedArticles.map((rel) => {
+                const relCatKey = rel.category?.toLowerCase() || '';
+                return (
+                  <button
+                    key={rel.path}
+                    onClick={() => navigateToArticle(rel.path)}
+                    className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 text-left transition-all group flex flex-col justify-between cursor-pointer"
+                  >
+                    <div>
+                      <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
+                        {categoryDict[relCatKey] || rel.category}
+                      </span>
+                      <h4 className="text-xs font-semibold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 leading-snug">
+                        {rel.title}
+                      </h4>
+                    </div>
+                    {rel.excerpt && (
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 mt-2">
+                        {rel.excerpt}
+                      </p>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </section>
         )}
@@ -682,14 +711,15 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             </h3>
 
             <ol className="space-y-3 text-xs text-slate-600 dark:text-slate-400 list-decimal list-outside ml-4">
-              {referencesList.map((ref: any, idx: number) => {
+              {referencesList.map((refItem: ReferenceItem | string, idx: number) => {
+                const isString = typeof refItem === 'string';
+                const ref = isString ? { id: `ref_${idx + 1}`, title: refItem } : refItem;
                 const safeId = ref.id || `ref_${idx + 1}`;
-                const isString = typeof ref === 'string';
 
                 return (
                   <li id={`user-content-fn-${safeId}`} key={idx} className="leading-relaxed pl-1">
                     {isString ? (
-                      <span>{ref}</span>
+                      <span>{refItem}</span>
                     ) : (
                       <span className="text-slate-700 dark:text-slate-300">
                         {ref.authors && <span className="font-semibold text-slate-900 dark:text-slate-200">{ref.authors} </span>}

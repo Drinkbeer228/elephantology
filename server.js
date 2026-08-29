@@ -1,9 +1,8 @@
 import express from 'express';
-import { generateSchemaJsonLd } from './seo-helper.js';
+import { generateSchemaJsonLd, CANONICAL_DOMAIN } from './seo-helper.js';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { GoogleGenAI } from '@google/genai';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,24 +17,10 @@ app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self';");
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   next();
 });
-
-// Lazy-initialized Gemini AI client
-let aiClient = null;
-function getAI() {
-  if (!aiClient) {
-    aiClient = new GoogleGenAI({
-      apiKey: process.env.GEMINI_API_KEY,
-      httpOptions: {
-        headers: {
-          'User-Agent': 'aistudio-build',
-        }
-      }
-    });
-  }
-  return aiClient;
-}
 
 // In-memory cache for scanned markdown articles
 let cachedArticles = null;
@@ -137,7 +122,18 @@ app.get('/healthz', (req, res) => {
 // API endpoint to get single article content (Removed as part of SSG migration)
 
 
+function cleanDescriptionText(raw) {
+  if (!raw) return '';
+  return raw
+    .replace(/[\r\n#*_`>~\[\]\(\)\-\+]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 160);
+}
+
 function injectMetaTags(template, url) {
+  const fallbackDomain = process.env.PROJECT_DOMAIN ? `https://${process.env.PROJECT_DOMAIN}` : CANONICAL_DOMAIN;
+
   if (url.startsWith('/article/')) {
     const articlePath = url.replace('/article/', '') + '.md';
     const articles = getArticlesList();
@@ -145,8 +141,10 @@ function injectMetaTags(template, url) {
     
     if (article) {
       const title = (article.title || articlePath.replace('.md', '')) + ' — Слонология';
-      const description = article.excerpt || 'Читайте подробную статью в энциклопедии Слонология.';
-      
+      const cleanDesc = cleanDescriptionText(article.excerpt || article.content) || 'Читайте академическую статью в энциклопедии Слонология.';
+      const lang = article.lang || 'ru';
+
+      template = template.replace(/<html\s+lang=["'][^"']*["']/i, `<html lang="${lang}"`);
       template = template.replace(
         /<title>.*?<\/title>/i,
         `<title>${title}</title>`
@@ -159,20 +157,19 @@ function injectMetaTags(template, url) {
       
       template = template.replace(
         /<meta property="og:description"[^>]*>/i,
-        `<meta property="og:description" id="og-desc" content="${description}">`
+        `<meta property="og:description" id="og-desc" content="${cleanDesc}">`
       );
       
       template = template.replace(
         /<meta name="description"[^>]*>/i,
-        `<meta name="description" content="${description}">`
+        `<meta name="description" content="${cleanDesc}">`
       );
 
       // --- SEO Schema Injection ---
-      const domain = 'https://' + (process.env.PROJECT_DOMAIN || 'slonology.app');
-      const articleUrl = domain + url;
+      const articleUrl = `${fallbackDomain}${url}`;
       const meta = {
         title: article.title,
-        description: description,
+        description: cleanDesc,
         category: article.category,
         tags: article.tags || []
       };
@@ -183,7 +180,7 @@ function injectMetaTags(template, url) {
   }
   
   // Update OG URL in all cases
-  const fullUrl = 'https://' + (process.env.PROJECT_DOMAIN || 'slonology.app') + url;
+  const fullUrl = `${fallbackDomain}${url}`;
   template = template.replace(
     /<meta property="og:url"[^>]*>/i,
     `<meta property="og:url" id="og-url" content="${fullUrl}">`
@@ -260,12 +257,29 @@ if (!isProd) {
     index: ['index.html']
   }));
   app.use('*', (req, res) => {
-    let template = fs.readFileSync(path.resolve(__dirname, 'dist', 'index.html'), 'utf-8');
-    template = injectMetaTags(template, req.originalUrl);
-    res.status(200).set({ 'Content-Type': 'text/html' }).send(template);
+    try {
+      const indexPath = path.resolve(__dirname, 'dist', 'index.html');
+      if (!fs.existsSync(indexPath)) {
+        return res.status(500).send('Production index.html not found. Please run build first.');
+      }
+      let template = fs.readFileSync(indexPath, 'utf-8');
+      template = injectMetaTags(template, req.originalUrl);
+      res.status(200).set({ 'Content-Type': 'text/html' }).send(template);
+    } catch (err) {
+      console.error('Error serving index.html:', err);
+      res.status(500).send('Internal Server Error');
+    }
   });
 }
 
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`Elephantology Wiki Server running on http://0.0.0.0:${PORT}`);
+});
+
+process.on('SIGTERM', () => {
+  server.close(() => process.exit(0));
+});
+
+process.on('SIGINT', () => {
+  server.close(() => process.exit(0));
 });

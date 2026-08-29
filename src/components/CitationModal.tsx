@@ -7,7 +7,7 @@ interface CitationModalProps {
 }
 
 export function CitationModal() {
-  const { t } = useLanguage();
+  const { t, isEn } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [articleTitle, setArticleTitle] = useState('Анатомия и физиология хоботных');
   const [categoryName, setCategoryName] = useState('Анатомия');
@@ -23,8 +23,8 @@ export function CitationModal() {
       const currentPath = win.currentArticlePath || window.location.pathname;
       const found = allArticles.find((a: any) => a.path === currentPath);
       
-      const docTitle = title || (found ? found.title : document.title.replace(' — Слонология', '').replace('Энциклопедия «Слонология»', '')) || 'Академическая статья';
-      const cat = category || (found && found.category ? found.category.toUpperCase() : 'ЭНЦИКЛОПЕДИЯ');
+      const docTitle = title || (found ? found.title : document.title.replace(' — Слонология', '').replace(' — Elephantology', '').replace('Энциклопедия «Слонология»', '')) || (isEn ? 'Academic Monograph' : 'Академическая статья');
+      const cat = category || (found && found.category ? found.category.toUpperCase() : (isEn ? 'ENCYCLOPEDIA' : 'ЭНЦИКЛОПЕДИЯ'));
       
       setArticleTitle(docTitle);
       setCategoryName(cat);
@@ -39,9 +39,11 @@ export function CitationModal() {
       if (e.key === 'Escape') setIsOpen(false);
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('openCitationModal', handleOpen);
-  }, []);
+    };
+  }, [isEn]);
 
   useEffect(() => {
     if (isOpen) {
@@ -73,8 +75,8 @@ export function CitationModal() {
   note = {Энциклопедия «Слонология». Дата обращения: ${dateFormattedRu}}
 }`,
     quote: selectedText 
-      ? `> «${selectedText}»\n\n— Источник: Энциклопедия «Слонология», статья «${articleTitle}» (${currentUrl})`
-      : `> «${articleTitle} — фундаментальный материал из академической базы знаний по биологии хоботных.»\n\n— Энциклопедия «Слонология», раздел ${categoryName} (${currentUrl})`
+      ? `> «${selectedText}»\n\n— ${isEn ? 'Source: Elephantology Encyclopedia' : 'Источник: Энциклопедия «Слонология»'}, «${articleTitle}» (${currentUrl})`
+      : `> «${articleTitle} — ${isEn ? 'core monograph from the academic Proboscidea knowledge base.' : 'фундаментальный материал из академической базы знаний по биологии хоботных.'}»\n\n— ${isEn ? 'Elephantology Encyclopedia' : 'Энциклопедия «Слонология»'}, ${categoryName} (${currentUrl})`
   };
 
   const activeContent = citations[activeTab];
@@ -105,7 +107,7 @@ export function CitationModal() {
             </div>
             <div>
               <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
-                Цитирование статьи
+                {t.citation.title}
               </h3>
               <p className="text-xs text-gray-400 truncate max-w-sm sm:max-w-md">
                 «{articleTitle}»
@@ -167,7 +169,7 @@ export function CitationModal() {
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Markdown Цитата</span>
+            <span>{isEn ? 'Markdown Quote' : 'Markdown Цитата'}</span>
           </button>
         </div>
 
@@ -176,10 +178,10 @@ export function CitationModal() {
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-xs text-gray-400">
               <span>
-                {activeTab === 'gost' && 'Формат библиографической ссылки по российскому ГОСТ Р 7.0.5-2008:'}
-                {activeTab === 'apa' && 'Academic American Psychological Association (APA 7th Edition):'}
-                {activeTab === 'bibtex' && 'Формат для LaTeX и библиографических менеджеров (Zotero, Mendeley):'}
-                {activeTab === 'quote' && 'Блок-цитата с указанием источника для конспектов и докладов:'}
+                {activeTab === 'gost' && (isEn ? 'Russian National Standard GOST R 7.0.5-2008 bibliographic reference format:' : 'Формат библиографической ссылки по российскому ГОСТ Р 7.0.5-2008:')}
+                {activeTab === 'apa' && (isEn ? 'Academic American Psychological Association (APA 7th Edition):' : 'Академический формат American Psychological Association (APA 7th Edition):')}
+                {activeTab === 'bibtex' && (isEn ? 'Format for LaTeX and citation managers (Zotero, Mendeley):' : 'Формат для LaTeX и библиографических менеджеров (Zotero, Mendeley):')}
+                {activeTab === 'quote' && (isEn ? 'Blockquote with source attribution for lecture notes and papers:' : 'Блок-цитата с указанием источника для конспектов и докладов:')}
               </span>
             </div>
 
@@ -194,7 +196,7 @@ export function CitationModal() {
         {/* Footer Actions */}
         <div className="p-4 bg-[#13141b] border-t border-[#34384a] flex items-center justify-between gap-3">
           <span className="text-[11px] text-gray-500 hidden sm:inline font-mono">
-            Энциклопедия «Слонология» • Открытая база знаний
+            {isEn ? 'Elephantology Encyclopedia • Open Knowledge Base' : 'Энциклопедия «Слонология» • Открытая база знаний'}
           </span>
 
           <div className="flex items-center gap-2 ml-auto">
@@ -210,7 +212,7 @@ export function CitationModal() {
               className="flex items-center gap-2 px-5 py-2 rounded-xl bg-kingdom-gold hover:bg-amber-400 text-black font-bold text-xs shadow-[0_0_12px_rgba(255,209,102,0.25)] transition-all cursor-pointer"
             >
               {copied ? <Check className="w-4 h-4 text-emerald-950" /> : <Copy className="w-4 h-4" />}
-              <span>{copied ? 'Скопировано в буфер!' : 'Скопировать ссылку'}</span>
+              <span>{copied ? (isEn ? 'Copied to clipboard!' : 'Скопировано в буфер!') : (isEn ? 'Copy citation' : 'Скопировать ссылку')}</span>
             </button>
           </div>
         </div>

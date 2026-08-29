@@ -1,9 +1,17 @@
 import { useLanguage } from '../i18n/LanguageContext';
-import React, { useState, useEffect, useCallback } from 'react';
-import { ChevronDown, ChevronRight, BookOpen, Sparkles, Clock, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, Layers, ChevronsUpDown, Search } from 'lucide-react';
+import React, { useState, useMemo, useCallback } from 'react';
+import { ChevronDown, ChevronUp, ChevronRight, BookOpen, Sparkles, Clock, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, Layers, ChevronsUpDown, Search } from 'lucide-react';
 import { ArticleItem } from '../lib/searchEngine';
 import { getStaticArticles } from '../lib/articles';
 import { CategoryDef } from './catalog/CategoryTile';
+
+const EVIDENCE_BADGE_MAP: Record<string, { key: 'established' | 'moderate' | 'limited' | 'hypothesis' | 'contested', classes: string, icon: any }> = {
+  'established': { key: 'established', classes: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20', icon: ShieldCheck },
+  'moderate': { key: 'moderate', classes: 'text-amber-400 bg-amber-400/10 border-amber-400/20', icon: Scale },
+  'limited': { key: 'limited', classes: 'text-orange-400 bg-orange-400/10 border-orange-400/20', icon: AlertCircle },
+  'hypothesis': { key: 'hypothesis', classes: 'text-sky-400 bg-sky-400/10 border-sky-400/20', icon: Lightbulb },
+  'contested': { key: 'contested', classes: 'text-rose-400 bg-rose-400/10 border-rose-400/20', icon: HelpCircle },
+};
 
 const ACADEMIC_CATEGORIES: (CategoryDef & { icon: string; description: string; nameEn?: string; descriptionEn?: string })[] = [
   { 
@@ -90,20 +98,8 @@ const ACADEMIC_CATEGORIES: (CategoryDef & { icon: string; description: string; n
 
 export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: string) => void }) {
   const { t, lang } = useLanguage();
-  const [articles, setArticles] = useState<ArticleItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const articles = useMemo(() => getStaticArticles(lang), [lang]);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
-
-  useEffect(() => {
-    try {
-      const parsedArticles = getStaticArticles(lang);
-      setArticles(parsedArticles);
-    } catch (err) {
-      console.error('Failed to load static articles:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, [lang]);
 
   const openArticle = useCallback((path: string) => {
     if (onArticleClick) {
@@ -137,32 +133,17 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
 
   const getEvidenceBadge = (level: string | undefined) => {
     if (!level) return null;
-    const mapping: Record<string, {text: string, classes: string, icon: any}> = {
-      'established': { text: t.evidence.established.toUpperCase(), classes: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20', icon: ShieldCheck },
-      'moderate': { text: t.evidence.moderate.toUpperCase(), classes: 'text-amber-400 bg-amber-400/10 border-amber-400/20', icon: Scale },
-      'limited': { text: t.evidence.limited.toUpperCase(), classes: 'text-orange-400 bg-orange-400/10 border-orange-400/20', icon: AlertCircle },
-      'hypothesis': { text: t.evidence.hypothesis.toUpperCase(), classes: 'text-sky-400 bg-sky-400/10 border-sky-400/20', icon: Lightbulb },
-      'contested': { text: t.evidence.contested.toUpperCase(), classes: 'text-rose-400 bg-rose-400/10 border-rose-400/20', icon: HelpCircle },
-    };
-    const badge = mapping[level.toLowerCase()] || mapping['established'];
+    const badge = EVIDENCE_BADGE_MAP[level.toLowerCase()] || EVIDENCE_BADGE_MAP['established'];
     const Icon = badge.icon;
+    const text = t.evidence[badge.key] ? t.evidence[badge.key].toUpperCase() : level.toUpperCase();
     
     return (
       <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[8.5px] font-bold tracking-wider border ${badge.classes}`}>
         <Icon className="w-2.5 h-2.5" />
-        {badge.text}
+        {text}
       </span>
     );
   };
-
-  if (loading && articles.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center py-20 text-kingdom-muted space-y-4">
-        <div className="w-8 h-8 border-2 border-kingdom-gold border-t-transparent animate-spin rounded-full"></div>
-        <p className="text-sm tracking-wider">{t.catalog.loading || 'Подготовка базы знаний...'}</p>
-      </div>
-    );
-  }
 
   const allExpanded = expandedCategories.size === ACADEMIC_CATEGORIES.length;
 
@@ -170,6 +151,7 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
     const categoryArticles = articles.filter(a => a.category === cat.id);
     const isExpanded = expandedCategories.has(cat.id);
     const count = categoryArticles.length;
+    const categoryTitle = lang === 'en' && cat.nameEn ? cat.nameEn : cat.name;
 
     return (
       <div 
@@ -183,6 +165,8 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
         {/* Category Compact Horizontal Bar */}
         <button 
           onClick={() => toggleCategory(cat.id)}
+          aria-expanded={isExpanded}
+          aria-label={`${categoryTitle} category`}
           className="w-full flex items-center justify-between p-3.5 sm:p-4 text-left cursor-pointer transition-colors select-none group"
         >
           <div className="flex items-center gap-3 min-w-0 pr-2">
@@ -193,7 +177,7 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
               <h3 className={`font-semibold text-sm leading-snug truncate transition-colors ${
                 isExpanded ? 'text-kingdom-gold' : 'text-gray-200 group-hover:text-white'
               }`}>
-                {lang === 'en' && cat.nameEn ? cat.nameEn : cat.name}
+                {categoryTitle}
               </h3>
               <p className="text-[11px] text-gray-400 truncate mt-0.5 max-w-[280px] sm:max-w-[340px]">
                 {lang === 'en' && cat.descriptionEn ? cat.descriptionEn : cat.description}
@@ -210,9 +194,13 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
               {count} {t.catalog.articlesCount}
             </span>
             <div className={`p-1 rounded-md transition-all ${
-              isExpanded ? 'bg-kingdom-gold/15 text-kingdom-gold rotate-180' : 'text-gray-500 group-hover:text-gray-300'
+              isExpanded ? 'bg-kingdom-gold/15 text-kingdom-gold' : 'text-gray-500 group-hover:text-gray-300'
             }`}>
-              <ChevronDown className="w-4 h-4 transition-transform duration-200" />
+              {isExpanded ? (
+                <ChevronUp className="w-4 h-4 transition-transform duration-200" />
+              ) : (
+                <ChevronDown className="w-4 h-4 transition-transform duration-200" />
+              )}
             </div>
           </div>
         </button>

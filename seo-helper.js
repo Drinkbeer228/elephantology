@@ -18,12 +18,17 @@ export function parseFrontmatter(content) {
       if (parsed.evidence_level || parsed.evidenceLevel) {
         meta.evidenceLevel = String(parsed.evidence_level || parsed.evidenceLevel).trim();
       }
+      const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
       if (parsed.date_published || parsed.datePublished) {
-        meta.datePublished = String(parsed.date_published || parsed.datePublished).trim();
+        const dateVal = String(parsed.date_published || parsed.datePublished).trim();
+        meta.datePublished = dateRegex.test(dateVal) ? dateVal : undefined;
       }
       if (parsed.last_reviewed || parsed.lastReviewed) {
-        meta.lastReviewed = String(parsed.last_reviewed || parsed.lastReviewed).trim();
-        meta.dateModified = meta.lastReviewed;
+        const lastVal = String(parsed.last_reviewed || parsed.lastReviewed).trim();
+        if (dateRegex.test(lastVal)) {
+          meta.lastReviewed = lastVal;
+          meta.dateModified = lastVal;
+        }
       }
       if (Array.isArray(parsed.tags)) {
         meta.tags = parsed.tags.map(t => String(t).trim()).filter(Boolean);

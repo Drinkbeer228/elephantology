@@ -72,5 +72,8 @@ export const en = {
     syncing: 'Syncing to storage...',
     downloadAll: 'Download entire encyclopedia for offline access',
     close: 'Close'
+  },
+  a11y: {
+    skipToContent: 'Skip to main content'
   }
 };
