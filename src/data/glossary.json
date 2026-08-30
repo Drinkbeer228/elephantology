@@ -1,142 +1,184 @@
 {
   "sSH": {
+    "term": "sSH",
     "full": "Skeletal Shoulder Height",
-    "definition": "Высота животного, измеренная по скелету от земли до верхнего края лопатки",
-    "category": "анатомия"
+    "definition": {
+      "ru": "Высота животного, измеренная по скелету от основания стопы до верхнего края лопатки.",
+      "en": "Skeletal shoulder height measured from foot base to top of scapular blade."
+    },
+    "category": {
+      "ru": "анатомия",
+      "en": "anatomy"
+    },
+    "annotate": true
   },
   "LF": {
+    "term": "LF",
     "full": "Laminar Frequency",
-    "definition": "Количество эмалевых пластин на 10 см длины коронки моляра",
-    "category": "дентальная морфология"
+    "definition": {
+      "ru": "Количество эмалевых пластин (ламелей) на 10 см продольной длины коронки моляра.",
+      "en": "Number of enamel plates (lamellae) per 10 cm of molar crown length."
+    },
+    "category": {
+      "ru": "дентальная морфология",
+      "en": "dental morphology"
+    },
+    "annotate": true
   },
   "HI": {
+    "term": "HI",
     "full": "Hypsodonty Index",
-    "definition": "Отношение высоты коронки зуба к ее ширине, показывающее степень адаптации к жесткой пище",
-    "category": "дентальная морфология"
-  },
-  "аллометри": {
-    "full": "Аллометрия",
-    "definition": "Непропорциональный рост частей тела относительно общего размера организма",
-    "category": "морфология"
-  },
-  "педоморфоз": {
-    "full": "Педоморфоз",
-    "definition": "Сохранение детских черт строения у взрослых особей (неотения)",
-    "category": "эволюция"
-  },
-  "брахиодонтн": {
-    "full": "Брахиодонтность",
-    "definition": "Короткокоронковые зубы (с низкой коронкой), типичные для питания мягкой листвой",
-    "category": "дентальная морфология"
-  },
-  "гипсодонтн": {
-    "full": "Гипсодонтность",
-    "definition": "Высококоронковые зубы, адаптированные к перетиранию жесткой пищи (злаков)",
-    "category": "дентальная морфология"
-  },
-  "лофодонтн": {
-    "full": "Лофодонтность",
-    "definition": "Щечные зубы с поперечными эмалевыми гребнями для перетирания",
-    "category": "дентальная морфология"
-  },
-  "билофодонтн": {
-    "full": "Билофодонтность",
-    "definition": "Зубы с двумя поперечными гребнями",
-    "category": "дентальная морфология"
-  },
-  "трилофодонтн": {
-    "full": "Трилофодонтность",
-    "definition": "Зубы с тремя поперечными гребнями (типично для гомфотериев)",
-    "category": "дентальная морфология"
-  },
-  "симфиз": {
-    "full": "Симфиз",
-    "definition": "Сращение (соединение) костей, например нижнечелюстной симфиз",
-    "category": "анатомия"
-  },
-  "остеодерм": {
-    "full": "Остеодермы",
-    "definition": "Костные окостенения, расположенные в толще кожи животного",
-    "category": "анатомия"
-  },
-  "эндемич": {
-    "full": "Эндемичность",
-    "definition": "Свойственный только данной географической области таксон",
-    "category": "экология"
-  },
-  "палеоэколог": {
-    "full": "Палеоэкология",
-    "definition": "Раздел палеонтологии, изучающий условия обитания и связи вымерших организмов",
-    "category": "наука"
-  },
-  "тафоном": {
-    "full": "Тафономия",
-    "definition": "Раздел палеонтологии, изучающий закономерности захоронения и фоссилизации",
-    "category": "наука"
+    "definition": {
+      "ru": "Индекс гипсодонтии: отношение высоты коронки зуба к ее максимальной ширине.",
+      "en": "Hypsodonty index: ratio of tooth crown height to crown width."
+    },
+    "category": {
+      "ru": "дентальная морфология",
+      "en": "dental morphology"
+    },
+    "annotate": true
   },
   "PIKE": {
+    "term": "PIKE",
     "full": "Proportion of Illegally Killed Elephants",
-    "definition": "Отношение незаконно убитых слонов к общему числу найденных трупов",
-    "category": "conservation"
+    "definition": {
+      "ru": "Доля незаконно добытых слонов среди общего числа зафиксированных туш.",
+      "en": "Proportion of Illegally Killed Elephants relative to total carcasses found."
+    },
+    "category": {
+      "ru": "сохранение",
+      "en": "conservation"
+    },
+    "annotate": true
   },
   "ETIS": {
+    "term": "ETIS",
     "full": "Elephant Trade Information System",
-    "definition": "Глобальная база данных по нелегальному обороту слоновой кости",
-    "category": "conservation"
+    "definition": {
+      "ru": "Глобальная база мониторинга нелегального оборота слоновой кости под эгидой CITES.",
+      "en": "Global database tracking illegal ivory trade seizures under CITES."
+    },
+    "category": {
+      "ru": "сохранение",
+      "en": "conservation"
+    },
+    "annotate": true
   },
   "MIKE": {
+    "term": "MIKE",
     "full": "Monitoring the Illegal Killing of Elephants",
-    "definition": "Программа мониторинга незаконного отстрела слонов CITES",
-    "category": "conservation"
+    "definition": {
+      "ru": "Международная программа мониторинга браконьерства слонов в ареалах обитания.",
+      "en": "CITES-mandated program monitoring poaching levels across elephant ranges."
+    },
+    "category": {
+      "ru": "сохранение",
+      "en": "conservation"
+    },
+    "annotate": true
   },
   "CITES": {
+    "term": "CITES",
     "full": "Convention on International Trade in Endangered Species",
-    "definition": "Конвенция о международной торговле видами, находящимися под угрозой исчезновения",
-    "category": "conservation"
-  },
-  "LCP": {
-    "full": "Least-Cost Path",
-    "definition": "Модель пути наименьшего сопротивления в ландшафтной экологии",
-    "category": "ecology"
-  },
-  "KDE": {
-    "full": "Kernel Density Estimation",
-    "definition": "Ядерная оценка плотности для вероятностного моделирования домашнего ареала",
-    "category": "ecology"
-  },
-  "LoCoH": {
-    "full": "Local Convex Hull",
-    "definition": "Модель локальных выпуклых оболочек для точного картирования ареалов",
-    "category": "ecology"
-  },
-  "MCP": {
-    "full": "Minimum Convex Polygon",
-    "definition": "Минимальный выпуклый многоугольник для оценки границ перемещений",
-    "category": "ecology"
-  },
-  "Z7-12:Ac": {
-    "full": "(Z)-7-dodecenyl acetate",
-    "definition": "Главный женский эстральный феромон слонов",
-    "category": "биохимия"
+    "definition": {
+      "ru": "Конвенция о международной торговле видами дикой фауны и флоры, находящимися под угрозой исчезновения.",
+      "en": "Convention on International Trade in Endangered Species of Wild Fauna and Flora."
+    },
+    "category": {
+      "ru": "сохранение",
+      "en": "conservation"
+    },
+    "annotate": true
   },
   "VNO": {
+    "term": "VNO",
     "full": "Vomeronasal Organ",
-    "definition": "Вомероназальный орган (орган Якобсона) для химической детекции нелетучих веществ",
-    "category": "анатомия"
-  },
-  "Flehmen": {
-    "full": "Flehmen Response",
-    "definition": "Реакция Флемен: поведенческий паттерн переноса хемосигналов в вомероназальный орган",
-    "category": "этология"
+    "definition": {
+      "ru": "Вомероназальный орган (орган Якобсона): периферический отдел дополнительной обонятельной системы.",
+      "en": "Vomeronasal organ (Jacobson's organ) specialized for non-volatile pheromone reception."
+    },
+    "category": {
+      "ru": "анатомия",
+      "en": "anatomy"
+    },
+    "annotate": true
   },
   "EEHV": {
+    "term": "EEHV",
     "full": "Elephant Endotheliotropic Herpesvirus",
-    "definition": "Смертельный эндотелиотропный герпесвирус слонов",
-    "category": "ветеринария"
+    "definition": {
+      "ru": "Эндотелиотропный герпесвирус слонов, вызывающий острую геморрагическую болезнь у молодняка.",
+      "en": "Elephant endotheliotropic herpesvirus causing acute fatal hemorrhagic disease in calves."
+    },
+    "category": {
+      "ru": "ветеринария",
+      "en": "veterinary"
+    },
+    "annotate": true
   },
   "HEC": {
+    "term": "HEC",
     "full": "Human-Elephant Conflict",
-    "definition": "Конфликт между человеком и слоном за ресурсы и территории",
-    "category": "ecology"
+    "definition": {
+      "ru": "Конфликт между человеком и слонами, включающий потравы урожая и фрагментацию коридоров.",
+      "en": "Human-Elephant Conflict involving crop raiding, property damage and habitat fragmentation."
+    },
+    "category": {
+      "ru": "экология",
+      "en": "ecology"
+    },
+    "annotate": true
+  },
+  "LCP": {
+    "term": "LCP",
+    "full": "Least-Cost Path",
+    "definition": {
+      "ru": "Моделирование путей наименьшего сопротивления при пространственном анализе миграционных коридоров.",
+      "en": "Spatial ecological model estimating optimal movement corridors based on environmental resistance."
+    },
+    "category": {
+      "ru": "экология",
+      "en": "ecology"
+    },
+    "annotate": true
+  },
+  "KDE": {
+    "term": "KDE",
+    "full": "Kernel Density Estimation",
+    "definition": {
+      "ru": "Непараметрический метод оценки плотности вероятности распределения и границ домашнего ареала.",
+      "en": "Non-parametric density estimation method used to model spatial home range utilization."
+    },
+    "category": {
+      "ru": "экология",
+      "en": "ecology"
+    },
+    "annotate": true
+  },
+  "LoCoH": {
+    "term": "LoCoH",
+    "full": "Local Convex Hull",
+    "definition": {
+      "ru": "Метод локальных выпуклых оболочек для точного оконтуривания границ индивидуальных участков.",
+      "en": "Local convex hull home range construction method resolving hard boundary constraints."
+    },
+    "category": {
+      "ru": "экология",
+      "en": "ecology"
+    },
+    "annotate": true
+  },
+  "MCP": {
+    "term": "MCP",
+    "full": "Minimum Convex Polygon",
+    "definition": {
+      "ru": "Минимальный выпуклый многоугольник: классический базовый метод оценки площади ареала.",
+      "en": "Minimum convex polygon: classical geometric method enclosing all telemetry coordinates."
+    },
+    "category": {
+      "ru": "экология",
+      "en": "ecology"
+    },
+    "annotate": true
   }
 }

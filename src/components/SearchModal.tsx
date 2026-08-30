@@ -42,6 +42,13 @@ function highlightMatch(text: string, query: string) {
   });
 }
 
+interface ToggleSearchEventDetail {
+  force?: boolean;
+  tag?: string;
+  category?: string;
+  query?: string;
+}
+
 export function SearchModal() {
   const { t, lang } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
@@ -58,6 +65,7 @@ export function SearchModal() {
   const [articles, setArticles] = useState<ArticleItem[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsContainerRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const disciplines = useMemo(() => [
     { id: 'all', name: t.catalog.allCategories, shortName: lang === 'en' ? 'All' : 'Все' },
@@ -106,17 +114,19 @@ export function SearchModal() {
 
   // Event listener for opening modal with optional pre-selected tag, category, or query
   useEffect(() => {
-    const handleToggle = (e: any) => {
-      const shouldOpen = e.detail?.force !== undefined ? e.detail.force : !isOpen;
+    const handleToggle = (e: Event) => {
+      const customEvent = e as CustomEvent<ToggleSearchEventDetail>;
+      const detail = customEvent.detail;
+      const shouldOpen = detail?.force !== undefined ? detail.force : !isOpen;
       setIsOpen(shouldOpen);
-      if (e.detail?.tag) {
-        setSelectedTag(e.detail.tag);
+      if (detail?.tag) {
+        setSelectedTag(detail.tag);
       }
-      if (e.detail?.category) {
-        setSelectedCategory(e.detail.category);
+      if (detail?.category) {
+        setSelectedCategory(detail.category);
       }
-      if (e.detail?.query) {
-        setQuery(e.detail.query);
+      if (detail?.query) {
+        setQuery(detail.query);
       }
       if (shouldOpen) {
         setTimeout(() => inputRef.current?.focus(), 100);
@@ -322,8 +332,6 @@ export function SearchModal() {
     return null;
   };
 
-  const modalRef = useRef<HTMLDivElement>(null);
-
   // Focus trap implementation
   useEffect(() => {
     if (!isOpen) return;
@@ -378,11 +386,15 @@ export function SearchModal() {
         
         {/* Search Header Bar */}
         <div className="p-3.5 sm:p-4 border-b border-[#2e3244] flex items-center gap-3 bg-[#111218]">
+          <p id="search-desc" className="sr-only">
+            {lang === 'en' ? 'Search through academic knowledge base of Elephantology' : 'Поиск по академической базе знаний Слонологии'}
+          </p>
           <Search className="w-5 h-5 text-kingdom-gold shrink-0" />
           <input 
             ref={inputRef}
             type="text" 
             value={query}
+            aria-describedby="search-desc"
             onChange={(e) => {
               setQuery(e.target.value);
               setSelectedIndex(0);

@@ -2,6 +2,12 @@ import { useLanguage } from '../i18n/LanguageContext';
 import React, { useState, useEffect } from 'react';
 import { Quote, X, Copy, Check, BookOpen, FileText, Code2, Sparkles } from 'lucide-react';
 
+interface CitationModalDetail {
+  title?: string;
+  category?: string;
+  quoteText?: string;
+}
+
 interface CitationModalProps {
   currentArticlePath?: string;
 }
@@ -16,15 +22,12 @@ export function CitationModal() {
   const [selectedText, setSelectedText] = useState('');
 
   useEffect(() => {
-    const handleOpen = (e: any) => {
-      const { title, category, quoteText } = e.detail || {};
-      const win = window as any;
-      const allArticles = win.allArticles || [];
-      const currentPath = win.currentArticlePath || window.location.pathname;
-      const found = allArticles.find((a: any) => a.path === currentPath);
+    const handleOpen = (e: Event) => {
+      const customEvent = e as CustomEvent<CitationModalDetail>;
+      const { title, category, quoteText } = customEvent.detail || {};
       
-      const docTitle = title || (found ? found.title : document.title.replace(' — Слонология', '').replace(' — Elephantology', '').replace('Энциклопедия «Слонология»', '')) || (isEn ? 'Academic Monograph' : 'Академическая статья');
-      const cat = category || (found && found.category ? found.category.toUpperCase() : (isEn ? 'ENCYCLOPEDIA' : 'ЭНЦИКЛОПЕДИЯ'));
+      const docTitle = title || document.title.replace(' — Слонология', '').replace(' — Elephantology', '').replace('Энциклопедия «Слонология»', '').trim() || (isEn ? 'Academic Monograph' : 'Академическая статья');
+      const cat = category || (isEn ? 'ENCYCLOPEDIA' : 'ЭНЦИКЛОПЕДИЯ');
       
       setArticleTitle(docTitle);
       setCategoryName(cat);

@@ -2,9 +2,67 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-import { ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, CheckCircle2, HelpCircle as HelpIcon, AlertTriangle, Layers, BookCheck } from 'lucide-react';
+import { ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, CheckCircle2, HelpCircle as HelpIcon, AlertTriangle, Layers, BookCheck, type LucideIcon } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { EvidenceBasisType } from '../types';
+
+interface EvidenceConfig {
+  labelKey: 'established' | 'moderate' | 'limited' | 'hypothesis' | 'contested';
+  bg: string;
+  text: string;
+  border: string;
+  icon: LucideIcon;
+  description: string;
+  descriptionEn: string;
+}
+
+const EVIDENCE_BADGE_MAP: Record<string, EvidenceConfig> = {
+  established: {
+    labelKey: 'established',
+    bg: 'bg-emerald-950/40',
+    text: 'text-emerald-300',
+    border: 'border-emerald-800/60',
+    icon: ShieldCheck,
+    description: 'Установленный научный статус: подтверждено систематическими обзорами, множественными первичными исследованиями и научным консенсусом.',
+    descriptionEn: 'Established status: corroborated by systematic reviews, multiple primary studies, and broad scientific consensus.'
+  },
+  moderate: {
+    labelKey: 'moderate',
+    bg: 'bg-blue-950/40',
+    text: 'text-blue-300',
+    border: 'border-blue-800/60',
+    icon: Scale,
+    description: 'Достаточная доказательная база: подтверждено валидированными клиническими или эмпирическими данными.',
+    descriptionEn: 'Moderate evidence base: corroborated by validated clinical or empirical studies with strong observational data.'
+  },
+  limited: {
+    labelKey: 'limited',
+    bg: 'bg-amber-950/40',
+    text: 'text-amber-300',
+    border: 'border-amber-800/60',
+    icon: AlertCircle,
+    description: 'Ограниченные данные: наблюдения единичных когорт или предварительные пилотные исследования.',
+    descriptionEn: 'Limited data: derived from isolated cohort observations or preliminary pilot inquiries.'
+  },
+  hypothesis: {
+    labelKey: 'hypothesis',
+    bg: 'bg-orange-950/40',
+    text: 'text-orange-300',
+    border: 'border-orange-800/60',
+    icon: Lightbulb,
+    description: 'Научная гипотеза: теоретическая модель или биофизическая экстраполяция, требующая верификации.',
+    descriptionEn: 'Working hypothesis: theoretical model or biophysical extrapolation awaiting further experimental verification.'
+  },
+  contested: {
+    labelKey: 'contested',
+    bg: 'bg-rose-950/40',
+    text: 'text-rose-300',
+    border: 'border-rose-800/60',
+    icon: HelpCircle,
+    description: 'Дискуссионный вопрос: в академическом сообществе существуют взаимоисключающие данные или полемика.',
+    descriptionEn: 'Contested status: conflicting data models or ongoing methodological debate across the scholarly community.'
+  }
+};
 
 /**
  * Renders the evidence level badge with evidence basis clarification
@@ -22,56 +80,8 @@ export function EvidenceBadge({
   if (!level) return null;
 
   const normalized = level.toLowerCase();
-
-  const configMap: Record<string, { label: string; bg: string; text: string; border: string; icon: any; description: string; descriptionEn: string }> = {
-    established: {
-      label: t.evidence.established.toUpperCase(),
-      bg: 'bg-emerald-950/40',
-      text: 'text-emerald-300',
-      border: 'border-emerald-800/60',
-      icon: ShieldCheck,
-      description: 'Установленный научный статус: подтверждено систематическими обзорами, множественными первичными исследованиями и научным консенсусом.',
-      descriptionEn: 'Established status: corroborated by systematic reviews, multiple primary studies, and broad scientific consensus.'
-    },
-    moderate: {
-      label: t.evidence.moderate.toUpperCase(),
-      bg: 'bg-blue-950/40',
-      text: 'text-blue-300',
-      border: 'border-blue-800/60',
-      icon: Scale,
-      description: 'Достаточная доказательная база: подтверждено валидированными клиническими или эмпирическими данными.',
-      descriptionEn: 'Moderate evidence base: corroborated by validated clinical or empirical studies with strong observational data.'
-    },
-    limited: {
-      label: t.evidence.limited.toUpperCase(),
-      bg: 'bg-amber-950/40',
-      text: 'text-amber-300',
-      border: 'border-amber-800/60',
-      icon: AlertCircle,
-      description: 'Ограниченные данные: наблюдения единичных когорт или предварительные пилотные исследования.',
-      descriptionEn: 'Limited data: derived from isolated cohort observations or preliminary pilot inquiries.'
-    },
-    hypothesis: {
-      label: t.evidence.hypothesis.toUpperCase(),
-      bg: 'bg-orange-950/40',
-      text: 'text-orange-300',
-      border: 'border-orange-800/60',
-      icon: Lightbulb,
-      description: 'Научная гипотеза: теоретическая модель или биофизическая экстраполяция, требующая верификации.',
-      descriptionEn: 'Working hypothesis: theoretical model or biophysical extrapolation awaiting further experimental verification.'
-    },
-    contested: {
-      label: t.evidence.contested.toUpperCase(),
-      bg: 'bg-rose-950/40',
-      text: 'text-rose-300',
-      border: 'border-rose-800/60',
-      icon: HelpCircle,
-      description: 'Дискуссионный вопрос: в академическом сообществе существуют взаимоисключающие данные или полемика.',
-      descriptionEn: 'Contested status: conflicting data models or ongoing methodological debate across the scholarly community.'
-    }
-  };
-
-  const current = configMap[normalized] || configMap.established;
+  const current = EVIDENCE_BADGE_MAP[normalized] || EVIDENCE_BADGE_MAP.established;
+  const label = t.evidence[current.labelKey].toUpperCase();
   const Icon = current.icon;
 
   const basisLabels: Record<string, { ru: string; en: string }> = {
@@ -88,7 +98,7 @@ export function EvidenceBadge({
         className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider border ${current.bg} ${current.text} ${current.border}`}
       >
         <Icon className="w-3.5 h-3.5 shrink-0" />
-        <span>{current.label}</span>
+        <span>{label}</span>
       </span>
 
       {showTooltip && (

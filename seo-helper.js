@@ -4,6 +4,12 @@ import { load } from 'js-yaml';
 
 export const CANONICAL_DOMAIN = 'https://elephantology.ai.studio';
 
+export function isValidDate(str) {
+  if (typeof str !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(str)) return false;
+  const d = new Date(str);
+  return !isNaN(d.getTime()) && d.toISOString().startsWith(str);
+}
+
 export function parseFrontmatter(content) {
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   const meta = { tags: [] };
@@ -18,17 +24,19 @@ export function parseFrontmatter(content) {
       if (parsed.evidence_level || parsed.evidenceLevel) {
         meta.evidenceLevel = String(parsed.evidence_level || parsed.evidenceLevel).trim();
       }
-      const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
       if (parsed.date_published || parsed.datePublished) {
         const dateVal = String(parsed.date_published || parsed.datePublished).trim();
-        meta.datePublished = dateRegex.test(dateVal) ? dateVal : undefined;
+        meta.datePublished = isValidDate(dateVal) ? dateVal : undefined;
       }
       if (parsed.last_reviewed || parsed.lastReviewed) {
         const lastVal = String(parsed.last_reviewed || parsed.lastReviewed).trim();
-        if (dateRegex.test(lastVal)) {
+        if (isValidDate(lastVal)) {
           meta.lastReviewed = lastVal;
           meta.dateModified = lastVal;
         }
+      }
+      if (parsed.lang) {
+        meta.lang = String(parsed.lang).trim();
       }
       if (Array.isArray(parsed.tags)) {
         meta.tags = parsed.tags.map(t => String(t).trim()).filter(Boolean);
@@ -53,13 +61,13 @@ export function parseFrontmatter(content) {
       }
       
       const lastMatch = yamlStr.match(/last_reviewed:\s*["']?([^"'\r\n]+)["']?/);
-      if (lastMatch) {
+      if (lastMatch && isValidDate(lastMatch[1].trim())) {
         meta.lastReviewed = lastMatch[1].trim();
         meta.dateModified = meta.lastReviewed;
       }
 
       const pubMatch = yamlStr.match(/date_published:\s*["']?([^"'\r\n]+)["']?/);
-      if (pubMatch) {
+      if (pubMatch && isValidDate(pubMatch[1].trim())) {
         meta.datePublished = pubMatch[1].trim();
       }
     }
@@ -67,7 +75,7 @@ export function parseFrontmatter(content) {
   return meta;
 }
 
-export function generateSchemaJsonLd(meta, url) {
+export function generateSchemaJsonLd(meta, url, includeWebSite = false) {
   const categoryName = meta.category || "Общая биология";
   const title = meta.title || "Монография";
 
@@ -81,10 +89,13 @@ export function generateSchemaJsonLd(meta, url) {
       },
       "headline": title,
       "description": meta.description || "Академическая статья о слонах в энциклопедии Слонология.",
-      "inLanguage": "ru",
-      "author": {
+      "inLanguage": meta.lang || "ru",
+      "author": meta.author ? {
+        "@type": "Person",
+        "name": meta.author
+      } : {
         "@type": "Organization",
-        "name": "Академическая Лига Слонологии",
+        "name": meta.lang === 'en' ? "Elephantology Editorial Board" : "Редакционная коллегия Слонологии",
         "url": CANONICAL_DOMAIN
       },
       "publisher": {
@@ -120,7 +131,7 @@ export function generateSchemaJsonLd(meta, url) {
           "@type": "ListItem",
           "position": 2,
           "name": categoryName,
-          "item": `${CANONICAL_DOMAIN}/`
+          "item": `${CANONICAL_DOMAIN}/?category=${encodeURIComponent(meta.category || categoryName)}`
         },
         {
           "@type": "ListItem",
@@ -129,8 +140,11 @@ export function generateSchemaJsonLd(meta, url) {
           "item": url
         }
       ]
-    },
-    {
+    }
+  ];
+
+  if (includeWebSite) {
+    schemas.push({
       "@context": "https://schema.org",
       "@type": "WebSite",
       "url": `${CANONICAL_DOMAIN}/`,
@@ -140,21 +154,21 @@ export function generateSchemaJsonLd(meta, url) {
         "target": `${CANONICAL_DOMAIN}/?q={search_term_string}`,
         "query-input": "required name=search_term_string"
       }
-    }
-  ];
+    });
+  }
 
   const scholarlyArticle = schemas[0];
 
   // Only attach datePublished if explicitly defined in frontmatter (never fake it with last_reviewed)
-  if (meta.datePublished) {
+  if (meta.datePublished && isValidDate(meta.datePublished)) {
     scholarlyArticle.datePublished = meta.datePublished;
   }
   
-  if (meta.lastReviewed || meta.dateModified) {
+  if ((meta.lastReviewed || meta.dateModified) && isValidDate(meta.lastReviewed || meta.dateModified)) {
     scholarlyArticle.dateModified = meta.lastReviewed || meta.dateModified;
   }
 
-  const latinTaxa = [
+  const KNOWN_ELEPHANT_TAXA = [
     'Loxodonta africana', 'Elephas maximus', 'Mammuthus primigenius', 
     'Loxodonta cyclotis', 'Mammuthus', 'Deinotherium', 'Palaeoloxodon',
     'Proboscidea', 'Elephas', 'Loxodonta'
@@ -162,15 +176,25 @@ export function generateSchemaJsonLd(meta, url) {
   
   if (Array.isArray(meta.tags)) {
     meta.tags.forEach(tag => {
-      const isLatin = latinTaxa.some(latin => tag.toLowerCase() === latin.toLowerCase() || tag.toLowerCase().includes(latin.toLowerCase()));
-      if (isLatin || /^[A-Z][a-z]+(\s+[a-z]+)?$/.test(tag)) {
+      const match = KNOWN_ELEPHANT_TAXA.find(tax => tax.toLowerCase() === tag.trim().toLowerCase());
+      if (match) {
         scholarlyArticle.about.push({
           "@type": "Taxon",
-          "name": tag,
-          "scientificName": tag,
-          "taxonRank": tag.includes(' ') ? "species" : "genus"
+          "name": match,
+          "scientificName": match,
+          "taxonRank": match.includes(' ') ? "species" : "genus"
         });
       }
+    });
+  }
+
+  if (meta.scientificName || meta.taxon) {
+    const taxName = meta.scientificName || meta.taxon;
+    scholarlyArticle.about.push({
+      "@type": "Taxon",
+      "name": taxName,
+      "scientificName": taxName,
+      "taxonRank": meta.taxonRank || (taxName.includes(' ') ? "species" : "genus")
     });
   }
 
@@ -208,14 +232,30 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
   const files = getFiles(docsDir);
   const urls = [];
   
-  // Add homepage
-  const today = new Date().toISOString().split('T')[0];
-  urls.push(`  <url>\n    <loc>${domain}/</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>`);
-
-  files.forEach(file => {
+  // Find latest valid article modification date for homepage
+  let latestArticleDate = '2026-08-24';
+  const parsedFiles = files.map(file => {
     const content = fs.readFileSync(file, 'utf8');
     const meta = parseFrontmatter(content);
-    
+    const date = (meta.lastReviewed && isValidDate(meta.lastReviewed)) ? meta.lastReviewed : (meta.datePublished && isValidDate(meta.datePublished) ? meta.datePublished : null);
+    if (date && date > latestArticleDate) {
+      latestArticleDate = date;
+    }
+    return { file, content, meta };
+  });
+
+  // Add homepage with actual latest article content modification date
+  urls.push(`  <url>
+    <loc>${domain}/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="${domain}/" />
+    <xhtml:link rel="alternate" hreflang="en" href="${domain}/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${domain}/" />
+    <lastmod>${latestArticleDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>`);
+
+  parsedFiles.forEach(({ file, meta }) => {
     const relativePath = path.relative(docsDir, file).replace(/\\/g, '/');
     // Skip auxiliary files if not articles
     if (relativePath.startsWith('assets/')) return;
@@ -224,14 +264,26 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
     const fullUrl = `${domain}${urlPath}`;
     
     const priority = (meta.category === 'anatomy' || meta.category === 'taxonomy' || meta.category === 'ethogram') ? '0.9' : '0.8';
-    const lastmod = meta.lastReviewed || meta.dateModified || today;
+    const lastmod = (meta.lastReviewed && isValidDate(meta.lastReviewed)) ? meta.lastReviewed : latestArticleDate;
     
-    urls.push(`  <url>\n    <loc>${fullUrl}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${priority}</priority>\n  </url>`);
+    urls.push(`  <url>
+    <loc>${fullUrl}</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="${fullUrl}" />
+    <xhtml:link rel="alternate" hreflang="en" href="${fullUrl}?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${fullUrl}" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>${priority}</priority>
+  </url>`);
   });
 
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>`;
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${urls.join('\n')}
+</urlset>`;
   
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, sitemap);
   console.log(`✅ Sitemap successfully generated at ${outPath} with ${urls.length} URLs for ${domain}`);
 }
+

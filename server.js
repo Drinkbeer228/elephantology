@@ -8,7 +8,13 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 
-const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
+const logger = pino({
+  level: process.env.LOG_LEVEL || 'info',
+  redact: {
+    paths: ['req.headers.authorization', 'req.headers.cookie'],
+    remove: true
+  }
+});
 const isProd = process.env.NODE_ENV === 'production';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -20,24 +26,42 @@ const PORT = 3000;
 app.use(compression());
 app.use(express.json());
 
-// Helmet security headers configured to allow AI Studio iframe embedding and Vite dev mode
+// Helmet security headers configured with CSP & frameAncestors for iframe embedding
 app.use(helmet({
+  contentSecurityPolicy: isProd ? {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "https:"],
+      frameAncestors: [
+        "'self'",
+        "https://aistudio.google.com",
+        "https://ai.studio",
+        "https://*.google.com",
+        "https://*.googleusercontent.com",
+        "https://*.usercontent.goog",
+        "https://*.run.app"
+      ]
+    }
+  } : false,
   frameguard: false,
-  contentSecurityPolicy: false,
-  crossOriginEmbedderPolicy: false,
   crossOriginResourcePolicy: false,
+  crossOriginEmbedderPolicy: false,
   crossOriginOpenerPolicy: false,
   hsts: isProd ? { maxAge: 31536000, includeSubDomains: true, preload: true } : false
 }));
 
-// Rate limiting
-const limiter = rateLimit({
+// Rate limiting specifically for article dynamic handling
+const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 300,
+  max: 100,
   standardHeaders: true,
   legacyHeaders: false
 });
-app.use(limiter);
+app.use('/article/', apiLimiter);
 
 // In-memory cache for scanned markdown articles
 let cachedArticles = null;
@@ -130,13 +154,14 @@ function getArticlesList() {
   return cachedArticles;
 }
 
-// Health check endpoint
+// Minimal health check endpoint
 app.get('/healthz', (req, res) => {
-  res.json({
-    status: 'ok',
-    uptime: process.uptime(),
-    memory: process.memoryUsage(),
-    time: Date.now()
+  const distExists = fs.existsSync(path.resolve(__dirname, 'dist'));
+  const docsExists = fs.existsSync(path.resolve(__dirname, 'docs'));
+  const isHealthy = distExists || docsExists;
+  
+  res.status(isHealthy ? 200 : 503).json({
+    status: isHealthy ? 'ok' : 'degraded'
   });
 });
 

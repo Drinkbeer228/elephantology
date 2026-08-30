@@ -46,14 +46,24 @@ export default function App() {
           setCurrentArticlePath(articlePath);
           setCurrentView('article');
         } else {
-          setCurrentView('home');
-          setCurrentArticlePath(null);
+          const urlParams = new URLSearchParams(window.location.search);
+          const p = urlParams.get('path');
+          if (p) {
+            setCurrentArticlePath(p);
+            setCurrentView('article');
+          } else if (window.location.hash && currentArticlePath) {
+            // Keep current article on in-page hash navigation
+            return;
+          } else {
+            setCurrentView('home');
+            setCurrentArticlePath(null);
+          }
         }
       }
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  }, [currentArticlePath]);
 
   useEffect(() => {
     // Check initial path for direct navigation
@@ -89,7 +99,10 @@ export default function App() {
 
     useEffect(() => {
     const handleShowHome = () => showHome();
-    const handleLoadArticle = (e: any) => showArticle(e.detail);
+    const handleLoadArticle = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      showArticle(customEvent.detail);
+    };
     window.addEventListener('show-home', handleShowHome);
     window.addEventListener('load-article', handleLoadArticle);
     return () => {

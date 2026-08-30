@@ -16,7 +16,6 @@ marked.use(markedHighlight({
 marked.use(markedFootnote());
 
 const renderer = new marked.Renderer();
-marked.use({ renderer, gfm: true });
 
 const docsDir = './docs';
 const distDir = './dist';
@@ -56,7 +55,7 @@ async function prerenderFile(file) {
     
     // Strip frontmatter from content for rendering
     const mdContent = content.replace(/^---\r?\n[\s\S]*?\r?\n---/, '').trim();
-    const htmlContent = await marked.parse(mdContent);
+    const htmlContent = await marked.parse(mdContent, { renderer, gfm: true });
     
     const relativePath = path.relative(docsDir, file).replace(/\\/g, '/');
     const urlPath = `/article/${relativePath.replace(/\.md$/, '')}`;
@@ -78,6 +77,7 @@ async function prerenderFile(file) {
       <meta name="description" content="${description}">
       <link rel="canonical" href="${fullUrl}">
       <link rel="alternate" hreflang="ru" href="${fullUrl}">
+      <link rel="alternate" hreflang="en" href="${fullUrl}?lang=en">
       <link rel="alternate" hreflang="x-default" href="${fullUrl}">
       <meta property="og:title" content="${title}">
       <meta property="og:description" content="${description}">

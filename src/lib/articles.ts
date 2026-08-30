@@ -105,7 +105,9 @@ export function resolveArticlePath(requestedPath: string, modulesKeys: string[])
 
 export const MODULES_CACHE = import.meta.glob('/docs/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
 
-export function getStaticArticles(lang?: string): ArticleItem[] {
+let cachedArticles: Record<string, ArticleItem[]> = {};
+
+function computeArticles(lang?: string): ArticleItem[] {
   const isEn = lang === 'en';
   
   return Object.entries(MODULES_CACHE)
@@ -162,4 +164,12 @@ export function getStaticArticles(lang?: string): ArticleItem[] {
       content: cleanContent
     };
   });
+}
+
+export function getStaticArticles(lang?: string): ArticleItem[] {
+  const key = lang || 'ru';
+  if (!cachedArticles[key]) {
+    cachedArticles[key] = computeArticles(lang);
+  }
+  return cachedArticles[key];
 }

@@ -156,11 +156,16 @@ const SENTENCE_DICTIONARY: Record<string, string> = {
 
 const SORTED_TERM_REPLACEMENTS = [...TERM_REPLACEMENTS].sort((a, b) => b[0].source.length - a[0].source.length);
 
+const translationCache = new Map<string, string>();
+
 /**
  * Translates a Russian markdown article into fluent, structured academic English.
  */
 export function translateMarkdownToEnglish(markdown: string): string {
   if (!markdown) return '';
+  if (translationCache.has(markdown)) {
+    return translationCache.get(markdown)!;
+  }
 
   let result = markdown;
 
@@ -193,5 +198,6 @@ export function translateMarkdownToEnglish(markdown: string): string {
     return linkUrls[Number(idx)] || match;
   });
 
+  translationCache.set(markdown, result);
   return result;
 }
