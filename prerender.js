@@ -47,13 +47,12 @@ function getFiles(dir, fileList = []) {
   return fileList;
 }
 
-async function runPrerender() {
-  const files = getFiles(docsDir);
-  console.log(`Starting SSG prerender pipeline for ${files.length} articles on domain ${domain}...`);
+import pLimit from 'p-limit';
 
-  for (const file of files) {
+async function prerenderFile(file) {
+  try {
     const content = fs.readFileSync(file, 'utf8');
-    const meta = parseFrontmatter(content);
+    const meta = parseFrontmatter(content) || {};
     
     // Strip frontmatter from content for rendering
     const mdContent = content.replace(/^---\r?\n[\s\S]*?\r?\n---/, '').trim();
@@ -72,11 +71,14 @@ async function runPrerender() {
     const ogImage = `${domain}/assets/images/og-home-elephants.jpg`;
     
     const jsonLdScript = generateSchemaJsonLd(meta, fullUrl);
+    const lang = meta.lang || 'ru';
 
     const headInjection = `
       <title>${title}</title>
       <meta name="description" content="${description}">
       <link rel="canonical" href="${fullUrl}">
+      <link rel="alternate" hreflang="ru" href="${fullUrl}">
+      <link rel="alternate" hreflang="x-default" href="${fullUrl}">
       <meta property="og:title" content="${title}">
       <meta property="og:description" content="${description}">
       <meta property="og:url" content="${fullUrl}">
@@ -119,9 +121,22 @@ async function runPrerender() {
     const outDir = path.join(distDir, urlPath);
     fs.mkdirSync(outDir, { recursive: true });
     fs.writeFileSync(path.join(outDir, 'index.html'), outHTML);
+    return true;
+  } catch (err) {
+    console.error(`Failed to prerender ${file}:`, err?.message || err);
+    return false;
   }
+}
 
-  console.log(`✅ SSG prerender complete: ${files.length} article pages generated.`);
+async function runPrerender() {
+  const files = getFiles(docsDir);
+  console.log(`Starting SSG prerender pipeline for ${files.length} articles on domain ${domain}...`);
+
+  const limit = pLimit(10);
+  const results = await Promise.all(files.map(file => limit(() => prerenderFile(file))));
+  const successful = results.filter(Boolean).length;
+
+  console.log(`✅ SSG prerender complete: ${successful}/${files.length} article pages generated.`);
 }
 
 runPrerender().catch(err => {

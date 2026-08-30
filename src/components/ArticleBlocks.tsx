@@ -26,45 +26,45 @@ export function EvidenceBadge({
   const configMap: Record<string, { label: string; bg: string; text: string; border: string; icon: any; description: string; descriptionEn: string }> = {
     established: {
       label: t.evidence.established.toUpperCase(),
-      bg: 'bg-emerald-50 dark:bg-emerald-950/40',
-      text: 'text-emerald-700 dark:text-emerald-300',
-      border: 'border-emerald-200 dark:border-emerald-800',
+      bg: 'bg-emerald-950/40',
+      text: 'text-emerald-300',
+      border: 'border-emerald-800/60',
       icon: ShieldCheck,
       description: 'Установленный научный статус: подтверждено систематическими обзорами, множественными первичными исследованиями и научным консенсусом.',
       descriptionEn: 'Established status: corroborated by systematic reviews, multiple primary studies, and broad scientific consensus.'
     },
     moderate: {
       label: t.evidence.moderate.toUpperCase(),
-      bg: 'bg-blue-50 dark:bg-blue-950/40',
-      text: 'text-blue-700 dark:text-blue-300',
-      border: 'border-blue-200 dark:border-blue-800',
+      bg: 'bg-blue-950/40',
+      text: 'text-blue-300',
+      border: 'border-blue-800/60',
       icon: Scale,
       description: 'Достаточная доказательная база: подтверждено валидированными клиническими или эмпирическими данными.',
       descriptionEn: 'Moderate evidence base: corroborated by validated clinical or empirical studies with strong observational data.'
     },
     limited: {
       label: t.evidence.limited.toUpperCase(),
-      bg: 'bg-amber-50 dark:bg-amber-950/40',
-      text: 'text-amber-700 dark:text-amber-300',
-      border: 'border-amber-200 dark:border-amber-800',
+      bg: 'bg-amber-950/40',
+      text: 'text-amber-300',
+      border: 'border-amber-800/60',
       icon: AlertCircle,
       description: 'Ограниченные данные: наблюдения единичных когорт или предварительные пилотные исследования.',
       descriptionEn: 'Limited data: derived from isolated cohort observations or preliminary pilot inquiries.'
     },
     hypothesis: {
       label: t.evidence.hypothesis.toUpperCase(),
-      bg: 'bg-orange-50 dark:bg-orange-950/40',
-      text: 'text-orange-700 dark:text-orange-300',
-      border: 'border-orange-200 dark:border-orange-800',
+      bg: 'bg-orange-950/40',
+      text: 'text-orange-300',
+      border: 'border-orange-800/60',
       icon: Lightbulb,
       description: 'Научная гипотеза: теоретическая модель или биофизическая экстраполяция, требующая верификации.',
       descriptionEn: 'Working hypothesis: theoretical model or biophysical extrapolation awaiting further experimental verification.'
     },
     contested: {
       label: t.evidence.contested.toUpperCase(),
-      bg: 'bg-rose-50 dark:bg-rose-950/40',
-      text: 'text-rose-700 dark:text-rose-300',
-      border: 'border-rose-200 dark:border-rose-800',
+      bg: 'bg-rose-950/40',
+      text: 'text-rose-300',
+      border: 'border-rose-800/60',
       icon: HelpCircle,
       description: 'Дискуссионный вопрос: в академическом сообществе существуют взаимоисключающие данные или полемика.',
       descriptionEn: 'Contested status: conflicting data models or ongoing methodological debate across the scholarly community.'
@@ -92,11 +92,11 @@ export function EvidenceBadge({
       </span>
 
       {showTooltip && (
-        <div className="absolute left-0 top-full mt-1.5 w-72 p-3 bg-white dark:bg-[#1e2130] border border-slate-200 dark:border-slate-700 rounded-lg shadow-xl text-xs text-slate-600 dark:text-slate-200 font-normal normal-case opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-30 pointer-events-none space-y-1.5">
+        <div className="absolute left-0 top-full mt-1.5 w-72 p-3 bg-[#1e2130] border border-[#34384a] rounded-lg shadow-xl text-xs text-gray-200 font-normal normal-case opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-30 pointer-events-none space-y-1.5">
           <p>{isEn ? current.descriptionEn : current.description}</p>
           {basis && basis.length > 0 && (
-            <div className="pt-1.5 border-t border-slate-200 dark:border-slate-700/60 text-[11px] text-slate-500 dark:text-slate-400">
-              <span className="font-semibold text-slate-700 dark:text-slate-300 block mb-0.5">
+            <div className="pt-1.5 border-t border-[#34384a] text-[11px] text-gray-400">
+              <span className="font-semibold text-gray-200 block mb-0.5">
                 {isEn ? 'Evidence Basis:' : 'Основание оценки:'}
               </span>
               <ul className="list-disc list-inside space-y-0.5">

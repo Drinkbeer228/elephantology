@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: dark;
+  background-color: #121318;
+  color: #e2e8f0;
+}
+
+html, body, #root {
+  min-height: 100%;
+  background-color: #121318 !important;
+  color: #e2e8f0;
+}
+
 .markdown-body {
   @apply text-gray-300 leading-relaxed text-sm;
   overflow-wrap: break-word;

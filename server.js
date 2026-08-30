@@ -1,8 +1,15 @@
 import express from 'express';
+import helmet from 'helmet';
+import compression from 'compression';
+import rateLimit from 'express-rate-limit';
+import pino from 'pino';
 import { generateSchemaJsonLd, CANONICAL_DOMAIN } from './seo-helper.js';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+
+const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
+const isProd = process.env.NODE_ENV === 'production';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -10,17 +17,27 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
 
+app.use(compression());
 app.use(express.json());
 
-// Security & Caching Headers Middleware
-app.use((req, res, next) => {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self';");
-  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  next();
+// Helmet security headers configured to allow AI Studio iframe embedding and Vite dev mode
+app.use(helmet({
+  frameguard: false,
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: false,
+  crossOriginOpenerPolicy: false,
+  hsts: isProd ? { maxAge: 31536000, includeSubDomains: true, preload: true } : false
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 300,
+  standardHeaders: true,
+  legacyHeaders: false
 });
+app.use(limiter);
 
 // In-memory cache for scanned markdown articles
 let cachedArticles = null;
@@ -115,7 +132,12 @@ function getArticlesList() {
 
 // Health check endpoint
 app.get('/healthz', (req, res) => {
-  res.json({ status: 'ok', time: Date.now() });
+  res.json({
+    status: 'ok',
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    time: Date.now()
+  });
 });
 
 // API endpoint to get all articles metadata (Removed as part of SSG migration)
@@ -189,8 +211,6 @@ function injectMetaTags(template, url) {
   return template;
 }
 
-const isProd = process.env.NODE_ENV === 'production';
-
 // Docs static serving removed to allow Vite middleware to intercept import.meta.glob requests
 
 // PWA Static Assets & Service Worker
@@ -254,6 +274,8 @@ if (!isProd) {
 } else {
   // Prod mode: serve dist
   app.use(express.static(path.resolve(__dirname, 'dist'), {
+    maxAge: '1y',
+    etag: true,
     index: ['index.html']
   }));
   app.use('*', (req, res) => {
@@ -266,14 +288,14 @@ if (!isProd) {
       template = injectMetaTags(template, req.originalUrl);
       res.status(200).set({ 'Content-Type': 'text/html' }).send(template);
     } catch (err) {
-      console.error('Error serving index.html:', err);
+      logger.error({ err }, 'Error serving index.html');
       res.status(500).send('Internal Server Error');
     }
   });
 }
 
 const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Elephantology Wiki Server running on http://0.0.0.0:${PORT}`);
+  logger.info(`Elephantology Wiki Server running on http://0.0.0.0:${PORT}`);
 });
 
 process.on('SIGTERM', () => {

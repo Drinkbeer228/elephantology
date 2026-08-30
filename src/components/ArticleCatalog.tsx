@@ -96,6 +96,141 @@ const ACADEMIC_CATEGORIES: (CategoryDef & { icon: string; description: string; n
   }
 ];
 
+interface CategoryCardProps {
+  cat: typeof ACADEMIC_CATEGORIES[0];
+  articles: ArticleItem[];
+  isExpanded: boolean;
+  onToggle: (id: string) => void;
+  onArticleClick: (path: string) => void;
+  lang: string;
+  t: any;
+}
+
+const CategoryCard = React.memo(function CategoryCard({
+  cat,
+  articles,
+  isExpanded,
+  onToggle,
+  onArticleClick,
+  lang,
+  t
+}: CategoryCardProps) {
+  const categoryArticles = useMemo(() => articles.filter(a => a.category === cat.id), [articles, cat.id]);
+  const count = categoryArticles.length;
+  const categoryTitle = lang === 'en' && cat.nameEn ? cat.nameEn : cat.name;
+
+  return (
+    <div 
+      className={`rounded-xl border transition-all duration-200 overflow-hidden w-full ${
+        isExpanded 
+          ? 'bg-[#151720] border-kingdom-gold/40 shadow-lg shadow-black/40' 
+          : 'bg-[#14161f]/80 border-[#2b2e3d] hover:border-kingdom-gold/30 hover:bg-[#181a24]'
+      }`}
+    >
+      {/* Category Compact Horizontal Bar */}
+      <button 
+        onClick={() => onToggle(cat.id)}
+        aria-expanded={isExpanded}
+        aria-label={`${categoryTitle} category`}
+        className="w-full flex items-center justify-between p-3.5 sm:p-4 text-left cursor-pointer transition-colors select-none group"
+      >
+        <div className="flex items-center gap-3 min-w-0 pr-2">
+          <span className="text-xl shrink-0 p-1.5 rounded-lg bg-white/5 border border-white/5 group-hover:scale-105 transition-transform">
+            {cat.icon}
+          </span>
+          <div className="min-w-0">
+            <h3 className={`font-semibold text-sm leading-snug truncate transition-colors ${
+              isExpanded ? 'text-kingdom-gold' : 'text-gray-200 group-hover:text-white'
+            }`}>
+              {categoryTitle}
+            </h3>
+            <p className="text-[11px] text-gray-400 truncate mt-0.5 max-w-[280px] sm:max-w-[340px]">
+              {lang === 'en' && cat.descriptionEn ? cat.descriptionEn : cat.description}
+            </p>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-2.5 shrink-0">
+          <span className={`text-[11px] font-mono font-medium px-2 py-0.5 rounded-md border transition-colors ${
+            isExpanded
+              ? 'bg-kingdom-gold text-black font-bold border-kingdom-gold'
+              : 'bg-black/30 text-gray-400 border-white/5 group-hover:text-kingdom-gold group-hover:border-kingdom-gold/20'
+          }`}>
+            {count} {t.catalog.articlesCount}
+          </span>
+          <div className={`p-1 rounded-md transition-all ${
+            isExpanded ? 'bg-kingdom-gold/15 text-kingdom-gold' : 'text-gray-500 group-hover:text-gray-300'
+          }`}>
+            {isExpanded ? (
+              <ChevronUp className="w-4 h-4 transition-transform duration-200" />
+            ) : (
+              <ChevronDown className="w-4 h-4 transition-transform duration-200" />
+            )}
+          </div>
+        </div>
+      </button>
+
+      {/* Expandable Articles List */}
+      {isExpanded && (
+        <div className="border-t border-white/5 bg-[#0f1117]/90 p-3 sm:p-3.5 space-y-2.5 animate-fade-in">
+          {categoryArticles.length === 0 ? (
+            <p className="text-xs text-gray-500 italic py-2 text-center">{t.search.noResults}</p>
+          ) : (
+            categoryArticles.map((article) => {
+              const readingTime = article.readingTime || `4 ${t.catalog.readingTime}`;
+              const badgeDef = article.evidenceLevel ? EVIDENCE_BADGE_MAP[article.evidenceLevel.toLowerCase()] || EVIDENCE_BADGE_MAP['established'] : null;
+              const BadgeIcon = badgeDef?.icon;
+              const badgeText = badgeDef ? (t.evidence[badgeDef.key] ? t.evidence[badgeDef.key].toUpperCase() : article.evidenceLevel?.toUpperCase()) : null;
+
+              return (
+                <div 
+                  key={article.path}
+                  onClick={() => onArticleClick(article.path)}
+                  className="group/item p-3 rounded-lg bg-[#181a24] hover:bg-[#202330] border border-[#2b2e3d]/80 hover:border-kingdom-gold/50 transition-all cursor-pointer space-y-1.5 shadow-sm"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <h4 className="text-xs sm:text-sm font-semibold text-gray-200 group-hover/item:text-kingdom-gold transition-colors leading-snug">
+                      {article.title}
+                    </h4>
+                    <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover/item:text-kingdom-gold group-hover/item:translate-x-0.5 transition-all shrink-0 mt-0.5" />
+                  </div>
+
+                  {article.excerpt && (
+                    <p className="text-[11px] text-gray-400 line-clamp-2 leading-relaxed">
+                      {article.excerpt}
+                    </p>
+                  )}
+
+                  <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[10px] text-gray-500 font-mono">
+                    <div className="flex items-center gap-2">
+                      {badgeDef && BadgeIcon && (
+                        <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[8.5px] font-bold tracking-wider border ${badgeDef.classes}`}>
+                          <BadgeIcon className="w-2.5 h-2.5" />
+                          {badgeText}
+                        </span>
+                      )}
+                      {article.difficulty && (
+                        <span className="text-kingdom-gold/80 font-semibold uppercase text-[9px]">
+                          {article.difficulty === 'advanced' ? t.catalog.difficulty.advanced : article.difficulty === 'intermediate' ? t.catalog.difficulty.intermediate : t.catalog.difficulty.basic}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-1 text-gray-400">
+                      <Clock className="w-3 h-3 text-gray-500" />
+                      <span>{readingTime}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+      )}
+    </div>
+  );
+});
+
 export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: string) => void }) {
   const { t, lang } = useLanguage();
   const articles = useMemo(() => getStaticArticles(lang), [lang]);
@@ -131,131 +266,7 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
     });
   }, []);
 
-  const getEvidenceBadge = (level: string | undefined) => {
-    if (!level) return null;
-    const badge = EVIDENCE_BADGE_MAP[level.toLowerCase()] || EVIDENCE_BADGE_MAP['established'];
-    const Icon = badge.icon;
-    const text = t.evidence[badge.key] ? t.evidence[badge.key].toUpperCase() : level.toUpperCase();
-    
-    return (
-      <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[8.5px] font-bold tracking-wider border ${badge.classes}`}>
-        <Icon className="w-2.5 h-2.5" />
-        {text}
-      </span>
-    );
-  };
-
   const allExpanded = expandedCategories.size === ACADEMIC_CATEGORIES.length;
-
-  const renderCategoryCard = (cat: typeof ACADEMIC_CATEGORIES[0]) => {
-    const categoryArticles = articles.filter(a => a.category === cat.id);
-    const isExpanded = expandedCategories.has(cat.id);
-    const count = categoryArticles.length;
-    const categoryTitle = lang === 'en' && cat.nameEn ? cat.nameEn : cat.name;
-
-    return (
-      <div 
-        key={cat.id}
-        className={`rounded-xl border transition-all duration-200 overflow-hidden w-full ${
-          isExpanded 
-            ? 'bg-[#151720] border-kingdom-gold/40 shadow-lg shadow-black/40' 
-            : 'bg-[#14161f]/80 border-[#2b2e3d] hover:border-kingdom-gold/30 hover:bg-[#181a24]'
-        }`}
-      >
-        {/* Category Compact Horizontal Bar */}
-        <button 
-          onClick={() => toggleCategory(cat.id)}
-          aria-expanded={isExpanded}
-          aria-label={`${categoryTitle} category`}
-          className="w-full flex items-center justify-between p-3.5 sm:p-4 text-left cursor-pointer transition-colors select-none group"
-        >
-          <div className="flex items-center gap-3 min-w-0 pr-2">
-            <span className="text-xl shrink-0 p-1.5 rounded-lg bg-white/5 border border-white/5 group-hover:scale-105 transition-transform">
-              {cat.icon}
-            </span>
-            <div className="min-w-0">
-              <h3 className={`font-semibold text-sm leading-snug truncate transition-colors ${
-                isExpanded ? 'text-kingdom-gold' : 'text-gray-200 group-hover:text-white'
-              }`}>
-                {categoryTitle}
-              </h3>
-              <p className="text-[11px] text-gray-400 truncate mt-0.5 max-w-[280px] sm:max-w-[340px]">
-                {lang === 'en' && cat.descriptionEn ? cat.descriptionEn : cat.description}
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-2.5 shrink-0">
-            <span className={`text-[11px] font-mono font-medium px-2 py-0.5 rounded-md border transition-colors ${
-              isExpanded
-                ? 'bg-kingdom-gold text-black font-bold border-kingdom-gold'
-                : 'bg-black/30 text-gray-400 border-white/5 group-hover:text-kingdom-gold group-hover:border-kingdom-gold/20'
-            }`}>
-              {count} {t.catalog.articlesCount}
-            </span>
-            <div className={`p-1 rounded-md transition-all ${
-              isExpanded ? 'bg-kingdom-gold/15 text-kingdom-gold' : 'text-gray-500 group-hover:text-gray-300'
-            }`}>
-              {isExpanded ? (
-                <ChevronUp className="w-4 h-4 transition-transform duration-200" />
-              ) : (
-                <ChevronDown className="w-4 h-4 transition-transform duration-200" />
-              )}
-            </div>
-          </div>
-        </button>
-
-        {/* Expandable Articles List */}
-        {isExpanded && (
-          <div className="border-t border-white/5 bg-[#0f1117]/90 p-3 sm:p-3.5 space-y-2.5 animate-fade-in">
-            {categoryArticles.length === 0 ? (
-              <p className="text-xs text-gray-500 italic py-2 text-center">{t.search.noResults}</p>
-            ) : (
-              categoryArticles.map((article) => {
-                const readingTime = article.readingTime || `4 ${t.catalog.readingTime}`;
-                return (
-                  <div 
-                    key={article.path}
-                    onClick={() => openArticle(article.path)}
-                    className="group/item p-3 rounded-lg bg-[#181a24] hover:bg-[#202330] border border-[#2b2e3d]/80 hover:border-kingdom-gold/50 transition-all cursor-pointer space-y-1.5 shadow-sm"
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <h4 className="text-xs sm:text-sm font-semibold text-gray-200 group-hover/item:text-kingdom-gold transition-colors leading-snug">
-                        {article.title}
-                      </h4>
-                      <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover/item:text-kingdom-gold group-hover/item:translate-x-0.5 transition-all shrink-0 mt-0.5" />
-                    </div>
-
-                    {article.excerpt && (
-                      <p className="text-[11px] text-gray-400 line-clamp-2 leading-relaxed">
-                        {article.excerpt}
-                      </p>
-                    )}
-
-                    <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[10px] text-gray-500 font-mono">
-                      <div className="flex items-center gap-2">
-                        {getEvidenceBadge(article.evidenceLevel)}
-                        {article.difficulty && (
-                          <span className="text-kingdom-gold/80 font-semibold uppercase text-[9px]">
-                            {article.difficulty === 'advanced' ? t.catalog.difficulty.advanced : article.difficulty === 'intermediate' ? t.catalog.difficulty.intermediate : t.catalog.difficulty.basic}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-1 text-gray-400">
-                        <Clock className="w-3 h-3 text-gray-500" />
-                        <span>{readingTime}</span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
-        )}
-      </div>
-    );
-  };
 
   return (
     <div className="animate-fade-in max-w-5xl mx-auto space-y-8 pb-16 pt-6 px-2 sm:px-0">
@@ -303,12 +314,34 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-start">
         {/* Left Column (even indexes: 0, 2, 4, 6, 8) */}
         <div className="flex flex-col space-y-3.5 w-full">
-          {ACADEMIC_CATEGORIES.filter((_, i) => i % 2 === 0).map((cat) => renderCategoryCard(cat))}
+          {ACADEMIC_CATEGORIES.filter((_, i) => i % 2 === 0).map((cat) => (
+            <CategoryCard
+              key={cat.id}
+              cat={cat}
+              articles={articles}
+              isExpanded={expandedCategories.has(cat.id)}
+              onToggle={toggleCategory}
+              onArticleClick={openArticle}
+              lang={lang}
+              t={t}
+            />
+          ))}
         </div>
 
         {/* Right Column (odd indexes: 1, 3, 5, 7, 9) */}
         <div className="flex flex-col space-y-3.5 w-full">
-          {ACADEMIC_CATEGORIES.filter((_, i) => i % 2 !== 0).map((cat) => renderCategoryCard(cat))}
+          {ACADEMIC_CATEGORIES.filter((_, i) => i % 2 !== 0).map((cat) => (
+            <CategoryCard
+              key={cat.id}
+              cat={cat}
+              articles={articles}
+              isExpanded={expandedCategories.has(cat.id)}
+              onToggle={toggleCategory}
+              onArticleClick={openArticle}
+              lang={lang}
+              t={t}
+            />
+          ))}
         </div>
       </div>
     </div>

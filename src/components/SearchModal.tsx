@@ -322,6 +322,40 @@ export function SearchModal() {
     return null;
   };
 
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Focus trap implementation
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleTabKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || !modalRef.current) return;
+
+      const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleTabKey);
+    return () => window.removeEventListener('keydown', handleTabKey);
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
@@ -335,6 +369,10 @@ export function SearchModal() {
     >
       <div 
         id="search-modal-window"
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={t.search.placeholder}
         className="bg-[#151720] border border-[#2e3244] w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[86vh] relative z-10"
       >
         
@@ -533,7 +571,11 @@ export function SearchModal() {
         )}
 
         {/* Results Info & Active Filter Badges Bar */}
-        <div className="px-4 py-2.5 bg-[#0e1015] border-b border-white/5 flex items-center justify-between flex-wrap gap-2 text-[11px] text-gray-400">
+        <div 
+          aria-live="polite" 
+          aria-atomic="true"
+          className="px-4 py-2.5 bg-[#0e1015] border-b border-white/5 flex items-center justify-between flex-wrap gap-2 text-[11px] text-gray-400"
+        >
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-gray-300">
               {lang === 'en' ? 'Articles found:' : 'Найдено статей:'} <strong className="text-kingdom-gold font-bold text-xs">{results.length}</strong> {lang === 'en' ? 'of' : 'из'} {articles.length}

@@ -68,48 +68,90 @@ export function parseFrontmatter(content) {
 }
 
 export function generateSchemaJsonLd(meta, url) {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "ScholarlyArticle",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": url
+  const categoryName = meta.category || "Общая биология";
+  const title = meta.title || "Монография";
+
+  const schemas = [
+    {
+      "@context": "https://schema.org",
+      "@type": "ScholarlyArticle",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": url
+      },
+      "headline": title,
+      "description": meta.description || "Академическая статья о слонах в энциклопедии Слонология.",
+      "inLanguage": "ru",
+      "author": {
+        "@type": "Organization",
+        "name": "Академическая Лига Слонологии",
+        "url": CANONICAL_DOMAIN
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Слонология",
+        "url": CANONICAL_DOMAIN,
+        "logo": {
+          "@type": "ImageObject",
+          "url": `${CANONICAL_DOMAIN}/icons/icon.svg`
+        }
+      },
+      "about": [
+        {
+          "@type": "Taxon",
+          "name": "Elephantidae",
+          "scientificName": "Elephantidae",
+          "taxonRank": "family",
+          "sameAs": "https://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%BD%D0%BE%D0%B2%D1%8B%D0%B5"
+        }
+      ]
     },
-    "headline": meta.title || "Монография",
-    "description": meta.description || "Академическая статья о слонах в энциклопедии Слонология.",
-    "inLanguage": "ru",
-    "author": {
-      "@type": "Organization",
-      "name": "Академическая Лига Слонологии",
-      "url": CANONICAL_DOMAIN
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Слонология",
+          "item": `${CANONICAL_DOMAIN}/`
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": categoryName,
+          "item": `${CANONICAL_DOMAIN}/`
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": title,
+          "item": url
+        }
+      ]
     },
-    "publisher": {
-      "@type": "Organization",
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": `${CANONICAL_DOMAIN}/`,
       "name": "Слонология",
-      "url": CANONICAL_DOMAIN,
-      "logo": {
-        "@type": "ImageObject",
-        "url": `${CANONICAL_DOMAIN}/icons/icon.svg`
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": `${CANONICAL_DOMAIN}/?q={search_term_string}`,
+        "query-input": "required name=search_term_string"
       }
-    },
-    "about": [
-      {
-        "@type": "Taxon",
-        "name": "Elephantidae",
-        "scientificName": "Elephantidae",
-        "taxonRank": "family",
-        "sameAs": "https://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%BD%D0%BE%D0%B2%D1%8B%D0%B5"
-      }
-    ]
-  };
+    }
+  ];
+
+  const scholarlyArticle = schemas[0];
 
   // Only attach datePublished if explicitly defined in frontmatter (never fake it with last_reviewed)
   if (meta.datePublished) {
-    schema.datePublished = meta.datePublished;
+    scholarlyArticle.datePublished = meta.datePublished;
   }
   
   if (meta.lastReviewed || meta.dateModified) {
-    schema.dateModified = meta.lastReviewed || meta.dateModified;
+    scholarlyArticle.dateModified = meta.lastReviewed || meta.dateModified;
   }
 
   const latinTaxa = [
@@ -122,7 +164,7 @@ export function generateSchemaJsonLd(meta, url) {
     meta.tags.forEach(tag => {
       const isLatin = latinTaxa.some(latin => tag.toLowerCase() === latin.toLowerCase() || tag.toLowerCase().includes(latin.toLowerCase()));
       if (isLatin || /^[A-Z][a-z]+(\s+[a-z]+)?$/.test(tag)) {
-        schema.about.push({
+        scholarlyArticle.about.push({
           "@type": "Taxon",
           "name": tag,
           "scientificName": tag,
@@ -132,7 +174,7 @@ export function generateSchemaJsonLd(meta, url) {
     });
   }
 
-  return `<script type="application/ld+json">\n${JSON.stringify(schema, null, 2)}\n</script>`;
+  return `<script type="application/ld+json">\n${JSON.stringify(schemas, null, 2)}\n</script>`;
 }
 
 // CLI implementation for Sitemap Generation

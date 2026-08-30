@@ -5,6 +5,15 @@ export default defineConfig({
   plugins: [react()],
   base: process.env.BASE_URL || '/',
   build: {
+    target: 'es2020',
+    minify: 'terser',
+    sourcemap: false,
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    },
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -21,7 +30,10 @@ export default defineConfig({
           if (id.includes('node_modules/lucide-react')) {
             return 'ui';
           }
-        }
+        },
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash][extname]'
       }
     }
   }

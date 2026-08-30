@@ -126,23 +126,25 @@ export default function App() {
         )}
       </main>
       
-      <footer className="mt-auto border-t border-kingdom-border bg-kingdom-card/60 py-8 text-xs text-kingdom-muted">
+      <footer className="mt-auto border-t border-kingdom-border bg-kingdom-card/60 py-8 text-xs text-slate-400">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <BookOpen className="w-5 h-5 text-kingdom-gold shrink-0" />
             <div>
-              <span className="font-medium text-slate-300">{t.footer.title}</span>
-              <p className="text-[11px] text-kingdom-muted mt-0.5">{t.footer.text}</p>
+              <span className="font-semibold text-slate-200">{t.footer.title}</span>
+              <p className="text-[11px] text-slate-400 mt-0.5">{t.footer.text}</p>
             </div>
           </div>
           <div className="flex items-center gap-4 text-[11px]">
-            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="hover:text-kingdom-gold transition-colors cursor-pointer">{t.footer.toTop}</button>
+            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="text-slate-300 hover:text-kingdom-gold transition-colors cursor-pointer font-medium">{t.footer.toTop}</button>
           </div>
         </div>
       </footer>
 
       <Suspense fallback={null}>
         <SearchModal />
+      </Suspense>
+      <Suspense fallback={null}>
         <CitationModal />
       </Suspense>
     </div>
