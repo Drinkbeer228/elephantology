@@ -70,7 +70,7 @@ async function prerenderFile(file) {
     // og:image only if a real asset exists (old ai.studio image was lost in migration)
     const hasOgImage = fs.existsSync(path.join(distDir, 'assets', 'images', 'og-home-elephants.jpg'));
     const ogImage = `${domain}/assets/images/og-home-elephants.jpg`;
-    
+
     const jsonLdScript = generateSchemaJsonLd(meta, fullUrl);
 
     const headInjection = `

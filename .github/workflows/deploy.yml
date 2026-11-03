@@ -41,10 +41,16 @@ jobs:
         run: npm test
 
       - name: Build static site
-        # BASE_URL = repo name path for GitHub Pages project sites
-        # (user/org repos hosted at https://<user>.github.io/<repo>/).
+        # This repo is published as a GitHub Pages USER-SITE:
+        #   https://<user>.github.io/  (no /repo-name/ prefix)
+        # so BASE_URL stays '/' and SITE_ORIGIN matches the canonical domain.
+        # For a project site instead, set:
+        #   BASE_URL: /${{ github.event.repository.name }}/
+        #   SITE_ORIGIN/VITE_SITE_ORIGIN: https://<user>.github.io/<repo>
         env:
-          BASE_URL: /${{ github.event.repository.name }}/
+          BASE_URL: /
+          SITE_ORIGIN: https://elephantology.github.io
+          VITE_SITE_ORIGIN: https://elephantology.github.io
         run: npm run build
 
       - name: Write .nojekyll (preserve _assets/ directory on Pages)
