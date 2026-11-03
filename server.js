@@ -75,13 +75,13 @@ const generalLimiter = rateLimit({
 app.use(generalLimiter);
 
 // In-memory cache for scanned markdown articles.
-// In production the docs/ tree is static (content ships with the build), so we scan once.
-// In development we re-scan when any .md file changes, using fs.watch instead of TTL polling.
+// The cache is invalidated via fs.watch when any .md file changes (dev and prod),
+// instead of periodically re-scanning the whole docs/ tree.
 let cachedArticles = null;
 let watcherStarted = false;
 
 function startDocsWatcher(docsDir) {
-  if (watcherStarted || isProd) return;
+  if (watcherStarted) return;
   watcherStarted = true;
   try {
     const watcher = fs.watch(docsDir, { recursive: true }, (_event, filename) => {
@@ -181,6 +181,13 @@ function getArticlesList() {
   return cachedArticles;
 }
 
+// Check whether an /article/<path> URL maps to an existing markdown document.
+function isKnownArticle(url) {
+  if (!url.startsWith('/article/')) return false;
+  const articlePath = decodeURIComponent(url.replace('/article/', '').split('?')[0].split('#')[0]) + '.md';
+  return getArticlesList().some(a => a.path.replace(/\\/g, '/') === articlePath);
+}
+
 // Minimal health check endpoint
 app.get('/healthz', (req, res) => {
   const distExists = fs.existsSync(path.resolve(__dirname, 'dist'));
@@ -278,30 +285,17 @@ function injectMetaTags(template, url) {
 // Docs static serving removed to allow Vite middleware to intercept import.meta.glob requests
 
 // PWA Static Assets & Service Worker
+// Legacy service worker cleanup: previously registered SW clients get unregistered.
 app.get('/sw.js', (req, res) => {
   res.set({
     'Content-Type': 'application/javascript',
     'Service-Worker-Allowed': '/',
     'Cache-Control': 'no-cache, no-store, must-revalidate'
   });
-  // Return a minimal service worker that unregisters itself to clean up legacy PWA
-  res.send(`
-    self.addEventListener('install', function(e) {
-      self.skipWaiting();
-    });
-    self.addEventListener('activate', function(e) {
-      self.registration.unregister()
-        .then(function() {
-          return self.clients.matchAll();
-        })
-        .then(function(clients) {
-          clients.forEach(client => client.navigate(client.url))
-        });
-    });
-  `);
+  res.send('self.addEventListener("install",e=>self.skipWaiting());self.addEventListener("activate",e=>{self.registration.unregister().then(()=>self.clients.matchAll()).then(cs=>cs.forEach(c=>c.navigate(c.url)))});');
 });
 
-app.get(['/manifest.json', '/manifest.webmanifest'], (req, res) => {
+app.get('/manifest.json', (req, res) => {
   res.set({
     'Content-Type': 'application/manifest+json',
     'Cache-Control': 'public, max-age=3600'
@@ -323,12 +317,21 @@ if (!isProd) {
   });
   app.use(vite.middlewares);
 
+  const renderDevHtml = async (url) => {
+    let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
+    template = await vite.transformIndexHtml(url, template);
+    return injectMetaTags(template, url);
+  };
+
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl;
     try {
-      let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
-      template = await vite.transformIndexHtml(url, template);
-      template = injectMetaTags(template, url);
+      // Unknown /article/* paths should behave like a real 404 instead of SPA fallback
+      if (url.startsWith('/article/') && !isKnownArticle(url)) {
+        const template = await renderDevHtml(url);
+        return res.status(404).set({ 'Content-Type': 'text/html' }).end(template);
+      }
+      const template = await renderDevHtml(url);
       res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
     } catch (e) {
       vite.ssrFixStacktrace(e);
@@ -342,15 +345,32 @@ if (!isProd) {
     etag: true,
     index: ['index.html']
   }));
+
+  // Cache the built HTML template; re-read only when it changes on disk.
+  let htmlTemplateCache = null;
+  let htmlTemplateMtime = 0;
+  const getIndexTemplate = () => {
+    const indexPath = path.resolve(__dirname, 'dist', 'index.html');
+    const stat = fs.statSync(indexPath);
+    if (!htmlTemplateCache || stat.mtimeMs !== htmlTemplateMtime) {
+      htmlTemplateCache = fs.readFileSync(indexPath, 'utf-8');
+      htmlTemplateMtime = stat.mtimeMs;
+    }
+    return htmlTemplateCache;
+  };
+
   app.use('*', (req, res) => {
     try {
-      const indexPath = path.resolve(__dirname, 'dist', 'index.html');
-      if (!fs.existsSync(indexPath)) {
+      const url = req.originalUrl;
+      const isArticle = url.startsWith('/article/');
+      // Unknown article paths and unknown non-asset paths get a real 404 status
+      // (still rendering the SPA shell so the client can show its own not-found UI).
+      const notFound = isArticle ? !isKnownArticle(url) : false;
+      if (!fs.existsSync(path.resolve(__dirname, 'dist', 'index.html'))) {
         return res.status(500).send('Production index.html not found. Please run build first.');
       }
-      let template = fs.readFileSync(indexPath, 'utf-8');
-      template = injectMetaTags(template, req.originalUrl);
-      res.status(200).set({ 'Content-Type': 'text/html' }).send(template);
+      const template = injectMetaTags(getIndexTemplate(), url);
+      res.status(notFound ? 404 : 200).set({ 'Content-Type': 'text/html' }).send(template);
     } catch (err) {
       logger.error({ err }, 'Error serving index.html');
       res.status(500).send('Internal Server Error');
