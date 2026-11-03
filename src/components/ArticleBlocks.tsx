@@ -2,9 +2,34 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import { ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, CheckCircle2, HelpCircle as HelpIcon, AlertTriangle, Layers, BookCheck, type LucideIcon } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { EvidenceBasisType } from '../types';
+
+// Shared sanitization schema: allows KaTeX output + footnote markup while
+// stripping scripts, event handlers (on*), and unsafe URLs. Use AFTER rehype-raw.
+export const markdownSanitizeSchema = {
+  ...defaultSchema,
+  attributes: {
+    ...defaultSchema.attributes,
+    div: [...(defaultSchema.attributes?.div ?? []), 'className', 'data*'],
+    span: [...(defaultSchema.attributes?.span ?? []), 'className', 'data*'],
+    sup: [...(defaultSchema.attributes?.sup ?? []), 'id', 'className'],
+    li: [...(defaultSchema.attributes?.li ?? []), 'id', 'className'],
+    ol: [...(defaultSchema.attributes?.ol ?? []), 'id', 'className'],
+    section: [...(defaultSchema.attributes?.section ?? []), 'id', 'className'],
+    a: [...(defaultSchema.attributes?.a ?? []), ['ariaDescribedBy', 'aria-describedby'], 'hrefLang'],
+    code: [...(defaultSchema.attributes?.code ?? []), 'className'],
+    pre: [...(defaultSchema.attributes?.pre ?? []), 'className']
+  },
+  tagNames: [
+    ...(defaultSchema.tagNames ?? []),
+    'sup', 'sub', 'mark', 'figure', 'figcaption', 'details', 'summary'
+  ]
+};
+
+export const markdownRehypePlugins = [rehypeRaw, [rehypeSanitize, markdownSanitizeSchema]] as any;
 
 interface EvidenceConfig {
   labelKey: 'established' | 'moderate' | 'limited' | 'hypothesis' | 'contested';
@@ -138,7 +163,7 @@ export function KeyFindingsBlock({ content }: { content: string }) {
       <div className="text-slate-200 text-sm leading-relaxed space-y-2">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeRaw]}
+          rehypePlugins={markdownRehypePlugins}
           components={{
             p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
             strong: ({ children }) => <strong className="font-semibold text-amber-200">{children}</strong>,

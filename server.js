@@ -21,7 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 app.use(compression());
 app.use(express.json());
@@ -31,6 +31,8 @@ app.use(helmet({
   contentSecurityPolicy: isProd ? {
     directives: {
       defaultSrc: ["'self'"],
+      // 'unsafe-inline' is required for injected JSON-LD schema blocks and Vite dev tooling.
+      // All dynamic values interpolated into HTML are escaped via escapeHtmlAttr() below.
       scriptSrc: ["'self'", "'unsafe-inline'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
@@ -54,7 +56,7 @@ app.use(helmet({
   hsts: isProd ? { maxAge: 31536000, includeSubDomains: true, preload: true } : false
 }));
 
-// Rate limiting specifically for article dynamic handling
+// Rate limiting for article dynamic handling (HTML responses that hit disk/cache)
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -63,10 +65,36 @@ const apiLimiter = rateLimit({
 });
 app.use('/article/', apiLimiter);
 
-// In-memory cache for scanned markdown articles
+// Basic hygiene limiter for all other requests (static assets get a generous page-load budget)
+const generalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 600,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use(generalLimiter);
+
+// In-memory cache for scanned markdown articles.
+// In production the docs/ tree is static (content ships with the build), so we scan once.
+// In development we re-scan when any .md file changes, using fs.watch instead of TTL polling.
 let cachedArticles = null;
-let lastCacheTime = 0;
-const CACHE_TTL_MS = 60 * 1000; // 60 seconds TTL
+let watcherStarted = false;
+
+function startDocsWatcher(docsDir) {
+  if (watcherStarted || isProd) return;
+  watcherStarted = true;
+  try {
+    const watcher = fs.watch(docsDir, { recursive: true }, (_event, filename) => {
+      if (!filename || filename.endsWith('.md')) {
+        cachedArticles = null; // invalidate on change
+      }
+    });
+    watcher.on('error', (err) => logger.warn({ err }, 'docs watcher disabled'));
+  } catch {
+    // Fallback for platforms where recursive watch is unsupported: refresh at most every 60s
+    setInterval(() => { cachedArticles = null; }, 60 * 1000).unref();
+  }
+}
 
 // Helper to recursively get all markdown files in docs
 function getMarkdownFiles(dir, baseDir = dir) {
@@ -145,11 +173,10 @@ function getMarkdownFiles(dir, baseDir = dir) {
 }
 
 function getArticlesList() {
-  const now = Date.now();
-  if (!cachedArticles || now - lastCacheTime > CACHE_TTL_MS) {
+  if (!cachedArticles) {
     const docsDir = path.resolve(__dirname, 'docs');
     cachedArticles = getMarkdownFiles(docsDir);
-    lastCacheTime = now;
+    startDocsWatcher(docsDir);
   }
   return cachedArticles;
 }
@@ -168,14 +195,28 @@ app.get('/healthz', (req, res) => {
 // API endpoint to get all articles metadata (Removed as part of SSG migration)
 // API endpoint to get single article content (Removed as part of SSG migration)
 
+// Escape a value for safe interpolation into an HTML attribute / text node.
+// Prevents meta-tag/HTML injection from untrusted YAML frontmatter content.
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 function cleanDescriptionText(raw) {
   if (!raw) return '';
-  return raw
+  const text = raw
     .replace(/[\r\n#*_`>~\[\]\(\)\-\+]/g, ' ')
     .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 160);
+    .trim();
+  // Truncate at word boundary to avoid cutting words in half
+  if (text.length <= 160) return text;
+  const cut = text.slice(0, 160);
+  const lastSpace = cut.lastIndexOf(' ');
+  return (lastSpace > 100 ? cut.slice(0, lastSpace) : cut) + '…';
 }
 
 function injectMetaTags(template, url) {
@@ -187,11 +228,9 @@ function injectMetaTags(template, url) {
     const article = articles.find(a => a.path.replace(/\\/g, '/') === articlePath);
     
     if (article) {
-      const title = (article.title || articlePath.replace('.md', '')) + ' — Слонология';
-      const cleanDesc = cleanDescriptionText(article.excerpt || article.content) || 'Читайте академическую статью в энциклопедии Слонология.';
-      const lang = article.lang || 'ru';
+      const title = escapeHtml((article.title || articlePath.replace('.md', '')) + ' — Слонология');
+      const cleanDesc = escapeHtml(cleanDescriptionText(article.excerpt || article.content) || 'Читайте академическую статью в энциклопедии Слонология.');
 
-      template = template.replace(/<html\s+lang=["'][^"']*["']/i, `<html lang="${lang}"`);
       template = template.replace(
         /<title>.*?<\/title>/i,
         `<title>${title}</title>`
@@ -216,7 +255,7 @@ function injectMetaTags(template, url) {
       const articleUrl = `${fallbackDomain}${url}`;
       const meta = {
         title: article.title,
-        description: cleanDesc,
+        description: cleanDescriptionText(article.excerpt || article.content),
         category: article.category,
         tags: article.tags || []
       };
@@ -227,7 +266,7 @@ function injectMetaTags(template, url) {
   }
   
   // Update OG URL in all cases
-  const fullUrl = `${fallbackDomain}${url}`;
+  const fullUrl = escapeHtml(`${fallbackDomain}${url}`);
   template = template.replace(
     /<meta property="og:url"[^>]*>/i,
     `<meta property="og:url" id="og-url" content="${fullUrl}">`

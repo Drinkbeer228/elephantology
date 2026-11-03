@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
 import {
   ChevronRight,
   BookOpen,
@@ -28,7 +29,7 @@ import {
 import { parseFrontmatter } from '../lib/markdown';
 import { MODULES_CACHE, getStaticArticles, resolveArticlePath } from '../lib/articles';
 import { ArticleItem } from '../lib/searchEngine';
-import { EvidenceBadge, EditorialStatusBlock } from './ArticleBlocks';
+import { EvidenceBadge, EditorialStatusBlock, markdownSanitizeSchema } from './ArticleBlocks';
 import { useLanguage } from '../i18n/LanguageContext';
 import { ARTICLE_TRANSLATIONS_EN } from '../lib/articleTranslations';
 import { translateMarkdownToEnglish } from '../lib/translateMarkdown';
@@ -781,7 +782,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             <div className="text-gray-200 text-sm leading-relaxed space-y-2">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm, remarkMath]}
-                rehypePlugins={[rehypeKatex, rehypeRaw]}
+                rehypePlugins={[rehypeRaw, [rehypeSanitize, markdownSanitizeSchema], rehypeKatex] as any}
                 components={{
                   p: ({ node, ...props }) => <p className="mb-2 last:mb-0 text-gray-200" {...props} />,
                   ul: ({ node, ...props }) => <ul className="list-disc list-inside space-y-1.5 my-2 text-gray-300 text-xs sm:text-sm" {...props} />,
@@ -799,7 +800,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
         <div className="academic-article-prose text-gray-300 leading-relaxed">
           <ReactMarkdown
             remarkPlugins={[remarkGfm, remarkMath]}
-            rehypePlugins={[rehypeKatex, rehypeRaw]}
+            rehypePlugins={[rehypeRaw, [rehypeSanitize, markdownSanitizeSchema], rehypeKatex] as any}
             components={{
               h2: ({ node, ...props }) => (
                 <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white mt-10 mb-4 pb-2 border-b border-white/10" {...props} />

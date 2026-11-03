@@ -198,7 +198,9 @@ export function generateSchemaJsonLd(meta, url, includeWebSite = false) {
     });
   }
 
-  return `<script type="application/ld+json">\n${JSON.stringify(schemas, null, 2)}\n</script>`;
+  // Escape `</` sequences so article content can never break out of the <script> block.
+  const safeJson = JSON.stringify(schemas, null, 2).replace(/</g, '\\u003c');
+  return `<script type="application/ld+json">\n${safeJson}\n</script>`;
 }
 
 // CLI implementation for Sitemap Generation
