@@ -40,11 +40,10 @@ app.use(helmet({
       connectSrc: ["'self'", "https:"],
       frameAncestors: [
         "'self'",
-        "https://aistudio.google.com",
-        "https://ai.studio",
-        "https://*.google.com",
-        "https://*.googleusercontent.com",
-        "https://*.usercontent.goog",
+        // Allow embedding from our own staging/preview hosts only.
+        // Google AI Studio origins were removed after migration to GitHub.
+        "https://*.github.io",
+        "https://*.pages.dev",
         "https://*.run.app"
       ]
     }
@@ -227,7 +226,9 @@ function cleanDescriptionText(raw) {
 }
 
 function injectMetaTags(template, url) {
-  const fallbackDomain = process.env.PROJECT_DOMAIN ? `https://${process.env.PROJECT_DOMAIN}` : CANONICAL_DOMAIN;
+  const fallbackDomain = process.env.SITE_ORIGIN
+    ?? (process.env.PROJECT_DOMAIN ? `https://${process.env.PROJECT_DOMAIN}` : undefined)
+    ?? CANONICAL_DOMAIN;
 
   if (url.startsWith('/article/')) {
     const articlePath = url.replace('/article/', '') + '.md';

@@ -4,7 +4,9 @@
  */
 
 export const SITE_CONFIG = {
-  domain: 'https://elephantology.ai.studio',
+  // Canonical origin used for og/canonical fallbacks. Override via VITE_SITE_ORIGIN
+  // at build time when deploying elsewhere (e.g. https://user.github.io/repo).
+  domain: import.meta.env.VITE_SITE_ORIGIN || 'https://elephantology.github.io',
   name: 'Слонология',
   nameEn: 'Elephantology',
   title: '«Слонология» | Академическая цифровая энциклопедия о слонах',
@@ -14,8 +16,8 @@ export const SITE_CONFIG = {
   publisher: {
     name: 'Академическая Лига Слонологии',
     nameEn: 'Elephantology Research Guild',
-    url: 'https://elephantology.ai.studio',
-    logo: 'https://elephantology.ai.studio/icons/icon.svg'
+    url: 'https://elephantology.github.io',
+    logo: 'https://elephantology.github.io/icons/icon.svg'
   },
-  defaultOgImage: 'https://elephantology.ai.studio/assets/images/og-home-elephants.jpg'
+  defaultOgImage: 'https://elephantology.github.io/assets/images/og-home-elephants.jpg'
 };

@@ -67,6 +67,8 @@ async function prerenderFile(file) {
     // Prepare SEO meta tags & Structured Data (JSON-LD)
     const title = meta.title ? `${meta.title} | Слонология` : `${fallbackTitle} | Слонология`;
     const description = meta.description || 'Академическая цифровая энциклопедия о слонах (Elephantidae).';
+    // og:image only if a real asset exists (old ai.studio image was lost in migration)
+    const hasOgImage = fs.existsSync(path.join(distDir, 'assets', 'images', 'og-home-elephants.jpg'));
     const ogImage = `${domain}/assets/images/og-home-elephants.jpg`;
     
     const jsonLdScript = generateSchemaJsonLd(meta, fullUrl);
@@ -82,11 +84,11 @@ async function prerenderFile(file) {
       <meta property="og:description" content="${description}">
       <meta property="og:url" content="${fullUrl}">
       <meta property="og:type" content="article">
-      <meta property="og:image" content="${ogImage}">
+      ${hasOgImage ? `<meta property="og:image" content="${ogImage}">` : ''}
       <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:title" content="${title}">
       <meta name="twitter:description" content="${description}">
-      <meta name="twitter:image" content="${ogImage}">
+      ${hasOgImage ? `<meta name="twitter:image" content="${ogImage}">` : ''}
       ${jsonLdScript}
     `;
     

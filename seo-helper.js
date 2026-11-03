@@ -2,7 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import { load } from 'js-yaml';
 
-export const CANONICAL_DOMAIN = 'https://elephantology.ai.studio';
+// Canonical domain for SEO (sitemap, og tags). Override via env for other hosts.
+// Default: GitHub Pages user-site root — works when the repo is published at
+// https://<user>.github.io/. For project sites set SITE_ORIGIN explicitly,
+// e.g. https://<user>.github.io/<repo> in the deploy workflow.
+export const CANONICAL_DOMAIN = process.env.SITE_ORIGIN || 'https://elephantology.github.io';
 
 export function isValidDate(str) {
   if (typeof str !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(str)) return false;

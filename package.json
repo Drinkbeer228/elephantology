@@ -5,9 +5,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js",
-    "build": "vite build && node seo-helper.js --docs=./docs --domain=https://elephantology.ai.studio --out=./dist/sitemap.xml && node prerender.js",
+    "dev": "node --env-file-if-exists=.env server.js",
+    "start": "node --env-file-if-exists=.env server.js",
+    "build": "vite build && node seo-helper.js --docs=./docs --out=./dist/sitemap.xml && node prerender.js",
     "lint": "eslint . && npm run typecheck",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
