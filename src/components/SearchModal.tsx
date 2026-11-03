@@ -389,7 +389,7 @@ export function SearchModal() {
           <p id="search-desc" className="sr-only">
             {lang === 'en' ? 'Search through academic knowledge base of Elephantology' : 'Поиск по академической базе знаний Слонологии'}
           </p>
-          <Search className="w-5 h-5 text-kingdom-gold shrink-0" />
+          <Search className="w-5 h-5 text-brand-blue shrink-0" />
           <input 
             ref={inputRef}
             type="text" 
@@ -420,7 +420,7 @@ export function SearchModal() {
             onClick={() => setShowAdvancedFilters(prev => !prev)}
             className={`px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
               showAdvancedFilters || activeAdvancedFiltersCount > 0
-                ? 'bg-kingdom-gold/15 text-kingdom-gold border-kingdom-gold/40 shadow-sm'
+                ? 'bg-brand-blue/15 text-brand-blue border-brand-blue/40 shadow-sm'
                 : 'bg-[#1f222e] text-gray-300 hover:text-white border-white/10'
             }`}
             title={lang === 'en' ? 'Filter settings' : 'Параметры фильтрации'}
@@ -428,7 +428,7 @@ export function SearchModal() {
             <SlidersHorizontal className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">{lang === 'en' ? 'Filters' : 'Фильтры'}</span>
             {activeAdvancedFiltersCount > 0 && (
-              <span className="w-4 h-4 rounded-full bg-kingdom-gold text-black text-[10px] font-extrabold flex items-center justify-center">
+              <span className="w-4 h-4 rounded-full bg-brand-blue text-black text-[10px] font-extrabold flex items-center justify-center">
                 {activeAdvancedFiltersCount}
               </span>
             )}
@@ -448,7 +448,7 @@ export function SearchModal() {
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <span className="text-[11px] uppercase tracking-wider text-gray-400 font-semibold flex items-center gap-1.5">
-                <ListFilter className="w-3.5 h-3.5 text-kingdom-gold" /> {lang === 'en' ? 'Categories' : 'Категории'}
+                <ListFilter className="w-3.5 h-3.5 text-brand-blue" /> {lang === 'en' ? 'Categories' : 'Категории'}
               </span>
               <span className="text-[10px] text-gray-500 font-mono">({disciplines.length - 1})</span>
             </div>
@@ -456,7 +456,7 @@ export function SearchModal() {
             {selectedCategory !== 'all' && (
               <button
                 onClick={() => setSelectedCategory('all')}
-                className="text-[11px] text-kingdom-gold hover:underline transition-colors cursor-pointer font-medium"
+                className="text-[11px] text-brand-blue hover:underline transition-colors cursor-pointer font-medium"
               >
                 {t.catalog.allCategories}
               </button>
@@ -476,7 +476,7 @@ export function SearchModal() {
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer border ${
                     isSelected
-                      ? 'bg-kingdom-gold text-black font-bold border-kingdom-gold shadow-sm'
+                      ? 'bg-brand-blue text-black font-bold border-brand-blue shadow-sm'
                       : 'bg-[#1b1e29] text-gray-300 hover:text-white hover:bg-[#252938] border-white/5'
                   }`}
                 >
@@ -496,13 +496,13 @@ export function SearchModal() {
         <div className="bg-[#101217] border-b border-white/5 p-3 sm:p-3.5 space-y-2">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5 text-[11px] text-gray-400">
-              <Tag className="w-3 h-3 text-kingdom-gold/70" />
+              <Tag className="w-3 h-3 text-brand-blue/70" />
               <span className="font-semibold uppercase tracking-wider text-[10px]">{lang === 'en' ? 'Thematic tags:' : 'Тематические теги:'}</span>
             </div>
             {popularTags.length > 20 && (
               <button
                 onClick={() => setExpandTags(prev => !prev)}
-                className="text-[10px] text-gray-400 hover:text-kingdom-gold transition-colors cursor-pointer font-medium"
+                className="text-[10px] text-gray-400 hover:text-brand-blue transition-colors cursor-pointer font-medium"
               >
                 {expandTags ? (lang === 'en' ? 'Collapse tags' : 'Свернуть теги') : (lang === 'en' ? `Show all (${popularTags.length})` : `Показать все (${popularTags.length})`)}
               </button>
@@ -518,8 +518,8 @@ export function SearchModal() {
                   onClick={() => setSelectedTag(prev => prev === tag ? null : tag)}
                   className={`px-2.5 py-1 rounded-md transition-all font-mono text-[11px] cursor-pointer border ${
                     isSelected
-                      ? 'bg-kingdom-gold text-black font-bold border-kingdom-gold shadow-sm'
-                      : 'bg-[#181a23] text-gray-400 hover:text-kingdom-gold hover:bg-[#222532] border-white/5'
+                      ? 'bg-brand-blue text-black font-bold border-brand-blue shadow-sm'
+                      : 'bg-[#181a23] text-gray-400 hover:text-brand-blue hover:bg-[#222532] border-white/5'
                   }`}
                 >
                   #{tag}
@@ -540,7 +540,7 @@ export function SearchModal() {
               <select
                 value={selectedEvidence}
                 onChange={(e) => setSelectedEvidence(e.target.value)}
-                className="w-full bg-[#1e212d] text-gray-200 border border-[#34384a] rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-kingdom-gold cursor-pointer"
+                className="w-full bg-[#1e212d] text-gray-200 border border-[#34384a] rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-brand-blue cursor-pointer"
               >
                 {evidenceLevels.map(lvl => (
                   <option key={lvl.id} value={lvl.id}>{lvl.label}</option>
@@ -556,7 +556,7 @@ export function SearchModal() {
               <select
                 value={selectedReadingTime}
                 onChange={(e) => setSelectedReadingTime(e.target.value)}
-                className="w-full bg-[#1e212d] text-gray-200 border border-[#34384a] rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-kingdom-gold cursor-pointer"
+                className="w-full bg-[#1e212d] text-gray-200 border border-[#34384a] rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-brand-blue cursor-pointer"
               >
                 {readingTimes.map(rt => (
                   <option key={rt.id} value={rt.id}>{rt.label}</option>
@@ -567,12 +567,12 @@ export function SearchModal() {
             {/* Sorting */}
             <div className="space-y-1">
               <label className="text-[11px] text-gray-400 font-medium flex items-center gap-1">
-                <SlidersHorizontal className="w-3.5 h-3.5 text-kingdom-gold" /> {lang === 'en' ? 'Sort:' : 'Сортировка:'}
+                <SlidersHorizontal className="w-3.5 h-3.5 text-brand-blue" /> {lang === 'en' ? 'Sort:' : 'Сортировка:'}
               </label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full bg-[#1e212d] text-gray-200 border border-[#34384a] rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-kingdom-gold cursor-pointer"
+                className="w-full bg-[#1e212d] text-gray-200 border border-[#34384a] rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-brand-blue cursor-pointer"
               >
                 {sortOptions.map(opt => (
                   <option key={opt.id} value={opt.id}>{opt.label}</option>
@@ -590,18 +590,18 @@ export function SearchModal() {
         >
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-gray-300">
-              {lang === 'en' ? 'Articles found:' : 'Найдено статей:'} <strong className="text-kingdom-gold font-bold text-xs">{results.length}</strong> {lang === 'en' ? 'of' : 'из'} {articles.length}
+              {lang === 'en' ? 'Articles found:' : 'Найдено статей:'} <strong className="text-brand-blue font-bold text-xs">{results.length}</strong> {lang === 'en' ? 'of' : 'из'} {articles.length}
             </span>
 
             {selectedCategory !== 'all' && (
-              <span className="inline-flex items-center gap-1.5 bg-[#222634] text-kingdom-gold px-2.5 py-0.5 rounded-lg border border-kingdom-gold/30 font-medium">
+              <span className="inline-flex items-center gap-1.5 bg-[#222634] text-brand-blue px-2.5 py-0.5 rounded-lg border border-brand-blue/30 font-medium">
                 {getCategoryLabel(selectedCategory)}
                 <button onClick={() => setSelectedCategory('all')} className="hover:text-white cursor-pointer"><X className="w-3 h-3" /></button>
               </span>
             )}
 
             {selectedTag && (
-              <span className="inline-flex items-center gap-1 bg-kingdom-gold/15 text-kingdom-gold px-2 py-0.5 rounded-md border border-kingdom-gold/30 font-mono">
+              <span className="inline-flex items-center gap-1 bg-brand-blue/15 text-brand-blue px-2 py-0.5 rounded-md border border-brand-blue/30 font-mono">
                 #{selectedTag}
                 <button onClick={() => setSelectedTag(null)} className="hover:text-white cursor-pointer"><X className="w-3 h-3" /></button>
               </span>
@@ -626,7 +626,7 @@ export function SearchModal() {
             <button
               id="btn-reset-all-filters"
               onClick={resetAllFilters}
-              className="inline-flex items-center gap-1 text-[11px] text-gray-400 hover:text-kingdom-gold transition-colors cursor-pointer font-medium"
+              className="inline-flex items-center gap-1 text-[11px] text-gray-400 hover:text-brand-blue transition-colors cursor-pointer font-medium"
             >
               <RotateCcw className="w-3 h-3" />
               <span>{lang === 'en' ? 'Reset all' : 'Сбросить все'}</span>
@@ -650,7 +650,7 @@ export function SearchModal() {
               </p>
               <button 
                 onClick={resetAllFilters}
-                className="mt-2 px-4 py-2 bg-[#202330] hover:bg-[#2a2e40] text-kingdom-gold border border-[#34384a] rounded-xl text-xs font-bold transition-all cursor-pointer inline-flex items-center gap-2 shadow-sm"
+                className="mt-2 px-4 py-2 bg-[#202330] hover:bg-[#2a2e40] text-brand-blue border border-[#34384a] rounded-xl text-xs font-bold transition-all cursor-pointer inline-flex items-center gap-2 shadow-sm"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 {lang === 'en' ? 'Reset all parameters' : 'Сбросить все параметры'}
@@ -669,14 +669,14 @@ export function SearchModal() {
                   onMouseEnter={() => setSelectedIndex(idx)}
                   className={`p-3.5 pt-4 rounded-xl cursor-pointer border transition-all group flex items-start justify-between gap-3 ${
                     isKeyboardSelected 
-                      ? 'bg-[#222533] border-kingdom-gold/50 shadow-md ring-1 ring-kingdom-gold/20' 
-                      : 'bg-[#181a24]/70 hover:bg-[#1f2230] border-transparent hover:border-kingdom-gold/30'
+                      ? 'bg-[#222533] border-brand-blue/50 shadow-md ring-1 ring-brand-blue/20' 
+                      : 'bg-[#181a24]/70 hover:bg-[#1f2230] border-transparent hover:border-brand-blue/30'
                   }`}
                 >
                   <div className="flex-1 min-w-0 space-y-1.5">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs sm:text-sm font-bold text-white group-hover:text-kingdom-gold transition-colors flex items-center gap-1.5">
-                        <BookOpen className="w-3.5 h-3.5 text-kingdom-gold shrink-0" />
+                      <span className="text-xs sm:text-sm font-bold text-white group-hover:text-brand-blue transition-colors flex items-center gap-1.5">
+                        <BookOpen className="w-3.5 h-3.5 text-brand-blue shrink-0" />
                         {highlightMatch(article.title, query)}
                       </span>
                     </div>
@@ -688,7 +688,7 @@ export function SearchModal() {
                     )}
 
                     <div className="flex items-center gap-2 pt-1 flex-wrap">
-                      <span className="text-[10px] font-semibold text-kingdom-gold/90 bg-kingdom-gold/10 px-2 py-0.5 rounded border border-kingdom-gold/20">
+                      <span className="text-[10px] font-semibold text-brand-blue/90 bg-brand-blue/10 px-2 py-0.5 rounded border border-brand-blue/20">
                         {getCategoryLabel(article.category)}
                       </span>
 
@@ -709,7 +709,7 @@ export function SearchModal() {
                     </div>
                   </div>
 
-                  <div className="shrink-0 pt-1 text-gray-500 group-hover:text-kingdom-gold group-hover:translate-x-1 transition-all">
+                  <div className="shrink-0 pt-1 text-gray-500 group-hover:text-brand-blue group-hover:translate-x-1 transition-all">
                     <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>

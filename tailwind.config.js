@@ -14,6 +14,11 @@ export default {
         sans: ['Plus Jakarta Sans', 'sans-serif'],
       },
       colors: {
+        brand: {
+          blue: '#0593C6',   // небесно-голубой — основной акцент
+          pink: '#D83996',   // фуксия — вторичный акцент
+          bg: '#FCFFFF',     // чисто-белый фон светлой темы
+        },
         kingdom: {
           bg: '#121318',
           card: '#1b1d24',

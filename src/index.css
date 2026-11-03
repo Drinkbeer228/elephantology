@@ -2,20 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   Liquid Glass + Stepik design tokens (v2 palette)
+   brand-blue  #0593C6 · brand-pink #D83996 · brand-bg #FCFFFF
+   ============================================================ */
 :root {
   color-scheme: dark;
-  background-color: #121318;
-  color: #e2e8f0;
+  --brand-blue: #0593C6;
+  --brand-pink: #D83996;
+  --brand-gradient: linear-gradient(90deg, #0593C6 0%, #D83996 100%);
+  /* Тёмная тема — базовые значения (текущая тема приложения по умолчанию) */
+  --page-bg: #0f172a;            /* глубокий slate-900 вместо серого #121318 */
+  --page-fg: #e2e8f0;            /* slate-200 — WCAG AA на --page-bg */
+  --card-bg: rgba(30, 41, 59, 0.8);   /* bg-slate-800/80 — liquid glass */
+  --card-border: #334155;             /* slate-700 — контрастная граница карточек */
+  --muted-fg: #cbd5e1;                /* slate-300 — подписи не темнее AA */
 }
 
 html, body, #root {
   min-height: 100%;
-  background-color: #121318 !important;
-  color: #e2e8f0;
+  background-color: var(--page-bg) !important;
+  color: var(--page-fg);
+}
+
+/* ---------- Reusable component classes ---------- */
+@layer components {
+  /* Залитая градиентная кнопка (Следующий шаг / Завершить тест / дашборд) */
+  .btn-brand-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white transition-all duration-200;
+    background-image: var(--brand-gradient);
+    box-shadow: 0 1px 2px rgba(5, 147, 198, 0.35), 0 4px 14px rgba(216, 57, 150, 0.25);
+  }
+  .btn-brand-primary:hover {
+    filter: brightness(1.08);
+    box-shadow: 0 2px 4px rgba(5, 147, 198, 0.4), 0 8px 22px rgba(216, 57, 150, 0.32);
+    transform: translateY(-1px);
+  }
+  .btn-brand-primary:active { transform: translateY(0); filter: brightness(0.95); }
+  .btn-brand-primary:disabled { opacity: 0.45; filter: grayscale(0.3); cursor: not-allowed; transform: none; }
+
+  /* Прогресс-бар: контрастная градиентная полоса */
+  .progress-brand {
+    background-image: var(--brand-gradient);
+    border-radius: 9999px;
+  }
+
+  /* Liquid-glass карточка */
+  .glass-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 2px 10px rgba(0, 0, 0, 0.25);
+  }
 }
 
 .markdown-body {
-  @apply text-gray-300 leading-relaxed text-sm;
+  @apply leading-relaxed text-sm;
+  color: var(--page-fg);
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;

@@ -24,8 +24,10 @@ import {
   HelpCircle as HelpIcon,
   Scale,
   Languages,
-  Sparkles
+  Sparkles,
+
 } from 'lucide-react';
+import { StepTabs, stepSlug, classifyStep } from './StepTabs';
 import { parseFrontmatter } from '../lib/markdown';
 import { MODULES_CACHE, getStaticArticles, resolveArticlePath } from '../lib/articles';
 import { EvidenceBadge, EditorialStatusBlock, markdownSanitizeSchema } from './ArticleBlocks';
@@ -135,7 +137,7 @@ function collapseCitationNodes(nodes: React.ReactNode[]): React.ReactNode[] {
     const badgeElements: React.ReactNode[] = [];
     ranges.forEach((range, rIdx) => {
       if (rIdx > 0) {
-        badgeElements.push(<span key={`sep-${rIdx}`} className="text-kingdom-gold/50 mx-0.5 font-bold">, </span>);
+        badgeElements.push(<span key={`sep-${rIdx}`} className="text-brand-blue/50 mx-0.5 font-bold">, </span>);
       }
 
       if (range.length >= 3) {
@@ -144,14 +146,14 @@ function collapseCitationNodes(nodes: React.ReactNode[]): React.ReactNode[] {
         badgeElements.push(
           <span key={`range-${start.num}-${end.num}`} className="inline-flex items-center">
             {React.cloneElement(start.element, { key: `cite-${start.num}` })}
-            <span className="text-kingdom-gold/70 px-0.5 font-bold">–</span>
+            <span className="text-brand-blue/70 px-0.5 font-bold">–</span>
             {React.cloneElement(end.element, { key: `cite-${end.num}` })}
           </span>
         );
       } else {
         range.forEach((item, itemIdx) => {
           if (itemIdx > 0) {
-            badgeElements.push(<span key={`sep-inner-${rIdx}-${itemIdx}`} className="text-kingdom-gold/50 mx-0.5 font-bold">, </span>);
+            badgeElements.push(<span key={`sep-inner-${rIdx}-${itemIdx}`} className="text-brand-blue/50 mx-0.5 font-bold">, </span>);
           }
           badgeElements.push(React.cloneElement(item.element, { key: `cite-${item.num}-${itemIdx}` }));
         });
@@ -162,11 +164,11 @@ function collapseCitationNodes(nodes: React.ReactNode[]): React.ReactNode[] {
       <sup
         key={`grouped-sup-${currentGroup.map(g => g.num).join('-')}`}
         id={`group-${currentGroup.map(g => g.num).join('-')}`}
-        className="inline-flex items-center text-[11px] font-mono font-medium px-1.5 py-0.5 mx-1 rounded-md bg-kingdom-gold/15 border border-kingdom-gold/30 text-kingdom-gold select-none align-super hover:bg-kingdom-gold/25 transition-colors"
+        className="inline-flex items-center text-[11px] font-mono font-medium px-1.5 py-0.5 mx-1 rounded-md bg-brand-blue/15 border border-brand-blue/30 text-brand-blue select-none align-super hover:bg-brand-blue/25 transition-colors"
       >
-        <span className="text-kingdom-gold/60 font-bold mr-0.5">[</span>
+        <span className="text-brand-blue/60 font-bold mr-0.5">[</span>
         {badgeElements}
-        <span className="text-kingdom-gold/60 font-bold ml-0.5">]</span>
+        <span className="text-brand-blue/60 font-bold ml-0.5">]</span>
       </sup>
     );
 
@@ -252,22 +254,22 @@ function consolidateFootnoteItem(content: React.ReactNode, isEn: boolean): React
         targetSup.classList.add(
           'ring-2',
           'ring-kingdom-gold',
-          'bg-kingdom-gold/30',
+          'bg-brand-blue/30',
           'shadow-[0_0_16px_rgba(212,175,55,0.7)]'
         );
         const parentParagraph = targetEl.closest('p');
         if (parentParagraph) {
-          parentParagraph.classList.add('bg-kingdom-gold/10', 'ring-1', 'ring-kingdom-gold/30', 'rounded-lg');
+          parentParagraph.classList.add('bg-brand-blue/10', 'ring-1', 'ring-kingdom-gold/30', 'rounded-lg');
         }
         setTimeout(() => {
           targetSup.classList.remove(
             'ring-2',
             'ring-kingdom-gold',
-            'bg-kingdom-gold/30',
+            'bg-brand-blue/30',
             'shadow-[0_0_16px_rgba(212,175,55,0.7)]'
           );
           if (parentParagraph) {
-            parentParagraph.classList.remove('bg-kingdom-gold/10', 'ring-1', 'ring-kingdom-gold/30', 'rounded-lg');
+            parentParagraph.classList.remove('bg-brand-blue/10', 'ring-1', 'ring-kingdom-gold/30', 'rounded-lg');
           }
         }, 2500);
       }
@@ -307,7 +309,7 @@ function consolidateFootnoteItem(content: React.ReactNode, isEn: boolean): React
           data-footnote-backref="true"
           title={isEn ? 'Jump to cited location in article text' : 'Перейти к месту цитирования в тексте статьи'}
           onClick={(e) => handleJumpToMention(e, originalHref)}
-          className="inline-flex items-center justify-center w-5 h-5 ml-2 text-kingdom-gold hover:text-amber-200 font-sans text-xs font-bold rounded bg-kingdom-gold/15 hover:bg-kingdom-gold/25 border border-kingdom-gold/40 hover:border-kingdom-gold/60 shadow-xs transition-all duration-150 cursor-pointer no-underline select-none align-middle"
+          className="inline-flex items-center justify-center w-5 h-5 ml-2 text-brand-blue hover:text-amber-200 font-sans text-xs font-bold rounded bg-brand-blue/15 hover:bg-brand-blue/25 border border-brand-blue/40 hover:border-brand-blue/60 shadow-xs transition-all duration-150 cursor-pointer no-underline select-none align-middle"
         >
           ↑
         </a>
@@ -320,7 +322,7 @@ function consolidateFootnoteItem(content: React.ReactNode, isEn: boolean): React
     <div className="w-full text-xs text-gray-300 leading-relaxed">
       <span className="inline leading-relaxed break-words">{cleanedContent}</span>
       <span className="inline-flex flex-wrap items-center gap-1 text-xs ml-2 select-none align-middle py-0.5">
-        <span className="text-kingdom-gold font-bold text-xs select-none mr-0.5">↑</span>
+        <span className="text-brand-blue font-bold text-xs select-none mr-0.5">↑</span>
         {allBackrefs.map((br, idx) => {
           const originalHref: string = (br.props as any)?.href || '';
           return (
@@ -330,7 +332,7 @@ function consolidateFootnoteItem(content: React.ReactNode, isEn: boolean): React
               data-footnote-backref="true"
               title={isEn ? `Jump to mention #${idx + 1} in article text` : `Перейти к месту цитирования #${idx + 1} в тексте статьи`}
               onClick={(e) => handleJumpToMention(e, originalHref)}
-              className="inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded bg-kingdom-gold/15 hover:bg-kingdom-gold/30 border border-kingdom-gold/40 hover:border-kingdom-gold/70 text-kingdom-gold hover:text-amber-100 font-mono text-[11px] font-bold shadow-xs transition-all duration-150 cursor-pointer no-underline"
+              className="inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded bg-brand-blue/15 hover:bg-brand-blue/30 border border-brand-blue/40 hover:border-brand-blue/70 text-brand-blue hover:text-amber-100 font-mono text-[11px] font-bold shadow-xs transition-all duration-150 cursor-pointer no-underline"
             >
               {idx + 1}
             </a>
@@ -348,6 +350,19 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [readProgress, setReadProgress] = useState(0);
+
+  // Прогресс прочтения статьи (для градиентного прогресс-бара)
+  useEffect(() => {
+    const onScroll = () => {
+      const doc = document.documentElement;
+      const total = doc.scrollHeight - window.innerHeight;
+      setReadProgress(total > 0 ? Math.min(100, Math.max(0, (window.scrollY / total) * 100)) : 0);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const categoryDict = isEn ? CATEGORY_MAP_EN : CATEGORY_MAP_RU;
 
@@ -391,7 +406,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   }, [lang, pathPart]);
 
   // Related articles computed dynamically from lang, meta, and path
-  const relatedArticles = useMemo(() => {
+    const relatedArticles = useMemo(() => {
     try {
       const allArticles = getStaticArticles(lang);
       const categoryMatches = allArticles.filter(
@@ -416,6 +431,23 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
       return [];
     }
   }, [lang, meta.category, meta.tags, pathPart]);
+
+  // StepTabs: шаги урока из заголовков h2 чистого тела статьи (контент не меняется)
+  const lessonSteps = useMemo(() => {
+    const seen = new Set<string>();
+    const steps: { id: string; title: string; kind: ReturnType<typeof classifyStep> }[] = [];
+    for (const line of rawCleanBody.split('\n')) {
+      const m = /^##\s+(.+?)\s*#*\s*$/.exec(line);
+      if (!m) continue;
+      const title = m[1].replace(/[*_`]/g, '').trim();
+      if (!title) continue;
+      let id = stepSlug(title);
+      if (seen.has(id)) id = `${id}-${steps.length}`;
+      seen.add(id);
+      steps.push({ id, title, kind: classifyStep(title) });
+    }
+    return steps;
+  }, [rawCleanBody]);
 
   // Load raw article markdown content only on path changes
   useEffect(() => {
@@ -607,12 +639,12 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
         <h2 className="text-xl font-bold text-slate-100 mb-2">
           {isEn ? 'Article Not Found' : 'Статья не найдена'}
         </h2>
-        <p className="text-sm text-gray-400 mb-6">
+        <p className="text-sm text-slate-300 mb-6">
           {isEn ? 'The requested academic material does not exist or has been moved.' : 'Запрошенный академический материал не существует или был перемещен.'}
         </p>
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#202330] text-kingdom-gold border border-white/10 hover:border-kingdom-gold/40 rounded-xl text-xs font-semibold hover:bg-[#282c3c] transition-all cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-[#202330] text-brand-blue border border-white/10 hover:border-brand-blue/40 rounded-xl text-xs font-semibold hover:bg-[#282c3c] transition-all cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>{t.article.back}</span>
@@ -628,14 +660,25 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   const referencesList = meta.references || [];
 
   return (
-    <article className="w-full pb-20 pt-2 selection:bg-kingdom-gold selection:text-black">
+    <article className="w-full pb-20 pt-2 selection:bg-brand-blue selection:text-white">
+
+      {/* Reading progress — контрастный градиентный прогресс-бар #0593C6 → #D83996 */}
+      <div
+        className="fixed top-16 left-0 right-0 z-[60] h-0.5 bg-transparent pointer-events-none"
+        aria-hidden
+      >
+        <div
+          className="progress-brand h-full transition-[width] duration-150 ease-out"
+          style={{ width: `${readProgress}%` }}
+        />
+      </div>
       
       {/* 1. Breadcrumbs & Top Navigation Bar */}
-      <div className="max-w-[720px] mx-auto px-4 sm:px-0 mb-8 flex items-center justify-between gap-3 text-xs text-gray-400 border-b border-[#34384a] pb-4">
+      <div className="max-w-[720px] mx-auto px-4 sm:px-0 mb-8 flex items-center justify-between gap-3 text-xs text-slate-300 border-b border-slate-700 pb-4">
         <nav aria-label="Breadcrumbs" className="flex items-center gap-1.5 flex-wrap min-w-0">
           <button
             onClick={onBack}
-            className="hover:text-kingdom-gold transition-colors flex items-center gap-1 font-medium cursor-pointer"
+            className="hover:text-brand-blue transition-colors flex items-center gap-1 font-medium cursor-pointer"
           >
             <BookOpen className="w-3.5 h-3.5" />
             <span>{t.catalog.title}</span>
@@ -653,12 +696,12 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             onClick={toggleLanguage}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border transition-all cursor-pointer text-xs font-medium ${
               isEn 
-                ? 'bg-kingdom-gold/20 text-kingdom-gold border-kingdom-gold/40 shadow-sm' 
+                ? 'bg-brand-blue/20 text-brand-blue border-brand-blue/40 shadow-sm' 
                 : 'bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border-white/5'
             }`}
             title={isEn ? 'Switch to Russian' : 'Переключить на Английский'}
           >
-            <Languages className="w-3.5 h-3.5 text-kingdom-gold" />
+            <Languages className="w-3.5 h-3.5 text-brand-blue" />
             <span>{isEn ? 'EN' : 'RU'}</span>
           </button>
 
@@ -667,7 +710,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border border-white/5 transition-colors cursor-pointer text-xs font-medium"
             title={t.article.cite}
           >
-            <Quote className="w-3.5 h-3.5 text-kingdom-gold" />
+            <Quote className="w-3.5 h-3.5 text-brand-blue" />
             <span className="hidden sm:inline">{t.article.cite}</span>
           </button>
 
@@ -697,14 +740,14 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
         {isEn && (
           <div className="mb-6 p-3 rounded-xl bg-blue-950/40 border border-blue-800/40 flex items-center justify-between text-xs text-blue-200">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-kingdom-gold shrink-0" />
+              <Sparkles className="w-4 h-4 text-brand-blue shrink-0" />
               <span>
                 <strong>English Academic Translation:</strong> Standardized zoological & veterinary terminology applied.
               </span>
             </div>
             <button
               onClick={() => setLang('ru')}
-              className="text-xs text-kingdom-gold hover:underline cursor-pointer ml-3 shrink-0"
+              className="text-xs text-brand-blue hover:underline cursor-pointer ml-3 shrink-0"
             >
               Original RU
             </button>
@@ -725,26 +768,26 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           </div>
 
           {/* Metadata bar */}
-          <div className="flex flex-wrap items-center gap-y-2 gap-x-4 pt-3 border-t border-white/10 text-xs text-gray-400">
+          <div className="flex flex-wrap items-center gap-y-2 gap-x-4 pt-3 border-t border-white/10 text-xs text-slate-300">
             <div className="flex items-center gap-1.5 font-medium text-gray-300">
-              <Clock className="w-3.5 h-3.5 text-gray-400" />
+              <Clock className="w-3.5 h-3.5 text-slate-300" />
               <span>{readingTime} {t.catalog.readingTime} {isEn ? 'read' : 'чтения'}</span>
             </div>
 
-            <div className="flex items-center gap-1.5 font-medium text-gray-400">
-              <Calendar className="w-3.5 h-3.5 text-gray-400" />
+            <div className="flex items-center gap-1.5 font-medium text-slate-300">
+              <Calendar className="w-3.5 h-3.5 text-slate-300" />
               <span>{isEn ? 'Revision:' : 'Ревизия:'} {lastReviewedDate}</span>
             </div>
 
-            <div className="flex items-center gap-1.5 text-gray-400">
-              <Layers className="w-3.5 h-3.5 text-gray-400" />
+            <div className="flex items-center gap-1.5 text-slate-300">
+              <Layers className="w-3.5 h-3.5 text-slate-300" />
               <span>{categoryTitle}</span>
             </div>
 
             {/* Tags */}
             {displayTags.length > 0 && (
               <div className="flex items-center gap-1.5 flex-wrap w-full mt-1">
-                <Tag className="w-3 h-3 text-gray-400 shrink-0" />
+                <Tag className="w-3 h-3 text-slate-300 shrink-0" />
                 {displayTags.map((tTag: string) => (
                   <button
                     key={tTag}
@@ -759,16 +802,28 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           </div>
         </header>
 
+        {/* Step Tabs — лента шагов урока в стиле Stepik (под заголовком, sticky) */}
+        {lessonSteps.length >= 2 && (
+          <div className="mb-6">
+            <StepTabs
+              steps={lessonSteps}
+              labels={isEn
+                ? { theory: 'Theory', quiz: 'Quiz', cards: 'Cards', lab: 'Lab' }
+                : undefined}
+            />
+          </div>
+        )}
+
         {/* Lead / Excerpt */}
         {displayExcerpt && (
-          <div className="my-6 p-5 rounded-xl bg-[#181a24] border-l-4 border-kingdom-gold text-gray-200 text-base sm:text-lg leading-relaxed font-normal shadow-sm">
+          <div className="my-6 p-5 rounded-xl glass-card border-l-4 border-l-brand-blue text-gray-200 text-base sm:text-lg leading-relaxed font-normal shadow-sm">
             {displayExcerpt}
           </div>
         )}
 
         {/* Key Findings Block */}
         {displayKeyFindings && (
-          <section className="my-8 rounded-xl border border-[#34384a] border-l-4 border-l-amber-400 bg-[#161822] p-5 shadow-sm">
+          <section className="my-8 rounded-xl border border-slate-700 border-l-4 border-l-amber-400 bg-[#161822] p-5 shadow-sm">
             <div className="flex items-center gap-2 mb-3 text-amber-300 font-semibold text-sm">
               <Info className="w-4 h-4 text-amber-400 shrink-0" />
               <span>{isEn ? 'Key Insights & Parameters' : 'Ключевые сведения и параметры'}</span>
@@ -781,7 +836,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   p: ({ node: _node, ...props }) => <p className="mb-2 last:mb-0 text-gray-200" {...props} />,
                   ul: ({ node: _node, ...props }) => <ul className="list-disc list-inside space-y-1.5 my-2 text-gray-300 text-xs sm:text-sm" {...props} />,
                   li: ({ node: _node, ...props }) => <li className="text-gray-300" {...props} />,
-                  strong: ({ node: _node, ...props }) => <strong className="font-bold text-kingdom-gold" {...props} />
+                  strong: ({ node: _node, ...props }) => <strong className="font-bold text-brand-blue" {...props} />
                 }}
               >
                 {displayKeyFindings}
@@ -796,9 +851,22 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             remarkPlugins={[remarkGfm, remarkMath]}
             rehypePlugins={[rehypeRaw, [rehypeSanitize, markdownSanitizeSchema], rehypeKatex] as any}
             components={{
-              h2: ({ node: _node, ...props }) => (
-                <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white mt-10 mb-4 pb-2 border-b border-white/10" {...props} />
-              ),
+              h2: ({ node: _node, children, ...props }) => {
+                // id для StepTabs / scroll-spy (совпадает с stepSlug из lessonSteps)
+                const text = React.Children.toArray(children)
+                  .map((c) => (typeof c === 'string' || typeof c === 'number' ? String(c) : ''))
+                  .join('');
+                const autoId = text ? stepSlug(text) : undefined;
+                return (
+                  <h2
+                    id={autoId}
+                    className="text-xl sm:text-2xl font-bold tracking-tight text-white mt-10 mb-4 pb-2 border-b border-[#334155] scroll-mt-32"
+                    {...props}
+                  >
+                    {children}
+                  </h2>
+                );
+              },
               h3: ({ node: _node, ...props }) => (
                 <h3 className="text-lg sm:text-xl font-semibold tracking-tight text-gray-100 mt-7 mb-3" {...props} />
               ),
@@ -847,7 +915,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                 return <li className="text-gray-300" {...props}>{collapsed}</li>;
               },
               blockquote: ({ node: _node, ...props }) => (
-                <blockquote className="border-l-4 border-kingdom-gold pl-4 py-2 my-6 text-gray-300 italic bg-[#181a24] border border-[#2b2e3d] rounded-r-xl" {...props} />
+                <blockquote className="border-l-4 border-brand-blue pl-4 py-2 my-6 text-gray-300 italic bg-[#181a24] border border-[#2b2e3d] rounded-r-xl" {...props} />
               ),
               table: ({ node: _node, ...props }) => (
                 <div className="overflow-x-auto my-6 border border-[#2b2e3d] rounded-xl bg-[#14161f]">
@@ -869,7 +937,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                 />
               ),
               sup: ({ node: _node, ...props }) => (
-                <sup className="text-[11px] font-mono font-medium leading-none px-0.5 text-kingdom-gold hover:text-amber-300 transition-colors select-none align-super" {...props} />
+                <sup className="text-[11px] font-mono font-medium leading-none px-0.5 text-brand-blue hover:text-amber-300 transition-colors select-none align-super" {...props} />
               ),
               a: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
                 const isFootnoteBackref = (props as any)['data-footnote-backref'] !== undefined ||
@@ -950,24 +1018,24 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                             targetSup.classList.add(
                               'ring-2',
                               'ring-kingdom-gold',
-                              'bg-kingdom-gold/30',
+                              'bg-brand-blue/30',
                               'shadow-[0_0_16px_rgba(212,175,55,0.7)]'
                             );
 
                             const parentParagraph = targetEl.closest('p');
                             if (parentParagraph && isFootnoteBackref) {
-                              parentParagraph.classList.add('bg-kingdom-gold/10', 'ring-1', 'ring-kingdom-gold/30', 'rounded-lg');
+                              parentParagraph.classList.add('bg-brand-blue/10', 'ring-1', 'ring-kingdom-gold/30', 'rounded-lg');
                             }
 
                             setTimeout(() => {
                               targetSup.classList.remove(
                                 'ring-2',
                                 'ring-kingdom-gold',
-                                'bg-kingdom-gold/30',
+                                'bg-brand-blue/30',
                                 'shadow-[0_0_16px_rgba(212,175,55,0.7)]'
                               );
                               if (parentParagraph) {
-                                parentParagraph.classList.remove('bg-kingdom-gold/10', 'ring-1', 'ring-kingdom-gold/30', 'rounded-lg');
+                                parentParagraph.classList.remove('bg-brand-blue/10', 'ring-1', 'ring-kingdom-gold/30', 'rounded-lg');
                               }
                             }, 2500);
                           }
@@ -975,8 +1043,8 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                       }}
                       className={
                         isFootnoteBackref
-                          ? 'inline-flex items-center gap-1.5 text-kingdom-gold hover:text-amber-200 font-sans text-xs font-semibold ml-2 px-2.5 py-1 rounded-md bg-kingdom-gold/15 hover:bg-kingdom-gold/25 border border-kingdom-gold/40 hover:border-kingdom-gold/60 shadow-sm hover:shadow transition-all duration-150 cursor-pointer no-underline select-none my-1'
-                          : 'text-kingdom-gold hover:underline font-mono text-xs font-semibold px-0.5 inline-block cursor-pointer'
+                          ? 'inline-flex items-center gap-1.5 text-brand-blue hover:text-amber-200 font-sans text-xs font-semibold ml-2 px-2.5 py-1 rounded-md bg-brand-blue/15 hover:bg-brand-blue/25 border border-brand-blue/40 hover:border-brand-blue/60 shadow-sm hover:shadow transition-all duration-150 cursor-pointer no-underline select-none my-1'
+                          : 'text-brand-blue hover:underline font-mono text-xs font-semibold px-0.5 inline-block cursor-pointer'
                       }
                       {...props}
                     >
@@ -998,7 +1066,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                       href={href}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-kingdom-gold hover:underline font-medium inline-flex items-center gap-0.5 transition-colors"
+                      className="text-brand-blue hover:underline font-medium inline-flex items-center gap-0.5 transition-colors"
                       {...props}
                     >
                       <span>{children}</span>
@@ -1016,7 +1084,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                         const cleanTarget = href.replace(/^\.\.\//, '').replace(/^\.\//, '').replace(/\.md$/, '');
                         navigateToArticle(cleanTarget);
                       }}
-                      className="text-kingdom-gold hover:underline font-medium cursor-pointer transition-colors"
+                      className="text-brand-blue hover:underline font-medium cursor-pointer transition-colors"
                       {...props}
                     >
                       {children}
@@ -1029,7 +1097,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                     href={href}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-kingdom-gold hover:underline font-medium inline-flex items-center gap-0.5 transition-colors"
+                    className="text-brand-blue hover:underline font-medium inline-flex items-center gap-0.5 transition-colors"
                     {...props}
                   >
                     <span>{children}</span>
@@ -1043,7 +1111,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   return (
                     <div id="footnotes-literature-section" className="mt-14 pt-8 border-t border-white/10 text-xs text-gray-300">
                       <h3 className="text-sm font-bold uppercase tracking-wider text-gray-200 mb-4 flex items-center gap-2">
-                        <Quote className="w-4 h-4 text-kingdom-gold" />
+                        <Quote className="w-4 h-4 text-brand-blue" />
                         <span>{isEn ? 'References & Literature' : '📚 Литература и источники'}</span>
                       </h3>
                       <div className="space-y-2">{children}</div>
@@ -1062,7 +1130,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
         {displayUncertainty && (
           <section className="my-12 p-5 rounded-2xl bg-[#161822] border border-[#2b2e3d]">
             <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[#2b2e3d]">
-              <Scale className="w-4 h-4 text-kingdom-gold shrink-0" />
+              <Scale className="w-4 h-4 text-brand-blue shrink-0" />
               <h3 className="font-bold text-sm text-gray-100">
                 {isEn ? 'Scientific Uncertainty & Evidence Boundaries' : 'Научная неопределённость и границы доказанности'}
               </h3>
@@ -1112,7 +1180,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
         {relatedArticles.length > 0 && (
           <section className="mt-14 pt-8 border-t border-white/10">
             <h3 className="text-sm font-bold uppercase tracking-wider text-gray-200 mb-4 flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-kingdom-gold" />
+              <BookOpen className="w-4 h-4 text-brand-blue" />
               <span>{t.article.related}</span>
             </h3>
 
@@ -1123,18 +1191,18 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   <button
                     key={rel.path}
                     onClick={() => navigateToArticle(rel.path)}
-                    className="p-3.5 rounded-xl bg-[#181a24] border border-[#2b2e3d] hover:border-kingdom-gold/40 text-left transition-all group flex flex-col justify-between cursor-pointer shadow-sm hover:shadow-md"
+                    className="p-3.5 rounded-xl glass-card hover:border-brand-blue/60 text-left transition-all group flex flex-col justify-between cursor-pointer shadow-sm hover:shadow-md"
                   >
                     <div>
-                      <span className="text-[10px] font-mono text-gray-400 uppercase tracking-wider block mb-1">
+                      <span className="text-[10px] font-mono text-slate-300 uppercase tracking-wider block mb-1">
                         {categoryDict[relCatKey] || rel.category}
                       </span>
-                      <h4 className="text-xs font-semibold text-gray-200 group-hover:text-kingdom-gold transition-colors line-clamp-2 leading-snug">
+                      <h4 className="text-xs font-semibold text-gray-200 group-hover:text-brand-blue transition-colors line-clamp-2 leading-snug">
                         {rel.title}
                       </h4>
                     </div>
                     {rel.excerpt && (
-                      <p className="text-[11px] text-gray-400 line-clamp-1 mt-2">
+                      <p className="text-[11px] text-slate-300 line-clamp-1 mt-2">
                         {rel.excerpt}
                       </p>
                     )}
@@ -1149,11 +1217,11 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
         {referencesList.length > 0 && !rawContent.includes('[^') && (
           <section className="mt-14 pt-8 border-t border-white/10">
             <h3 className="text-sm font-bold uppercase tracking-wider text-gray-200 mb-4 flex items-center gap-2">
-              <Quote className="w-4 h-4 text-kingdom-gold" />
+              <Quote className="w-4 h-4 text-brand-blue" />
               <span>{isEn ? 'References & Bibliography (APA)' : '📚 Источники и библиография (APA)'}</span>
             </h3>
 
-            <ol className="space-y-3 text-xs text-gray-400 list-decimal list-outside ml-4">
+            <ol className="space-y-3 text-xs text-slate-300 list-decimal list-outside ml-4">
               {referencesList.map((refItem: ReferenceItem | string, idx: number) => {
                 const isString = typeof refItem === 'string';
                 const ref = isString ? { id: `ref_${idx + 1}`, title: refItem } : refItem;
@@ -1179,7 +1247,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                               href={doiUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-kingdom-gold hover:underline ml-1.5 font-mono inline-flex items-center gap-0.5"
+                              className="text-brand-blue hover:underline ml-1.5 font-mono inline-flex items-center gap-0.5"
                             >
                               <span>DOI: {cleanDoi}</span>
                               <ExternalLink className="w-2.5 h-2.5" />
@@ -1187,7 +1255,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                           );
                         })()}
                         {ref.isbn && (
-                          <span className="text-gray-400 font-mono ml-1.5">
+                          <span className="text-slate-300 font-mono ml-1.5">
                             ISBN: {ref.isbn}
                           </span>
                         )}
@@ -1215,9 +1283,9 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             {prevArticle ? (
               <button
                 onClick={() => navigateToArticle(prevArticle.path)}
-                className="flex flex-col text-left p-3.5 rounded-xl bg-[#181a24] border border-[#2b2e3d] hover:border-kingdom-gold/40 transition-colors cursor-pointer group"
+                className="flex flex-col text-left p-3.5 rounded-xl glass-card hover:border-brand-blue/60 transition-colors cursor-pointer group"
               >
-                <div className="flex items-center text-gray-400 group-hover:text-kingdom-gold mb-1 font-medium">
+                <div className="flex items-center text-slate-300 group-hover:text-brand-blue mb-1 font-medium">
                   <ChevronLeft className="w-3.5 h-3.5 mr-1" />
                   <span>{t.article.prev}</span>
                 </div>
@@ -1230,15 +1298,10 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             {nextArticle ? (
               <button
                 onClick={() => navigateToArticle(nextArticle.path)}
-                className="flex flex-col text-right p-3.5 rounded-xl bg-[#181a24] border border-[#2b2e3d] hover:border-kingdom-gold/40 transition-colors cursor-pointer group"
+                className="btn-brand-primary w-full group"
               >
-                <div className="flex items-center justify-end text-gray-400 group-hover:text-kingdom-gold mb-1 font-medium">
-                  <span>{t.article.next}</span>
-                  <ChevronRight className="w-3.5 h-3.5 ml-1" />
-                </div>
-                <span className="font-semibold text-gray-200 group-hover:text-white transition-colors line-clamp-1">
-                  {nextArticle.title}
-                </span>
+                <span>{t.article.next}</span>
+                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
               </button>
             ) : <div />}
           </nav>
