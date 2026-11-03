@@ -8,10 +8,6 @@ interface CitationModalDetail {
   quoteText?: string;
 }
 
-interface CitationModalProps {
-  currentArticlePath?: string;
-}
-
 export function CitationModal() {
   const { t, isEn } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
@@ -105,7 +101,7 @@ export function CitationModal() {
         {/* Modal Header */}
         <div className="p-4 sm:p-5 border-b border-[#34384a] flex items-center justify-between bg-[#13141b]">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-kingdom-gold/10 border border-kingdom-gold/30 flex items-center justify-center text-kingdom-gold">
+            <div className="w-9 h-9 rounded-xl bg-brand-blue/10 border border-brand-blue/30 flex items-center justify-center text-brand-blue">
               <Quote className="w-4 h-4" />
             </div>
             <div>
@@ -131,7 +127,7 @@ export function CitationModal() {
             onClick={() => { setActiveTab('gost'); setCopied(false); }}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
               activeTab === 'gost'
-                ? 'bg-kingdom-gold text-black font-bold shadow-sm'
+                ? 'bg-brand-blue text-black font-bold shadow-sm'
                 : 'bg-[#202330] text-gray-300 hover:text-white hover:bg-[#282c3c]'
             }`}
           >
@@ -143,7 +139,7 @@ export function CitationModal() {
             onClick={() => { setActiveTab('apa'); setCopied(false); }}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
               activeTab === 'apa'
-                ? 'bg-kingdom-gold text-black font-bold shadow-sm'
+                ? 'bg-brand-blue text-black font-bold shadow-sm'
                 : 'bg-[#202330] text-gray-300 hover:text-white hover:bg-[#282c3c]'
             }`}
           >
@@ -155,7 +151,7 @@ export function CitationModal() {
             onClick={() => { setActiveTab('bibtex'); setCopied(false); }}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
               activeTab === 'bibtex'
-                ? 'bg-kingdom-gold text-black font-bold shadow-sm'
+                ? 'bg-brand-blue text-black font-bold shadow-sm'
                 : 'bg-[#202330] text-gray-300 hover:text-white hover:bg-[#282c3c]'
             }`}
           >
@@ -167,7 +163,7 @@ export function CitationModal() {
             onClick={() => { setActiveTab('quote'); setCopied(false); }}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
               activeTab === 'quote'
-                ? 'bg-kingdom-gold text-black font-bold shadow-sm'
+                ? 'bg-brand-blue text-black font-bold shadow-sm'
                 : 'bg-[#202330] text-gray-300 hover:text-white hover:bg-[#282c3c]'
             }`}
           >
@@ -212,7 +208,7 @@ export function CitationModal() {
 
             <button
               onClick={handleCopy}
-              className="flex items-center gap-2 px-5 py-2 rounded-xl bg-kingdom-gold hover:bg-amber-400 text-black font-bold text-xs shadow-[0_0_12px_rgba(255,209,102,0.25)] transition-all cursor-pointer"
+              className="flex items-center gap-2 px-5 py-2 rounded-xl bg-brand-blue hover:bg-amber-400 text-black font-bold text-xs shadow-[0_0_12px_rgba(255,209,102,0.25)] transition-all cursor-pointer"
             >
               {copied ? <Check className="w-4 h-4 text-emerald-950" /> : <Copy className="w-4 h-4" />}
               <span>{copied ? (isEn ? 'Copied to clipboard!' : 'Скопировано в буфер!') : (isEn ? 'Copy citation' : 'Скопировать ссылку')}</span>

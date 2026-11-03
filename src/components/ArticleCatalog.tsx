@@ -1,6 +1,6 @@
 import { useLanguage } from '../i18n/LanguageContext';
 import React, { useState, useMemo, useCallback } from 'react';
-import { ChevronDown, ChevronUp, ChevronRight, BookOpen, Sparkles, Clock, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, Layers, ChevronsUpDown, Search } from 'lucide-react';
+import { ChevronDown, ChevronUp, ChevronRight, Clock, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, Layers, ChevronsUpDown, Search } from 'lucide-react';
 import { ArticleItem } from '../lib/searchEngine';
 import { getStaticArticles } from '../lib/articles';
 import { CategoryDef } from './catalog/CategoryTile';
@@ -123,8 +123,8 @@ const CategoryCard = React.memo(function CategoryCard({
     <div 
       className={`rounded-xl border transition-all duration-200 overflow-hidden w-full ${
         isExpanded 
-          ? 'bg-[#151720] border-kingdom-gold/40 shadow-lg shadow-black/40' 
-          : 'bg-[#14161f]/80 border-[#2b2e3d] hover:border-kingdom-gold/30 hover:bg-[#181a24]'
+          ? 'bg-[#151720] border-brand-blue/40 shadow-lg shadow-black/40' 
+          : 'bg-[#14161f]/80 border-[#2b2e3d] hover:border-brand-blue/30 hover:bg-[#181a24]'
       }`}
     >
       {/* Category Compact Horizontal Bar */}
@@ -140,7 +140,7 @@ const CategoryCard = React.memo(function CategoryCard({
           </span>
           <div className="min-w-0">
             <h3 className={`font-semibold text-sm leading-snug truncate transition-colors ${
-              isExpanded ? 'text-kingdom-gold' : 'text-gray-200 group-hover:text-white'
+              isExpanded ? 'text-brand-blue' : 'text-gray-200 group-hover:text-white'
             }`}>
               {categoryTitle}
             </h3>
@@ -153,13 +153,13 @@ const CategoryCard = React.memo(function CategoryCard({
         <div className="flex items-center gap-2.5 shrink-0">
           <span className={`text-[11px] font-mono font-medium px-2 py-0.5 rounded-md border transition-colors ${
             isExpanded
-              ? 'bg-kingdom-gold text-black font-bold border-kingdom-gold'
-              : 'bg-black/30 text-gray-400 border-white/5 group-hover:text-kingdom-gold group-hover:border-kingdom-gold/20'
+              ? 'bg-brand-blue text-black font-bold border-brand-blue'
+              : 'bg-black/30 text-gray-400 border-white/5 group-hover:text-brand-blue group-hover:border-brand-blue/20'
           }`}>
             {count} {t.catalog.articlesCount}
           </span>
           <div className={`p-1 rounded-md transition-all ${
-            isExpanded ? 'bg-kingdom-gold/15 text-kingdom-gold' : 'text-gray-500 group-hover:text-gray-300'
+            isExpanded ? 'bg-brand-blue/15 text-brand-blue' : 'text-gray-500 group-hover:text-gray-300'
           }`}>
             {isExpanded ? (
               <ChevronUp className="w-4 h-4 transition-transform duration-200" />
@@ -186,17 +186,17 @@ const CategoryCard = React.memo(function CategoryCard({
                 <div 
                   key={article.path}
                   onClick={() => onArticleClick(article.path)}
-                  className="group/item p-3 rounded-lg bg-[#181a24] hover:bg-[#202330] border border-[#2b2e3d]/80 hover:border-kingdom-gold/50 transition-all cursor-pointer space-y-1.5 shadow-sm"
+                  className="group/item p-3 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 hover:border-brand-blue/60 transition-all cursor-pointer space-y-1.5 shadow-sm"
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <h4 className="text-xs sm:text-sm font-semibold text-gray-200 group-hover/item:text-kingdom-gold transition-colors leading-snug">
+                    <h4 className="text-xs sm:text-sm font-semibold text-slate-100 group-hover/item:text-brand-blue transition-colors leading-snug">
                       {article.title}
                     </h4>
-                    <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover/item:text-kingdom-gold group-hover/item:translate-x-0.5 transition-all shrink-0 mt-0.5" />
+                    <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover/item:text-brand-blue group-hover/item:translate-x-0.5 transition-all shrink-0 mt-0.5" />
                   </div>
 
                   {article.excerpt && (
-                    <p className="text-[11px] text-gray-400 line-clamp-2 leading-relaxed">
+                    <p className="text-[11px] text-slate-300 line-clamp-2 leading-relaxed">
                       {article.excerpt}
                     </p>
                   )}
@@ -210,7 +210,7 @@ const CategoryCard = React.memo(function CategoryCard({
                         </span>
                       )}
                       {article.difficulty && (
-                        <span className="text-kingdom-gold/80 font-semibold uppercase text-[9px]">
+                        <span className="text-brand-blue/80 font-semibold uppercase text-[9px]">
                           {article.difficulty === 'advanced' ? t.catalog.difficulty.advanced : article.difficulty === 'intermediate' ? t.catalog.difficulty.intermediate : t.catalog.difficulty.basic}
                         </span>
                       )}
@@ -273,20 +273,20 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
       
       {/* Catalog Header with Search */}
       <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/5 pb-5">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-800 pb-5">
           <div className="space-y-1.5">
             <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight flex items-center gap-2.5">
-              <Layers className="w-6 h-6 text-kingdom-gold" />
+              <Layers className="w-6 h-6 text-brand-blue" />
               {t.catalog.title}
             </h2>
-            <p className="text-sm text-gray-400 max-w-2xl leading-relaxed">
+            <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
               {t.catalog.subtitle}
             </p>
           </div>
 
           <button
             onClick={toggleAllCategories}
-            className="self-start sm:self-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#1a1c26] text-gray-300 hover:text-kingdom-gold border border-white/10 hover:border-kingdom-gold/40 transition-all cursor-pointer shadow-sm shrink-0"
+            className="self-start sm:self-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#1a1c26] text-gray-300 hover:text-brand-blue border border-slate-700 hover:border-brand-blue/60 transition-all cursor-pointer shadow-sm shrink-0"
           >
             <ChevronsUpDown className="w-3.5 h-3.5" />
             <span>{allExpanded ? t.catalog.collapseAll : t.catalog.expandAll}</span>
@@ -297,11 +297,11 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
         <div className="relative">
           <button
             onClick={() => window.dispatchEvent(new CustomEvent('toggle-search', { detail: { force: true } }))}
-            className="w-full flex items-center justify-between px-4 py-3 bg-[#161822] hover:bg-[#1b1e2b] border border-white/10 hover:border-kingdom-gold/40 rounded-xl text-left transition-all group shadow-inner cursor-pointer"
+            className="w-full flex items-center justify-between px-4 py-3 glass-card hover:border-brand-blue/60 rounded-xl text-left transition-all group shadow-inner cursor-pointer"
           >
             <div className="flex items-center gap-3">
-              <Search className="w-4 h-4 text-gray-400 group-hover:text-kingdom-gold transition-colors shrink-0" />
-              <span className="text-sm text-gray-400 font-normal">
+              <Search className="w-4 h-4 text-slate-300 group-hover:text-brand-blue transition-colors shrink-0" />
+              <span className="text-sm text-slate-400 font-normal">
                 {t.catalog.searchPlaceholder}
               </span>
             </div>

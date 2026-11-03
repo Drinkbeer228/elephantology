@@ -105,7 +105,7 @@ export function resolveArticlePath(requestedPath: string, modulesKeys: string[])
 
 export const MODULES_CACHE = import.meta.glob('/docs/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
 
-let cachedArticles: Record<string, ArticleItem[]> = {};
+const cachedArticles: Record<string, ArticleItem[]> = {};
 
 function computeArticles(lang?: string): ArticleItem[] {
   const isEn = lang === 'en';

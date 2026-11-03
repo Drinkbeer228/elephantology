@@ -15,6 +15,15 @@ export default function App() {
 
   const getBaseUrl = () => import.meta.env.BASE_URL || '/';
 
+  // Strip the deploy base path (e.g. "/repo-name" on GitHub Pages project sites)
+  // from window.location.pathname, leaving a site-relative path like "/article/foo".
+  const getSitePath = () => {
+    const baseUrl = getBaseUrl().replace(/\/$/, '');
+    let p = window.location.pathname;
+    if (baseUrl && p.startsWith(baseUrl)) p = p.slice(baseUrl.length);
+    return p || '/';
+  };
+
   const navigateTo = (view: 'home' | 'article', path: string | null = null, pushState = true) => {
     setCurrentView(view);
     setCurrentArticlePath(path);
@@ -36,9 +45,7 @@ export default function App() {
         setCurrentView(e.state.view);
         setCurrentArticlePath(e.state.path || null);
       } else {
-        const path = window.location.pathname;
-        const baseUrl = getBaseUrl().replace(/\/$/, '');
-        const cleanPath = path.replace(baseUrl, '');
+        const cleanPath = getSitePath();
         
         if (cleanPath.startsWith('/article/')) {
           let articlePath = cleanPath.substring('/article/'.length);
@@ -67,9 +74,7 @@ export default function App() {
 
   useEffect(() => {
     // Check initial path for direct navigation
-    const path = window.location.pathname;
-    const baseUrl = getBaseUrl().replace(/\/$/, '');
-    const cleanPath = path.replace(baseUrl, '');
+    const cleanPath = getSitePath();
     
     if (cleanPath.startsWith('/article/')) {
       let articlePath = cleanPath.substring('/article/'.length);
@@ -85,7 +90,8 @@ export default function App() {
        setCurrentArticlePath(p);
        setCurrentView('article');
        // Clean URL without reload
-       window.history.replaceState({ view: 'article', path: p }, '', `${baseUrl}/article/${p.replace('.md', '')}`);
+       const bUrl = getBaseUrl().replace(/\/$/, '');
+       window.history.replaceState({ view: 'article', path: p }, '', `${bUrl}/article/${p.replace('.md', '')}`);
     }
   }, []);
 
@@ -115,7 +121,7 @@ export default function App() {
     <div className="flex flex-col min-h-screen relative">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-kingdom-gold focus:text-black focus:font-semibold focus:rounded-lg focus:shadow-lg focus:outline-none"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-brand-blue focus:text-white focus:font-semibold focus:rounded-lg focus:shadow-lg focus:outline-none"
       >
         {t.a11y?.skipToContent || 'Перейти к основному содержимому'}
       </a>
@@ -139,17 +145,17 @@ export default function App() {
         )}
       </main>
       
-      <footer className="mt-auto border-t border-kingdom-border bg-kingdom-card/60 py-8 text-xs text-slate-400">
+      <footer className="mt-auto border-t border-slate-700 bg-slate-900/80 backdrop-blur-md py-8 text-xs text-slate-300">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <BookOpen className="w-5 h-5 text-kingdom-gold shrink-0" />
+            <BookOpen className="w-5 h-5 text-brand-blue shrink-0" />
             <div>
               <span className="font-semibold text-slate-200">{t.footer.title}</span>
               <p className="text-[11px] text-slate-400 mt-0.5">{t.footer.text}</p>
             </div>
           </div>
           <div className="flex items-center gap-4 text-[11px]">
-            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="text-slate-300 hover:text-kingdom-gold transition-colors cursor-pointer font-medium">{t.footer.toTop}</button>
+            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="text-slate-300 hover:text-brand-blue transition-colors cursor-pointer font-medium">{t.footer.toTop}</button>
           </div>
         </div>
       </footer>

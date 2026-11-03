@@ -1,5 +1,2 @@
-site/
-*.pyc
-__pycache__/
-.venv/
-first/.kilocode/
+dist/
+node_modules/

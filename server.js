@@ -21,7 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 app.use(compression());
 app.use(express.json());
@@ -31,6 +31,8 @@ app.use(helmet({
   contentSecurityPolicy: isProd ? {
     directives: {
       defaultSrc: ["'self'"],
+      // 'unsafe-inline' is required for injected JSON-LD schema blocks and Vite dev tooling.
+      // All dynamic values interpolated into HTML are escaped via escapeHtmlAttr() below.
       scriptSrc: ["'self'", "'unsafe-inline'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
@@ -38,11 +40,10 @@ app.use(helmet({
       connectSrc: ["'self'", "https:"],
       frameAncestors: [
         "'self'",
-        "https://aistudio.google.com",
-        "https://ai.studio",
-        "https://*.google.com",
-        "https://*.googleusercontent.com",
-        "https://*.usercontent.goog",
+        // Allow embedding from our own staging/preview hosts only.
+        // Google AI Studio origins were removed after migration to GitHub.
+        "https://*.github.io",
+        "https://*.pages.dev",
         "https://*.run.app"
       ]
     }
@@ -54,7 +55,7 @@ app.use(helmet({
   hsts: isProd ? { maxAge: 31536000, includeSubDomains: true, preload: true } : false
 }));
 
-// Rate limiting specifically for article dynamic handling
+// Rate limiting for article dynamic handling (HTML responses that hit disk/cache)
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -63,10 +64,36 @@ const apiLimiter = rateLimit({
 });
 app.use('/article/', apiLimiter);
 
-// In-memory cache for scanned markdown articles
+// Basic hygiene limiter for all other requests (static assets get a generous page-load budget)
+const generalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 600,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use(generalLimiter);
+
+// In-memory cache for scanned markdown articles.
+// The cache is invalidated via fs.watch when any .md file changes (dev and prod),
+// instead of periodically re-scanning the whole docs/ tree.
 let cachedArticles = null;
-let lastCacheTime = 0;
-const CACHE_TTL_MS = 60 * 1000; // 60 seconds TTL
+let watcherStarted = false;
+
+function startDocsWatcher(docsDir) {
+  if (watcherStarted) return;
+  watcherStarted = true;
+  try {
+    const watcher = fs.watch(docsDir, { recursive: true }, (_event, filename) => {
+      if (!filename || filename.endsWith('.md')) {
+        cachedArticles = null; // invalidate on change
+      }
+    });
+    watcher.on('error', (err) => logger.warn({ err }, 'docs watcher disabled'));
+  } catch {
+    // Fallback for platforms where recursive watch is unsupported: refresh at most every 60s
+    setInterval(() => { cachedArticles = null; }, 60 * 1000).unref();
+  }
+}
 
 // Helper to recursively get all markdown files in docs
 function getMarkdownFiles(dir, baseDir = dir) {
@@ -96,7 +123,7 @@ function getMarkdownFiles(dir, baseDir = dir) {
       }
 
       // Strip quotes, anchors {#...}, and markdown symbols from title
-      title = title.replace(/^["']|["']$/g, '').replace(/\{.*?\}/g, '').replace(/[\*\_`#]/g, '').trim();
+      title = title.replace(/^["']|["']$/g, '').replace(/\{.*?\}/g, '').replace(/[*_`#]/g, '').trim();
 
       if (!title || title.length === 0) {
         title = file.replace('.md', '').replace(/_/g, ' ');
@@ -145,13 +172,19 @@ function getMarkdownFiles(dir, baseDir = dir) {
 }
 
 function getArticlesList() {
-  const now = Date.now();
-  if (!cachedArticles || now - lastCacheTime > CACHE_TTL_MS) {
+  if (!cachedArticles) {
     const docsDir = path.resolve(__dirname, 'docs');
     cachedArticles = getMarkdownFiles(docsDir);
-    lastCacheTime = now;
+    startDocsWatcher(docsDir);
   }
   return cachedArticles;
+}
+
+// Check whether an /article/<path> URL maps to an existing markdown document.
+function isKnownArticle(url) {
+  if (!url.startsWith('/article/')) return false;
+  const articlePath = decodeURIComponent(url.replace('/article/', '').split('?')[0].split('#')[0]) + '.md';
+  return getArticlesList().some(a => a.path.replace(/\\/g, '/') === articlePath);
 }
 
 // Minimal health check endpoint
@@ -168,18 +201,34 @@ app.get('/healthz', (req, res) => {
 // API endpoint to get all articles metadata (Removed as part of SSG migration)
 // API endpoint to get single article content (Removed as part of SSG migration)
 
+// Escape a value for safe interpolation into an HTML attribute / text node.
+// Prevents meta-tag/HTML injection from untrusted YAML frontmatter content.
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 function cleanDescriptionText(raw) {
   if (!raw) return '';
-  return raw
-    .replace(/[\r\n#*_`>~\[\]\(\)\-\+]/g, ' ')
+  const text = raw
+    .replace(/[\r\n#*_`>~[\]()+-]/g, ' ')
     .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 160);
+    .trim();
+  // Truncate at word boundary to avoid cutting words in half
+  if (text.length <= 160) return text;
+  const cut = text.slice(0, 160);
+  const lastSpace = cut.lastIndexOf(' ');
+  return (lastSpace > 100 ? cut.slice(0, lastSpace) : cut) + '…';
 }
 
 function injectMetaTags(template, url) {
-  const fallbackDomain = process.env.PROJECT_DOMAIN ? `https://${process.env.PROJECT_DOMAIN}` : CANONICAL_DOMAIN;
+  const fallbackDomain = process.env.SITE_ORIGIN
+    ?? (process.env.PROJECT_DOMAIN ? `https://${process.env.PROJECT_DOMAIN}` : undefined)
+    ?? CANONICAL_DOMAIN;
 
   if (url.startsWith('/article/')) {
     const articlePath = url.replace('/article/', '') + '.md';
@@ -187,11 +236,9 @@ function injectMetaTags(template, url) {
     const article = articles.find(a => a.path.replace(/\\/g, '/') === articlePath);
     
     if (article) {
-      const title = (article.title || articlePath.replace('.md', '')) + ' — Слонология';
-      const cleanDesc = cleanDescriptionText(article.excerpt || article.content) || 'Читайте академическую статью в энциклопедии Слонология.';
-      const lang = article.lang || 'ru';
+      const title = escapeHtml((article.title || articlePath.replace('.md', '')) + ' — Слонология');
+      const cleanDesc = escapeHtml(cleanDescriptionText(article.excerpt || article.content) || 'Читайте академическую статью в энциклопедии Слонология.');
 
-      template = template.replace(/<html\s+lang=["'][^"']*["']/i, `<html lang="${lang}"`);
       template = template.replace(
         /<title>.*?<\/title>/i,
         `<title>${title}</title>`
@@ -216,7 +263,7 @@ function injectMetaTags(template, url) {
       const articleUrl = `${fallbackDomain}${url}`;
       const meta = {
         title: article.title,
-        description: cleanDesc,
+        description: cleanDescriptionText(article.excerpt || article.content),
         category: article.category,
         tags: article.tags || []
       };
@@ -227,7 +274,7 @@ function injectMetaTags(template, url) {
   }
   
   // Update OG URL in all cases
-  const fullUrl = `${fallbackDomain}${url}`;
+  const fullUrl = escapeHtml(`${fallbackDomain}${url}`);
   template = template.replace(
     /<meta property="og:url"[^>]*>/i,
     `<meta property="og:url" id="og-url" content="${fullUrl}">`
@@ -239,30 +286,17 @@ function injectMetaTags(template, url) {
 // Docs static serving removed to allow Vite middleware to intercept import.meta.glob requests
 
 // PWA Static Assets & Service Worker
+// Legacy service worker cleanup: previously registered SW clients get unregistered.
 app.get('/sw.js', (req, res) => {
   res.set({
     'Content-Type': 'application/javascript',
     'Service-Worker-Allowed': '/',
     'Cache-Control': 'no-cache, no-store, must-revalidate'
   });
-  // Return a minimal service worker that unregisters itself to clean up legacy PWA
-  res.send(`
-    self.addEventListener('install', function(e) {
-      self.skipWaiting();
-    });
-    self.addEventListener('activate', function(e) {
-      self.registration.unregister()
-        .then(function() {
-          return self.clients.matchAll();
-        })
-        .then(function(clients) {
-          clients.forEach(client => client.navigate(client.url))
-        });
-    });
-  `);
+  res.send('self.addEventListener("install",e=>self.skipWaiting());self.addEventListener("activate",e=>{self.registration.unregister().then(()=>self.clients.matchAll()).then(cs=>cs.forEach(c=>c.navigate(c.url)))});');
 });
 
-app.get(['/manifest.json', '/manifest.webmanifest'], (req, res) => {
+app.get('/manifest.json', (req, res) => {
   res.set({
     'Content-Type': 'application/manifest+json',
     'Cache-Control': 'public, max-age=3600'
@@ -284,12 +318,21 @@ if (!isProd) {
   });
   app.use(vite.middlewares);
 
+  const renderDevHtml = async (url) => {
+    let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
+    template = await vite.transformIndexHtml(url, template);
+    return injectMetaTags(template, url);
+  };
+
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl;
     try {
-      let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
-      template = await vite.transformIndexHtml(url, template);
-      template = injectMetaTags(template, url);
+      // Unknown /article/* paths should behave like a real 404 instead of SPA fallback
+      if (url.startsWith('/article/') && !isKnownArticle(url)) {
+        const template = await renderDevHtml(url);
+        return res.status(404).set({ 'Content-Type': 'text/html' }).end(template);
+      }
+      const template = await renderDevHtml(url);
       res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
     } catch (e) {
       vite.ssrFixStacktrace(e);
@@ -303,15 +346,32 @@ if (!isProd) {
     etag: true,
     index: ['index.html']
   }));
+
+  // Cache the built HTML template; re-read only when it changes on disk.
+  let htmlTemplateCache = null;
+  let htmlTemplateMtime = 0;
+  const getIndexTemplate = () => {
+    const indexPath = path.resolve(__dirname, 'dist', 'index.html');
+    const stat = fs.statSync(indexPath);
+    if (!htmlTemplateCache || stat.mtimeMs !== htmlTemplateMtime) {
+      htmlTemplateCache = fs.readFileSync(indexPath, 'utf-8');
+      htmlTemplateMtime = stat.mtimeMs;
+    }
+    return htmlTemplateCache;
+  };
+
   app.use('*', (req, res) => {
     try {
-      const indexPath = path.resolve(__dirname, 'dist', 'index.html');
-      if (!fs.existsSync(indexPath)) {
+      const url = req.originalUrl;
+      const isArticle = url.startsWith('/article/');
+      // Unknown article paths and unknown non-asset paths get a real 404 status
+      // (still rendering the SPA shell so the client can show its own not-found UI).
+      const notFound = isArticle ? !isKnownArticle(url) : false;
+      if (!fs.existsSync(path.resolve(__dirname, 'dist', 'index.html'))) {
         return res.status(500).send('Production index.html not found. Please run build first.');
       }
-      let template = fs.readFileSync(indexPath, 'utf-8');
-      template = injectMetaTags(template, req.originalUrl);
-      res.status(200).set({ 'Content-Type': 'text/html' }).send(template);
+      const template = injectMetaTags(getIndexTemplate(), url);
+      res.status(notFound ? 404 : 200).set({ 'Content-Type': 'text/html' }).send(template);
     } catch (err) {
       logger.error({ err }, 'Error serving index.html');
       res.status(500).send('Internal Server Error');

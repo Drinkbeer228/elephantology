@@ -56,14 +56,14 @@ files.forEach(file => {
     // Fix description/excerpt if missing
     if (!parsed.description && !parsed.excerpt) {
       const body = content.replace(/^---\r?\n[\s\S]*?\r?\n---/, '').trim();
-      const leadMatch = body.match(/##\s*📌?\s*Кратко\s*\(Lead\)\s*\n([\s\S]*?)(?=\n##|\Z)/i);
+      const leadMatch = body.match(/##\s*📌?\s*Кратко\s*\(Lead\)\s*\n([\s\S]*?)(?=\n##|Z)/i);
       if (leadMatch && leadMatch[1].trim()) {
-        parsed.description = leadMatch[1].trim().substring(0, 240).replace(/[\*\_`#\[\]\^]/g, '').trim() + '...';
+        parsed.description = leadMatch[1].trim().substring(0, 240).replace(/[*_`[\]^]/g, '').trim() + '...';
         modified = true;
       } else {
         const pMatch = body.match(/^(?!#|>|-|\*)\s*([^\r\n]+)/m);
         if (pMatch && pMatch[1]) {
-          parsed.description = pMatch[1].trim().substring(0, 200).replace(/[\*\_`#\[\]\^]/g, '').trim() + '...';
+          parsed.description = pMatch[1].trim().substring(0, 200).replace(/[*_`[\]^]/g, '').trim() + '...';
           modified = true;
         } else if (parsed.title) {
           parsed.description = `Научно-исследовательская статья по теме: ${parsed.title}`;

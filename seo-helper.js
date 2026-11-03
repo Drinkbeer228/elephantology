@@ -2,7 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import { load } from 'js-yaml';
 
-export const CANONICAL_DOMAIN = 'https://elephantology.ai.studio';
+// Canonical domain for SEO (sitemap, og tags). Override via env for other hosts.
+// Default: GitHub Pages user-site root — works when the repo is published at
+// https://<user>.github.io/. For project sites set SITE_ORIGIN explicitly,
+// e.g. https://<user>.github.io/<repo> in the deploy workflow.
+export const CANONICAL_DOMAIN = process.env.SITE_ORIGIN || 'https://elephantology.github.io';
 
 export function isValidDate(str) {
   if (typeof str !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(str)) return false;
@@ -43,7 +47,7 @@ export function parseFrontmatter(content) {
       } else if (typeof parsed.tags === 'string') {
         meta.tags = parsed.tags.split(',').map(t => t.trim()).filter(Boolean);
       }
-    } catch (e) {
+    } catch {
       // Fallback regex parsing if yaml fails
       const yamlStr = match[1];
       const titleMatch = yamlStr.match(/title:\s*["']?([^"'\r\n]+)["']?/);
@@ -198,7 +202,9 @@ export function generateSchemaJsonLd(meta, url, includeWebSite = false) {
     });
   }
 
-  return `<script type="application/ld+json">\n${JSON.stringify(schemas, null, 2)}\n</script>`;
+  // Escape `</` sequences so article content can never break out of the <script> block.
+  const safeJson = JSON.stringify(schemas, null, 2).replace(/</g, '\\u003c');
+  return `<script type="application/ld+json">\n${safeJson}\n</script>`;
 }
 
 // CLI implementation for Sitemap Generation
