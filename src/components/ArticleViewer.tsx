@@ -575,11 +575,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
 
   const navigateToArticle = useCallback((targetPath: string) => {
     if (!targetPath || !targetPath.trim()) return;
-    if (window.loadArticle) {
-      window.loadArticle(targetPath);
-    } else {
-      window.dispatchEvent(new CustomEvent('load-article', { detail: targetPath }));
-    }
+    window.dispatchEvent(new CustomEvent('load-article', { detail: targetPath }));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 

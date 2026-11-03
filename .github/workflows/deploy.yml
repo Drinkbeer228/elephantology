@@ -41,7 +41,14 @@ jobs:
         run: npm test
 
       - name: Build static site
+        # BASE_URL = repo name path for GitHub Pages project sites
+        # (user/org repos hosted at https://<user>.github.io/<repo>/).
+        env:
+          BASE_URL: /${{ github.event.repository.name }}/
         run: npm run build
+
+      - name: Write .nojekyll (preserve _assets/ directory on Pages)
+        run: touch dist/.nojekyll && cp docs/_assets/.nojekyll dist/_assets/.nojekyll 2>/dev/null || true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -15,6 +15,15 @@ export default function App() {
 
   const getBaseUrl = () => import.meta.env.BASE_URL || '/';
 
+  // Strip the deploy base path (e.g. "/repo-name" on GitHub Pages project sites)
+  // from window.location.pathname, leaving a site-relative path like "/article/foo".
+  const getSitePath = () => {
+    const baseUrl = getBaseUrl().replace(/\/$/, '');
+    let p = window.location.pathname;
+    if (baseUrl && p.startsWith(baseUrl)) p = p.slice(baseUrl.length);
+    return p || '/';
+  };
+
   const navigateTo = (view: 'home' | 'article', path: string | null = null, pushState = true) => {
     setCurrentView(view);
     setCurrentArticlePath(path);
@@ -36,9 +45,7 @@ export default function App() {
         setCurrentView(e.state.view);
         setCurrentArticlePath(e.state.path || null);
       } else {
-        const path = window.location.pathname;
-        const baseUrl = getBaseUrl().replace(/\/$/, '');
-        const cleanPath = path.replace(baseUrl, '');
+        const cleanPath = getSitePath();
         
         if (cleanPath.startsWith('/article/')) {
           let articlePath = cleanPath.substring('/article/'.length);
@@ -67,9 +74,7 @@ export default function App() {
 
   useEffect(() => {
     // Check initial path for direct navigation
-    const path = window.location.pathname;
-    const baseUrl = getBaseUrl().replace(/\/$/, '');
-    const cleanPath = path.replace(baseUrl, '');
+    const cleanPath = getSitePath();
     
     if (cleanPath.startsWith('/article/')) {
       let articlePath = cleanPath.substring('/article/'.length);
