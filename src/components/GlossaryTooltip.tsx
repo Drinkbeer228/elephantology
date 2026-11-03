@@ -29,16 +29,25 @@ interface GlossaryTooltipProps {
 }
 
 export const GlossaryTooltip: React.FC<GlossaryTooltipProps> = ({ termKey, children }) => {
+  const entry = glossaryMap[termKey];
+  // Hooks must run unconditionally (rules-of-hooks): render a wrapper component
+  // only when the term exists in the glossary.
+  if (!entry) {
+    return <>{children}</>;
+  }
+  return <GlossaryTooltipInner termKey={termKey} entry={entry}>{children}</GlossaryTooltipInner>;
+};
+
+const GlossaryTooltipInner: React.FC<{
+  termKey: string;
+  entry: GlossaryEntry;
+  children?: React.ReactNode;
+}> = ({ entry, children }) => {
   const { isEn } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const tooltipId = useId();
-
-  const entry = glossaryMap[termKey];
-  if (!entry) {
-    return <>{children}</>;
-  }
 
   const fullTerm = entry.full;
   const def = isEn ? entry.definition.en : entry.definition.ru;

@@ -70,7 +70,6 @@ async function prerenderFile(file) {
     const ogImage = `${domain}/assets/images/og-home-elephants.jpg`;
     
     const jsonLdScript = generateSchemaJsonLd(meta, fullUrl);
-    const lang = meta.lang || 'ru';
 
     const headInjection = `
       <title>${title}</title>

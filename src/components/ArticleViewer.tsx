@@ -28,13 +28,13 @@ import {
 } from 'lucide-react';
 import { parseFrontmatter } from '../lib/markdown';
 import { MODULES_CACHE, getStaticArticles, resolveArticlePath } from '../lib/articles';
-import { ArticleItem } from '../lib/searchEngine';
+import {} from '../lib/searchEngine';
 import { EvidenceBadge, EditorialStatusBlock, markdownSanitizeSchema } from './ArticleBlocks';
 import { useLanguage } from '../i18n/LanguageContext';
 import { ARTICLE_TRANSLATIONS_EN } from '../lib/articleTranslations';
 import { translateMarkdownToEnglish } from '../lib/translateMarkdown';
 import { CATEGORY_MAP_RU, CATEGORY_MAP_EN } from '../data/categories';
-import { ArticleMetadata, ReferenceItem, EvidenceBasisType } from '../types';
+import { ArticleMetadata, ReferenceItem } from '../types';
 import { annotateTextWithGlossary } from './GlossaryTooltip';
 import { normalizeDoi, formatDoiUrl } from '../lib/doi';
 

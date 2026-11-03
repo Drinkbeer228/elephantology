@@ -1,5 +1,5 @@
 import { load } from 'js-yaml';
-import { ArticleMetadata, ReferenceItem, RelatedKnowledgeItem } from '../types';
+import { ArticleMetadata, ReferenceItem } from '../types';
 
 export function parseFrontmatter(md: string): { metadata: ArticleMetadata; content: string } {
   let content = typeof md === 'string' ? md : '';

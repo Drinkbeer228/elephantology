@@ -43,7 +43,7 @@ export function parseFrontmatter(content) {
       } else if (typeof parsed.tags === 'string') {
         meta.tags = parsed.tags.split(',').map(t => t.trim()).filter(Boolean);
       }
-    } catch (e) {
+    } catch {
       // Fallback regex parsing if yaml fails
       const yamlStr = match[1];
       const titleMatch = yamlStr.match(/title:\s*["']?([^"'\r\n]+)["']?/);

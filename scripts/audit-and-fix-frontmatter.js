@@ -56,7 +56,7 @@ files.forEach(file => {
     // Fix description/excerpt if missing
     if (!parsed.description && !parsed.excerpt) {
       const body = content.replace(/^---\r?\n[\s\S]*?\r?\n---/, '').trim();
-      const leadMatch = body.match(/##\s*📌?\s*Кратко\s*\(Lead\)\s*\n([\s\S]*?)(?=\n##|\Z)/i);
+      const leadMatch = body.match(/##\s*📌?\s*Кратко\s*\(Lead\)\s*\n([\s\S]*?)(?=\n##|Z)/i);
       if (leadMatch && leadMatch[1].trim()) {
         parsed.description = leadMatch[1].trim().substring(0, 240).replace(/[\*\_`#\[\]\^]/g, '').trim() + '...';
         modified = true;
