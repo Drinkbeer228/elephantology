@@ -41,20 +41,29 @@ jobs:
         run: npm test
 
       - name: Build static site
-        # This repo is published as a GitHub Pages USER-SITE:
-        #   https://<user>.github.io/  (no /repo-name/ prefix)
-        # so BASE_URL stays '/' and SITE_ORIGIN matches the canonical domain.
-        # For a project site instead, set:
-        #   BASE_URL: /${{ github.event.repository.name }}/
-        #   SITE_ORIGIN/VITE_SITE_ORIGIN: https://<user>.github.io/<repo>
+        # Repo "elephantology" belongs to user "drinkbeer228" => PROJECT site:
+        #   https://<user>.github.io/elephantology/  (assets served under /elephantology/)
+        # If you later rename the repo to drinkbeer228.github.io (user-site),
+        # switch back to: BASE_URL: /  and  SITE_ORIGIN: https://<user>.github.io
         env:
-          BASE_URL: /
-          SITE_ORIGIN: https://elephantology.github.io
-          VITE_SITE_ORIGIN: https://elephantology.github.io
+          BASE_URL: /${{ github.event.repository.name }}/
+          SITE_ORIGIN: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          VITE_SITE_ORIGIN: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
         run: npm run build
 
       - name: Write .nojekyll (preserve _assets/ directory on Pages)
         run: touch dist/.nojekyll && cp docs/_assets/.nojekyll dist/_assets/.nojekyll 2>/dev/null || true
+
+      - name: Copy document assets (PDFs etc.) into dist, excluding books archive
+        # docs/assets/* (images, figures) are referenced by article markdown as
+        # relative "assets/..." links, so they must be present in the static build.
+        # docs/assets/books/ (~18 MB of source PDFs) is EXCLUDED from GitHub Pages
+        # deploy to keep the site light; those files stay in the repo as a knowledge
+        # base. To publish them too, remove the --exclude flag below.
+        run: |
+          mkdir -p dist/assets
+          rsync -a --exclude 'books/' docs/assets/ dist/assets/
+          echo "dist size:"; du -sh dist
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
