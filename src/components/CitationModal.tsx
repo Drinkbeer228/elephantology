@@ -8,10 +8,6 @@ interface CitationModalDetail {
   quoteText?: string;
 }
 
-interface CitationModalProps {
-  currentArticlePath?: string;
-}
-
 export function CitationModal() {
   const { t, isEn } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);

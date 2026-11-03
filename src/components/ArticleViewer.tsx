@@ -28,7 +28,6 @@ import {
 } from 'lucide-react';
 import { parseFrontmatter } from '../lib/markdown';
 import { MODULES_CACHE, getStaticArticles, resolveArticlePath } from '../lib/articles';
-import {} from '../lib/searchEngine';
 import { EvidenceBadge, EditorialStatusBlock, markdownSanitizeSchema } from './ArticleBlocks';
 import { useLanguage } from '../i18n/LanguageContext';
 import { ARTICLE_TRANSLATIONS_EN } from '../lib/articleTranslations';
@@ -344,7 +343,6 @@ function consolidateFootnoteItem(content: React.ReactNode, isEn: boolean): React
 
 export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   const { t, lang, setLang, isEn } = useLanguage();
-  const [content, setContent] = useState<string>('');
   const [rawContent, setRawContent] = useState<string>('');
   const [meta, setMeta] = useState<ArticleMetadata>({});
   const [loading, setLoading] = useState(true);
@@ -784,10 +782,10 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                 remarkPlugins={[remarkGfm, remarkMath]}
                 rehypePlugins={[rehypeRaw, [rehypeSanitize, markdownSanitizeSchema], rehypeKatex] as any}
                 components={{
-                  p: ({ node, ...props }) => <p className="mb-2 last:mb-0 text-gray-200" {...props} />,
-                  ul: ({ node, ...props }) => <ul className="list-disc list-inside space-y-1.5 my-2 text-gray-300 text-xs sm:text-sm" {...props} />,
-                  li: ({ node, ...props }) => <li className="text-gray-300" {...props} />,
-                  strong: ({ node, ...props }) => <strong className="font-bold text-kingdom-gold" {...props} />
+                  p: ({ node: _node, ...props }) => <p className="mb-2 last:mb-0 text-gray-200" {...props} />,
+                  ul: ({ node: _node, ...props }) => <ul className="list-disc list-inside space-y-1.5 my-2 text-gray-300 text-xs sm:text-sm" {...props} />,
+                  li: ({ node: _node, ...props }) => <li className="text-gray-300" {...props} />,
+                  strong: ({ node: _node, ...props }) => <strong className="font-bold text-kingdom-gold" {...props} />
                 }}
               >
                 {displayKeyFindings}
@@ -802,10 +800,10 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             remarkPlugins={[remarkGfm, remarkMath]}
             rehypePlugins={[rehypeRaw, [rehypeSanitize, markdownSanitizeSchema], rehypeKatex] as any}
             components={{
-              h2: ({ node, ...props }) => (
+              h2: ({ node: _node, ...props }) => (
                 <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white mt-10 mb-4 pb-2 border-b border-white/10" {...props} />
               ),
-              h3: ({ node, ...props }) => (
+              h3: ({ node: _node, ...props }) => (
                 <h3 className="text-lg sm:text-xl font-semibold tracking-tight text-gray-100 mt-7 mb-3" {...props} />
               ),
               p: ({ node, children, ...props }) => {
@@ -830,10 +828,10 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   </p>
                 );
               },
-              ul: ({ node, ...props }) => (
+              ul: ({ node: _node, ...props }) => (
                 <ul className="list-disc list-outside ml-5 space-y-2 mb-5 text-sm sm:text-base text-gray-300" {...props} />
               ),
-              ol: ({ node, ...props }) => (
+              ol: ({ node: _node, ...props }) => (
                 <ol className="list-decimal list-outside ml-5 space-y-2.5 mb-5 text-sm sm:text-base text-gray-300" {...props} />
               ),
               li: ({ node, children, ...props }: any) => {
@@ -852,21 +850,21 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                 const collapsed = Array.isArray(children) ? collapseCitationNodes(children) : children;
                 return <li className="text-gray-300" {...props}>{collapsed}</li>;
               },
-              blockquote: ({ node, ...props }) => (
+              blockquote: ({ node: _node, ...props }) => (
                 <blockquote className="border-l-4 border-kingdom-gold pl-4 py-2 my-6 text-gray-300 italic bg-[#181a24] border border-[#2b2e3d] rounded-r-xl" {...props} />
               ),
-              table: ({ node, ...props }) => (
+              table: ({ node: _node, ...props }) => (
                 <div className="overflow-x-auto my-6 border border-[#2b2e3d] rounded-xl bg-[#14161f]">
                   <table className="min-w-full divide-y divide-[#2b2e3d] text-xs sm:text-sm" {...props} />
                 </div>
               ),
-              th: ({ node, ...props }) => (
+              th: ({ node: _node, ...props }) => (
                 <th scope="col" className="px-4 py-2.5 bg-[#181a24] font-bold text-left text-gray-200" {...props} />
               ),
-              td: ({ node, ...props }) => (
+              td: ({ node: _node, ...props }) => (
                 <td className="px-4 py-2.5 border-t border-[#2b2e3d] text-gray-300" {...props} />
               ),
-              img: ({ node, ...props }) => (
+              img: ({ node: _node, ...props }) => (
                 <img
                   {...props}
                   loading="lazy"
@@ -874,7 +872,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   className="rounded-xl my-6 max-w-full h-auto border border-white/10 shadow-lg"
                 />
               ),
-              sup: ({ node, ...props }) => (
+              sup: ({ node: _node, ...props }) => (
                 <sup className="text-[11px] font-mono font-medium leading-none px-0.5 text-kingdom-gold hover:text-amber-300 transition-colors select-none align-super" {...props} />
               ),
               a: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {

@@ -124,7 +124,7 @@ function getMarkdownFiles(dir, baseDir = dir) {
       }
 
       // Strip quotes, anchors {#...}, and markdown symbols from title
-      title = title.replace(/^["']|["']$/g, '').replace(/\{.*?\}/g, '').replace(/[\*\_`#]/g, '').trim();
+      title = title.replace(/^["']|["']$/g, '').replace(/\{.*?\}/g, '').replace(/[*_`#]/g, '').trim();
 
       if (!title || title.length === 0) {
         title = file.replace('.md', '').replace(/_/g, ' ');
@@ -216,7 +216,7 @@ function escapeHtml(value) {
 function cleanDescriptionText(raw) {
   if (!raw) return '';
   const text = raw
-    .replace(/[\r\n#*_`>~\[\]\(\)\-\+]/g, ' ')
+    .replace(/[\r\n#*_`>~[\]()+-]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
   // Truncate at word boundary to avoid cutting words in half

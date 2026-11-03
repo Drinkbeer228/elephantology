@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
-import { ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, CheckCircle2, HelpCircle as HelpIcon, AlertTriangle, BookCheck, type LucideIcon } from 'lucide-react';
+import { ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, CheckCircle2, HelpCircle as HelpIcon, AlertTriangle, type LucideIcon } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { EvidenceBasisType } from '../types';
 
@@ -249,9 +249,9 @@ export function ScientificUncertaintyBlock({
 export function EditorialStatusBlock({
   lastReviewed,
   datePublished,
-  category,
-  evidenceLevel,
-  evidenceBasis
+  category: _category,
+  evidenceLevel: _evidenceLevel,
+  evidenceBasis: _evidenceBasis
 }: {
   lastReviewed?: string;
   datePublished?: string;

@@ -1,6 +1,6 @@
 import { useLanguage } from '../i18n/LanguageContext';
 import React, { useState, useMemo, useCallback } from 'react';
-import { ChevronDown, ChevronUp, ChevronRight, Sparkles, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, Layers, ChevronsUpDown, Search } from 'lucide-react';
+import { ChevronDown, ChevronUp, ChevronRight, Clock, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, Layers, ChevronsUpDown, Search } from 'lucide-react';
 import { ArticleItem } from '../lib/searchEngine';
 import { getStaticArticles } from '../lib/articles';
 import { CategoryDef } from './catalog/CategoryTile';
