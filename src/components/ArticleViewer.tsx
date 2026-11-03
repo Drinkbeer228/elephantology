@@ -870,7 +870,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
               h3: ({ node: _node, ...props }) => (
                 <h3 className="text-lg sm:text-xl font-semibold tracking-tight text-gray-100 mt-7 mb-3" {...props} />
               ),
-              p: ({ node, children, ...props }) => {
+              p: ({ node: _node, children, ...props }) => {
                 const renderAnnotatedChildren = (childNode: React.ReactNode): React.ReactNode => {
                   if (typeof childNode === 'string') {
                     return annotateTextWithGlossary(childNode, seenGlossaryTerms);
@@ -898,7 +898,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
               ol: ({ node: _node, ...props }) => (
                 <ol className="list-decimal list-outside ml-5 space-y-2.5 mb-5 text-sm sm:text-base text-gray-300" {...props} />
               ),
-              li: ({ node, children, ...props }: any) => {
+              li: ({ node: _node, children, ...props }: any) => {
                 const isFootnoteItem = props.id?.includes('fn-') || props.id?.includes('fnref');
                 if (isFootnoteItem) {
                   return (

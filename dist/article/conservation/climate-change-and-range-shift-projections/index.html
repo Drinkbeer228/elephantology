@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <meta name="keywords" content="слоны, элефантология, энциклопедия слонов, поведение слонов, анатомия слонов, миграция слонов, охрана природы">
+  
+  
+  <meta property="og:site_name" content="Слонология">
+  
+  
+  
+  <!-- NOTE: prerender.js rewrites canonical/og:url per article page with the
+       configured SITE_ORIGIN. og:image intentionally omitted until a real
+       image is added to public/assets/images/ (the old ai.studio asset was
+       lost in migration; referencing it produced broken social previews). -->
+  
+  
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  
+  <!-- PWA & Mobile Web App Support -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f172a">
+  
+  <!-- Google Fonts: Inter for academic UI, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/elephantology/assets/index-BE_zWfQd.js"></script>
+  <link rel="modulepreload" crossorigin href="/elephantology/assets/rolldown-runtime-DwynqlJ6.js">
+  <link rel="modulepreload" crossorigin href="/elephantology/assets/ui-Cxb6e3T1.js">
+  <link rel="modulepreload" crossorigin href="/elephantology/assets/markdown-B_nZ4-vC.js">
+  <link rel="modulepreload" crossorigin href="/elephantology/assets/vendor-SKyxL9Fp.js">
+  <link rel="stylesheet" crossorigin href="/elephantology/assets/index-BMmC_s1F.css">
+
+      <title>Климатические модели и прогнозирование сокращения ареалов хоботных до 2100 года | Слонология</title>
+      <meta name="description" content="Академическая статья: биоклиматическое моделирование (MaxEnt, IPCC SSP2-4.5/SSP5-8.5), аридизация саванн, терморегуляторный лимит, гидрологический стресс и смещение коридоров миграции.">
+      <link rel="canonical" href="https://drinkbeer228.github.io/elephantology/article/conservation/climate-change-and-range-shift-projections">
+      <link rel="alternate" hreflang="ru" href="https://drinkbeer228.github.io/elephantology/article/conservation/climate-change-and-range-shift-projections">
+      <link rel="alternate" hreflang="en" href="https://drinkbeer228.github.io/elephantology/article/conservation/climate-change-and-range-shift-projections?lang=en">
+      <link rel="alternate" hreflang="x-default" href="https://drinkbeer228.github.io/elephantology/article/conservation/climate-change-and-range-shift-projections">
+      <meta property="og:title" content="Климатические модели и прогнозирование сокращения ареалов хоботных до 2100 года | Слонология">
+      <meta property="og:description" content="Академическая статья: биоклиматическое моделирование (MaxEnt, IPCC SSP2-4.5/SSP5-8.5), аридизация саванн, терморегуляторный лимит, гидрологический стресс и смещение коридоров миграции.">
+      <meta property="og:url" content="https://drinkbeer228.github.io/elephantology/article/conservation/climate-change-and-range-shift-projections">
+      <meta property="og:type" content="article">
+      
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:title" content="Климатические модели и прогнозирование сокращения ареалов хоботных до 2100 года | Слонология">
+      <meta name="twitter:description" content="Академическая статья: биоклиматическое моделирование (MaxEnt, IPCC SSP2-4.5/SSP5-8.5), аридизация саванн, терморегуляторный лимит, гидрологический стресс и смещение коридоров миграции.">
+      
+      <script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://drinkbeer228.github.io/elephantology/article/conservation/climate-change-and-range-shift-projections"
+    },
+    "headline": "Климатические модели и прогнозирование сокращения ареалов хоботных до 2100 года",
+    "description": "Академическая статья: биоклиматическое моделирование (MaxEnt, IPCC SSP2-4.5/SSP5-8.5), аридизация саванн, терморегуляторный лимит, гидрологический стресс и смещение коридоров миграции.",
+    "inLanguage": "ru",
+    "author": {
+      "@type": "Organization",
+      "name": "Редакционная коллегия Слонологии",
+      "url": "https://drinkbeer228.github.io/elephantology"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Слонология",
+      "url": "https://drinkbeer228.github.io/elephantology",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://drinkbeer228.github.io/elephantology/icons/icon.svg"
+      }
+    },
+    "about": [
+      {
+        "@type": "Taxon",
+        "name": "Elephantidae",
+        "scientificName": "Elephantidae",
+        "taxonRank": "family",
+        "sameAs": "https://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%BD%D0%BE%D0%B2%D1%8B%D0%B5"
+      }
+    ],
+    "dateModified": "2026-08-27"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Слонология",
+        "item": "https://drinkbeer228.github.io/elephantology/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "conservation",
+        "item": "https://drinkbeer228.github.io/elephantology/?category=conservation"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Климатические модели и прогнозирование сокращения ареалов хоботных до 2100 года",
+        "item": "https://drinkbeer228.github.io/elephantology/article/conservation/climate-change-and-range-shift-projections"
+      }
+    ]
+  }
+]
+</script>
+    
+</head>
+<body class="bg-kingdom-bg text-gray-200 min-h-screen flex flex-col font-sans antialiased overflow-y-scroll overflow-x-hidden selection:bg-kingdom-gold selection:text-black">
+  <div id="root"><div id="article-prose-content" class="markdown-body"><h2>Кратко (Lead)</h2>
+<p>Современные представители семейства Elephantidae сталкиваются с жесткими термодинамическими ограничениями, обусловленными их колоссальной массой тела, неблагоприятным соотношением площади поверхности к объему и полным отсутствием потовых желез <sup><a id="footnote-ref-ref_dunkin_2013" href="#footnote-ref_dunkin_2013" data-footnote-ref aria-describedby="footnote-label">1</a></sup>. Прогнозируемое глобальное изменение климата до 2100 года по сценариям IPCC (SSP2-4.5 и SSP5-8.5) вызовет масштабный сдвиг биоклиматических вегетационных зон и прогрессирующую аридизацию саванн, критически сокращая доступность кормовых и водных ресурсов <sup><a id="footnote-ref-ref_ipcc_2021" href="#footnote-ref_ipcc_2021" data-footnote-ref aria-describedby="footnote-label">2</a></sup><sup><a id="footnote-ref-ref_wittemyer_2007" href="#footnote-ref_wittemyer_2007" data-footnote-ref aria-describedby="footnote-label">3</a></sup>. Математическое моделирование экологических ниш предсказывает катастрофическое сжатие пригодного ареала хоботных (до 40–80%), блокирование исторических миграционных путей и всплеск межвидовых конфликтов в густонаселенных антропогенных ландшафтах <sup><a id="footnote-ref-ref_choudhury_2019" href="#footnote-ref_choudhury_2019" data-footnote-ref aria-describedby="footnote-label">4</a></sup><sup><a id="footnote-ref-ref_ogutu_2016" href="#footnote-ref_ogutu_2016" data-footnote-ref aria-describedby="footnote-label">5</a></sup>.</p>
+<hr>
+<h2>Ключевые климатические метрики</h2>
+<p>Ниже приведены фундаментальные биофизические и географические показатели, характеризующие уязвимость Elephantidae к глобальному изменению климата.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Климатический / Биофизический параметр</th>
+<th align="left">Физиологический и географический предел</th>
+<th align="left">Экологические последствия</th>
+<th align="left">Источники</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Потери ареала (SSP2-4.5 / RCP2.6)</strong></td>
+<td align="left"><strong>-24.0% ... -39.0%</strong> к 2070–2100 гг.</td>
+<td align="left">Фрагментация экосистем, высотное смещение на 200–500 м по вертикали.</td>
+<td align="left"><sup><a id="footnote-ref-ref_choudhury_2019-2" href="#footnote-ref_choudhury_2019" data-footnote-ref aria-describedby="footnote-label">4</a></sup></td>
+</tr>
+<tr>
+<td align="left"><strong>Потери ареала (SSP5-8.5 / RCP8.5)</strong></td>
+<td align="left"><strong>-38.0% ... -83.0%</strong> к 2070–2100 гг.</td>
+<td align="left">Коллапс равнинных субпопуляций (особенно в Восточно-Центральной Индии).</td>
+<td align="left"><sup><a id="footnote-ref-ref_choudhury_2019-3" href="#footnote-ref_choudhury_2019" data-footnote-ref aria-describedby="footnote-label">4</a></sup></td>
+</tr>
+<tr>
+<td align="left"><strong>Суточная потребность в воде</strong></td>
+<td align="left"><strong>150–250 литров</strong> на взрослую особь в день</td>
+<td align="left">Гидрологический лимит; привязка стад к крупным водотокам в засуху.</td>
+<td align="left"><sup><a id="footnote-ref-ref_wittemyer_2007-2" href="#footnote-ref_wittemyer_2007" data-footnote-ref aria-describedby="footnote-label">3</a></sup></td>
+</tr>
+<tr>
+<td align="left"><strong>Тепловой предел активности</strong></td>
+<td align="left">Ambient температура (T_{amb} &gt; 38^\circ\text{C})</td>
+<td align="left">Сокращение дневной локомоции; ушная вазодилатация на пределе.</td>
+<td align="left"><sup><a id="footnote-ref-ref_dunkin_2013-2" href="#footnote-ref_dunkin_2013" data-footnote-ref aria-describedby="footnote-label">1</a></sup></td>
+</tr>
+<tr>
+<td align="left"><strong>Критический радиус водопоя</strong></td>
+<td align="left"><strong>10–15 км</strong> от центра кормовой активности</td>
+<td align="left">Истощение пастбищ при удалении от водных источников; гибель телят.</td>
+<td align="left"><sup><a id="footnote-ref-ref_wittemyer_2007-3" href="#footnote-ref_wittemyer_2007" data-footnote-ref aria-describedby="footnote-label">3</a></sup></td>
+</tr>
+<tr>
+<td align="left"><strong>Интенсивность сухой фазы (DSI)</strong></td>
+<td align="left">Индекс DSI (\ge 2.5) (более 6 месяцев без дождей)</td>
+<td align="left">Падение выживаемости лактирующих самок и молодняка &lt;1 года.</td>
+<td align="left"><sup><a id="footnote-ref-ref_wittemyer_2007-4" href="#footnote-ref_wittemyer_2007" data-footnote-ref aria-describedby="footnote-label">3</a></sup></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Основной раздел: Биоклиматические тренды, термодинамический баланс и популяционный отклик</h2>
+<h3>1. Архитектура MaxEnt и биоклиматические предикторы (BioClim)</h3>
+<p>Для долгосрочного прогнозирования распределения хоботных применяется математическое моделирование экологических ниш (ENM) с использованием алгоритма максимальной энтропии (<em>MaxEnt</em>) в интеграции с ансамблевым моделированием (<em>Ensemble Modeling</em>) <sup><a id="footnote-ref-ref_choudhury_2019-4" href="#footnote-ref_choudhury_2019" data-footnote-ref aria-describedby="footnote-label">4</a></sup>. В качестве предикторов используются глобальные сетки данных <em>WorldClim</em>, отражающие тепловой и гидрологический режимы ландшафтов <sup><a id="footnote-ref-ref_ipcc_2021-2" href="#footnote-ref_ipcc_2021" data-footnote-ref aria-describedby="footnote-label">2</a></sup><sup><a id="footnote-ref-ref_choudhury_2019-5" href="#footnote-ref_choudhury_2019" data-footnote-ref aria-describedby="footnote-label">4</a></sup>.</p>
+<p>Ключевыми биоклиматическими переменными, имеющими наибольший процент вклада в прогностические модели MaxEnt для слонов, являются:</p>
+<ul>
+<li><strong>(Bio12) (Годовая сумма осадков) и индекс засушливости SPEI:</strong> Осадки напрямую лимитируют чистую первичную продуктивность пастбищ (биомассу корма) <sup><a id="footnote-ref-ref_ogutu_2016-2" href="#footnote-ref_ogutu_2016" data-footnote-ref aria-describedby="footnote-label">5</a></sup>. Падение (Bio12 &lt; 800) мм/год запускает деградацию кустарниково-древесного яруса и превращает саванны в аридные пустыни.</li>
+<li><strong>(Bio1) (Среднегодовая температура):</strong> Определяет базовые метаболические энергозатраты на поддержание теплового гомеостаза.</li>
+<li><strong>(Bio5) (Максимальная температура самого теплого месяца):</strong> Выступает главным ограничителем суточного бюджета времени. При экстремальных температурных аномалиях ((Bio5 &gt; 40\text{--}42^\circ\text{C})) слоны полностью прекращают пищевую локомоцию в светлое время суток и укрываются в густых тенистых рефугиумах.</li>
+</ul>
+<p>Согласно сопряженным моделям IPCC (сценарии SSP2-4.5 — умеренный и SSP5-8.5 — агрессивный), к 2070–2100 годам пригодная площадь обитания подвергнется катастрофическому сжатию <sup><a id="footnote-ref-ref_ipcc_2021-3" href="#footnote-ref_ipcc_2021" data-footnote-ref aria-describedby="footnote-label">2</a></sup><sup><a id="footnote-ref-ref_choudhury_2019-6" href="#footnote-ref_choudhury_2019" data-footnote-ref aria-describedby="footnote-label">4</a></sup>:</p>
+<ul>
+<li><strong>Африканский саванный слон (<em>Loxodonta africana</em>):</strong> Прогрессирующая аридизация Сахеля и Саванного пояса Восточной Африки вызовет сокращение биотопов на <strong>45–60%</strong> <sup><a id="footnote-ref-ref_ipcc_2021-4" href="#footnote-ref_ipcc_2021" data-footnote-ref aria-describedby="footnote-label">2</a></sup>. Рост индекса SPEI (Standardised Precipitation-Evapotranspiration Index) указывает на превращение крупных национальных парков (Цаво, Амбосели, Серенгети) в сверхаридные зоны с высокой частотой затяжных многолетних засух.</li>
+<li><strong>Азиатский слон (<em>Elephas maximus</em>):</strong> На примере Индии доказан катастрофический пространственный коллапс <sup><a id="footnote-ref-ref_choudhury_2019-7" href="#footnote-ref_choudhury_2019" data-footnote-ref aria-describedby="footnote-label">4</a></sup>:<ol>
+<li><em>Восточно-Центральная Индия (ECI):</em> Моделирование прогнозирует потерю до <strong>83.0%</strong> пригодных биотопов при сценарии SSP5-8.5 <sup><a id="footnote-ref-ref_choudhury_2019-8" href="#footnote-ref_choudhury_2019" data-footnote-ref aria-describedby="footnote-label">4</a></sup>.</li>
+<li><em>Северо-Западная Индия (NW — предгорья Шивалика):</em> Сокращение площади ареала составит до <strong>66.6%</strong> <sup><a id="footnote-ref-ref_choudhury_2019-9" href="#footnote-ref_choudhury_2019" data-footnote-ref aria-describedby="footnote-label">4</a></sup>.</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3>2. Биофизика теплообмена и лимиты испарительного охлаждения</h3>
+<p>Уникальная физиологическая проблема Elephantidae заключается в крайне неблагоприятном коэффициенте соотношения площади поверхности тела к объёму <sup><a id="footnote-ref-ref_dunkin_2013-3" href="#footnote-ref_dunkin_2013" data-footnote-ref aria-describedby="footnote-label">1</a></sup>. У взрослого слона массой 4000–6000 кг и площадью поверхности около 25 (м^2) этот коэффициент составляет всего <strong>0.08–0.10 (м^2/кг)</strong> (в 3–4 раза ниже человеческого показателя) <sup><a id="footnote-ref-ref_dunkin_2013-4" href="#footnote-ref_dunkin_2013" data-footnote-ref aria-describedby="footnote-label">1</a></sup>. </p>
+<p>Термодинамический баланс животного описывается фундаментальным уравнением теплового баланса:</p>
+<p>[H_{stored} = M \pm R \pm C - E]</p>
+<p>Где:</p>
+<ul>
+<li>(H_{stored}) — аккумулированное тепло (в норме должно стремиться к нулю для удержания температуры ядра тела на физиологическом уровне <strong>35.9–36.5 °C</strong>);</li>
+<li>(M) — метаболическая теплопродукция (составляет около 49,000 ккал/сутки в покое для взрослого слона);</li>
+<li>(R) — радиационный теплообмен (поглощение солнечной радиации и инфракрасного излучения почвы);</li>
+<li>(C) — конвективная теплоотдача (зависит от скорости ветра и разницы температур между кожей и воздухом);</li>
+<li>(E) — испарительный теплообмен (трансэпидермальная потеря влаги).</li>
+</ul>
+<pre><code>               БИОФИЗИКА ТЕРМОДИНАМИЧЕСКОГО БАЛАНСА ELEPHANTIDAE
+               ==================================================
+
+                     R (Радиационный приток: Солнце, почва)
+                                    │
+                                    ▼
+       ┌────────────────────────────────────────────────────────┐
+       │                 M (Метаболическое тепло)               │
+       │                        (49,000 ккал)                   │
+       └────────────────────────────┬───────────────────────────┘
+                                    │
+          ┌─────────────────────────┴─────────────────────────┐
+          ▼                                                   ▼
+C (Конвективный сброс)                              E (Испарительный сброс)
+• Вазодилатация ушей (0.8 -&gt; 10 л/мин)              • Трансэпидермальная потеря влаги (TEWL)
+• Хлопанье ушами (прирост теплоотдачи 24%)           • Испарение воды/слюны с хобота
+• Тепловые окна (дерма 1.5 мм за ушами)              • Обмазывание грязью (фиксация влаги в трещинах)
+          │                                                   │
+          ▼                                                   ▼
+Эффективен только при Tamb &lt; 35°C                   Лимитирован при дефиците воды!
+При Tamb &gt; 38°C тепло идет ВНУТРЬ                   Приводит к острому обезвоживанию
+</code></pre>
+<h4>Механизмы активного сброса тепла и их пределы:</h4>
+<ol>
+<li><strong>Ушные радиаторы и АВА-шунты:</strong> Задняя поверхность ушей снабжена густой сетью сосудов (<em>v. auricularis posterior</em>) и артериовенозных анастомозов <sup><a id="footnote-ref-ref_dunkin_2013-5" href="#footnote-ref_dunkin_2013" data-footnote-ref aria-describedby="footnote-label">1</a></sup>. При перегреве кровоток через уши возрастает от <strong>0.8 до 10.0 л/мин</strong> через каждую ушную раковину, охлаждая проходящую кровь на <strong>2.0–4.0 °C</strong> <sup><a id="footnote-ref-ref_dunkin_2013-6" href="#footnote-ref_dunkin_2013" data-footnote-ref aria-describedby="footnote-label">1</a></sup>. Хлопанье ушами (<em>ear fanning</em>) увеличивает конвективную отдачу на <strong>24%</strong> <sup><a id="footnote-ref-ref_dunkin_2013-7" href="#footnote-ref_dunkin_2013" data-footnote-ref aria-describedby="footnote-label">1</a></sup>. Однако конвекция работает только в том случае, если температура воздуха ниже температуры кожи ((T_{amb} &lt; T_{skin} \approx 33\text{--}34^\circ\text{C})) <sup><a id="footnote-ref-ref_dunkin_2013-8" href="#footnote-ref_dunkin_2013" data-footnote-ref aria-describedby="footnote-label">1</a></sup>. При повышении (T_{amb} &gt; 38^\circ\text{C}) градиент температур меняется на противоположный, и тепло начинает поступать из воздуха внутрь организма слона.</li>
+<li><strong>Трансэпидермальная потеря воды (TEWL):</strong> Из-за полного отсутствия диффузных потовых желез слоны компенсируют перегрев испарением влаги через ультратонкие слои эпидермиса кутикулы и микротрещины кожи (<em>trans-epidermal water loss</em>), теряя в среднем <strong>0.23 литра воды/(м^2)/час</strong> (около 2.5–3.0 литров в час для взрослой особи) <sup><a id="footnote-ref-ref_dunkin_2013-9" href="#footnote-ref_dunkin_2013" data-footnote-ref aria-describedby="footnote-label">1</a></sup>. При экстремальной засухе и отсутствии доступа к питьевой воде этот механизм ведет к молниеносному критическому обезвоживанию и гибели от теплового удара.</li>
+<li><strong>Испарительная поведенческая терморегуляция:</strong> При запредельном перегреве слоны задействуют глоточный мешок (<em>pharyngeal pouch</em>), вводя хобот глубоко в глотку, доставая накопленную слюну или воду и орошая кожу заушных «тепловых окон» (толщина кожи которых всего 1.5–2.0 мм по сравнению с 3.5 см на спине). При отсутствии открытых водоемов этот поведенческий акт быстро истощает внутренние водные резервы.</li>
+</ol>
+<hr>
+<h3>3. Демографический отклик на экстремальные засухи</h3>
+<p>Долгосрочный демографический мониторинг популяций в Амбосели (Кения) под руководством Г. Виттемайера (<em>G. Wittemyer et al., 2007</em>) и П. Ли (<em>P. Lee et al., 2021</em>) позволил установить прямую математическую связь между климатическими флуктуациями и выживаемостью возрастных когорт <sup><a id="footnote-ref-ref_wittemyer_2007-5" href="#footnote-ref_wittemyer_2007" data-footnote-ref aria-describedby="footnote-label">3</a></sup>:</p>
+<ul>
+<li><strong>Индекс DSI и корреляция NDVI:</strong> Спектральные показатели вегетационного индекса зелености (NDVI), отражающие биомассу доступных пастбищ, тесно коррелируют с индексом жесткости сухого сезона (Dry Season Intensity, DSI) <sup><a id="footnote-ref-ref_wittemyer_2007-6" href="#footnote-ref_wittemyer_2007" data-footnote-ref aria-describedby="footnote-label">3</a></sup>.</li>
+<li><strong>Сверхвысокая младенческая смертность:</strong> В периоды экстремальных засух (DSI (\ge 2.5), годовые осадки &lt;250 мм) смертность телят в возрасте до <strong>1 года (сеголетков)</strong> возрастает в <strong>3.5–5.0 раз</strong> <sup><a id="footnote-ref-ref_wittemyer_2007-7" href="#footnote-ref_wittemyer_2007" data-footnote-ref aria-describedby="footnote-label">3</a></sup>. Лактирующие самки, испытывая тяжелейший дефицит энергии и обезвоживание, прекращают выработку молока (норма выделения молока составляет 7.6–9.4 л/сутки).</li>
+<li><strong>Репродуктивный блок:</strong> Дефицит влаги снижает долю оплодотворяемости у фертильных самок. Месячное количество концепций имеет сильную обратную корреляцию с индексом засушливости DSI ((r = -0.452, p = 0.003)) с временным лагом в два месяца после пика температурной аномалии <sup><a id="footnote-ref-ref_wittemyer_2007-8" href="#footnote-ref_wittemyer_2007" data-footnote-ref aria-describedby="footnote-label">3</a></sup>.</li>
+<li><strong>Сенильная уязвимость:</strong> Засухи вызывают резкий подъем смертности среди гериатрических особей (матриархов старше 45–50 лет). Истощение запасов мягких травянистых кормов вынуждает слонов переходить на грубые лигнифицированные ветви кустарников C3. Гериатрические особи с полностью стертыми шестыми молярами (M3) физически неспособны переваривать эти волокна, что инициирует массовую гибель от сенильной кахексии.</li>
+</ul>
+<hr>
+<h3>4. Столкновение с инфраструктурой и обострение HEC</h3>
+<p>Прогрессирующая аридизация равнинных саванн и усыхание речных долин Тераи вынуждают популяции хоботных совершать масштабные пространственные перемещения, натыкающиеся на непреодолимую антропогенную инфраструктуру <sup><a id="footnote-ref-ref_choudhury_2019-10" href="#footnote-ref_choudhury_2019" data-footnote-ref aria-describedby="footnote-label">4</a></sup><sup><a id="footnote-ref-ref_ogutu_2016-3" href="#footnote-ref_ogutu_2016" data-footnote-ref aria-describedby="footnote-label">5</a></sup>:</p>
+<ul>
+<li><strong>Высотный сдвиг в Гималаях (Upward Shift):</strong> Азиатские слоны активно смещают границы своего обитания вверх по склонам Гималаев на <strong>200–500 метров по вертикали</strong> <sup><a id="footnote-ref-ref_choudhury_2019-11" href="#footnote-ref_choudhury_2019" data-footnote-ref aria-describedby="footnote-label">4</a></sup>. В этих зонах сохраняется необходимый уровень годовых осадков (Bio12) и более прохладные температуры (Bio5).</li>
+<li><strong>Эффект «климатического тупика»:</strong> Движение на север заблокировано густонаселенными долинами рек с плотной агропромышленной инфраструктурой, каналами и автомагистралями <sup><a id="footnote-ref-ref_choudhury_2019-12" href="#footnote-ref_choudhury_2019" data-footnote-ref aria-describedby="footnote-label">4</a></sup>. Слоны оказываются заперты в мелких островных рефугиумах (высотных «карманах»), лишенных генетической связности, что ведет к резкому падению эффективного размера популяции ((N_e)) и росту инбридинга.</li>
+<li><strong>Интенсификация HEC (Human-Elephant Conflict):</strong> Из-за высыхания лесных болот и падения NDVI естественных пастбищ семейные группы выходят на орошаемые сельскохозяйственные поля и к искусственным водохранилищам <sup><a id="footnote-ref-ref_ogutu_2016-4" href="#footnote-ref_ogutu_2016" data-footnote-ref aria-describedby="footnote-label">5</a></sup>. Набеги на посевы (<em>crop-raiding</em>) в засушливый период возрастают на <strong>65–80%</strong>, приводя к ответному уничтожению животных местным населением и росту смертности от столкновений с поездами и ударов током при обрыве ЛЭП.</li>
+</ul>
+<hr>
+<h2>️ Доказательная база и природоохранный регламент</h2>
+<ul>
+<li><strong><code>[ESTABLISHED]</code> Патофизиология климатического стресса:</strong> Хронические засухи и экстремальные температуры вызывают стойкую сверхактивацию гипоталамо-гипофизарно-надпочечниковой оси (HPA), что выражается в резком росте уровня метаболитов глюкокортикоидов в фекалиях (FGM) до <strong>2.5–4.5 мкг/г</strong> (при норме до 1.0 мкг/г) у диких слонов, находящихся вне охраняемых зон <sup><a id="footnote-ref-ref_wittemyer_2007-9" href="#footnote-ref_wittemyer_2007" data-footnote-ref aria-describedby="footnote-label">3</a></sup>.</li>
+<li><strong><code>[CONSERVATION STRATEGY]</code> Протокол адаптивного обводнения и защиты коридоров:</strong><ol>
+<li><em>Автономные скважины:</em> Создание в границах буферных зон и лесных рефугиумов сети искусственных глубоких обводнительных станций. Скважины должны питаться исключительно от солнечных фотоэлектрических панелей с автоматическим датчиком уровня воды и производительностью не менее <strong>15,000–25,000 литров в сутки</strong> на одну точку для предотвращения деградации почвы вокруг водопоя.</li>
+<li><em>Экологические трансекты:</em> Проектирование речных и лесных коридоров шириной не менее <strong>2.5–5.0 км</strong>, защищенных от строительства дорог и каналов, для обеспечения беспрепятственного высотного смещения популяций в предгорья.</li>
+<li><em>Барьеры HEC:</em> Установка нелетальных био-барьеров (ульев-оград — <em>Beehive Fences</em> и рвов глубиной не менее 2.5 м) вдоль границ охраняемых рефугиумов для минимизации заходов обезвоженных стад в агроценозы.</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2>Связанные знания</h2>
+<ul>
+<li><strong><a href="../veterinary/clinical-podiatry-and-foot-care.md">Подиатрия и уход за стопой у слонов</a></strong> — Влияние пересыхания и растрескивания роговой подошвы при длительных локомоциях по каменистым засушливым субстратам.</li>
+<li><strong><a href="../conservation/population-genetics-and-phylogeography.md">Популяционная генетика и геномика сохранения</a></strong> — Генетические последствия изоляции популяций в климатических рефугиумах.</li>
+<li><strong><a href="../ecology/feeding-ecology-nutrition-and-geophagy.md">Экология питания и биогеохимия</a></strong> — Сезонная инверсия рациона с C4-злаков на C3-browse при засухах.</li>
+</ul>
+<hr>
+<h2>📚 Литература</h2>
+<section class="footnotes" data-footnotes>
+<h2 id="footnote-label" class="sr-only">Footnotes</h2>
+<ol>
+<li id="footnote-ref_dunkin_2013">
+<p>Dunkin R. C., Wilson D., Way N., et al. (2013). Climate change and the energetic cost of thermoregulation in African elephants. <em>Journal of Experimental Biology</em>, 216(15), 2930-2942. doi:10.1242/jeb.084145. <a href="#footnote-ref-ref_dunkin_2013" data-footnote-backref aria-label="Back to reference ref_dunkin_2013">↩</a> <a href="#footnote-ref-ref_dunkin_2013-2" data-footnote-backref aria-label="Back to reference ref_dunkin_2013">↩<sup>2</sup></a> <a href="#footnote-ref-ref_dunkin_2013-3" data-footnote-backref aria-label="Back to reference ref_dunkin_2013">↩<sup>3</sup></a> <a href="#footnote-ref-ref_dunkin_2013-4" data-footnote-backref aria-label="Back to reference ref_dunkin_2013">↩<sup>4</sup></a> <a href="#footnote-ref-ref_dunkin_2013-5" data-footnote-backref aria-label="Back to reference ref_dunkin_2013">↩<sup>5</sup></a> <a href="#footnote-ref-ref_dunkin_2013-6" data-footnote-backref aria-label="Back to reference ref_dunkin_2013">↩<sup>6</sup></a> <a href="#footnote-ref-ref_dunkin_2013-7" data-footnote-backref aria-label="Back to reference ref_dunkin_2013">↩<sup>7</sup></a> <a href="#footnote-ref-ref_dunkin_2013-8" data-footnote-backref aria-label="Back to reference ref_dunkin_2013">↩<sup>8</sup></a> <a href="#footnote-ref-ref_dunkin_2013-9" data-footnote-backref aria-label="Back to reference ref_dunkin_2013">↩<sup>9</sup></a></p>
+</li>
+<li id="footnote-ref_ipcc_2021">
+<p>IPCC (2021). Climate Change 2021: The Physical Science Basis. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change. Cambridge University Press. <a href="#footnote-ref-ref_ipcc_2021" data-footnote-backref aria-label="Back to reference ref_ipcc_2021">↩</a> <a href="#footnote-ref-ref_ipcc_2021-2" data-footnote-backref aria-label="Back to reference ref_ipcc_2021">↩<sup>2</sup></a> <a href="#footnote-ref-ref_ipcc_2021-3" data-footnote-backref aria-label="Back to reference ref_ipcc_2021">↩<sup>3</sup></a> <a href="#footnote-ref-ref_ipcc_2021-4" data-footnote-backref aria-label="Back to reference ref_ipcc_2021">↩<sup>4</sup></a></p>
+</li>
+<li id="footnote-ref_wittemyer_2007">
+<p>Wittemyer G., Rasmussen H. B., Douglas-Hamilton I. (2007). The effects of weather on elephant demographics. <em>Journal of Zoology</em>, 272(2), 214–222. doi:10.1111/j.1469-7998.2007.00318.x. <a href="#footnote-ref-ref_wittemyer_2007" data-footnote-backref aria-label="Back to reference ref_wittemyer_2007">↩</a> <a href="#footnote-ref-ref_wittemyer_2007-2" data-footnote-backref aria-label="Back to reference ref_wittemyer_2007">↩<sup>2</sup></a> <a href="#footnote-ref-ref_wittemyer_2007-3" data-footnote-backref aria-label="Back to reference ref_wittemyer_2007">↩<sup>3</sup></a> <a href="#footnote-ref-ref_wittemyer_2007-4" data-footnote-backref aria-label="Back to reference ref_wittemyer_2007">↩<sup>4</sup></a> <a href="#footnote-ref-ref_wittemyer_2007-5" data-footnote-backref aria-label="Back to reference ref_wittemyer_2007">↩<sup>5</sup></a> <a href="#footnote-ref-ref_wittemyer_2007-6" data-footnote-backref aria-label="Back to reference ref_wittemyer_2007">↩<sup>6</sup></a> <a href="#footnote-ref-ref_wittemyer_2007-7" data-footnote-backref aria-label="Back to reference ref_wittemyer_2007">↩<sup>7</sup></a> <a href="#footnote-ref-ref_wittemyer_2007-8" data-footnote-backref aria-label="Back to reference ref_wittemyer_2007">↩<sup>8</sup></a> <a href="#footnote-ref-ref_wittemyer_2007-9" data-footnote-backref aria-label="Back to reference ref_wittemyer_2007">↩<sup>9</sup></a></p>
+</li>
+<li id="footnote-ref_choudhury_2019">
+<p>Choudhury P. R., Kanagaraj R., Roy P. S. (2019). Projected climate change scenarios show range shifts for Asian elephants in India and Nepal. <em>Diversity and Distributions</em>, 25(5), 822–838. doi:10.1111/ddi.12933. <a href="#footnote-ref-ref_choudhury_2019" data-footnote-backref aria-label="Back to reference ref_choudhury_2019">↩</a> <a href="#footnote-ref-ref_choudhury_2019-2" data-footnote-backref aria-label="Back to reference ref_choudhury_2019">↩<sup>2</sup></a> <a href="#footnote-ref-ref_choudhury_2019-3" data-footnote-backref aria-label="Back to reference ref_choudhury_2019">↩<sup>3</sup></a> <a href="#footnote-ref-ref_choudhury_2019-4" data-footnote-backref aria-label="Back to reference ref_choudhury_2019">↩<sup>4</sup></a> <a href="#footnote-ref-ref_choudhury_2019-5" data-footnote-backref aria-label="Back to reference ref_choudhury_2019">↩<sup>5</sup></a> <a href="#footnote-ref-ref_choudhury_2019-6" data-footnote-backref aria-label="Back to reference ref_choudhury_2019">↩<sup>6</sup></a> <a href="#footnote-ref-ref_choudhury_2019-7" data-footnote-backref aria-label="Back to reference ref_choudhury_2019">↩<sup>7</sup></a> <a href="#footnote-ref-ref_choudhury_2019-8" data-footnote-backref aria-label="Back to reference ref_choudhury_2019">↩<sup>8</sup></a> <a href="#footnote-ref-ref_choudhury_2019-9" data-footnote-backref aria-label="Back to reference ref_choudhury_2019">↩<sup>9</sup></a> <a href="#footnote-ref-ref_choudhury_2019-10" data-footnote-backref aria-label="Back to reference ref_choudhury_2019">↩<sup>10</sup></a> <a href="#footnote-ref-ref_choudhury_2019-11" data-footnote-backref aria-label="Back to reference ref_choudhury_2019">↩<sup>11</sup></a> <a href="#footnote-ref-ref_choudhury_2019-12" data-footnote-backref aria-label="Back to reference ref_choudhury_2019">↩<sup>12</sup></a></p>
+</li>
+<li id="footnote-ref_ogutu_2016">
+<p>Ogutu J. O., Piepho H. P., Said M. Y., et al. (2016). Extreme wildlife declines and concurrent population surges of cattle in Kenya&#39;s rangelands. <em>PLoS ONE</em>, 11(9), e0163249. doi:10.1371/journal.pone.0163249. <a href="#footnote-ref-ref_ogutu_2016" data-footnote-backref aria-label="Back to reference ref_ogutu_2016">↩</a> <a href="#footnote-ref-ref_ogutu_2016-2" data-footnote-backref aria-label="Back to reference ref_ogutu_2016">↩<sup>2</sup></a> <a href="#footnote-ref-ref_ogutu_2016-3" data-footnote-backref aria-label="Back to reference ref_ogutu_2016">↩<sup>3</sup></a> <a href="#footnote-ref-ref_ogutu_2016-4" data-footnote-backref aria-label="Back to reference ref_ogutu_2016">↩<sup>4</sup></a></p>
+</li>
+</ol>
+</section>
+</div></div>
+<script>window.__PRERENDERED_ARTICLE__ = "/article/conservation/climate-change-and-range-shift-projections";</script></body>
+</html>
