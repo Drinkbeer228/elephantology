@@ -2,38 +2,68 @@
   "name": "Энциклопедия «Слонология»",
   "short_name": "Слонология",
   "description": "Интерактивная научная база знаний и полевой справочник о хоботных (Elephantidae): анатомия, этология, ветеринария, эволюция и карты миграций.",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/elephantology/",
+  "scope": "/elephantology/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#121318",
-  "theme_color": "#1b1d24",
+  "background_color": "#F6F5F0",
+  "theme_color": "#141413",
   "lang": "ru",
   "categories": ["education", "reference", "books"],
   "icons": [
     {
-      "src": "/icons/icon-192.png",
+      "src": "/elephantology/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-512.png",
+      "src": "/elephantology/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-maskable.png",
+      "src": "/elephantology/icons/icon-maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/icons/icon.svg",
+      "src": "/elephantology/icons/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Главная база знаний",
+      "short_name": "Каталог",
+      "description": "Все научные статьи энциклопедии",
+      "url": "/elephantology/",
+      "icons": [{ "src": "/elephantology/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Анатомия и физиология",
+      "short_name": "Анатомия",
+      "description": "Скелет, стопа, хобот и органы слонов",
+      "url": "/elephantology/?category=anatomy",
+      "icons": [{ "src": "/elephantology/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Поведение и этология",
+      "short_name": "Этология",
+      "description": "Инфразвук, муст и социальная структура",
+      "url": "/elephantology/?category=ethogram",
+      "icons": [{ "src": "/elephantology/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "AI-Слонолог",
+      "short_name": "AI Чат",
+      "description": "Консультация с научным ассистентом",
+      "url": "/elephantology/?action=chat",
+      "icons": [{ "src": "/elephantology/icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
