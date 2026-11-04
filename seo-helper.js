@@ -99,7 +99,7 @@ export function generateSchemaJsonLd(meta, url, includeWebSite = false) {
         "name": meta.author
       } : {
         "@type": "Organization",
-        "name": meta.lang === 'en' ? "Elephantology Editorial Board" : "Редакционная коллегия Слонологии",
+        "name": "Редакционная коллегия Слонологии",
         "url": CANONICAL_DOMAIN
       },
       "publisher": {
@@ -254,8 +254,6 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
   urls.push(`  <url>
     <loc>${domain}/</loc>
     <xhtml:link rel="alternate" hreflang="ru" href="${domain}/" />
-    <xhtml:link rel="alternate" hreflang="en" href="${domain}/?lang=en" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="${domain}/" />
     <lastmod>${latestArticleDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -275,8 +273,6 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
     urls.push(`  <url>
     <loc>${fullUrl}</loc>
     <xhtml:link rel="alternate" hreflang="ru" href="${fullUrl}" />
-    <xhtml:link rel="alternate" hreflang="en" href="${fullUrl}?lang=en" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="${fullUrl}" />
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>${priority}</priority>

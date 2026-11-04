@@ -29,6 +29,7 @@ import {
 
 } from 'lucide-react';
 import { TableOfContents, TocItem } from './TableOfContents';
+import { CategoryTreePanel } from './CategoryTreePanel';
 import { StepTabs, stepSlug, classifyStep } from './StepTabs';
 import { parseFrontmatter } from '../lib/markdown';
 import { MODULES_CACHE, getStaticArticles, resolveArticlePath } from '../lib/articles';
@@ -96,7 +97,7 @@ function extractCitationInfo(node: React.ReactNode): { num: number; href: string
 }
 
 // Groups consecutive citation <sup> elements and collapses sequences (e.g. [8, 9, 10, 212, 214] => [8–10, 212, 214])
-function collapseCitationNodes(nodes: React.ReactNode[]): React.ReactNode[] {
+function collapseCitationNodes(nodes: React.ReactNode[], footnoteMap?: Record<string, string>): React.ReactNode[] {
   const result: React.ReactNode[] = [];
   let currentGroup: Array<{
     node: React.ReactElement;
@@ -106,11 +107,40 @@ function collapseCitationNodes(nodes: React.ReactNode[]): React.ReactNode[] {
     id?: string;
   }> = [];
 
+  // Wraps a single citation <sup> node into a .cite-ref span with a hover
+  // tooltip showing the footnote source text (DOI-aware), when available.
+  const withTooltip = (node: React.ReactElement, num: number): React.ReactNode => {
+    const note = footnoteMap?.[String(num)];
+    if (!note) return node;
+    const doiMatch = note.match(/10\.\d{4,9}\/[^\s)\],]+/);
+    return (
+      <span key={`cite-ref-${num}`} className="cite-ref inline-flex" tabIndex={0}>
+        {node}
+        <span role="tooltip" className="cite-tooltip">
+          <span className="block font-semibold text-brand-blue mb-0.5">[{num}]</span>
+          <span className="line-clamp-4">{note}</span>
+          {doiMatch && (
+            <a
+              href={`https://doi.org/${doiMatch[0]}`}
+              target="_blank"
+              rel="noreferrer"
+              className="block mt-1 pt-1 border-t border-white/10 text-brand-blue hover:underline font-mono text-[10px]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              DOI: {doiMatch[0]} ↗
+            </a>
+          )}
+        </span>
+      </span>
+    );
+  };
+
   const flushGroup = () => {
     if (currentGroup.length === 0) return;
 
     if (currentGroup.length === 1) {
-      result.push(currentGroup[0].node);
+      const only = currentGroup[0];
+      result.push(withTooltip(only.node, only.num));
       currentGroup = [];
       return;
     }
@@ -145,9 +175,9 @@ function collapseCitationNodes(nodes: React.ReactNode[]): React.ReactNode[] {
         const end = range[range.length - 1];
         badgeElements.push(
           <span key={`range-${start.num}-${end.num}`} className="inline-flex items-center">
-            {React.cloneElement(start.element, { key: `cite-${start.num}` })}
+            {withTooltip(React.cloneElement(start.element, { key: `cite-${start.num}` }), start.num)}
             <span className="text-brand-blue/70 px-0.5 font-bold">–</span>
-            {React.cloneElement(end.element, { key: `cite-${end.num}` })}
+            {withTooltip(React.cloneElement(end.element, { key: `cite-${end.num}` }), end.num)}
           </span>
         );
       } else {
@@ -155,7 +185,7 @@ function collapseCitationNodes(nodes: React.ReactNode[]): React.ReactNode[] {
           if (itemIdx > 0) {
             badgeElements.push(<span key={`sep-inner-${rIdx}-${itemIdx}`} className="text-brand-blue/50 mx-0.5 font-bold">, </span>);
           }
-          badgeElements.push(React.cloneElement(item.element, { key: `cite-${item.num}-${itemIdx}` }));
+          badgeElements.push(withTooltip(React.cloneElement(item.element, { key: `cite-${item.num}-${itemIdx}` }), item.num));
         });
       }
     });
@@ -199,6 +229,23 @@ function collapseCitationNodes(nodes: React.ReactNode[]): React.ReactNode[] {
 
   flushGroup();
   return result;
+}
+
+// Extracts footnote definitions [^n]: text from raw markdown body into a plain
+// map, so citation superscripts can show hover tooltips with the source text.
+export function extractFootnoteDefinitions(markdownBody: string): Record<string, string> {
+  const map: Record<string, string> = {};
+  const re = /^\[\^(\d+)\]:\s*([\s\S]*?)(?=\n\[\^\d+\]:|\n#{1,3}\s|$)/gm;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(markdownBody)) !== null) {
+    map[m[1]] = m[2]
+      .replace(/\n\s{2,}/g, ' ')
+      .replace(/\[\^(\d+)\]/g, '')
+      .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1')
+      .replace(/`([^`]+)`/g, '$1')
+      .trim();
+  }
+  return map;
 }
 
 // Helpers for consolidating footnote backrefs at the bottom of the article

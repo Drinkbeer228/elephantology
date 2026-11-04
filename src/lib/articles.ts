@@ -104,36 +104,10 @@ export function resolveArticlePath(requestedPath: string, modulesKeys: string[])
 
 export const MODULES_CACHE = import.meta.glob('/docs/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
 
-// Pre-rendered full LLM translations (produced by scripts/translate-articles.mjs).
-// Empty object until docs_en/ exists — all consumers must fall back gracefully.
-export const MODULES_CACHE_EN = import.meta.glob('/docs_en/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+const articlesCache: { value: ArticleItem[] | null } = { value: null };
 
-/** Strip the leading /docs_en/ prefix to get a key aligned with docs-relative slugs. */
-export function enKeyToSlug(key: string): string {
-  return key.replace(/^\/docs_en\//, '').replace(/\.md$/, '');
-}
-
-export function hasFullEnTranslation(): boolean {
-  return Object.keys(MODULES_CACHE_EN).length > 0;
-}
-
-/** Raw markdown of the full EN translation for a docs-relative path (with or without .md), or null. */
-export function getEnArticleRaw(requestedPath: string): string | null {
-  const keys = Object.keys(MODULES_CACHE_EN);
-  if (keys.length === 0) return null;
-  const matched = resolveArticlePath(requestedPath, keys);
-  return matched ? MODULES_CACHE_EN[matched] : null;
-}
-
-const cachedArticles: Record<string, ArticleItem[]> = {};
-
-function computeArticles(lang?: string): ArticleItem[] {
-  const isEn = lang === 'en';
-  // Prefer full LLM translations (docs_en/) when available; fall back to the
-  // RU corpus + dictionary translation otherwise.
-  const sourceCache = (isEn && Object.keys(MODULES_CACHE_EN).length > 0) ? MODULES_CACHE_EN : MODULES_CACHE;
-
-  return Object.entries(sourceCache)
+function computeArticles(): ArticleItem[] {
+  return Object.entries(MODULES_CACHE)
     .filter(([filePath]) => 
       !filePath.includes('/assets/') &&
       !filePath.endsWith('index.md') && 
@@ -161,43 +135,31 @@ function computeArticles(lang?: string): ArticleItem[] {
 
     const filename = filePath.split('/').pop() || '';
     const pathPart = category ? `${category}/${filename}` : filename;
-    const cleanKey = pathPart.replace(/\.md$/, '');
 
-    // Check for English translation
-    const translation = ARTICLE_TRANSLATIONS_EN[cleanKey];
-    const finalTitle = (isEn && translation?.title) ? translation.title : title;
-    const finalExcerpt = (isEn && translation?.excerpt) ? translation.excerpt : (metadata.excerpt || '');
-    const finalTags = (isEn && translation?.tags) ? translation.tags : (metadata.tags || []);
     const readingTimeMin = metadata.readingTimeMin || 5;
 
     return {
       path: pathPart,
       filename,
-      title: finalTitle,
-      excerpt: finalExcerpt,
+      title,
+      excerpt: metadata.excerpt || '',
       category: category || '',
-      tags: finalTags,
+      tags: metadata.tags || [],
       related_knowledge: metadata.related_knowledge || [],
       reading_time_min: readingTimeMin,
-      readingTime: isEn ? `${readingTimeMin} min` : `${readingTimeMin} мин`,
+      readingTime: `${readingTimeMin} мин`,
       evidenceLevel: metadata.evidenceLevel || '',
       evidence_level: metadata.evidenceLevel || '',
       difficulty: metadata.difficulty || '',
       lastReviewed: metadata.lastReviewed || '',
-      // EN body: full LLM translation (docs_en/) when present — content is then
-      // already English. Fallback: dictionary glossary over the RU source, so
-      // search by English terms still matches (+15 score for content).
-      content: (isEn && sourceCache === MODULES_CACHE_EN)
-        ? cleanContent
-        : (isEn ? translateMarkdownToEnglish(cleanContent) : cleanContent)
+      content: cleanContent
     };
   });
 }
 
-export function getStaticArticles(lang?: string): ArticleItem[] {
-  const key = lang || 'ru';
-  if (!cachedArticles[key]) {
-    cachedArticles[key] = computeArticles(lang);
+export function getStaticArticles(): ArticleItem[] {
+  if (!articlesCache.value) {
+    articlesCache.value = computeArticles();
   }
-  return cachedArticles[key];
+  return articlesCache.value;
 }

@@ -86,14 +86,17 @@ const EVIDENCE_BADGE_MAP: Record<string, EvidenceConfig> = {
 /**
  * Renders the evidence level badge with evidence basis clarification
  */
-export function EvidenceBadge({ 
-  level, 
+export function EvidenceBadge({
+  level,
   basis,
-  showTooltip = true 
-}: { 
-  level?: string; 
+  showTooltip = true,
+  compact = false
+}: {
+  level?: string;
   basis?: EvidenceBasisType[];
   showTooltip?: boolean;
+  /** Уменьшенный режим для плотных списков (дерево рубрик в левой колонке) */
+  compact?: boolean;
 }) {
   if (!level) return null;
 
@@ -113,13 +116,13 @@ export function EvidenceBadge({
   return (
     <div className="relative inline-flex group items-center align-middle">
       <span
-        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider border ${current.bg} ${current.text} ${current.border}`}
+        className={`inline-flex items-center gap-1 rounded-full font-semibold uppercase tracking-wider border ${compact ? 'px-1.5 py-[1px] text-[9px]' : 'px-2.5 py-0.5 text-xs'} ${current.bg} ${current.text} ${current.border}`}
       >
-        <Icon className="w-3.5 h-3.5 shrink-0" />
+        <Icon className={`${compact ? 'w-2.5 h-2.5' : 'w-3.5 h-3.5'} shrink-0`} />
         <span>{label}</span>
       </span>
 
-      {showTooltip && (
+      {showTooltip && !compact && (
         <div className="absolute left-0 top-full mt-1.5 w-72 p-3 bg-[#1e2130] border border-[#34384a] rounded-lg shadow-xl text-xs text-gray-200 font-normal normal-case opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-30 pointer-events-none space-y-1.5">
           <p>{current.description}</p>
           {basis && basis.length > 0 && (
