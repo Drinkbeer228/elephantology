@@ -3,21 +3,30 @@
 @tailwind utilities;
 
 /* ============================================================
-   Liquid Glass + Stepik design tokens (v2 palette)
-   brand-blue  #0593C6 · brand-pink #D83996 · brand-bg #FCFFFF
+   Modern Dark Editorial design tokens (v3 palette)
+   base #0b0f17 · surface #111827 · elevated #1a2234 · border #243046
+   primary emerald #10b981/#059669 · secondary azure #38bdf8
    ============================================================ */
 :root {
   color-scheme: dark;
-  --brand-blue: #0593C6;
-  --brand-pink: #D83996;
-  --brand-gradient: linear-gradient(90deg, #0593C6 0%, #D83996 100%);
-  /* Тёмная тема — базовые значения (текущая тема приложения по умолчанию) */
-  --page-bg: #0f172a;            /* глубокий slate-900 вместо серого #121318 */
-  --page-fg: #e2e8f0;            /* slate-200 — WCAG AA на --page-bg */
-  --card-bg: rgba(30, 41, 59, 0.8);   /* bg-slate-800/80 — liquid glass */
-  --card-border: #334155;             /* slate-700 — контрастная граница карточек */
-  --muted-fg: #cbd5e1;                /* slate-300 — подписи не темнее AA */
+  --brand-blue: #38bdf8;                 /* azure — ссылки, DOI, цитаты */
+  --brand-emerald: #10b981;              /* primary научный акцент */
+  --brand-emerald-strong: #059669;
+  --brand-pink: #10b981;                 /* legacy alias → emerald */
+  --brand-gradient: linear-gradient(90deg, #059669 0%, #10b981 55%, #34d399 100%);
+  --page-bg: #0b0f17;                    /* ink base */
+  --surface-bg: #111827;                 /* section surface */
+  --elevated-bg: #1a2234;                /* elevated card */
+  --hairline: #243046;                   /* border hairline */
+  --page-fg: #e2e8f0;                    /* slate-200 — комфортное чтение */
+  --card-bg: rgba(26, 34, 52, 0.72);     /* elevated + лёгкое стекло */
+  --card-border: #243046;
+  --muted-fg: #cbd5e1;                   /* slate-300 — AA на --page-bg */
 }
+
+/* Inter / Plus Jakarta Sans — плотный гротеск для заголовков */
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 800; font-display: swap; src: local('Inter'); }
+h1, h2, h3, h4 { letter-spacing: -0.02em; }
 
 html, body, #root {
   min-height: 100%;
@@ -47,14 +56,135 @@ html, body, #root {
     border-radius: 9999px;
   }
 
-  /* Liquid-glass карточка */
+  /* Liquid-glass карточка — elevated surface */
   .glass-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     backdrop-filter: blur(12px) saturate(140%);
     -webkit-backdrop-filter: blur(12px) saturate(140%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 2px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 10px rgba(0, 0, 0, 0.35);
   }
+
+  /* Editorial card: hairline border + тонкий градиентный hover (Stripe/Linear style) */
+  .editorial-card {
+    @apply rounded-xl border transition-all duration-200;
+    background: linear-gradient(180deg, rgba(26, 34, 52, 0.55) 0%, rgba(17, 24, 39, 0.55) 100%);
+    border-color: #243046;
+  }
+  .editorial-card:hover {
+    border-color: #33415c;
+    background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(26, 34, 52, 0.6) 100%);
+    box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Command-bar (Cmd+K) — визуальный центр каталога */
+  .command-bar {
+    @apply flex items-center gap-3 w-full rounded-xl px-4 py-3 text-left transition-all duration-200;
+    background: var(--elevated-bg);
+    border: 1px solid var(--hairline);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 10px 30px -18px rgba(0, 0, 0, 0.8);
+  }
+  .command-bar:hover { border-color: #33415c; background: #1c2537; }
+  .command-bar:focus-within,
+  .command-bar:focus-visible {
+    outline: none;
+    border-color: rgba(16, 185, 129, 0.55);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.14), 0 10px 30px -18px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Клавиатурный шорткат-чип */
+  .kbd-chip {
+    @apply inline-flex items-center justify-center min-w-[22px] h-6 px-1.5 rounded-md text-[11px] font-mono select-none;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid #2b3852;
+    color: #94a3b8;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  /* Emerald-чип статуса/счётчика */
+  .chip-emerald {
+    @apply inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider border;
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.08);
+    border-color: rgba(16, 185, 129, 0.25);
+  }
+}
+
+/* ---------- Custom list markers (accent instead of browser dots) ---------- */
+.article-prose ul > li::marker {
+  content: '▪ ';
+  color: #10b981;
+}
+.article-prose ol > li::marker {
+  color: #38bdf8;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85em;
+  font-weight: 600;
+}
+
+/* ---------- Footnote / citation hover tooltip ---------- */
+.cite-ref { position: relative; cursor: pointer; }
+.cite-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  z-index: 60;
+  width: max-content;
+  max-width: 320px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #1a2234;
+  border: 1px solid #2b3852;
+  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.85);
+  color: #cbd5e1;
+  font-size: 11px;
+  line-height: 1.5;
+  font-style: normal;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.cite-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #2b3852;
+}
+.cite-ref:hover .cite-tooltip,
+.cite-ref:focus-visible .cite-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------- Callout variants (info / warning / note) ---------- */
+.callout-info    { border-left-color: #38bdf8 !important; }
+.callout-warning { border-left-color: #f59e0b !important; }
+.callout-note    { border-left-color: #10b981 !important; }
+
+/* ---------- TOC scroll-spy active state ---------- */
+.toc-link {
+  display: block;
+  border-left: 2px solid transparent;
+  color: #94a3b8;
+  padding: 4px 12px;
+  font-size: 12px;
+  line-height: 1.45;
+  border-radius: 0 6px 6px 0;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+.toc-link:hover { color: #e2e8f0; background: rgba(255, 255, 255, 0.03); }
+.toc-link.is-active {
+  color: #34d399;
+  border-left-color: #10b981;
+  background: rgba(16, 185, 129, 0.07);
+  font-weight: 600;
 }
 
 .markdown-body {
@@ -303,16 +433,25 @@ html, body, #root {
   @apply border-l-4 border-kingdom-gold/80 pl-5 pr-4 py-4 italic text-gray-300 my-8 bg-kingdom-card/40 rounded-r-xl shadow-lg;
 }
 
-/* Phase 3 Typography and Table enhancements */
+/* Reader typography (Modern Dark Editorial): 17px, ideal line-height 1.75 */
 .markdown-body {
-  line-height: 1.7;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+.article-prose {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: #e2e8f0;
 }
 .markdown-body h2 {
   margin-top: 3.5rem !important; /* ~56px */
   margin-bottom: 1.5rem !important; /* ~24px */
 }
 .markdown-body p, .markdown-body li {
-  line-height: 1.7;
+  line-height: 1.75;
+}
+.article-prose p, .article-prose li {
+  line-height: 1.75;
 }
 
 /* Table Wrapper for horizontal scroll + gradient fade */

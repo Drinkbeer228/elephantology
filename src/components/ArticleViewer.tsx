@@ -23,10 +23,12 @@ import {
   AlertTriangle,
   HelpCircle as HelpIcon,
   Scale,
-  Languages,
-  Sparkles,
+  PanelLeft,
+  ListTree,
+  X,
 
 } from 'lucide-react';
+import { TableOfContents, TocItem } from './TableOfContents';
 import { StepTabs, stepSlug, classifyStep } from './StepTabs';
 import { parseFrontmatter } from '../lib/markdown';
 import { MODULES_CACHE, getStaticArticles, resolveArticlePath } from '../lib/articles';
@@ -348,6 +350,9 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [readProgress, setReadProgress] = useState(0);
+  // Мобильные drawer-панели (левая навигация рубрики / правое оглавление)
+  const [leftDrawerOpen, setLeftDrawerOpen] = useState(false);
+  const [tocDrawerOpen, setTocDrawerOpen] = useState(false);
 
   // Прогресс прочтения статьи (для градиентного прогресс-бара)
   useEffect(() => {
@@ -535,6 +540,40 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
     }
     return steps;
   }, [displayCleanBody]);
+
+  // Полный TOC (h2 + h3) для правой sticky-колонки с scroll-spy подсветкой
+  const tocItems: TocItem[] = useMemo(() => {
+    const items: TocItem[] = [];
+    const seen = new Set<string>();
+    let lastH2Slug = '';
+    for (const line of displayCleanBody.split('\n')) {
+      const m2 = /^##(?!#)\s+(.+?)\s*#*\s*$/.exec(line);
+      const m3 = /^###\s+(.+?)\s*#*\s*$/.exec(line);
+      if (m2) {
+        const title = m2[1].replace(/[*_`]/g, '').replace(/^[\p{Emoji_Presentation}\p{Extended_Pictographic}\uFE0F\u200D\d.]+\s*/u, '').trim();
+        if (!title) continue;
+        let id = stepSlug(title);
+        if (seen.has(id)) id = `${id}-${items.length}`;
+        seen.add(id);
+        lastH2Slug = id;
+        items.push({ id, title, level: 2 });
+      } else if (m3) {
+        const title = m3[1].replace(/[*_`]/g, '').trim();
+        if (!title) continue;
+        let id = `${lastH2Slug || 'sec'}--${stepSlug(title)}`;
+        if (seen.has(id)) id = `${id}-${items.length}`;
+        seen.add(id);
+        items.push({ id, title, level: 3 });
+      }
+    }
+    return items;
+  }, [displayCleanBody]);
+
+  // Закрытие drawer-панелей при смене статьи
+  useEffect(() => {
+    setLeftDrawerOpen(false);
+    setTocDrawerOpen(false);
+  }, [path]);
 
   // Set document title and window metadata
   useEffect(() => {

@@ -11,24 +11,32 @@ export default {
     extend: {
       fontFamily: {
         pixel: ['Silkscreen', 'monospace'],
-        sans: ['Plus Jakarta Sans', 'sans-serif'],
+        sans: ['Inter', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
       },
       colors: {
         brand: {
-          blue: '#0593C6',   // небесно-голубой — основной акцент
-          pink: '#D83996',   // фуксия — вторичный акцент
-          bg: '#FCFFFF',     // чисто-белый фон светлой темы
+          blue: '#38bdf8',    // лазурно-голубой — ссылки, DOI, цитаты (secondary)
+          pink: '#10b981',    // историческое имя → изумрудный primary-акцент
+          bg: '#0b0f17',      // базовый фон Modern Dark Editorial
+          emerald: '#10b981', // научный акцент: статусы «УСТАНОВЛЕНО», теги, active
+          azure: '#38bdf8',   // цитаты, DOI, ссылки
+        },
+        ink: {
+          base: '#0b0f17',      // page background
+          surface: '#111827',   // section surface
+          elevated: '#1a2234',  // elevated card
+          border: '#243046',    // hairline borders
         },
         kingdom: {
-          bg: '#121318',
-          card: '#1b1d24',
-          surface: '#242733',
-          border: '#34384a',
-          gold: '#ffd166',
-          accent: '#4cc9f0',
-          emerald: '#06d6a0',
-          rose: '#f72585',
-          muted: '#8e96ac',
+          bg: '#0b0f17',
+          card: '#1a2234',
+          surface: '#111827',
+          border: '#243046',
+          gold: '#38bdf8',
+          accent: '#38bdf8',
+          emerald: '#10b981',
+          rose: '#fb7185',
+          muted: '#94a3b8',
         }
       }
     }
