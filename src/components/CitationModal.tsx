@@ -1,6 +1,6 @@
-import { useLanguage } from '../i18n/LanguageContext';
 import React, { useState, useEffect } from 'react';
 import { Quote, X, Copy, Check, BookOpen, FileText, Code2, Sparkles } from 'lucide-react';
+import { ru } from '../i18n/ru';
 
 interface CitationModalDetail {
   title?: string;
@@ -9,7 +9,6 @@ interface CitationModalDetail {
 }
 
 export function CitationModal() {
-  const { t, isEn } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [articleTitle, setArticleTitle] = useState('');
   const [categoryName, setCategoryName] = useState('');
@@ -22,8 +21,8 @@ export function CitationModal() {
       const customEvent = e as CustomEvent<CitationModalDetail>;
       const { title, category, quoteText } = customEvent.detail || {};
       
-      const docTitle = title || document.title.replace(' — Слонология', '').replace(' — Elephantology', '').replace('Энциклопедия «Слонология»', '').trim() || (isEn ? 'Academic Monograph' : 'Академическая статья');
-      const cat = category || (isEn ? 'ENCYCLOPEDIA' : 'ЭНЦИКЛОПЕДИЯ');
+      const docTitle = title || document.title.replace(' — Слонология', '').replace(' — Elephantology', '').replace('Энциклопедия «Слонология»', '').trim() || 'Academic Monograph';
+      const cat = category || 'ENCYCLOPEDIA';
       
       setArticleTitle(docTitle);
       setCategoryName(cat);
@@ -42,7 +41,7 @@ export function CitationModal() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('openCitationModal', handleOpen);
     };
-  }, [isEn]);
+  });
 
   useEffect(() => {
     if (isOpen) {
@@ -63,7 +62,7 @@ export function CitationModal() {
   const dateFormattedEn = `${monthsEn[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
   const currentUrl = window.location.href;
 
-  const fallbackTitle = isEn ? 'Academic Monograph' : 'Академическая статья';
+  const fallbackTitle = 'Академическая статья';
   const citations = {
     gost: `Слонология: Академическая энциклопедия хоботных (Proboscidea). Статья «${articleTitle || fallbackTitle}». — 2026. URL: ${currentUrl} (дата обращения: ${dateFormattedRu}).`,
     apa: `Elephantology Research Guild. (2026). ${articleTitle || fallbackTitle}. In Elephantology Knowledge Base. Retrieved ${dateFormattedEn}, from ${currentUrl}`,
@@ -75,8 +74,8 @@ export function CitationModal() {
   note = {Энциклопедия «Слонология». Дата обращения: ${dateFormattedRu}}
 }`,
     quote: selectedText 
-      ? `> «${selectedText}»\n\n— ${isEn ? 'Source: Elephantology Encyclopedia' : 'Источник: Энциклопедия «Слонология»'}, «${articleTitle}» (${currentUrl})`
-      : `> «${articleTitle} — ${isEn ? 'core monograph from the academic Proboscidea knowledge base.' : 'фундаментальный материал из академической базы знаний по биологии хоботных.'}»\n\n— ${isEn ? 'Elephantology Encyclopedia' : 'Энциклопедия «Слонология»'}, ${categoryName} (${currentUrl})`
+      ? `> «${selectedText}»\n\n— Источник: Энциклопедия «Слонология», «${articleTitle}» (${currentUrl})`
+      : `> «${articleTitle} — фундаментальный материал из академической базы знаний по биологии хоботных.»\n\n— Энциклопедия «Слонология», ${categoryName} (${currentUrl})`
   };
 
   const activeContent = citations[activeTab];
@@ -107,7 +106,7 @@ export function CitationModal() {
             </div>
             <div>
               <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
-                {t.citation.title}
+                {ru.citation.title}
               </h3>
               <p className="text-xs text-gray-400 truncate max-w-sm sm:max-w-md">
                 «{articleTitle}»
@@ -169,7 +168,7 @@ export function CitationModal() {
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>{isEn ? 'Markdown Quote' : 'Markdown Цитата'}</span>
+            <span>Markdown-цитата</span>
           </button>
         </div>
 
@@ -178,10 +177,10 @@ export function CitationModal() {
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-xs text-gray-400">
               <span>
-                {activeTab === 'gost' && (isEn ? 'Russian National Standard GOST R 7.0.5-2008 bibliographic reference format:' : 'Формат библиографической ссылки по российскому ГОСТ Р 7.0.5-2008:')}
-                {activeTab === 'apa' && (isEn ? 'Academic American Psychological Association (APA 7th Edition):' : 'Академический формат American Psychological Association (APA 7th Edition):')}
-                {activeTab === 'bibtex' && (isEn ? 'Format for LaTeX and citation managers (Zotero, Mendeley):' : 'Формат для LaTeX и библиографических менеджеров (Zotero, Mendeley):')}
-                {activeTab === 'quote' && (isEn ? 'Blockquote with source attribution for lecture notes and papers:' : 'Блок-цитата с указанием источника для конспектов и докладов:')}
+                {activeTab === 'gost' && 'Формат библиографической ссылки по ГОСТ Р 7.0.5-2008:'}
+                {activeTab === 'apa' && 'Академический формат APA 7-го издания:'}
+                {activeTab === 'bibtex' && 'Формат для LaTeX и библиографических менеджеров (Zotero, Mendeley):'}
+                {activeTab === 'quote' && 'Блок-цитата с указанием источника для конспектов и докладов:'}
               </span>
             </div>
 
@@ -196,7 +195,7 @@ export function CitationModal() {
         {/* Footer Actions */}
         <div className="p-4 bg-[#13141b] border-t border-[#34384a] flex items-center justify-between gap-3">
           <span className="text-[11px] text-gray-500 hidden sm:inline font-mono">
-            {isEn ? 'Elephantology Encyclopedia • Open Knowledge Base' : 'Энциклопедия «Слонология» • Открытая база знаний'}
+            Энциклопедия «Слонология» • Открытая база знаний
           </span>
 
           <div className="flex items-center gap-2 ml-auto">
@@ -204,7 +203,7 @@ export function CitationModal() {
               onClick={() => setIsOpen(false)}
               className="px-4 py-2 rounded-xl bg-[#242733] hover:bg-[#2c303f] border border-white/10 text-gray-300 text-xs font-semibold transition-all cursor-pointer"
             >
-              {t.citation.close}
+              {ru.citation.close}
             </button>
 
             <button
@@ -212,7 +211,7 @@ export function CitationModal() {
               className="flex items-center gap-2 px-5 py-2 rounded-xl bg-brand-blue hover:bg-amber-400 text-black font-bold text-xs shadow-[0_0_12px_rgba(255,209,102,0.25)] transition-all cursor-pointer"
             >
               {copied ? <Check className="w-4 h-4 text-emerald-950" /> : <Copy className="w-4 h-4" />}
-              <span>{copied ? (isEn ? 'Copied to clipboard!' : 'Скопировано в буфер!') : (isEn ? 'Copy citation' : 'Скопировать ссылку')}</span>
+              <span>{copied ? 'Скопировано в буфер!' : 'Скопировать ссылку'}</span>
             </button>
           </div>
         </div>

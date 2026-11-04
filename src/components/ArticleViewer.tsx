@@ -29,15 +29,13 @@ import {
 } from 'lucide-react';
 import { StepTabs, stepSlug, classifyStep } from './StepTabs';
 import { parseFrontmatter } from '../lib/markdown';
-import { MODULES_CACHE, MODULES_CACHE_EN, getStaticArticles, resolveArticlePath } from '../lib/articles';
+import { MODULES_CACHE, getStaticArticles, resolveArticlePath } from '../lib/articles';
 import { EvidenceBadge, EditorialStatusBlock, markdownSanitizeSchema } from './ArticleBlocks';
-import { useLanguage } from '../i18n/LanguageContext';
-import { ARTICLE_TRANSLATIONS_EN } from '../lib/articleTranslations';
-import { translateMarkdownToEnglish } from '../lib/translateMarkdown';
-import { CATEGORY_MAP_RU, CATEGORY_MAP_EN } from '../data/categories';
+import { CATEGORY_MAP_RU } from '../data/categories';
 import { ArticleMetadata, ReferenceItem } from '../types';
 import { annotateTextWithGlossary } from './GlossaryTooltip';
 import { normalizeDoi, formatDoiUrl } from '../lib/doi';
+import { ru } from '../i18n/ru';
 
 declare global {
   interface Window {
@@ -229,7 +227,7 @@ function collectBackrefElements(content: React.ReactNode, accumulator: React.Rea
   return accumulator;
 }
 
-function consolidateFootnoteItem(content: React.ReactNode, isEn: boolean): React.ReactNode {
+function consolidateFootnoteItem(content: React.ReactNode): React.ReactNode {
   if (!content) return content;
 
   // Extract all backref elements found inside this footnote item
@@ -307,7 +305,7 @@ function consolidateFootnoteItem(content: React.ReactNode, isEn: boolean): React
         <a
           href={originalHref}
           data-footnote-backref="true"
-          title={isEn ? 'Jump to cited location in article text' : 'Перейти к месту цитирования в тексте статьи'}
+          title="Перейти к месту цитирования в тексте статьи"
           onClick={(e) => handleJumpToMention(e, originalHref)}
           className="inline-flex items-center justify-center w-5 h-5 ml-2 text-brand-blue hover:text-amber-200 font-sans text-xs font-bold rounded bg-brand-blue/15 hover:bg-brand-blue/25 border border-brand-blue/40 hover:border-brand-blue/60 shadow-xs transition-all duration-150 cursor-pointer no-underline select-none align-middle"
         >
@@ -330,7 +328,7 @@ function consolidateFootnoteItem(content: React.ReactNode, isEn: boolean): React
               key={`backref-num-${idx}`}
               href={originalHref}
               data-footnote-backref="true"
-              title={isEn ? `Jump to mention #${idx + 1} in article text` : `Перейти к месту цитирования #${idx + 1} в тексте статьи`}
+              title={`Перейти к месту цитирования #${idx + 1} в тексте статьи`}
               onClick={(e) => handleJumpToMention(e, originalHref)}
               className="inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded bg-brand-blue/15 hover:bg-brand-blue/30 border border-brand-blue/40 hover:border-brand-blue/70 text-brand-blue hover:text-amber-100 font-mono text-[11px] font-bold shadow-xs transition-all duration-150 cursor-pointer no-underline"
             >
@@ -344,7 +342,6 @@ function consolidateFootnoteItem(content: React.ReactNode, isEn: boolean): React
 }
 
 export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
-  const { t, lang, setLang, isEn } = useLanguage();
   const [rawContent, setRawContent] = useState<string>('');
   const [meta, setMeta] = useState<ArticleMetadata>({});
   const [loading, setLoading] = useState(true);
@@ -364,7 +361,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const categoryDict = isEn ? CATEGORY_MAP_EN : CATEGORY_MAP_RU;
+  const categoryDict = CATEGORY_MAP_RU;
 
   // Extracted structured sections (raw Russian)
   const [rawKeyFindings, setRawKeyFindings] = useState<string | null>(null);
@@ -374,13 +371,10 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   const safePath = path.endsWith('.md') ? path : `${path}.md`;
   const cleanPath = safePath.replace(/^\//, '');
   const pathPart = cleanPath.replace(/\.md$/, '');
-  const translationKey = pathPart.replace(/^docs\//, '');
-  const translationData = ARTICLE_TRANSLATIONS_EN[translationKey];
-
   // Neighbor articles (prev / next) computed dynamically from lang and path
   const { prevArticle, nextArticle } = useMemo(() => {
     try {
-      const allArticles = getStaticArticles(lang);
+      const allArticles = getStaticArticles();
       const sorted = [...allArticles].sort((a, b) => {
         if (a.category === b.category) {
           return a.title.localeCompare(b.title);
@@ -403,12 +397,12 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
       console.warn('Failed to compute neighbor articles:', e);
     }
     return { prevArticle: null, nextArticle: null };
-  }, [lang, pathPart]);
+  }, [pathPart]);
 
   // Related articles computed dynamically from lang, meta, and path
     const relatedArticles = useMemo(() => {
     try {
-      const allArticles = getStaticArticles(lang);
+      const allArticles = getStaticArticles();
       const categoryMatches = allArticles.filter(
         a => a.category?.toLowerCase() === meta.category?.toLowerCase() &&
              a.path.replace(/\.md$/, '') !== pathPart
@@ -430,7 +424,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
     } catch {
       return [];
     }
-  }, [lang, meta.category, meta.tags, pathPart]);
+  }, [meta.category, meta.tags, pathPart]);
 
 
   // Load raw article markdown content only on path changes
@@ -439,10 +433,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
     setError(null);
 
     try {
-      // EN: prefer full LLM translation from docs_en/ when available; fall back to RU source.
-      const enKeys = Object.keys(MODULES_CACHE_EN);
-      const useEnCorpus = isEn && enKeys.length > 0;
-      const sourceCache = useEnCorpus ? MODULES_CACHE_EN : MODULES_CACHE;
+      const sourceCache = MODULES_CACHE;
       const moduleKeys = Object.keys(sourceCache);
       const matchedKey = resolveArticlePath(path, moduleKeys);
 
@@ -507,58 +498,28 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
       setError(msg);
       setLoading(false);
     }
-    // isEn in deps: switching RU/EN must re-load the body from the other corpus (docs_en vs docs)
-  }, [path, isEn]);
+  }, [path]);
 
   // Derived translated content
   const displayTitle = useMemo(() => {
-    if (isEn && translationData?.title) {
-      return translationData.title;
-    }
     return meta.title || '';
-  }, [isEn, translationData, meta.title]);
+  }, [meta.title]);
 
   const displayExcerpt = useMemo(() => {
-    if (isEn && translationData?.excerpt) {
-      return translationData.excerpt;
-    }
     return meta.excerpt || '';
-  }, [isEn, translationData, meta.excerpt]);
+  }, [meta.excerpt]);
 
   const displayTags: string[] = useMemo(() => {
-    if (isEn && translationData?.tags) {
-      return translationData.tags;
-    }
     return (meta.tags || []) as string[];
-  }, [isEn, translationData, meta.tags]);
+  }, [meta.tags]);
 
-  // When the full LLM corpus (docs_en/) is loaded, its body is already English —
-  // skip the dictionary glossary to avoid double-translation artifacts.
-  const enCorpusLoaded = Object.keys(MODULES_CACHE_EN).length > 0;
+  const displayKeyFindings = useMemo(() => rawKeyFindings, [rawKeyFindings]);
 
-  const displayKeyFindings = useMemo(() => {
-    if (!rawKeyFindings) return null;
-    return isEn && !enCorpusLoaded ? translateMarkdownToEnglish(rawKeyFindings) : rawKeyFindings;
-  }, [isEn, rawKeyFindings, enCorpusLoaded]);
+  const displayUncertainty = useMemo(() => rawUncertainty, [rawUncertainty]);
 
-  const displayUncertainty = useMemo(() => {
-    if (!rawUncertainty) return null;
-    if (!isEn || enCorpusLoaded) return rawUncertainty;
-    return {
-      known: rawUncertainty.known ? translateMarkdownToEnglish(rawUncertainty.known) : undefined,
-      probable: rawUncertainty.probable ? translateMarkdownToEnglish(rawUncertainty.probable) : undefined,
-      unknown: rawUncertainty.unknown ? translateMarkdownToEnglish(rawUncertainty.unknown) : undefined
-    };
-  }, [isEn, rawUncertainty, enCorpusLoaded]);
-
-  const displayCleanBody = useMemo(() => {
-    if (!rawCleanBody) return '';
-    return isEn && !enCorpusLoaded ? translateMarkdownToEnglish(rawCleanBody) : rawCleanBody;
-  }, [isEn, rawCleanBody, enCorpusLoaded]);
+  const displayCleanBody = useMemo(() => rawCleanBody, [rawCleanBody]);
 
   // StepTabs: шаги урока из заголовков h2 чистого тела статьи (контент не меняется)
-  // ВАЖНО: источник — displayCleanBody (переведенное тело), т.к. ReactMarkdown рендерит
-  // именно его; при isEn заголовки RU не совпали бы с id лент и scroll-spy отваливался.
   const lessonSteps = useMemo(() => {
     const seen = new Set<string>();
     const steps: { id: string; title: string; kind: ReturnType<typeof classifyStep> }[] = [];
@@ -578,16 +539,16 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   // Set document title and window metadata
   useEffect(() => {
     if (displayTitle) {
-      document.title = `${displayTitle} — ${isEn ? 'Elephantology' : 'Слонология'}`;
+      document.title = `${displayTitle} — Слонология`;
       window.currentArticlePath = path;
     }
     return () => {
-      document.title = isEn ? 'Elephantology — Academic Encyclopedia' : 'Слонология — Академическая энциклопедия';
+      document.title = 'Слонология — Академическая энциклопедия';
     };
-  }, [displayTitle, path, isEn]);
+  }, [displayTitle, path]);
 
   // Track annotated terms in current article to ensure each curated term is annotated only once
-  const seenGlossaryTerms = useMemo(() => new Set<string>(), [path, isEn]);
+  const seenGlossaryTerms = useMemo(() => new Set<string>(), [path]);
 
   const handleShare = () => {
     if (navigator.clipboard) {
@@ -598,7 +559,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   };
 
   const handleCite = () => {
-    const catName = categoryDict[meta.category?.toLowerCase() || ''] || meta.category || (isEn ? 'GENERAL BIOLOGY' : 'ОБЩАЯ БИОЛОГИЯ');
+    const catName = categoryDict[meta.category?.toLowerCase() || ''] || meta.category || 'ОБЩАЯ БИОЛОГИЯ';
     window.dispatchEvent(
       new CustomEvent('openCitationModal', {
         detail: {
@@ -611,10 +572,6 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
 
   const handlePrint = () => {
     window.print();
-  };
-
-  const toggleLanguage = () => {
-    setLang(isEn ? 'ru' : 'en');
   };
 
   const navigateToArticle = useCallback((targetPath: string) => {
@@ -649,24 +606,24 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           <Info className="w-8 h-8" />
         </div>
         <h2 className="text-xl font-bold text-slate-100 mb-2">
-          {isEn ? 'Article Not Found' : 'Статья не найдена'}
+          Статья не найдена
         </h2>
         <p className="text-sm text-slate-300 mb-6">
-          {isEn ? 'The requested academic material does not exist or has been moved.' : 'Запрошенный академический материал не существует или был перемещен.'}
+          Запрошенный академический материал не существует или был перемещён.
         </p>
         <button
           onClick={onBack}
           className="inline-flex items-center gap-2 px-4 py-2 bg-[#202330] text-brand-blue border border-white/10 hover:border-brand-blue/40 rounded-xl text-xs font-semibold hover:bg-[#282c3c] transition-all cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>{t.article.back}</span>
+          <span>{ru.article.back}</span>
         </button>
       </div>
     );
   }
 
   const categoryKey = meta.category?.toLowerCase() || '';
-  const categoryTitle = categoryDict[categoryKey] || meta.category || (isEn ? 'General Biology' : 'Общая биология');
+  const categoryTitle = categoryDict[categoryKey] || meta.category || 'Общая биология';
   const readingTime = meta.readingTimeMin || 8;
   const lastReviewedDate = meta.lastReviewed || '2026-08-28';
   const referencesList = meta.references || [];
@@ -693,7 +650,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             className="hover:text-brand-blue transition-colors flex items-center gap-1 font-medium cursor-pointer"
           >
             <BookOpen className="w-3.5 h-3.5" />
-            <span>{t.catalog.title}</span>
+            <span>{ru.catalog.title}</span>
           </button>
           <ChevronRight className="w-3 h-3 text-slate-500 shrink-0" />
           <span className="truncate max-w-[280px] sm:max-w-[400px] font-medium text-slate-200">
@@ -703,42 +660,28 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
 
         {/* Action Buttons Toolbar */}
         <div className="flex items-center gap-2 shrink-0">
-          {/* Direct Article Language Switcher */}
-          <button
-            onClick={toggleLanguage}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border transition-all cursor-pointer text-xs font-medium ${
-              isEn 
-                ? 'bg-brand-blue/20 text-brand-blue border-brand-blue/40 shadow-sm' 
-                : 'bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border-white/5'
-            }`}
-            title={isEn ? 'Switch to Russian' : 'Переключить на Английский'}
-          >
-            <Languages className="w-3.5 h-3.5 text-brand-blue" />
-            <span>{isEn ? 'EN' : 'RU'}</span>
-          </button>
-
           <button
             onClick={handleCite}
             className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border border-white/5 transition-colors cursor-pointer text-xs font-medium"
-            title={t.article.cite}
+            title={ru.article.cite}
           >
             <Quote className="w-3.5 h-3.5 text-brand-blue" />
-            <span className="hidden sm:inline">{t.article.cite}</span>
+            <span className="hidden sm:inline">{ru.article.cite}</span>
           </button>
 
           <button
             onClick={handleShare}
             className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border border-white/5 transition-colors cursor-pointer text-xs font-medium"
-            title={t.article.share}
+            title={ru.article.share}
           >
             <Share2 className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">{copied ? t.article.copied : t.article.share}</span>
+            <span className="hidden sm:inline">{copied ? ru.article.copied : ru.article.share}</span>
           </button>
 
           <button
             onClick={handlePrint}
             className="p-1.5 rounded-lg bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border border-white/5 transition-colors cursor-pointer"
-            title={isEn ? 'Print' : 'Печать'}
+            title={ru.article.print}
           >
             <Printer className="w-3.5 h-3.5" />
           </button>
@@ -748,24 +691,6 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
       {/* 2. Main Content Column */}
       <div className="max-w-[720px] mx-auto px-4 sm:px-0">
         
-        {/* English Translation Notice Banner when reading in English */}
-        {isEn && (
-          <div className="mb-6 p-3 rounded-xl bg-blue-950/40 border border-blue-800/40 flex items-center justify-between text-xs text-blue-200">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-brand-blue shrink-0" />
-              <span>
-                <strong>English Academic Translation:</strong> Standardized zoological & veterinary terminology applied.
-              </span>
-            </div>
-            <button
-              onClick={() => setLang('ru')}
-              className="text-xs text-brand-blue hover:underline cursor-pointer ml-3 shrink-0"
-            >
-              Original RU
-            </button>
-          </div>
-        )}
-
         {/* Title and Evidence Badge */}
         <header className="mb-8 space-y-4">
           <div className="space-y-3">
@@ -783,12 +708,12 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           <div className="flex flex-wrap items-center gap-y-2 gap-x-4 pt-3 border-t border-white/10 text-xs text-slate-300">
             <div className="flex items-center gap-1.5 font-medium text-gray-300">
               <Clock className="w-3.5 h-3.5 text-slate-300" />
-              <span>{readingTime} {t.catalog.readingTime} {isEn ? 'read' : 'чтения'}</span>
+              <span>{readingTime} {ru.catalog.readingTime} чтения</span>
             </div>
 
             <div className="flex items-center gap-1.5 font-medium text-slate-300">
               <Calendar className="w-3.5 h-3.5 text-slate-300" />
-              <span>{isEn ? 'Revision:' : 'Ревизия:'} {lastReviewedDate}</span>
+              <span>Ревизия: {lastReviewedDate}</span>
             </div>
 
             <div className="flex items-center gap-1.5 text-slate-300">
@@ -835,7 +760,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           <section className="my-8 rounded-xl border border-slate-700 border-l-4 border-l-amber-400 bg-[#161822] p-5 shadow-sm">
             <div className="flex items-center gap-2 mb-3 text-amber-300 font-semibold text-sm">
               <Info className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>{isEn ? 'Key Insights & Parameters' : 'Ключевые сведения и параметры'}</span>
+              <span>Ключевые сведения и параметры</span>
             </div>
             <div className="text-gray-200 text-sm leading-relaxed space-y-2">
               <ReactMarkdown
@@ -916,7 +841,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                       className="text-xs text-gray-300 pl-2 leading-relaxed my-2 rounded-lg p-2.5 transition-colors duration-300 hover:bg-[#1a1c28] border border-transparent hover:border-white/5 [&_p]:inline [&_p]:mb-0 [&_p]:leading-relaxed"
                       {...props}
                     >
-                      {consolidateFootnoteItem(children, isEn)}
+                      {consolidateFootnoteItem(children)}
                     </li>
                   );
                 }
@@ -962,7 +887,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                       href={href}
                       title={
                         isFootnoteBackref
-                          ? (isEn ? 'Jump to cited location in article text' : 'Перейти к месту цитирования в тексте статьи')
+                          ? "Перейти к месту цитирования в тексте статьи"
                           : undefined
                       }
                       onClick={(e) => {
@@ -1060,7 +985,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                       {isFootnoteBackref ? (
                         <span className="flex items-center gap-1.5">
                           <span className="text-sm font-bold leading-none">↑</span>
-                          <span>{isEn ? `To text${countLabel}` : `К тексту статьи${countLabel}`}</span>
+                          <span>{`К тексту статьи${countLabel}`}</span>
                         </span>
                       ) : (
                         children
@@ -1121,7 +1046,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                     <div id="footnotes-literature-section" className="mt-14 pt-8 border-t border-white/10 text-xs text-gray-300">
                       <h3 className="text-sm font-bold uppercase tracking-wider text-gray-200 mb-4 flex items-center gap-2">
                         <Quote className="w-4 h-4 text-brand-blue" />
-                        <span>{isEn ? 'References & Literature' : '📚 Литература и источники'}</span>
+                        <span>📚 Литература и источники</span>
                       </h3>
                       <div className="space-y-2">{children}</div>
                     </div>
@@ -1141,7 +1066,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[#2b2e3d]">
               <Scale className="w-4 h-4 text-brand-blue shrink-0" />
               <h3 className="font-bold text-sm text-gray-100">
-                {isEn ? 'Scientific Uncertainty & Evidence Boundaries' : 'Научная неопределённость и границы доказанности'}
+                Научная неопределённость и границы доказанности
               </h3>
             </div>
 
@@ -1151,7 +1076,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                   <div className="text-xs sm:text-sm text-gray-300 leading-relaxed">
                     <span className="font-semibold text-emerald-300 block mb-0.5">
-                      {isEn ? 'Established Fact:' : 'Достоверно установлено:'}
+                      Достоверно установлено:
                     </span>
                     <p>{displayUncertainty.known}</p>
                   </div>
@@ -1163,7 +1088,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
                   <div className="text-xs sm:text-sm text-gray-300 leading-relaxed">
                     <span className="font-semibold text-amber-300 block mb-0.5">
-                      {isEn ? 'Probable / Requires Verification:' : 'Вероятно / Требует верификации:'}
+                      Вероятно / Требует верификации:
                     </span>
                     <p>{displayUncertainty.probable}</p>
                   </div>
@@ -1175,7 +1100,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   <HelpIcon className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
                   <div className="text-xs sm:text-sm text-gray-300 leading-relaxed">
                     <span className="font-semibold text-rose-300 block mb-0.5">
-                      {isEn ? 'Open Research Questions:' : 'Открытые исследовательские вопросы:'}
+                      Открытые исследовательские вопросы:
                     </span>
                     <p>{displayUncertainty.unknown}</p>
                   </div>
@@ -1190,7 +1115,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           <section className="mt-14 pt-8 border-t border-white/10">
             <h3 className="text-sm font-bold uppercase tracking-wider text-gray-200 mb-4 flex items-center gap-2">
               <BookOpen className="w-4 h-4 text-brand-blue" />
-              <span>{t.article.related}</span>
+              <span>{ru.article.related}</span>
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
@@ -1227,7 +1152,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           <section className="mt-14 pt-8 border-t border-white/10">
             <h3 className="text-sm font-bold uppercase tracking-wider text-gray-200 mb-4 flex items-center gap-2">
               <Quote className="w-4 h-4 text-brand-blue" />
-              <span>{isEn ? 'References & Bibliography (APA)' : '📚 Источники и библиография (APA)'}</span>
+              <span>📚 Источники и библиография (APA)</span>
             </h3>
 
             <ol className="space-y-3 text-xs text-slate-300 list-decimal list-outside ml-4">
@@ -1296,7 +1221,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
               >
                 <div className="flex items-center text-slate-300 group-hover:text-brand-blue mb-1 font-medium">
                   <ChevronLeft className="w-3.5 h-3.5 mr-1" />
-                  <span>{t.article.prev}</span>
+                  <span>{ru.article.prev}</span>
                 </div>
                 <span className="font-semibold text-gray-200 group-hover:text-white transition-colors line-clamp-1">
                   {prevArticle.title}
@@ -1309,7 +1234,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                 onClick={() => navigateToArticle(nextArticle.path)}
                 className="btn-brand-primary w-full group"
               >
-                <span>{t.article.next}</span>
+                <span>{ru.article.next}</span>
                 <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
               </button>
             ) : <div />}

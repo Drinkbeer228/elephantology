@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { ru } from '../i18n/ru';
 
 export interface CategoryDef {
   id: string;
@@ -30,7 +30,6 @@ export const CategoryTile = React.memo(function CategoryTile({
   isActive, 
   onClick 
 }: CategoryTileProps) {
-  const { t, lang } = useLanguage();
 
   if (isAll) {
     return (
@@ -45,7 +44,7 @@ export const CategoryTile = React.memo(function CategoryTile({
         <div className="flex items-center gap-2.5 min-w-0">
           <span className="text-base shrink-0">📚</span>
           <div className="min-w-0">
-            <div className="text-sm font-bold truncate">{t.catalog.allCategories}</div>
+            <div className="text-sm font-bold truncate">{ru.catalog.allCategories}</div>
           </div>
         </div>
         <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-md shrink-0 ${
@@ -59,7 +58,7 @@ export const CategoryTile = React.memo(function CategoryTile({
 
   if (!category) return null;
 
-  const categoryName = lang === 'en' && category.nameEn ? category.nameEn : category.name;
+  const categoryName = category.name;
 
   return (
     <button 

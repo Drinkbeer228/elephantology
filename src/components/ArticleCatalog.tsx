@@ -1,9 +1,9 @@
-import { useLanguage } from '../i18n/LanguageContext';
 import React, { useState, useMemo, useCallback } from 'react';
 import { ChevronDown, ChevronUp, ChevronRight, Clock, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, Layers, ChevronsUpDown, Search } from 'lucide-react';
 import { ArticleItem } from '../lib/searchEngine';
 import { getStaticArticles } from '../lib/articles';
 import { CategoryDef } from './catalog/CategoryTile';
+import { ru } from '../i18n/ru';
 
 const EVIDENCE_BADGE_MAP: Record<string, { key: 'established' | 'moderate' | 'limited' | 'hypothesis' | 'contested', classes: string, icon: any }> = {
   'established': { key: 'established', classes: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20', icon: ShieldCheck },
@@ -102,8 +102,6 @@ interface CategoryCardProps {
   isExpanded: boolean;
   onToggle: (id: string) => void;
   onArticleClick: (path: string) => void;
-  lang: string;
-  t: any;
 }
 
 const CategoryCard = React.memo(function CategoryCard({
@@ -111,13 +109,11 @@ const CategoryCard = React.memo(function CategoryCard({
   articles,
   isExpanded,
   onToggle,
-  onArticleClick,
-  lang,
-  t
+  onArticleClick
 }: CategoryCardProps) {
   const categoryArticles = useMemo(() => articles.filter(a => a.category === cat.id), [articles, cat.id]);
   const count = categoryArticles.length;
-  const categoryTitle = lang === 'en' && cat.nameEn ? cat.nameEn : cat.name;
+  const categoryTitle = cat.name;
 
   return (
     <div 
@@ -145,7 +141,7 @@ const CategoryCard = React.memo(function CategoryCard({
               {categoryTitle}
             </h3>
             <p className="text-[11px] text-gray-400 truncate mt-0.5 max-w-[280px] sm:max-w-[340px]">
-              {lang === 'en' && cat.descriptionEn ? cat.descriptionEn : cat.description}
+              {cat.description}
             </p>
           </div>
         </div>
@@ -156,7 +152,7 @@ const CategoryCard = React.memo(function CategoryCard({
               ? 'bg-brand-blue text-black font-bold border-brand-blue'
               : 'bg-black/30 text-gray-400 border-white/5 group-hover:text-brand-blue group-hover:border-brand-blue/20'
           }`}>
-            {count} {t.catalog.articlesCount}
+            {count} {ru.catalog.articlesCount}
           </span>
           <div className={`p-1 rounded-md transition-all ${
             isExpanded ? 'bg-brand-blue/15 text-brand-blue' : 'text-gray-500 group-hover:text-gray-300'
@@ -174,13 +170,13 @@ const CategoryCard = React.memo(function CategoryCard({
       {isExpanded && (
         <div className="border-t border-white/5 bg-[#0f1117]/90 p-3 sm:p-3.5 space-y-2.5 animate-fade-in">
           {categoryArticles.length === 0 ? (
-            <p className="text-xs text-gray-500 italic py-2 text-center">{t.search.noResults}</p>
+            <p className="text-xs text-gray-500 italic py-2 text-center">{ru.search.noResults}</p>
           ) : (
             categoryArticles.map((article) => {
-              const readingTime = article.readingTime || `4 ${t.catalog.readingTime}`;
+              const readingTime = article.readingTime || `4 ${ru.catalog.readingTime}`;
               const badgeDef = article.evidenceLevel ? EVIDENCE_BADGE_MAP[article.evidenceLevel.toLowerCase()] || EVIDENCE_BADGE_MAP['established'] : null;
               const BadgeIcon = badgeDef?.icon;
-              const badgeText = badgeDef ? (t.evidence[badgeDef.key] ? t.evidence[badgeDef.key].toUpperCase() : article.evidenceLevel?.toUpperCase()) : null;
+              const badgeText = badgeDef ? (ru.evidence[badgeDef.key] ? ru.evidence[badgeDef.key].toUpperCase() : article.evidenceLevel?.toUpperCase()) : null;
 
               return (
                 <div 
@@ -211,7 +207,7 @@ const CategoryCard = React.memo(function CategoryCard({
                       )}
                       {article.difficulty && (
                         <span className="text-brand-blue/80 font-semibold uppercase text-[9px]">
-                          {article.difficulty === 'advanced' ? t.catalog.difficulty.advanced : article.difficulty === 'intermediate' ? t.catalog.difficulty.intermediate : t.catalog.difficulty.basic}
+                          {article.difficulty === 'advanced' ? ru.catalog.difficulty.advanced : article.difficulty === 'intermediate' ? ru.catalog.difficulty.intermediate : ru.catalog.difficulty.basic}
                         </span>
                       )}
                     </div>
@@ -232,8 +228,7 @@ const CategoryCard = React.memo(function CategoryCard({
 });
 
 export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: string) => void }) {
-  const { t, lang } = useLanguage();
-  const articles = useMemo(() => getStaticArticles(lang), [lang]);
+  const articles = useMemo(() => getStaticArticles(), []);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
 
   const openArticle = useCallback((path: string) => {
@@ -277,10 +272,10 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
           <div className="space-y-1.5">
             <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight flex items-center gap-2.5">
               <Layers className="w-6 h-6 text-brand-blue" />
-              {t.catalog.title}
+              {ru.catalog.title}
             </h2>
             <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
-              {t.catalog.subtitle}
+              {ru.catalog.subtitle}
             </p>
           </div>
 
@@ -289,7 +284,7 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
             className="self-start sm:self-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#1a1c26] text-gray-300 hover:text-brand-blue border border-slate-700 hover:border-brand-blue/60 transition-all cursor-pointer shadow-sm shrink-0"
           >
             <ChevronsUpDown className="w-3.5 h-3.5" />
-            <span>{allExpanded ? t.catalog.collapseAll : t.catalog.expandAll}</span>
+            <span>{allExpanded ? ru.catalog.collapseAll : ru.catalog.expandAll}</span>
           </button>
         </div>
 
@@ -302,10 +297,10 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
             <div className="flex items-center gap-3">
               <Search className="w-4 h-4 text-slate-300 group-hover:text-brand-blue transition-colors shrink-0" />
               <span className="text-sm text-slate-400 font-normal">
-                {t.catalog.searchPlaceholder}
+                {ru.catalog.searchPlaceholder}
               </span>
             </div>
-            <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-gray-400">{t.search.searchTitle}</span>
+            <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-gray-400">{ru.search.searchTitle}</span>
           </button>
         </div>
       </div>
@@ -322,8 +317,6 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
               isExpanded={expandedCategories.has(cat.id)}
               onToggle={toggleCategory}
               onArticleClick={openArticle}
-              lang={lang}
-              t={t}
             />
           ))}
         </div>
@@ -338,8 +331,6 @@ export function ArticleCatalog({ onArticleClick }: { onArticleClick?: (path: str
               isExpanded={expandedCategories.has(cat.id)}
               onToggle={toggleCategory}
               onArticleClick={openArticle}
-              lang={lang}
-              t={t}
             />
           ))}
         </div>

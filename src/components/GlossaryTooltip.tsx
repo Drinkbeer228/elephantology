@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, useId } from 'react';
-import { useLanguage } from '../i18n/LanguageContext';
 import glossaryData from '../data/glossary.json';
 
 interface GlossaryEntry {
@@ -43,15 +42,14 @@ const GlossaryTooltipInner: React.FC<{
   entry: GlossaryEntry;
   children?: React.ReactNode;
 }> = ({ entry, children }) => {
-  const { isEn } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const tooltipId = useId();
 
   const fullTerm = entry.full;
-  const def = isEn ? entry.definition.en : entry.definition.ru;
-  const category = isEn ? entry.category.en : entry.category.ru;
+  const def = entry.definition.ru;
+  const category = entry.category.ru;
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

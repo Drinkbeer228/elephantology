@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { searchArticles, ArticleItem, ARTICLE_SEMANTIC_TAGS } from '../lib/searchEngine';
 import { getStaticArticles } from '../lib/articles';
-import { useLanguage } from '../i18n/LanguageContext';
+import { ru } from '../i18n/ru';
 
 function highlightMatch(text: string, query: string) {
   if (!query.trim() || !text) return text;
@@ -50,7 +50,6 @@ interface ToggleSearchEventDetail {
 }
 
 export function SearchModal() {
-  const { t, lang } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -68,49 +67,49 @@ export function SearchModal() {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const disciplines = useMemo(() => [
-    { id: 'all', name: t.catalog.allCategories, shortName: lang === 'en' ? 'All' : 'Все' },
-    { id: 'taxonomy', name: lang === 'en' ? 'Taxonomy & Evolution' : 'Таксономия и Эволюция', shortName: lang === 'en' ? 'Taxonomy' : 'Таксономия' },
-    { id: 'anatomy', name: lang === 'en' ? 'Anatomy & Morphology' : 'Анатомия и Морфология', shortName: lang === 'en' ? 'Anatomy' : 'Анатомия' },
-    { id: 'ethogram', name: lang === 'en' ? 'Ethogram & Behavior' : 'Этограмма и Поведение', shortName: lang === 'en' ? 'Ethogram' : 'Этограмма' },
-    { id: 'cognition', name: lang === 'en' ? 'Cognitive Science & Memory' : 'Когнитивистика и Память', shortName: lang === 'en' ? 'Cognition' : 'Когнитивистика' },
-    { id: 'veterinary', name: lang === 'en' ? 'Veterinary & Medicine' : 'Ветеринария и Медицина', shortName: lang === 'en' ? 'Veterinary' : 'Ветеринария' },
-    { id: 'ecology', name: lang === 'en' ? 'Ecology & Populations' : 'Экология и Популяции', shortName: lang === 'en' ? 'Ecology' : 'Экология' },
-    { id: 'conservation', name: lang === 'en' ? 'Conservation & Protection' : 'Охрана и Сохранение видов', shortName: lang === 'en' ? 'Conservation' : 'Охрана' },
-    { id: 'culture', name: lang === 'en' ? 'Anthrozoology & Culture' : 'История и Культура', shortName: lang === 'en' ? 'Culture' : 'Культура' },
-    { id: 'paleontology', name: lang === 'en' ? 'Paleontology & Fossils' : 'Палеонтология и Ископаемые', shortName: lang === 'en' ? 'Paleontology' : 'Палеонтология' },
-    { id: 'genomics', name: lang === 'en' ? 'Genomics & Genetics' : 'Геномика и Генетика', shortName: lang === 'en' ? 'Genomics' : 'Геномика' }
-  ], [t, lang]);
+    { id: 'all', name: ru.catalog.allCategories, shortName: 'Все' },
+    { id: 'taxonomy', name: 'Таксономия и Эволюция', shortName: 'Таксономия' },
+    { id: 'anatomy', name: 'Анатомия и Морфология', shortName: 'Анатомия' },
+    { id: 'ethogram', name: 'Этограмма и Поведение', shortName: 'Этограмма' },
+    { id: 'cognition', name: 'Когнитивистика и Память', shortName: 'Когнитивистика' },
+    { id: 'veterinary', name: 'Ветеринария и Медицина', shortName: 'Ветеринария' },
+    { id: 'ecology', name: 'Экология и Популяции', shortName: 'Экология' },
+    { id: 'conservation', name: 'Охрана и Сохранение видов', shortName: 'Охрана' },
+    { id: 'culture', name: 'История и Культура', shortName: 'Культура' },
+    { id: 'paleontology', name: 'Палеонтология и Ископаемые', shortName: 'Палеонтология' },
+    { id: 'genomics', name: 'Геномика и Генетика', shortName: 'Геномика' }
+  ]);
 
   const evidenceLevels = useMemo(() => [
-    { id: 'all', label: lang === 'en' ? 'Any evidence status' : 'Любой статус' },
-    { id: 'established', label: `${t.evidence.established} (A1)` },
-    { id: 'moderate', label: `${t.evidence.moderate} (A2)` },
-    { id: 'limited', label: `${t.evidence.limited} (B)` },
-    { id: 'hypothesis', label: `${t.evidence.hypothesis} (C)` }
-  ], [t, lang]);
+    { id: 'all', label: 'Любой статус' },
+    { id: 'established', label: `${ru.evidence.established} (A1)` },
+    { id: 'moderate', label: `${ru.evidence.moderate} (A2)` },
+    { id: 'limited', label: `${ru.evidence.limited} (B)` },
+    { id: 'hypothesis', label: `${ru.evidence.hypothesis} (C)` }
+  ]);
 
   const readingTimes = useMemo(() => [
-    { id: 'all', label: lang === 'en' ? 'Any volume' : 'Любой объём' },
-    { id: 'short', label: `< 10 ${t.catalog.readingTime} (${lang === 'en' ? 'Short' : 'Короткие'})` },
-    { id: 'medium', label: `10–25 ${t.catalog.readingTime} (${lang === 'en' ? 'Medium' : 'Средние'})` },
-    { id: 'long', label: `> 25 ${t.catalog.readingTime} (${lang === 'en' ? 'In-depth' : 'Фундаментальные'})` }
-  ], [t, lang]);
+    { id: 'all', label: 'Любой объём' },
+    { id: 'short', label: `< 10 ${ru.catalog.readingTime} (Короткие)` },
+    { id: 'medium', label: `10–25 ${ru.catalog.readingTime} (Средние)` },
+    { id: 'long', label: `> 25 ${ru.catalog.readingTime} (Фундаментальные)` }
+  ]);
 
   const sortOptions = useMemo(() => [
-    { id: 'relevance', label: lang === 'en' ? 'By relevance' : 'По релевантности' },
-    { id: 'title_asc', label: lang === 'en' ? 'By title (A–Z)' : 'По названию (А–Я)' },
-    { id: 'time_asc', label: lang === 'en' ? 'By volume (shortest first)' : 'По объёму (сначала короткие)' },
-    { id: 'time_desc', label: lang === 'en' ? 'By volume (deepest first)' : 'По объёму (сначала глубокие)' }
-  ], [lang]);
+    { id: 'relevance', label: 'По релевантности' },
+    { id: 'title_asc', label: 'По названию (А–Я)' },
+    { id: 'time_asc', label: 'По объёму (сначала короткие)' },
+    { id: 'time_desc', label: 'По объёму (сначала глубокие)' }
+  ]]);
 
   // Load articles
   useEffect(() => {
     try {
-      setArticles(getStaticArticles(lang));
+      setArticles(getStaticArticles());
     } catch (e) {
       console.error('Failed to load articles in SearchModal:', e);
     }
-  }, [lang]);
+  }]);
 
   // Event listener for opening modal with optional pre-selected tag, category, or query
   useEffect(() => {
@@ -303,7 +302,7 @@ export function SearchModal() {
 
   const getCategoryLabel = (category: string) => {
     const found = disciplines.find(d => d.id === category?.toLowerCase());
-    return found ? found.name : (lang === 'en' ? 'Article' : 'Статья');
+    return found ? found.name : 'Article';
   };
 
   const renderEvidenceBadge = (level?: string) => {
@@ -311,22 +310,22 @@ export function SearchModal() {
     const l = level.toLowerCase();
     if (l === 'established') return (
       <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-        <ShieldCheck className="w-3 h-3" /> A1 {t.evidence.established}
+        <ShieldCheck className="w-3 h-3" /> A1 {ru.evidence.established}
       </span>
     );
     if (l === 'moderate') return (
       <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-        <Scale className="w-3 h-3" /> A2 {t.evidence.moderate}
+        <Scale className="w-3 h-3" /> A2 {ru.evidence.moderate}
       </span>
     );
     if (l === 'limited') return (
       <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/20">
-        <AlertCircle className="w-3 h-3" /> B {t.evidence.limited}
+        <AlertCircle className="w-3 h-3" /> B {ru.evidence.limited}
       </span>
     );
     if (l === 'hypothesis') return (
       <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">
-        <Lightbulb className="w-3 h-3" /> C {t.evidence.hypothesis}
+        <Lightbulb className="w-3 h-3" /> C {ru.evidence.hypothesis}
       </span>
     );
     return null;
@@ -380,14 +379,14 @@ export function SearchModal() {
         ref={modalRef}
         role="dialog"
         aria-modal="true"
-        aria-label={t.search.placeholder}
+        aria-label={ru.search.placeholder}
         className="bg-[#151720] border border-[#2e3244] w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[86vh] relative z-10"
       >
         
         {/* Search Header Bar */}
         <div className="p-3.5 sm:p-4 border-b border-[#2e3244] flex items-center gap-3 bg-[#111218]">
           <p id="search-desc" className="sr-only">
-            {lang === 'en' ? 'Search through academic knowledge base of Elephantology' : 'Поиск по академической базе знаний Слонологии'}
+            'Search through academic knowledge base of Elephantology'
           </p>
           <Search className="w-5 h-5 text-brand-blue shrink-0" />
           <input 
@@ -400,7 +399,7 @@ export function SearchModal() {
               setSelectedIndex(0);
             }}
             onKeyDown={handleKeyDownInInput}
-            placeholder={t.search.placeholder} 
+            placeholder={ru.search.placeholder} 
             className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none text-sm sm:text-base font-medium"
           />
 
@@ -409,7 +408,7 @@ export function SearchModal() {
               id="btn-clear-search-query"
               onClick={() => setQuery('')}
               className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
-              title={lang === 'en' ? 'Clear query' : 'Очистить поисковый запрос'}
+              title='Clear query'
             >
               <X className="w-4 h-4" />
             </button>
@@ -423,10 +422,10 @@ export function SearchModal() {
                 ? 'bg-brand-blue/15 text-brand-blue border-brand-blue/40 shadow-sm'
                 : 'bg-[#1f222e] text-gray-300 hover:text-white border-white/10'
             }`}
-            title={lang === 'en' ? 'Filter settings' : 'Параметры фильтрации'}
+            title='Filter settings'
           >
             <SlidersHorizontal className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">{lang === 'en' ? 'Filters' : 'Фильтры'}</span>
+            <span className="hidden sm:inline">'Filters'</span>
             {activeAdvancedFiltersCount > 0 && (
               <span className="w-4 h-4 rounded-full bg-brand-blue text-black text-[10px] font-extrabold flex items-center justify-center">
                 {activeAdvancedFiltersCount}
@@ -448,7 +447,7 @@ export function SearchModal() {
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <span className="text-[11px] uppercase tracking-wider text-gray-400 font-semibold flex items-center gap-1.5">
-                <ListFilter className="w-3.5 h-3.5 text-brand-blue" /> {lang === 'en' ? 'Categories' : 'Категории'}
+                <ListFilter className="w-3.5 h-3.5 text-brand-blue" /> 'Categories'
               </span>
               <span className="text-[10px] text-gray-500 font-mono">({disciplines.length - 1})</span>
             </div>
@@ -458,7 +457,7 @@ export function SearchModal() {
                 onClick={() => setSelectedCategory('all')}
                 className="text-[11px] text-brand-blue hover:underline transition-colors cursor-pointer font-medium"
               >
-                {t.catalog.allCategories}
+                {ru.catalog.allCategories}
               </button>
             )}
           </div>
@@ -497,14 +496,14 @@ export function SearchModal() {
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5 text-[11px] text-gray-400">
               <Tag className="w-3 h-3 text-brand-blue/70" />
-              <span className="font-semibold uppercase tracking-wider text-[10px]">{lang === 'en' ? 'Thematic tags:' : 'Тематические теги:'}</span>
+              <span className="font-semibold uppercase tracking-wider text-[10px]">'Thematic tags:'</span>
             </div>
             {popularTags.length > 20 && (
               <button
                 onClick={() => setExpandTags(prev => !prev)}
                 className="text-[10px] text-gray-400 hover:text-brand-blue transition-colors cursor-pointer font-medium"
               >
-                {expandTags ? (lang === 'en' ? 'Collapse tags' : 'Свернуть теги') : (lang === 'en' ? `Show all (${popularTags.length})` : `Показать все (${popularTags.length})`)}
+                {expandTags ? 'Свернуть теги' : `Показать все (${popularTags.length})`}
               </button>
             )}
           </div>
@@ -535,7 +534,7 @@ export function SearchModal() {
             {/* Evidence Level */}
             <div className="space-y-1">
               <label className="text-[11px] text-gray-400 font-medium flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> {lang === 'en' ? 'Evidence:' : 'Доказательность:'}
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> 'Evidence:'
               </label>
               <select
                 value={selectedEvidence}
@@ -551,7 +550,7 @@ export function SearchModal() {
             {/* Reading Time */}
             <div className="space-y-1">
               <label className="text-[11px] text-gray-400 font-medium flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-amber-400" /> {lang === 'en' ? 'Reading Time:' : 'Объём / Время чтения:'}
+                <Clock className="w-3.5 h-3.5 text-amber-400" /> 'Reading Time:'
               </label>
               <select
                 value={selectedReadingTime}
@@ -567,7 +566,7 @@ export function SearchModal() {
             {/* Sorting */}
             <div className="space-y-1">
               <label className="text-[11px] text-gray-400 font-medium flex items-center gap-1">
-                <SlidersHorizontal className="w-3.5 h-3.5 text-brand-blue" /> {lang === 'en' ? 'Sort:' : 'Сортировка:'}
+                <SlidersHorizontal className="w-3.5 h-3.5 text-brand-blue" /> 'Sort:'
               </label>
               <select
                 value={sortBy}
@@ -590,7 +589,7 @@ export function SearchModal() {
         >
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-gray-300">
-              {lang === 'en' ? 'Articles found:' : 'Найдено статей:'} <strong className="text-brand-blue font-bold text-xs">{results.length}</strong> {lang === 'en' ? 'of' : 'из'} {articles.length}
+              'Articles found:' <strong className="text-brand-blue font-bold text-xs">{results.length}</strong> 'of' {articles.length}
             </span>
 
             {selectedCategory !== 'all' && (
@@ -629,7 +628,7 @@ export function SearchModal() {
               className="inline-flex items-center gap-1 text-[11px] text-gray-400 hover:text-brand-blue transition-colors cursor-pointer font-medium"
             >
               <RotateCcw className="w-3 h-3" />
-              <span>{lang === 'en' ? 'Reset all' : 'Сбросить все'}</span>
+              <span>'Reset all'</span>
             </button>
           )}
         </div>
@@ -644,16 +643,16 @@ export function SearchModal() {
               <div className="flex justify-center mb-1">
                 <HelpCircle className="w-10 h-10 text-rose-400/70" />
               </div>
-              <p className="text-sm text-gray-200 font-semibold">{t.search.noResults}</p>
+              <p className="text-sm text-gray-200 font-semibold">{ru.search.noResults}</p>
               <p className="text-xs text-gray-400 max-w-md mx-auto leading-relaxed">
-                {lang === 'en' ? 'Try changing keywords, selecting a different category, or resetting active filters.' : 'Попробуйте изменить поисковые слова, выбрать другую категорию или сбросить активные фильтры.'}
+                'Try changing keywords, selecting a different category, or resetting active filters.'
               </p>
               <button 
                 onClick={resetAllFilters}
                 className="mt-2 px-4 py-2 bg-[#202330] hover:bg-[#2a2e40] text-brand-blue border border-[#34384a] rounded-xl text-xs font-bold transition-all cursor-pointer inline-flex items-center gap-2 shadow-sm"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                {lang === 'en' ? 'Reset all parameters' : 'Сбросить все параметры'}
+                'Reset all parameters'
               </button>
             </div>
           ) : (
@@ -721,10 +720,10 @@ export function SearchModal() {
         {/* Footer Hint Bar */}
         <div className="px-4 py-2 bg-[#0c0e12] border-t border-white/5 flex items-center justify-between text-[10px] text-gray-500">
           <div className="flex items-center gap-3">
-            <span>{lang === 'en' ? 'Use' : 'Используйте'} <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">↑</kbd> <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">↓</kbd> {lang === 'en' ? 'to navigate' : 'для навигации'}</span>
-            <span><kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">Enter</kbd> {lang === 'en' ? 'to open' : 'для открытия'}</span>
+            <span>'Use' <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">↑</kbd> <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">↓</kbd> 'to navigate'</span>
+            <span><kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">Enter</kbd> 'to open'</span>
           </div>
-          <span className="text-gray-400 font-mono">{lang === 'en' ? 'Total articles:' : 'Всего статей:'} {articles.length}</span>
+          <span className="text-gray-400 font-mono">'Total articles:' {articles.length}</span>
         </div>
 
       </div>

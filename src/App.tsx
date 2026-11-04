@@ -1,15 +1,14 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BookOpen } from "lucide-react";
 import { Header } from './components/Header';
-import { useLanguage } from './i18n/LanguageContext';
 import { ArticleCatalog } from './components/ArticleCatalog';
+import { ru } from './i18n/ru';
 
 const ArticleViewer = lazy(() => import('./components/ArticleViewer').then(m => ({ default: m.ArticleViewer })));
 const SearchModal = lazy(() => import('./components/SearchModal').then(m => ({ default: m.SearchModal })));
 const CitationModal = lazy(() => import('./components/CitationModal').then(m => ({ default: m.CitationModal })));
 
 export default function App() {
-  const { t } = useLanguage();
   const [currentView, setCurrentView] = useState<'home' | 'article' | 'module'>('home');
   const [currentArticlePath, setCurrentArticlePath] = useState<string | null>(null);
 
@@ -123,7 +122,7 @@ export default function App() {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-brand-blue focus:text-white focus:font-semibold focus:rounded-lg focus:shadow-lg focus:outline-none"
       >
-        {t.a11y?.skipToContent || 'Перейти к основному содержимому'}
+        {ru.a11y.skipToContent}
       </a>
       <Header />
       <main className="flex-1 w-full mx-auto px-3 sm:px-6 pb-12 pt-4 lg:pt-8 flex flex-col max-w-7xl relative" id="main-content">
@@ -150,12 +149,12 @@ export default function App() {
           <div className="flex items-center gap-3">
             <BookOpen className="w-5 h-5 text-brand-blue shrink-0" />
             <div>
-              <span className="font-semibold text-slate-200">{t.footer.title}</span>
-              <p className="text-[11px] text-slate-400 mt-0.5">{t.footer.text}</p>
+              <span className="font-semibold text-slate-200">{ru.footer.title}</span>
+              <p className="text-[11px] text-slate-400 mt-0.5">{ru.footer.text}</p>
             </div>
           </div>
           <div className="flex items-center gap-4 text-[11px]">
-            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="text-slate-300 hover:text-brand-blue transition-colors cursor-pointer font-medium">{t.footer.toTop}</button>
+            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="text-slate-300 hover:text-brand-blue transition-colors cursor-pointer font-medium">{ru.footer.toTop}</button>
           </div>
         </div>
       </footer>

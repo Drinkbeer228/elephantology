@@ -2,7 +2,7 @@ import React from 'react';
 import { CategoryDef } from './CategoryTile';
 import { ArticleCard } from './ArticleCard';
 import { ArticleItem } from '../../lib/searchEngine';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { ru } from '../i18n/ru';
 
 interface CategorySectionProps {
   category: CategoryDef;
@@ -15,10 +15,9 @@ export const CategorySection = React.memo(function CategorySection({
   articles,
   onArticleClick
 }: CategorySectionProps) {
-  const { t, lang } = useLanguage();
   if (articles.length === 0) return null;
 
-  const categoryName = lang === 'en' && category.nameEn ? category.nameEn : category.name;
+  const categoryName = category.name;
 
   return (
     <div className="space-y-3 category-section-container">
@@ -30,7 +29,7 @@ export const CategorySection = React.memo(function CategorySection({
           </h3>
         </div>
         <span className="font-mono text-[11px] text-gray-400 bg-[#181a22] border border-white/10 px-2 py-0.5 rounded">
-          {articles.length} {t.catalog.articlesCount}
+          {articles.length} {ru.catalog.articlesCount}
         </span>
       </div>
 

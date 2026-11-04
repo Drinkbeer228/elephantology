@@ -1,9 +1,8 @@
 import React from 'react';
 import { BookOpen } from 'lucide-react';
-import { useLanguage } from '../i18n/LanguageContext';
+import { ru } from '../i18n/ru';
 
 export function Header() {
-  const { t, lang, setLang } = useLanguage();
 
   return (
     <header className="sticky top-0 z-50 bg-[#0f172a]/80 backdrop-blur-xl border-b border-slate-700/70 shadow-2xl">
@@ -18,19 +17,10 @@ export function Header() {
           </div>
           <div className="flex flex-col items-start text-left">
             <h1 className="font-bold text-base sm:text-lg text-white group-hover:text-brand-blue transition-colors duration-300 tracking-[0.15em] uppercase font-serif">
-              {t.header.title}
+              {ru.header.title}
             </h1>
           </div>
         </button>
-
-        <div className="flex items-center">
-          <button
-            onClick={() => setLang(lang === 'ru' ? 'en' : 'ru')}
-            className="px-3 py-1.5 text-xs font-semibold tracking-wider uppercase border border-white/10 rounded-lg hover:border-brand-blue/60 hover:text-brand-blue transition-colors text-gray-400 bg-black/20"
-          >
-            {lang === 'ru' ? 'EN' : 'RU'}
-          </button>
-        </div>
       </div>
     </header>
   );

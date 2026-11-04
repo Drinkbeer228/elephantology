@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { BookOpen, HelpCircle, Layers, FlaskConical, Check } from 'lucide-react';
-import { useLanguage } from '../i18n/LanguageContext';
+import { ru } from '../i18n/ru';
 
 /* ============================================================
    StepTabs — горизонтальная лента шагов урока в стиле Stepik iOS.
@@ -52,7 +52,6 @@ interface StepTabsProps {
 }
 
 export function StepTabs({ steps, onScrollToStep, labels }: StepTabsProps) {
-  const { t } = useLanguage();
   const [activeId, setActiveId] = useState<string>(steps[0]?.id ?? '');
   const [visited, setVisited] = useState<Set<string>>(new Set());
 
@@ -107,7 +106,7 @@ export function StepTabs({ steps, onScrollToStep, labels }: StepTabsProps) {
 
   return (
     <nav
-      aria-label={t.steps.navAria}
+      aria-label={ru.steps.navAria}
       className="sticky top-16 z-40 -mx-4 px-2 sm:mx-0 sm:px-0 overflow-x-auto"
       style={{
         background: 'color-mix(in srgb, var(--page-bg) 78%, transparent)',
@@ -122,7 +121,7 @@ export function StepTabs({ steps, onScrollToStep, labels }: StepTabsProps) {
           const isActive = step.id === activeId;
           // Пройденным считаем все шаги левее активного + явно посещённые
           const isDone = !isActive && (idx < orderedActiveIndex || visited.has(step.id));
-          const label = labels?.[step.kind] ?? t.steps[step.kind];
+          const label = labels?.[step.kind] ?? ru.steps[step.kind];
 
           return (
             <li key={step.id} className="relative">

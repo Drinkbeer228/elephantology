@@ -4,8 +4,8 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import { ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle, CheckCircle2, HelpCircle as HelpIcon, AlertTriangle, type LucideIcon } from 'lucide-react';
-import { useLanguage } from '../i18n/LanguageContext';
 import { EvidenceBasisType } from '../types';
+import { ru } from '../i18n/ru';
 
 // Shared sanitization schema: allows KaTeX output + footnote markup while
 // stripping scripts, event handlers (on*), and unsafe URLs. Use AFTER rehype-raw.
@@ -38,7 +38,6 @@ interface EvidenceConfig {
   border: string;
   icon: LucideIcon;
   description: string;
-  descriptionEn: string;
 }
 
 const EVIDENCE_BADGE_MAP: Record<string, EvidenceConfig> = {
@@ -48,8 +47,7 @@ const EVIDENCE_BADGE_MAP: Record<string, EvidenceConfig> = {
     text: 'text-emerald-300',
     border: 'border-emerald-800/60',
     icon: ShieldCheck,
-    description: 'Установленный научный статус: подтверждено систематическими обзорами, множественными первичными исследованиями и научным консенсусом.',
-    descriptionEn: 'Established status: corroborated by systematic reviews, multiple primary studies, and broad scientific consensus.'
+    description: 'Установленный научный статус: подтверждено систематическими обзорами, множественными первичными исследованиями и научным консенсусом.'
   },
   moderate: {
     labelKey: 'moderate',
@@ -57,8 +55,7 @@ const EVIDENCE_BADGE_MAP: Record<string, EvidenceConfig> = {
     text: 'text-blue-300',
     border: 'border-blue-800/60',
     icon: Scale,
-    description: 'Достаточная доказательная база: подтверждено валидированными клиническими или эмпирическими данными.',
-    descriptionEn: 'Moderate evidence base: corroborated by validated clinical or empirical studies with strong observational data.'
+    description: 'Достаточная доказательная база: подтверждено валидированными клиническими или эмпирическими данными.'
   },
   limited: {
     labelKey: 'limited',
@@ -66,8 +63,7 @@ const EVIDENCE_BADGE_MAP: Record<string, EvidenceConfig> = {
     text: 'text-amber-300',
     border: 'border-amber-800/60',
     icon: AlertCircle,
-    description: 'Ограниченные данные: наблюдения единичных когорт или предварительные пилотные исследования.',
-    descriptionEn: 'Limited data: derived from isolated cohort observations or preliminary pilot inquiries.'
+    description: 'Ограниченные данные: наблюдения единичных когорт или предварительные пилотные исследования.'
   },
   hypothesis: {
     labelKey: 'hypothesis',
@@ -75,8 +71,7 @@ const EVIDENCE_BADGE_MAP: Record<string, EvidenceConfig> = {
     text: 'text-orange-300',
     border: 'border-orange-800/60',
     icon: Lightbulb,
-    description: 'Научная гипотеза: теоретическая модель или биофизическая экстраполяция, требующая верификации.',
-    descriptionEn: 'Working hypothesis: theoretical model or biophysical extrapolation awaiting further experimental verification.'
+    description: 'Научная гипотеза: теоретическая модель или биофизическая экстраполяция, требующая верификации.'
   },
   contested: {
     labelKey: 'contested',
@@ -84,8 +79,7 @@ const EVIDENCE_BADGE_MAP: Record<string, EvidenceConfig> = {
     text: 'text-rose-300',
     border: 'border-rose-800/60',
     icon: HelpCircle,
-    description: 'Дискуссионный вопрос: в академическом сообществе существуют взаимоисключающие данные или полемика.',
-    descriptionEn: 'Contested status: conflicting data models or ongoing methodological debate across the scholarly community.'
+    description: 'Дискуссионный вопрос: в академическом сообществе существуют взаимоисключающие данные или полемика.'
   }
 };
 
@@ -101,20 +95,19 @@ export function EvidenceBadge({
   basis?: EvidenceBasisType[];
   showTooltip?: boolean;
 }) {
-  const { t, isEn } = useLanguage();
   if (!level) return null;
 
   const normalized = level.toLowerCase();
   const current = EVIDENCE_BADGE_MAP[normalized] || EVIDENCE_BADGE_MAP.established;
-  const label = t.evidence[current.labelKey].toUpperCase();
+  const label = ru.evidence[current.labelKey].toUpperCase();
   const Icon = current.icon;
 
   const basisLabels: Record<string, { ru: string; en: string }> = {
-    peer_reviewed: { ru: 'Рецензируемые публикации', en: 'Peer-reviewed articles' },
-    systematic_review: { ru: 'Систематический обзор', en: 'Systematic review' },
-    primary_studies: { ru: 'Первичные эмпирические исследования', en: 'Primary empirical studies' },
-    consensus: { ru: 'Академический консенсус', en: 'Scholarly consensus' },
-    expert_assessment: { ru: 'Экспертная зоологическая оценка', en: 'Expert assessment' }
+    peer_reviewed: { ru: 'Рецензируемые публикации' },
+    systematic_review: { ru: 'Систематический обзор' },
+    primary_studies: { ru: 'Первичные эмпирические исследования' },
+    consensus: { ru: 'Академический консенсус' },
+    expert_assessment: { ru: 'Экспертная зоологическая оценка' }
   };
 
   return (
@@ -128,15 +121,15 @@ export function EvidenceBadge({
 
       {showTooltip && (
         <div className="absolute left-0 top-full mt-1.5 w-72 p-3 bg-[#1e2130] border border-[#34384a] rounded-lg shadow-xl text-xs text-gray-200 font-normal normal-case opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-30 pointer-events-none space-y-1.5">
-          <p>{isEn ? current.descriptionEn : current.description}</p>
+          <p>{current.description}</p>
           {basis && basis.length > 0 && (
             <div className="pt-1.5 border-t border-[#34384a] text-[11px] text-gray-400">
               <span className="font-semibold text-gray-200 block mb-0.5">
-                {isEn ? 'Evidence Basis:' : 'Основание оценки:'}
+                Основание оценки:
               </span>
               <ul className="list-disc list-inside space-y-0.5">
                 {basis.map((b) => (
-                  <li key={b}>{basisLabels[b] ? (isEn ? basisLabels[b].en : basisLabels[b].ru) : b}</li>
+                  <li key={b}>{basisLabels[b] ? basisLabels[b].ru : b}</li>
                 ))}
               </ul>
             </div>
@@ -151,14 +144,13 @@ export function EvidenceBadge({
  * Блок «Ключевые сведения / Показатели»:
  */
 export function KeyFindingsBlock({ content }: { content: string }) {
-  const { isEn } = useLanguage();
   if (!content) return null;
 
   return (
     <section className="my-8 rounded-xl border border-[#34384a] border-l-4 border-l-amber-400 bg-[#161822] p-5 shadow-sm">
       <div className="flex items-center gap-2 mb-3 text-amber-300 font-semibold text-sm">
         <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
-        <span>{isEn ? 'Key Scientific Findings' : 'Ключевые сведения'}</span>
+        <span>Ключевые сведения</span>
       </div>
       <div className="text-slate-200 text-sm leading-relaxed space-y-2">
         <ReactMarkdown
@@ -190,7 +182,6 @@ export function ScientificUncertaintyBlock({
   debate?: string;
   unknown?: string;
 }) {
-  const { isEn } = useLanguage();
   if (!consensus && !debate && !unknown) return null;
 
   return (
@@ -198,7 +189,7 @@ export function ScientificUncertaintyBlock({
       <div className="flex items-center gap-2 border-b border-[#34384a] pb-3">
         <Scale className="w-5 h-5 text-indigo-400 shrink-0" />
         <h3 className="font-semibold text-slate-100 text-sm sm:text-base">
-          {isEn ? 'Scientific Consensus & Epistemic Uncertainty' : 'Научный консенсус и исследовательские дебаты'}
+          Научный консенсус и исследовательские дебаты
         </h3>
       </div>
 
@@ -208,7 +199,7 @@ export function ScientificUncertaintyBlock({
             <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
             <div className="text-xs sm:text-sm text-slate-200">
               <span className="font-semibold text-emerald-300 block mb-0.5">
-                {isEn ? 'Established Consensus:' : 'Установленный научный консенсус:'}
+                Установленный научный консенсус:
               </span>
               <p className="text-slate-300 leading-relaxed">{consensus}</p>
             </div>
@@ -220,7 +211,7 @@ export function ScientificUncertaintyBlock({
             <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
             <div className="text-xs sm:text-sm text-slate-200">
               <span className="font-semibold text-amber-300 block mb-0.5">
-                {isEn ? 'Current Scholarly Debates:' : 'Дискуссионные аспекты и гипотезы:'}
+                Дискуссионные аспекты и гипотезы:
               </span>
               <p className="text-slate-300 leading-relaxed">{debate}</p>
             </div>
@@ -232,7 +223,7 @@ export function ScientificUncertaintyBlock({
             <HelpIcon className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
             <div className="text-xs sm:text-sm text-slate-200">
               <span className="font-semibold text-rose-300 block mb-0.5">
-                {isEn ? 'Open Inquiries & Data Gaps:' : 'Открытые исследовательские вопросы:'}
+                Открытые исследовательские вопросы:
               </span>
               <p className="text-slate-300 leading-relaxed">{unknown}</p>
             </div>
@@ -259,21 +250,20 @@ export function EditorialStatusBlock({
   evidenceLevel?: string;
   evidenceBasis?: EvidenceBasisType[];
 }) {
-  const { isEn } = useLanguage();
   const displayDate = lastReviewed || '2026-08-24';
 
   return (
     <section className="mt-12 pt-6 border-t border-[#34384a] flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-slate-400">
       <div className="space-y-1">
         <div className="font-medium text-slate-200">
-          {isEn ? 'Editorial & Epistemic Status' : 'Редакционный статус статьи'}
+          Редакционный статус статьи
         </div>
         <p className="text-slate-400">
-          {isEn ? 'Last scholarly review: ' : 'Последний академический пересмотр: '}
+          Последний академический пересмотр:
           <span className="font-mono text-kingdom-gold font-semibold">{displayDate}</span>
           {datePublished && (
             <span className="ml-3 text-slate-500">
-              ({isEn ? 'Published: ' : 'Опубликовано: '}<span className="font-mono text-slate-400">{datePublished}</span>)
+              (Опубликовано: <span className="font-mono text-slate-400">{datePublished}</span>)
             </span>
           )}
         </p>
@@ -281,10 +271,7 @@ export function EditorialStatusBlock({
 
       <div className="text-slate-400 sm:text-right sm:max-w-sm leading-relaxed">
         <p>
-          {isEn 
-            ? 'Monograph verified against current zoological literature, primary peer-reviewed sources, and taxonomic registries.'
-            : 'Материал проверен на соответствие новейшим профильным публикациям, первичным источникам и таксономическим реестрам.'
-          }
+          Статья верифицирована по актуальной зоологической литературе, первичным рецензируемым источникам и таксономическим реестрам.
         </p>
       </div>
     </section>

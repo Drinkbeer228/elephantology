@@ -1,7 +1,7 @@
 import React from 'react';
 import { Clock, ChevronRight, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle } from 'lucide-react';
 import { ArticleItem } from '../../lib/searchEngine';
-import { useLanguage } from '../../i18n/LanguageContext';
+import { ru } from '../i18n/ru';
 
 interface ArticleCardProps {
   article: ArticleItem;
@@ -9,17 +9,16 @@ interface ArticleCardProps {
 }
 
 export const ArticleCard = React.memo(function ArticleCard({ article, onClick }: ArticleCardProps) {
-  const { t } = useLanguage();
-  const readingTime = article.readingTime || `4 ${t.catalog.readingTime}`;
+  const readingTime = article.readingTime || `4 ${ru.catalog.readingTime}`;
   
   const getEvidenceBadge = (level: string | undefined) => {
     if (!level) return null;
     const mapping: Record<string, {text: string, classes: string, icon: any}> = {
-      'established': { text: t.evidence.established.toUpperCase(), classes: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20', icon: ShieldCheck },
-      'moderate': { text: t.evidence.moderate.toUpperCase(), classes: 'text-amber-400 bg-amber-400/10 border-amber-400/20', icon: Scale },
-      'limited': { text: t.evidence.limited.toUpperCase(), classes: 'text-orange-400 bg-orange-400/10 border-orange-400/20', icon: AlertCircle },
-      'hypothesis': { text: t.evidence.hypothesis.toUpperCase(), classes: 'text-sky-400 bg-sky-400/10 border-sky-400/20', icon: Lightbulb },
-      'contested': { text: t.evidence.contested.toUpperCase(), classes: 'text-rose-400 bg-rose-400/10 border-rose-400/20', icon: HelpCircle },
+      'established': { text: ru.evidence.established.toUpperCase(), classes: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20', icon: ShieldCheck },
+      'moderate': { text: ru.evidence.moderate.toUpperCase(), classes: 'text-amber-400 bg-amber-400/10 border-amber-400/20', icon: Scale },
+      'limited': { text: ru.evidence.limited.toUpperCase(), classes: 'text-orange-400 bg-orange-400/10 border-orange-400/20', icon: AlertCircle },
+      'hypothesis': { text: ru.evidence.hypothesis.toUpperCase(), classes: 'text-sky-400 bg-sky-400/10 border-sky-400/20', icon: Lightbulb },
+      'contested': { text: ru.evidence.contested.toUpperCase(), classes: 'text-rose-400 bg-rose-400/10 border-rose-400/20', icon: HelpCircle },
     };
     const badge = mapping[level.toLowerCase()] || mapping['established'];
     const Icon = badge.icon;
@@ -34,9 +33,9 @@ export const ArticleCard = React.memo(function ArticleCard({ article, onClick }:
 
   const getDifficultyLabel = (diff?: string) => {
     if (!diff) return null;
-    if (diff === 'advanced') return t.catalog.difficulty.advanced;
-    if (diff === 'intermediate') return t.catalog.difficulty.intermediate;
-    return t.catalog.difficulty.basic;
+    if (diff === 'advanced') return ru.catalog.difficulty.advanced;
+    if (diff === 'intermediate') return ru.catalog.difficulty.intermediate;
+    return ru.catalog.difficulty.basic;
   };
 
   return (

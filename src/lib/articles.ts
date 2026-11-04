@@ -1,7 +1,5 @@
 import { ArticleItem } from './searchEngine';
 import { parseFrontmatter } from './markdown';
-import { ARTICLE_TRANSLATIONS_EN } from './articleTranslations';
-import { translateMarkdownToEnglish } from './translateMarkdown';
 
 const legacyMap: Record<string, string> = {
   "respiratory_system": "anatomy/respiratory-system-and-vocal-tract",
