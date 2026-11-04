@@ -432,22 +432,6 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
     }
   }, [lang, meta.category, meta.tags, pathPart]);
 
-  // StepTabs: шаги урока из заголовков h2 чистого тела статьи (контент не меняется)
-  const lessonSteps = useMemo(() => {
-    const seen = new Set<string>();
-    const steps: { id: string; title: string; kind: ReturnType<typeof classifyStep> }[] = [];
-    for (const line of rawCleanBody.split('\n')) {
-      const m = /^##\s+(.+?)\s*#*\s*$/.exec(line);
-      if (!m) continue;
-      const title = m[1].replace(/[*_`]/g, '').trim();
-      if (!title) continue;
-      let id = stepSlug(title);
-      if (seen.has(id)) id = `${id}-${steps.length}`;
-      seen.add(id);
-      steps.push({ id, title, kind: classifyStep(title) });
-    }
-    return steps;
-  }, [rawCleanBody]);
 
   // Load raw article markdown content only on path changes
   useEffect(() => {
@@ -562,6 +546,25 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
     if (!rawCleanBody) return '';
     return isEn ? translateMarkdownToEnglish(rawCleanBody) : rawCleanBody;
   }, [isEn, rawCleanBody]);
+
+  // StepTabs: шаги урока из заголовков h2 чистого тела статьи (контент не меняется)
+  // ВАЖНО: источник — displayCleanBody (переведенное тело), т.к. ReactMarkdown рендерит
+  // именно его; при isEn заголовки RU не совпали бы с id лент и scroll-spy отваливался.
+  const lessonSteps = useMemo(() => {
+    const seen = new Set<string>();
+    const steps: { id: string; title: string; kind: ReturnType<typeof classifyStep> }[] = [];
+    for (const line of displayCleanBody.split('\n')) {
+      const m = /^##\s+(.+?)\s*#*\s*$/.exec(line);
+      if (!m) continue;
+      const title = m[1].replace(/[*_`]/g, '').trim();
+      if (!title) continue;
+      let id = stepSlug(title);
+      if (seen.has(id)) id = `${id}-${steps.length}`;
+      seen.add(id);
+      steps.push({ id, title, kind: classifyStep(title) });
+    }
+    return steps;
+  }, [displayCleanBody]);
 
   // Set document title and window metadata
   useEffect(() => {

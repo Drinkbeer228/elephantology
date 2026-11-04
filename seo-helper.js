@@ -6,7 +6,7 @@ import { load } from 'js-yaml';
 // Default: GitHub Pages user-site root — works when the repo is published at
 // https://<user>.github.io/. For project sites set SITE_ORIGIN explicitly,
 // e.g. https://<user>.github.io/<repo> in the deploy workflow.
-export const CANONICAL_DOMAIN = process.env.SITE_ORIGIN || 'https://elephantology.github.io';
+export const CANONICAL_DOMAIN = process.env.SITE_ORIGIN || 'https://drinkbeer228.github.io/elephantology';
 
 export function isValidDate(str) {
   if (typeof str !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(str)) return false;
