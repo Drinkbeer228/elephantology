@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 import { StepTabs, stepSlug, classifyStep } from './StepTabs';
 import { parseFrontmatter } from '../lib/markdown';
-import { MODULES_CACHE, getStaticArticles, resolveArticlePath } from '../lib/articles';
+import { MODULES_CACHE, MODULES_CACHE_EN, getStaticArticles, resolveArticlePath } from '../lib/articles';
 import { EvidenceBadge, EditorialStatusBlock, markdownSanitizeSchema } from './ArticleBlocks';
 import { useLanguage } from '../i18n/LanguageContext';
 import { ARTICLE_TRANSLATIONS_EN } from '../lib/articleTranslations';
@@ -439,11 +439,15 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
     setError(null);
 
     try {
-      const moduleKeys = Object.keys(MODULES_CACHE);
+      // EN: prefer full LLM translation from docs_en/ when available; fall back to RU source.
+      const enKeys = Object.keys(MODULES_CACHE_EN);
+      const useEnCorpus = isEn && enKeys.length > 0;
+      const sourceCache = useEnCorpus ? MODULES_CACHE_EN : MODULES_CACHE;
+      const moduleKeys = Object.keys(sourceCache);
       const matchedKey = resolveArticlePath(path, moduleKeys);
 
-      if (matchedKey && MODULES_CACHE[matchedKey]) {
-        const contentObj = MODULES_CACHE[matchedKey];
+      if (matchedKey && sourceCache[matchedKey]) {
+        const contentObj = sourceCache[matchedKey];
         const textContent = typeof contentObj === 'string' ? contentObj : (contentObj as { default?: string }).default || '';
         const { metadata, content: rawMd } = parseFrontmatter(textContent);
 
@@ -503,7 +507,8 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
       setError(msg);
       setLoading(false);
     }
-  }, [path]);
+    // isEn in deps: switching RU/EN must re-load the body from the other corpus (docs_en vs docs)
+  }, [path, isEn]);
 
   // Derived translated content
   const displayTitle = useMemo(() => {
@@ -527,25 +532,29 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
     return (meta.tags || []) as string[];
   }, [isEn, translationData, meta.tags]);
 
+  // When the full LLM corpus (docs_en/) is loaded, its body is already English —
+  // skip the dictionary glossary to avoid double-translation artifacts.
+  const enCorpusLoaded = Object.keys(MODULES_CACHE_EN).length > 0;
+
   const displayKeyFindings = useMemo(() => {
     if (!rawKeyFindings) return null;
-    return isEn ? translateMarkdownToEnglish(rawKeyFindings) : rawKeyFindings;
-  }, [isEn, rawKeyFindings]);
+    return isEn && !enCorpusLoaded ? translateMarkdownToEnglish(rawKeyFindings) : rawKeyFindings;
+  }, [isEn, rawKeyFindings, enCorpusLoaded]);
 
   const displayUncertainty = useMemo(() => {
     if (!rawUncertainty) return null;
-    if (!isEn) return rawUncertainty;
+    if (!isEn || enCorpusLoaded) return rawUncertainty;
     return {
       known: rawUncertainty.known ? translateMarkdownToEnglish(rawUncertainty.known) : undefined,
       probable: rawUncertainty.probable ? translateMarkdownToEnglish(rawUncertainty.probable) : undefined,
       unknown: rawUncertainty.unknown ? translateMarkdownToEnglish(rawUncertainty.unknown) : undefined
     };
-  }, [isEn, rawUncertainty]);
+  }, [isEn, rawUncertainty, enCorpusLoaded]);
 
   const displayCleanBody = useMemo(() => {
     if (!rawCleanBody) return '';
-    return isEn ? translateMarkdownToEnglish(rawCleanBody) : rawCleanBody;
-  }, [isEn, rawCleanBody]);
+    return isEn && !enCorpusLoaded ? translateMarkdownToEnglish(rawCleanBody) : rawCleanBody;
+  }, [isEn, rawCleanBody, enCorpusLoaded]);
 
   // StepTabs: шаги урока из заголовков h2 чистого тела статьи (контент не меняется)
   // ВАЖНО: источник — displayCleanBody (переведенное тело), т.к. ReactMarkdown рендерит

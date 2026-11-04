@@ -106,12 +106,36 @@ export function resolveArticlePath(requestedPath: string, modulesKeys: string[])
 
 export const MODULES_CACHE = import.meta.glob('/docs/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
 
+// Pre-rendered full LLM translations (produced by scripts/translate-articles.mjs).
+// Empty object until docs_en/ exists — all consumers must fall back gracefully.
+export const MODULES_CACHE_EN = import.meta.glob('/docs_en/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+
+/** Strip the leading /docs_en/ prefix to get a key aligned with docs-relative slugs. */
+export function enKeyToSlug(key: string): string {
+  return key.replace(/^\/docs_en\//, '').replace(/\.md$/, '');
+}
+
+export function hasFullEnTranslation(): boolean {
+  return Object.keys(MODULES_CACHE_EN).length > 0;
+}
+
+/** Raw markdown of the full EN translation for a docs-relative path (with or without .md), or null. */
+export function getEnArticleRaw(requestedPath: string): string | null {
+  const keys = Object.keys(MODULES_CACHE_EN);
+  if (keys.length === 0) return null;
+  const matched = resolveArticlePath(requestedPath, keys);
+  return matched ? MODULES_CACHE_EN[matched] : null;
+}
+
 const cachedArticles: Record<string, ArticleItem[]> = {};
 
 function computeArticles(lang?: string): ArticleItem[] {
   const isEn = lang === 'en';
-  
-  return Object.entries(MODULES_CACHE)
+  // Prefer full LLM translations (docs_en/) when available; fall back to the
+  // RU corpus + dictionary translation otherwise.
+  const sourceCache = (isEn && Object.keys(MODULES_CACHE_EN).length > 0) ? MODULES_CACHE_EN : MODULES_CACHE;
+
+  return Object.entries(sourceCache)
     .filter(([filePath]) => 
       !filePath.includes('/assets/') &&
       !filePath.endsWith('index.md') && 
@@ -162,9 +186,12 @@ function computeArticles(lang?: string): ArticleItem[] {
       evidence_level: metadata.evidenceLevel || '',
       difficulty: metadata.difficulty || '',
       lastReviewed: metadata.lastReviewed || '',
-      // В EN-индексе тело статьи тоже переводится (глоссарий-подход),
-      // иначе поиск по английским терминам не матчит русский контент (+15 очков за content)
-      content: isEn ? translateMarkdownToEnglish(cleanContent) : cleanContent
+      // EN body: full LLM translation (docs_en/) when present — content is then
+      // already English. Fallback: dictionary glossary over the RU source, so
+      // search by English terms still matches (+15 score for content).
+      content: (isEn && sourceCache === MODULES_CACHE_EN)
+        ? cleanContent
+        : (isEn ? translateMarkdownToEnglish(cleanContent) : cleanContent)
     };
   });
 }
