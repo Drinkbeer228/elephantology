@@ -106,11 +106,11 @@ export function EvidenceBadge({
   const Icon = current.icon;
 
   const basisLabels: Record<string, { ru: string; en: string }> = {
-    peer_reviewed: { ru: 'Рецензируемые публикации' },
-    systematic_review: { ru: 'Систематический обзор' },
-    primary_studies: { ru: 'Первичные эмпирические исследования' },
-    consensus: { ru: 'Академический консенсус' },
-    expert_assessment: { ru: 'Экспертная зоологическая оценка' }
+    peer_reviewed: { ru: 'Рецензируемые публикации', en: 'Peer-reviewed publications' },
+    systematic_review: { ru: 'Систематический обзор', en: 'Systematic review' },
+    primary_studies: { ru: 'Первичные эмпирические исследования', en: 'Primary empirical studies' },
+    consensus: { ru: 'Академический консенсус', en: 'Academic consensus' },
+    expert_assessment: { ru: 'Экспертная зоологическая оценка', en: 'Expert zoological assessment' }
   };
 
   return (

@@ -728,54 +728,119 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
         />
       </div>
       
-      {/* 1. Breadcrumbs & Top Navigation Bar */}
-      <div className="max-w-[720px] mx-auto px-4 sm:px-0 mb-8 flex items-center justify-between gap-3 text-xs text-slate-300 border-b border-slate-700 pb-4">
-        <nav aria-label="Breadcrumbs" className="flex items-center gap-1.5 flex-wrap min-w-0">
-          <button
-            onClick={onBack}
-            className="hover:text-brand-blue transition-colors flex items-center gap-1 font-medium cursor-pointer"
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>{ru.catalog.title}</span>
-          </button>
-          <ChevronRight className="w-3 h-3 text-slate-500 shrink-0" />
-          <span className="truncate max-w-[280px] sm:max-w-[400px] font-medium text-slate-200">
-            {categoryTitle}
-          </span>
-        </nav>
+      {/* 1. Breadcrumbs & Top Navigation Bar (на всю ширину docs-контейнера) */}
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+        <div className="flex items-center justify-between gap-3 text-xs text-slate-300 border-b border-slate-700 pb-4 pt-2">
+          <nav aria-label="Breadcrumbs" className="flex items-center gap-1.5 flex-wrap min-w-0">
+            {/* Мобильная кнопка дерева рубрик (левая шторка) */}
+            <button
+              onClick={() => setLeftDrawerOpen(true)}
+              className="xl:hidden flex items-center gap-1 p-1.5 -ml-1.5 rounded-lg hover:bg-[#202330] hover:text-brand-blue border border-transparent transition-colors cursor-pointer"
+              aria-label="Открыть навигацию по рубрике"
+            >
+              <PanelLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={onBack}
+              className="hover:text-brand-blue transition-colors flex items-center gap-1 font-medium cursor-pointer"
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>{ru.catalog.title}</span>
+            </button>
+            <ChevronRight className="w-3 h-3 text-slate-500 shrink-0" />
+            <span className="truncate max-w-[280px] sm:max-w-[400px] font-medium text-slate-200">
+              {categoryTitle}
+            </span>
+          </nav>
 
-        {/* Action Buttons Toolbar */}
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={handleCite}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border border-white/5 transition-colors cursor-pointer text-xs font-medium"
-            title={ru.article.cite}
-          >
-            <Quote className="w-3.5 h-3.5 text-brand-blue" />
-            <span className="hidden sm:inline">{ru.article.cite}</span>
-          </button>
+          {/* Action Buttons Toolbar */}
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={handleCite}
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border border-white/5 transition-colors cursor-pointer text-xs font-medium"
+              title={ru.article.cite}
+            >
+              <Quote className="w-3.5 h-3.5 text-brand-blue" />
+              <span className="hidden sm:inline">{ru.article.cite}</span>
+            </button>
 
-          <button
-            onClick={handleShare}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border border-white/5 transition-colors cursor-pointer text-xs font-medium"
-            title={ru.article.share}
-          >
-            <Share2 className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">{copied ? ru.article.copied : ru.article.share}</span>
-          </button>
+            <button
+              onClick={handleShare}
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border border-white/5 transition-colors cursor-pointer text-xs font-medium"
+              title={ru.article.share}
+            >
+              <Share2 className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">{copied ? ru.article.copied : ru.article.share}</span>
+            </button>
 
-          <button
-            onClick={handlePrint}
-            className="p-1.5 rounded-lg bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border border-white/5 transition-colors cursor-pointer"
-            title={ru.article.print}
-          >
-            <Printer className="w-3.5 h-3.5" />
-          </button>
+            <button
+              onClick={handlePrint}
+              className="p-1.5 rounded-lg bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border border-white/5 transition-colors cursor-pointer"
+              title={ru.article.print}
+            >
+              <Printer className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Мобильная кнопка оглавления (правая шторка) */}
+            <button
+              onClick={() => setTocDrawerOpen(true)}
+              className="lg:hidden flex items-center gap-1 p-1.5 rounded-lg hover:bg-[#202330] hover:text-brand-blue border border-transparent transition-colors cursor-pointer"
+              aria-label="Открыть оглавление статьи"
+            >
+              <ListTree className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* 2. Main Content Column */}
-      <div className="max-w-[720px] mx-auto px-4 sm:px-0">
+      {/* 2. Docs Architecture: три колонки — дерево рубрики / статья / sticky TOC */}
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex gap-10 justify-center">
+
+          {/* Левая колонка: дерево статей рубрики (desktop ≥1280px) */}
+          <aside className="hidden xl:block w-64 shrink-0" aria-label="Навигация по рубрике">
+            <div className="sticky top-24 py-2 pr-2 max-h-[calc(100vh-8rem)] overflow-y-auto">
+              <CategoryTreePanel
+                categoryKey={categoryKey}
+                categoryTitle={categoryTitle}
+                currentPathPart={pathPart}
+                onOpenCatalog={onBack}
+                onNavigate={navigateToArticle}
+              />
+            </div>
+          </aside>
+
+          {/* Мобильная левая шторка: дерево рубрики */}
+          {leftDrawerOpen && (
+            <div className="fixed inset-0 z-[70] xl:hidden" role="dialog" aria-modal="true" aria-label="Навигация по рубрике">
+              <div
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                onClick={() => setLeftDrawerOpen(false)}
+              />
+              <div className="absolute left-0 top-0 bottom-0 w-[min(20rem,85vw)] bg-[#111827] border-r border-slate-800 shadow-2xl p-4 overflow-y-auto">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Рубрика</span>
+                  <button
+                    onClick={() => setLeftDrawerOpen(false)}
+                    className="p-1.5 rounded-lg hover:bg-[#202330] text-slate-300 hover:text-white transition-colors cursor-pointer"
+                    aria-label="Закрыть навигацию"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                <CategoryTreePanel
+                  categoryKey={categoryKey}
+                  categoryTitle={categoryTitle}
+                  currentPathPart={pathPart}
+                  onOpenCatalog={() => { setLeftDrawerOpen(false); onBack(); }}
+                  onNavigate={(p) => { setLeftDrawerOpen(false); navigateToArticle(p); }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Центральная колонка: контент статьи */}
+          <main id="article-main" className="flex-1 min-w-0 max-w-3xl">
         
         {/* Title and Evidence Badge */}
         <header className="mb-8 space-y-4">
@@ -1326,8 +1391,54 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             ) : <div />}
           </nav>
         )}
+          </main>{/* /центральная колонка */}
 
-      </div>
+          {/* Правая колонка: sticky TOC + действия (desktop ≥1024px) */}
+          <aside className="hidden lg:block w-64 shrink-0" aria-label="Оглавление страницы">
+            <div className="sticky top-24 py-2 pl-2 max-h-[calc(100vh-8rem)] overflow-y-auto">
+              {tocItems.length > 0 && <TableOfContents items={tocItems} />}
+              <div className="mt-6 pt-5 border-t border-slate-800 px-3 space-y-2.5">
+                <button
+                  onClick={handleCite}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium bg-[#1a2234] border border-slate-800 hover:border-brand-emerald/50 hover:text-brand-emerald transition-all cursor-pointer text-slate-300"
+                >
+                  <Quote className="w-3.5 h-3.5 text-brand-blue" /> Цитировать (BibTeX / APA)
+                </button>
+                <button
+                  onClick={handlePrint}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium bg-[#1a2234] border border-slate-800 hover:border-brand-emerald/50 hover:text-brand-emerald transition-all cursor-pointer text-slate-300"
+                >
+                  <Printer className="w-3.5 h-3.5" /> Печать / PDF
+                </button>
+              </div>
+            </div>
+          </aside>
+
+          {/* Мобильная правая шторка: оглавление */}
+          {tocDrawerOpen && tocItems.length > 0 && (
+            <div className="fixed inset-0 z-[70] lg:hidden" role="dialog" aria-modal="true" aria-label="Оглавление статьи">
+              <div
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                onClick={() => setTocDrawerOpen(false)}
+              />
+              <div className="absolute right-0 top-0 bottom-0 w-[min(20rem,85vw)] bg-[#111827] border-l border-slate-800 shadow-2xl p-4 overflow-y-auto">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Содержание</span>
+                  <button
+                    onClick={() => setTocDrawerOpen(false)}
+                    className="p-1.5 rounded-lg hover:bg-[#202330] text-slate-300 hover:text-white transition-colors cursor-pointer"
+                    aria-label="Закрыть оглавление"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                <TableOfContents items={tocItems} onNavigate={() => setTocDrawerOpen(false)} />
+              </div>
+            </div>
+          )}
+
+        </div>{/* /flex 3-col */}
+      </div>{/* /max-w-7xl docs container */}
     </article>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ru } from '../i18n/ru';
+import { ru } from '../../i18n/ru';
 
 export interface CategoryDef {
   id: string;

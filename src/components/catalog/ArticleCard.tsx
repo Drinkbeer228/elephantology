@@ -1,7 +1,7 @@
 import React from 'react';
 import { Clock, ChevronRight, ShieldCheck, Scale, AlertCircle, Lightbulb, HelpCircle } from 'lucide-react';
 import { ArticleItem } from '../../lib/searchEngine';
-import { ru } from '../i18n/ru';
+import { ru } from '../../i18n/ru';
 
 interface ArticleCardProps {
   article: ArticleItem;

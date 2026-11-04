@@ -78,7 +78,7 @@ export function SearchModal() {
     { id: 'culture', name: 'История и Культура', shortName: 'Культура' },
     { id: 'paleontology', name: 'Палеонтология и Ископаемые', shortName: 'Палеонтология' },
     { id: 'genomics', name: 'Геномика и Генетика', shortName: 'Геномика' }
-  ]);
+  ], []);
 
   const evidenceLevels = useMemo(() => [
     { id: 'all', label: 'Любой статус' },
@@ -86,21 +86,21 @@ export function SearchModal() {
     { id: 'moderate', label: `${ru.evidence.moderate} (A2)` },
     { id: 'limited', label: `${ru.evidence.limited} (B)` },
     { id: 'hypothesis', label: `${ru.evidence.hypothesis} (C)` }
-  ]);
+  ], []);
 
   const readingTimes = useMemo(() => [
     { id: 'all', label: 'Любой объём' },
     { id: 'short', label: `< 10 ${ru.catalog.readingTime} (Короткие)` },
     { id: 'medium', label: `10–25 ${ru.catalog.readingTime} (Средние)` },
     { id: 'long', label: `> 25 ${ru.catalog.readingTime} (Фундаментальные)` }
-  ]);
+  ], []);
 
   const sortOptions = useMemo(() => [
     { id: 'relevance', label: 'По релевантности' },
     { id: 'title_asc', label: 'По названию (А–Я)' },
     { id: 'time_asc', label: 'По объёму (сначала короткие)' },
     { id: 'time_desc', label: 'По объёму (сначала глубокие)' }
-  ]]);
+  ], []);
 
   // Load articles
   useEffect(() => {
@@ -109,7 +109,7 @@ export function SearchModal() {
     } catch (e) {
       console.error('Failed to load articles in SearchModal:', e);
     }
-  }]);
+  }, []);
 
   // Event listener for opening modal with optional pre-selected tag, category, or query
   useEffect(() => {

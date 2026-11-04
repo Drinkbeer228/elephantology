@@ -2,7 +2,7 @@ import React from 'react';
 import { CategoryDef } from './CategoryTile';
 import { ArticleCard } from './ArticleCard';
 import { ArticleItem } from '../../lib/searchEngine';
-import { ru } from '../i18n/ru';
+import { ru } from '../../i18n/ru';
 
 interface CategorySectionProps {
   category: CategoryDef;
