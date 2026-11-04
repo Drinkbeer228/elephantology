@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { 
   Search, 
   X, 
-  BookOpen, 
   ArrowRight, 
   Tag, 
   HelpCircle, 
@@ -10,22 +9,18 @@ import {
   RotateCcw, 
   Clock, 
   ShieldCheck, 
-  Scale, 
-  AlertCircle, 
-  Lightbulb,
   ListFilter
 } from 'lucide-react';
 import { searchArticles, ArticleItem, ARTICLE_SEMANTIC_TAGS } from '../lib/searchEngine';
 import { getStaticArticles } from '../lib/articles';
-import { ru } from '../i18n/ru';
+import { useLanguage } from '../i18n/LanguageContext';
 
 function highlightMatch(text: string, query: string) {
   if (!query.trim() || !text) return text;
   
-  const tokens = query.toLowerCase().trim().split(/[\s,.;:!?\-\/]+/).filter(t => t.length > 1);
+  const tokens = query.toLowerCase().trim().split(/[\s,.;:!?\-\/]+/).filter(t => t.length > 0);
   if (tokens.length === 0) return text;
 
-  // Escape regex special chars
   const escapedTokens = tokens.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
   const regex = new RegExp(`(${escapedTokens.join('|')})`, 'gi');
 
@@ -33,7 +28,7 @@ function highlightMatch(text: string, query: string) {
   return parts.map((part, index) => {
     const isMatched = tokens.some(t => part.toLowerCase() === t.toLowerCase());
     return isMatched ? (
-      <mark key={index} className="bg-amber-400/30 text-amber-200 font-semibold px-0.5 rounded">
+      <mark key={index} className="bg-[#1E4631]/20 text-[#1E4631] font-semibold px-0.5 rounded-none">
         {part}
       </mark>
     ) : (
@@ -50,6 +45,7 @@ interface ToggleSearchEventDetail {
 }
 
 export function SearchModal() {
+  const { t, lang } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -67,226 +63,172 @@ export function SearchModal() {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const disciplines = useMemo(() => [
-    { id: 'all', name: ru.catalog.allCategories, shortName: 'Все' },
-    { id: 'taxonomy', name: 'Таксономия и Эволюция', shortName: 'Таксономия' },
-    { id: 'anatomy', name: 'Анатомия и Морфология', shortName: 'Анатомия' },
-    { id: 'ethogram', name: 'Этограмма и Поведение', shortName: 'Этограмма' },
-    { id: 'cognition', name: 'Когнитивистика и Память', shortName: 'Когнитивистика' },
-    { id: 'veterinary', name: 'Ветеринария и Медицина', shortName: 'Ветеринария' },
-    { id: 'ecology', name: 'Экология и Популяции', shortName: 'Экология' },
-    { id: 'conservation', name: 'Охрана и Сохранение видов', shortName: 'Охрана' },
-    { id: 'culture', name: 'История и Культура', shortName: 'Культура' },
-    { id: 'paleontology', name: 'Палеонтология и Ископаемые', shortName: 'Палеонтология' },
-    { id: 'genomics', name: 'Геномика и Генетика', shortName: 'Геномика' }
-  ], []);
+    { id: 'all', name: t.catalog.allCategories, shortName: lang === 'en' ? 'All' : 'Все' },
+    { id: 'taxonomy', name: lang === 'en' ? 'Taxonomy & Evolution' : 'Таксономия и Эволюция', shortName: lang === 'en' ? 'Taxonomy' : 'Таксономия' },
+    { id: 'anatomy', name: lang === 'en' ? 'Anatomy & Morphology' : 'Анатомия и Морфология', shortName: lang === 'en' ? 'Anatomy' : 'Анатомия' },
+    { id: 'ethogram', name: lang === 'en' ? 'Ethogram & Behavior' : 'Этограмма и Поведение', shortName: lang === 'en' ? 'Ethogram' : 'Этограмма' },
+    { id: 'cognition', name: lang === 'en' ? 'Cognitive Science & Memory' : 'Когнитивистика и Память', shortName: lang === 'en' ? 'Cognition' : 'Когнитивистика' },
+    { id: 'veterinary', name: lang === 'en' ? 'Veterinary & Medicine' : 'Ветеринария и Медицина', shortName: lang === 'en' ? 'Veterinary' : 'Ветеринария' },
+    { id: 'ecology', name: lang === 'en' ? 'Ecology & Populations' : 'Экология и Популяции', shortName: lang === 'en' ? 'Ecology' : 'Экология' },
+    { id: 'conservation', name: lang === 'en' ? 'Conservation & Protection' : 'Охрана и Сохранение видов', shortName: lang === 'en' ? 'Conservation' : 'Охрана' },
+    { id: 'culture', name: lang === 'en' ? 'Anthrozoology & Culture' : 'История и Культура', shortName: lang === 'en' ? 'Culture' : 'Культура' },
+    { id: 'paleontology', name: lang === 'en' ? 'Paleontology & Fossils' : 'Палеонтология и Ископаемые', shortName: lang === 'en' ? 'Paleontology' : 'Палеонтология' },
+    { id: 'genomics', name: lang === 'en' ? 'Genomics & Genetics' : 'Геномика и Генетика', shortName: lang === 'en' ? 'Genomics' : 'Геномика' }
+  ], [t, lang]);
 
   const evidenceLevels = useMemo(() => [
-    { id: 'all', label: 'Любой статус' },
-    { id: 'established', label: `${ru.evidence.established} (A1)` },
-    { id: 'moderate', label: `${ru.evidence.moderate} (A2)` },
-    { id: 'limited', label: `${ru.evidence.limited} (B)` },
-    { id: 'hypothesis', label: `${ru.evidence.hypothesis} (C)` }
-  ], []);
+    { id: 'all', label: lang === 'en' ? 'Any evidence status' : 'Любой статус' },
+    { id: 'established', label: `${t.evidence.established} (A1)` },
+    { id: 'moderate', label: `${t.evidence.moderate} (A2)` },
+    { id: 'limited', label: `${t.evidence.limited} (B)` },
+    { id: 'hypothesis', label: `${t.evidence.hypothesis} (C)` }
+  ], [t, lang]);
 
   const readingTimes = useMemo(() => [
-    { id: 'all', label: 'Любой объём' },
-    { id: 'short', label: `< 10 ${ru.catalog.readingTime} (Короткие)` },
-    { id: 'medium', label: `10–25 ${ru.catalog.readingTime} (Средние)` },
-    { id: 'long', label: `> 25 ${ru.catalog.readingTime} (Фундаментальные)` }
-  ], []);
+    { id: 'all', label: lang === 'en' ? 'Any volume' : 'Любой объём' },
+    { id: 'short', label: `< 10 ${t.catalog.readingTime} (${lang === 'en' ? 'Short' : 'Короткие'})` },
+    { id: 'medium', label: `10–25 ${t.catalog.readingTime} (${lang === 'en' ? 'Medium' : 'Средние'})` },
+    { id: 'long', label: `> 25 ${t.catalog.readingTime} (${lang === 'en' ? 'In-depth' : 'Фундаментальные'})` }
+  ], [t, lang]);
 
   const sortOptions = useMemo(() => [
-    { id: 'relevance', label: 'По релевантности' },
-    { id: 'title_asc', label: 'По названию (А–Я)' },
-    { id: 'time_asc', label: 'По объёму (сначала короткие)' },
-    { id: 'time_desc', label: 'По объёму (сначала глубокие)' }
-  ], []);
+    { id: 'relevance', label: lang === 'en' ? 'By relevance' : 'По релевантности' },
+    { id: 'title_asc', label: lang === 'en' ? 'By title (A–Z)' : 'По названию (А–Я)' },
+    { id: 'time_asc', label: lang === 'en' ? 'By volume (shortest first)' : 'По объёму (сначала короткие)' },
+    { id: 'time_desc', label: lang === 'en' ? 'By volume (deepest first)' : 'По объёму (сначала глубокие)' }
+  ], [t, lang]);
 
-  // Load articles
   useEffect(() => {
     try {
-      setArticles(getStaticArticles());
-    } catch (e) {
-      console.error('Failed to load articles in SearchModal:', e);
+      setArticles(getStaticArticles(lang));
+    } catch {
+      setArticles([]);
     }
-  }, []);
+  }, [lang]);
 
-  // Event listener for opening modal with optional pre-selected tag, category, or query
   useEffect(() => {
-    const handleToggle = (e: Event) => {
-      const customEvent = e as CustomEvent<ToggleSearchEventDetail>;
-      const detail = customEvent.detail;
-      const shouldOpen = detail?.force !== undefined ? detail.force : !isOpen;
-      setIsOpen(shouldOpen);
-      if (detail?.tag) {
-        setSelectedTag(detail.tag);
+    const handleToggleSearch = (e: CustomEvent<ToggleSearchEventDetail>) => {
+      const detail = e.detail || {};
+      if (typeof detail.force === 'boolean') {
+        setIsOpen(detail.force);
+      } else {
+        setIsOpen(prev => !prev);
       }
-      if (detail?.category) {
-        setSelectedCategory(detail.category);
-      }
-      if (detail?.query) {
-        setQuery(detail.query);
-      }
-      if (shouldOpen) {
-        setTimeout(() => inputRef.current?.focus(), 100);
-      }
+      if (detail.tag) setSelectedTag(detail.tag);
+      if (detail.category) setSelectedCategory(detail.category);
+      if (detail.query) setQuery(detail.query);
     };
 
-    window.addEventListener('toggle-search', handleToggle);
-
+    window.addEventListener('toggle-search', handleToggleSearch as EventListener);
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        setIsOpen(false);
-      }
-      // Ctrl+K / Cmd+K to toggle search
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         setIsOpen(prev => !prev);
       }
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
     };
-
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
+      window.removeEventListener('toggle-search', handleToggleSearch as EventListener);
       window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('toggle-search', handleToggle);
     };
   }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      setTimeout(() => inputRef.current?.focus(), 60);
+      setTimeout(() => inputRef.current?.focus(), 50);
       setSelectedIndex(-1);
     } else {
-      document.body.style.overflow = '';
+      setQuery('');
+      setSelectedTag(null);
+      setSelectedCategory('all');
+      setSelectedEvidence('all');
+      setSelectedReadingTime('all');
+      setShowAdvancedFilters(false);
     }
-    return () => {
-      document.body.style.overflow = '';
-    };
   }, [isOpen]);
 
-  // Compute all unique tags with frequency counts
   const popularTags = useMemo(() => {
-    const counts: Record<string, number> = {};
+    const set = new Set<string>();
     articles.forEach(a => {
+      if (a.tags) a.tags.forEach(tTag => set.add(tTag.toLowerCase()));
       const staticTags = ARTICLE_SEMANTIC_TAGS[a.path] || [];
-      const allArticleTags = [...(a.tags || []), ...staticTags];
-      allArticleTags.forEach(tTag => {
-        const clean = tTag.trim().toLowerCase();
-        if (clean.length > 2) {
-          counts[clean] = (counts[clean] || 0) + 1;
-        }
-      });
+      staticTags.forEach(tTag => set.add(tTag.toLowerCase()));
     });
-
-    return Object.entries(counts)
-      .sort((a, b) => b[1] - a[1])
-      .map(([tag]) => tag);
+    return Array.from(set);
   }, [articles]);
 
-  // Count active ADVANCED filters specifically
-  const activeAdvancedFiltersCount = useMemo(() => {
-    let count = 0;
-    if (selectedEvidence !== 'all') count++;
-    if (selectedReadingTime !== 'all') count++;
-    if (sortBy !== 'relevance') count++;
-    return count;
-  }, [selectedEvidence, selectedReadingTime, sortBy]);
+  const results = useMemo(() => {
+    let list = articles;
 
-  const hasAnyFilterActive = useMemo(() => {
-    return selectedCategory !== 'all' || 
-           selectedTag !== null || 
-           selectedEvidence !== 'all' || 
-           selectedReadingTime !== 'all' || 
-           sortBy !== 'relevance' || 
-           query.trim().length > 0;
-  }, [selectedCategory, selectedTag, selectedEvidence, selectedReadingTime, sortBy, query]);
+    if (selectedCategory !== 'all') {
+      list = list.filter(a => a.category?.toLowerCase() === selectedCategory.toLowerCase());
+    }
 
-  const resetAllFilters = useCallback(() => {
+    if (selectedTag) {
+      list = list.filter(a => {
+        const tList = (a.tags || []).map(t => t.toLowerCase());
+        const sList = (ARTICLE_SEMANTIC_TAGS[a.path] || []).map(t => t.toLowerCase());
+        return tList.includes(selectedTag.toLowerCase()) || sList.includes(selectedTag.toLowerCase());
+      });
+    }
+
+    if (selectedEvidence !== 'all') {
+      list = list.filter(a => (a.evidenceLevel || a.evidence_level || '').toLowerCase() === selectedEvidence.toLowerCase());
+    }
+
+    if (selectedReadingTime !== 'all') {
+      list = list.filter(a => {
+        const rMin = a.reading_time_min || 5;
+        if (selectedReadingTime === 'short') return rMin < 10;
+        if (selectedReadingTime === 'medium') return rMin >= 10 && rMin <= 25;
+        if (selectedReadingTime === 'long') return rMin > 25;
+        return true;
+      });
+    }
+
+    if (query.trim()) {
+      list = searchArticles(list, query);
+    }
+
+    const sorted = [...list];
+    if (sortBy === 'title_asc') {
+      sorted.sort((a, b) => a.title.localeCompare(b.title, lang === 'en' ? 'en' : 'ru'));
+    } else if (sortBy === 'time_asc') {
+      sorted.sort((a, b) => (a.reading_time_min || 5) - (b.reading_time_min || 5));
+    } else if (sortBy === 'time_desc') {
+      sorted.sort((a, b) => (b.reading_time_min || 5) - (a.reading_time_min || 5));
+    }
+
+    return sorted;
+  }, [articles, query, selectedCategory, selectedTag, selectedEvidence, selectedReadingTime, sortBy, lang]);
+
+  const hasAnyFilterActive = selectedCategory !== 'all' || selectedTag !== null || selectedEvidence !== 'all' || selectedReadingTime !== 'all' || query.trim() !== '';
+
+  const resetAllFilters = () => {
     setQuery('');
     setSelectedCategory('all');
     setSelectedTag(null);
     setSelectedEvidence('all');
     setSelectedReadingTime('all');
     setSortBy('relevance');
-    setSelectedIndex(-1);
-  }, []);
+  };
 
-  // Filter and Sort Engine
-  const results = useMemo(() => {
-    let list = articles;
-
-    // 1. Category Filter
-    if (selectedCategory !== 'all') {
-      list = list.filter(a => a.category?.toLowerCase() === selectedCategory.toLowerCase());
-    }
-
-    // 2. Tag Filter
-    if (selectedTag) {
-      const targetTag = selectedTag.toLowerCase();
-      list = list.filter(a => {
-        const staticTags = (ARTICLE_SEMANTIC_TAGS[a.path] || []).map(tTag => tTag.toLowerCase());
-        const customTags = (a.tags || []).map(tTag => tTag.toLowerCase());
-        return customTags.includes(targetTag) || staticTags.includes(targetTag) || staticTags.some(tTag => tTag.includes(targetTag));
-      });
-    }
-
-    // 3. Evidence Level Filter
-    if (selectedEvidence !== 'all') {
-      list = list.filter(a => {
-        const lvl = (a.evidenceLevel || a.evidence_level || '').toLowerCase();
-        if (selectedEvidence === 'established') return lvl === 'established';
-        if (selectedEvidence === 'moderate') return lvl === 'moderate';
-        if (selectedEvidence === 'limited') return lvl === 'limited';
-        if (selectedEvidence === 'hypothesis') return lvl === 'hypothesis';
-        return true;
-      });
-    }
-
-    // 4. Reading Time Filter
-    if (selectedReadingTime !== 'all') {
-      list = list.filter(a => {
-        const time = a.reading_time_min || 10;
-        if (selectedReadingTime === 'short') return time < 10;
-        if (selectedReadingTime === 'medium') return time >= 10 && time <= 25;
-        if (selectedReadingTime === 'long') return time > 25;
-        return true;
-      });
-    }
-
-    // 5. Query Search
-    if (query.trim()) {
-      list = searchArticles(list, query);
-    }
-
-    // 6. Sorting (if not default relevance or if query is empty)
-    if (sortBy === 'title_asc') {
-      list = [...list].sort((a, b) => a.title.localeCompare(b.title));
-    } else if (sortBy === 'time_asc') {
-      list = [...list].sort((a, b) => (a.reading_time_min || 10) - (b.reading_time_min || 10));
-    } else if (sortBy === 'time_desc') {
-      list = [...list].sort((a, b) => (b.reading_time_min || 10) - (a.reading_time_min || 10));
-    }
-
-    return list;
-  }, [articles, query, selectedCategory, selectedTag, selectedEvidence, selectedReadingTime, sortBy]);
-
-  const handleSelectArticle = useCallback((path: string) => {
-    const win = window as any;
-    if (win.loadArticle) {
-      win.loadArticle(path);
-    } else {
-      window.dispatchEvent(new CustomEvent('load-article', { detail: path }));
-    }
+  const handleSelectArticle = (path: string) => {
     setIsOpen(false);
-  }, []);
+    let cleanPath = path;
+    if (cleanPath.endsWith('.md')) cleanPath = cleanPath.slice(0, -3);
+    window.dispatchEvent(new CustomEvent('load-article', { detail: cleanPath }));
+  };
 
-  // Keyboard navigation for results
-  const handleKeyDownInInput = (e: React.KeyboardEvent) => {
+  const handleKeyDownResults = (e: React.KeyboardEvent) => {
+    if (results.length === 0) return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setSelectedIndex(prev => (prev < results.length - 1 ? prev + 1 : prev));
+      setSelectedIndex(prev => (prev < results.length - 1 ? prev + 1 : 0));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setSelectedIndex(prev => (prev > 0 ? prev - 1 : 0));
@@ -302,162 +244,81 @@ export function SearchModal() {
 
   const getCategoryLabel = (category: string) => {
     const found = disciplines.find(d => d.id === category?.toLowerCase());
-    return found ? found.name : 'Article';
+    return found ? found.name : (lang === 'en' ? 'Article' : 'Статья');
   };
 
-  const renderEvidenceBadge = (level?: string) => {
-    if (!level) return null;
-    const l = level.toLowerCase();
-    if (l === 'established') return (
-      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-        <ShieldCheck className="w-3 h-3" /> A1 {ru.evidence.established}
-      </span>
-    );
-    if (l === 'moderate') return (
-      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-        <Scale className="w-3 h-3" /> A2 {ru.evidence.moderate}
-      </span>
-    );
-    if (l === 'limited') return (
-      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/20">
-        <AlertCircle className="w-3 h-3" /> B {ru.evidence.limited}
-      </span>
-    );
-    if (l === 'hypothesis') return (
-      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">
-        <Lightbulb className="w-3 h-3" /> C {ru.evidence.hypothesis}
-      </span>
-    );
-    return null;
-  };
-
-  // Focus trap implementation
   useEffect(() => {
-    if (!isOpen) return;
-
-    const handleTabKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab' || !modalRef.current) return;
-
-      const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      if (focusableElements.length === 0) return;
-
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-
-      if (e.shiftKey) {
-        if (document.activeElement === firstElement) {
-          e.preventDefault();
-          lastElement.focus();
-        }
-      } else {
-        if (document.activeElement === lastElement) {
-          e.preventDefault();
-          firstElement.focus();
-        }
+    if (selectedIndex >= 0 && resultsContainerRef.current) {
+      const selectedEl = resultsContainerRef.current.querySelector(`[data-result-index="${selectedIndex}"]`);
+      if (selectedEl) {
+        selectedEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
-    };
-
-    window.addEventListener('keydown', handleTabKey);
-    return () => window.removeEventListener('keydown', handleTabKey);
-  }, [isOpen]);
+    }
+  }, [selectedIndex]);
 
   if (!isOpen) return null;
 
   return (
     <div 
-      id="search-modal-backdrop"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) setIsOpen(false);
-      }}
-      className="fixed inset-0 bg-black/80 backdrop-blur-md z-[99996] flex items-start justify-center pt-4 sm:pt-10 md:pt-14 px-3 sm:px-4 animate-fade-in"
-      style={{ isolation: 'isolate' }}
+      role="dialog"
+      aria-modal="true"
+      aria-label={lang === 'en' ? 'Search encyclopedia' : 'Поиск по энциклопедии'}
+      className="fixed inset-0 z-50 flex items-start justify-center pt-12 sm:pt-20 px-3 pb-6 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150"
+      onClick={() => setIsOpen(false)}
     >
-      <div 
-        id="search-modal-window"
+      <div
         ref={modalRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label={ru.search.placeholder}
-        className="bg-[#151720] border border-[#2e3244] w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[86vh] relative z-10"
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={handleKeyDownResults}
+        className="w-full max-w-3xl bg-[#F6F5F0] border border-[#DFDCD4] rounded-none shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
       >
-        
-        {/* Search Header Bar */}
-        <div className="p-3.5 sm:p-4 border-b border-[#2e3244] flex items-center gap-3 bg-[#111218]">
-          <p id="search-desc" className="sr-only">
-            'Search through academic knowledge base of Elephantology'
-          </p>
-          <Search className="w-5 h-5 text-brand-blue shrink-0" />
-          <input 
+        {/* Top Search Input Bar */}
+        <div className="p-4 sm:p-5 bg-[#EFECE6] border-b border-[#DFDCD4] flex items-center gap-3">
+          <Search className="w-5 h-5 text-[#6E6B64] shrink-0" />
+          <input
             ref={inputRef}
-            type="text" 
+            type="text"
             value={query}
-            aria-describedby="search-desc"
             onChange={(e) => {
               setQuery(e.target.value);
               setSelectedIndex(0);
             }}
-            onKeyDown={handleKeyDownInInput}
-            placeholder={ru.search.placeholder} 
-            className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none text-sm sm:text-base font-medium"
+            placeholder={lang === 'en' ? 'Search terms, taxa, anatomy, or concepts...' : 'Поиск терминов, таксонов, анатомии или концептов...'}
+            className="w-full bg-transparent text-[#141413] placeholder-[#6E6B64] text-sm sm:text-base focus:outline-none font-sans"
           />
-
           {query && (
-            <button 
-              id="btn-clear-search-query"
+            <button
               onClick={() => setQuery('')}
-              className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
-              title='Clear query'
+              className="p-1 text-[#6E6B64] hover:text-[#141413] cursor-pointer"
+              title={lang === 'en' ? 'Clear query' : 'Очистить'}
             >
               <X className="w-4 h-4" />
             </button>
           )}
-
           <button
-            id="btn-toggle-advanced-filters"
             onClick={() => setShowAdvancedFilters(prev => !prev)}
-            className={`px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
-              showAdvancedFilters || activeAdvancedFiltersCount > 0
-                ? 'bg-brand-blue/15 text-brand-blue border-brand-blue/40 shadow-sm'
-                : 'bg-[#1f222e] text-gray-300 hover:text-white border-white/10'
+            className={`p-2 rounded-none border transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-medium ${
+              showAdvancedFilters || hasAnyFilterActive
+                ? 'bg-[#141413] text-[#F6F5F0] border-[#141413]'
+                : 'bg-[#F6F5F0] text-[#141413] border-[#DFDCD4] hover:bg-[#E8E4DD]'
             }`}
-            title='Filter settings'
+            title={lang === 'en' ? 'Advanced filters' : 'Расширенные фильтры'}
           >
-            <SlidersHorizontal className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">'Filters'</span>
-            {activeAdvancedFiltersCount > 0 && (
-              <span className="w-4 h-4 rounded-full bg-brand-blue text-black text-[10px] font-extrabold flex items-center justify-center">
-                {activeAdvancedFiltersCount}
-              </span>
-            )}
-          </button>
-
-          <button 
-            id="btn-close-search-modal"
-            onClick={() => setIsOpen(false)} 
-            className="text-xs text-gray-400 hover:text-white px-3 py-1.5 bg-[#1f222e] hover:bg-[#282c3c] border border-white/10 rounded-xl transition-all cursor-pointer font-medium"
-          >
-            Esc
+            <ListFilter className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">{lang === 'en' ? 'Filters' : 'Фильтры'}</span>
           </button>
         </div>
 
-        {/* Category Filter Section - Clean Wrapping Blocks */}
-        <div className="bg-[#13151c] border-b border-white/5 p-3 sm:p-3.5 space-y-2">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] uppercase tracking-wider text-gray-400 font-semibold flex items-center gap-1.5">
-                <ListFilter className="w-3.5 h-3.5 text-brand-blue" /> 'Categories'
-              </span>
-              <span className="text-[10px] text-gray-500 font-mono">({disciplines.length - 1})</span>
-            </div>
-
+        {/* Categories Bar */}
+        <div className="bg-[#EFECE6] border-b border-[#DFDCD4] px-4 py-2.5 space-y-2">
+          <div className="flex items-center justify-between text-xs text-[#6E6B64]">
+            <span className="font-semibold uppercase tracking-wider text-[10px]">{lang === 'en' ? 'Disciplines:' : 'Дисциплина:'}</span>
             {selectedCategory !== 'all' && (
               <button
                 onClick={() => setSelectedCategory('all')}
-                className="text-[11px] text-brand-blue hover:underline transition-colors cursor-pointer font-medium"
+                className="text-[11px] text-[#1E4631] hover:underline cursor-pointer font-medium"
               >
-                {ru.catalog.allCategories}
+                {t.catalog.allCategories}
               </button>
             )}
           </div>
@@ -473,15 +334,15 @@ export function SearchModal() {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer border ${
+                  className={`px-2.5 py-1 rounded-none text-xs font-medium transition-colors flex items-center gap-1.5 cursor-pointer border ${
                     isSelected
-                      ? 'bg-brand-blue text-black font-bold border-brand-blue shadow-sm'
-                      : 'bg-[#1b1e29] text-gray-300 hover:text-white hover:bg-[#252938] border-white/5'
+                      ? 'bg-[#141413] text-[#F6F5F0] border-[#141413] font-bold'
+                      : 'bg-[#F6F5F0] text-[#141413] hover:bg-[#E8E4DD] border-[#DFDCD4]'
                   }`}
                 >
                   <span>{cat.name}</span>
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded font-mono ${
-                    isSelected ? 'bg-black/25 text-black font-bold' : 'bg-white/10 text-gray-400'
+                  <span className={`text-[10px] px-1 py-0.2 rounded-none font-mono ${
+                    isSelected ? 'bg-white/20 text-white' : 'bg-[#DFDCD4] text-[#6E6B64]'
                   }`}>
                     {count}
                   </span>
@@ -491,19 +352,19 @@ export function SearchModal() {
           </div>
         </div>
 
-        {/* Thematic Tags Section - Clean Wrapping Blocks */}
-        <div className="bg-[#101217] border-b border-white/5 p-3 sm:p-3.5 space-y-2">
+        {/* Thematic Tags Section */}
+        <div className="bg-[#EFECE6] border-b border-[#DFDCD4] p-3.5 space-y-2">
           <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-1.5 text-[11px] text-gray-400">
-              <Tag className="w-3 h-3 text-brand-blue/70" />
-              <span className="font-semibold uppercase tracking-wider text-[10px]">'Thematic tags:'</span>
+            <div className="flex items-center gap-1.5 text-[11px] text-[#6E6B64]">
+              <Tag className="w-3 h-3 text-[#1E4631]" />
+              <span className="font-semibold uppercase tracking-wider text-[10px]">{lang === 'en' ? 'Thematic tags:' : 'Тематические теги:'}</span>
             </div>
             {popularTags.length > 20 && (
               <button
                 onClick={() => setExpandTags(prev => !prev)}
-                className="text-[10px] text-gray-400 hover:text-brand-blue transition-colors cursor-pointer font-medium"
+                className="text-[10px] text-[#6E6B64] hover:text-[#141413] transition-colors cursor-pointer font-medium"
               >
-                {expandTags ? 'Свернуть теги' : `Показать все (${popularTags.length})`}
+                {expandTags ? (lang === 'en' ? 'Collapse tags' : 'Свернуть теги') : (lang === 'en' ? `Show all (${popularTags.length})` : `Показать все (${popularTags.length})`)}
               </button>
             )}
           </div>
@@ -515,10 +376,10 @@ export function SearchModal() {
                 <button
                   key={tag}
                   onClick={() => setSelectedTag(prev => prev === tag ? null : tag)}
-                  className={`px-2.5 py-1 rounded-md transition-all font-mono text-[11px] cursor-pointer border ${
+                  className={`px-2 py-0.5 rounded-none transition-colors font-mono text-[11px] cursor-pointer border ${
                     isSelected
-                      ? 'bg-brand-blue text-black font-bold border-brand-blue shadow-sm'
-                      : 'bg-[#181a23] text-gray-400 hover:text-brand-blue hover:bg-[#222532] border-white/5'
+                      ? 'bg-[#1E4631] text-[#F6F5F0] border-[#1E4631] font-bold'
+                      : 'bg-[#F6F5F0] text-[#6E6B64] hover:text-[#141413] hover:bg-[#E8E4DD] border-[#DFDCD4]'
                   }`}
                 >
                   #{tag}
@@ -530,16 +391,15 @@ export function SearchModal() {
 
         {/* Expanded Advanced Filters Panel */}
         {showAdvancedFilters && (
-          <div className="p-3.5 bg-[#14161f] border-b border-[#2e3244] grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs animate-fade-in">
-            {/* Evidence Level */}
+          <div className="p-3.5 bg-[#EFECE6] border-b border-[#DFDCD4] grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <div className="space-y-1">
-              <label className="text-[11px] text-gray-400 font-medium flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> 'Evidence:'
+              <label className="text-[11px] text-[#6E6B64] font-medium flex items-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#1E4631]" /> {lang === 'en' ? 'Evidence:' : 'Доказательность:'}
               </label>
               <select
                 value={selectedEvidence}
                 onChange={(e) => setSelectedEvidence(e.target.value)}
-                className="w-full bg-[#1e212d] text-gray-200 border border-[#34384a] rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-brand-blue cursor-pointer"
+                className="w-full bg-[#F6F5F0] text-[#141413] border border-[#DFDCD4] rounded-none px-2.5 py-1.5 text-xs focus:outline-none focus:border-[#141413] cursor-pointer"
               >
                 {evidenceLevels.map(lvl => (
                   <option key={lvl.id} value={lvl.id}>{lvl.label}</option>
@@ -547,15 +407,14 @@ export function SearchModal() {
               </select>
             </div>
 
-            {/* Reading Time */}
             <div className="space-y-1">
-              <label className="text-[11px] text-gray-400 font-medium flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-amber-400" /> 'Reading Time:'
+              <label className="text-[11px] text-[#6E6B64] font-medium flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5 text-[#1E4631]" /> {lang === 'en' ? 'Reading Time:' : 'Объём / Время чтения:'}
               </label>
               <select
                 value={selectedReadingTime}
                 onChange={(e) => setSelectedReadingTime(e.target.value)}
-                className="w-full bg-[#1e212d] text-gray-200 border border-[#34384a] rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-brand-blue cursor-pointer"
+                className="w-full bg-[#F6F5F0] text-[#141413] border border-[#DFDCD4] rounded-none px-2.5 py-1.5 text-xs focus:outline-none focus:border-[#141413] cursor-pointer"
               >
                 {readingTimes.map(rt => (
                   <option key={rt.id} value={rt.id}>{rt.label}</option>
@@ -563,15 +422,14 @@ export function SearchModal() {
               </select>
             </div>
 
-            {/* Sorting */}
             <div className="space-y-1">
-              <label className="text-[11px] text-gray-400 font-medium flex items-center gap-1">
-                <SlidersHorizontal className="w-3.5 h-3.5 text-brand-blue" /> 'Sort:'
+              <label className="text-[11px] text-[#6E6B64] font-medium flex items-center gap-1">
+                <SlidersHorizontal className="w-3.5 h-3.5 text-[#1E4631]" /> {lang === 'en' ? 'Sort:' : 'Сортировка:'}
               </label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full bg-[#1e212d] text-gray-200 border border-[#34384a] rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-brand-blue cursor-pointer"
+                className="w-full bg-[#F6F5F0] text-[#141413] border border-[#DFDCD4] rounded-none px-2.5 py-1.5 text-xs focus:outline-none focus:border-[#141413] cursor-pointer"
               >
                 {sortOptions.map(opt => (
                   <option key={opt.id} value={opt.id}>{opt.label}</option>
@@ -585,50 +443,35 @@ export function SearchModal() {
         <div 
           aria-live="polite" 
           aria-atomic="true"
-          className="px-4 py-2.5 bg-[#0e1015] border-b border-white/5 flex items-center justify-between flex-wrap gap-2 text-[11px] text-gray-400"
+          className="px-4 py-2.5 bg-[#EFECE6] border-b border-[#DFDCD4] flex items-center justify-between flex-wrap gap-2 text-[11px] text-[#6E6B64]"
         >
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-gray-300">
-              'Articles found:' <strong className="text-brand-blue font-bold text-xs">{results.length}</strong> 'of' {articles.length}
+            <span className="text-[#141413]">
+              {lang === 'en' ? 'Articles found:' : 'Найдено статей:'} <strong className="text-[#1E4631] font-bold text-xs">{results.length}</strong> {lang === 'en' ? 'of' : 'из'} {articles.length}
             </span>
 
             {selectedCategory !== 'all' && (
-              <span className="inline-flex items-center gap-1.5 bg-[#222634] text-brand-blue px-2.5 py-0.5 rounded-lg border border-brand-blue/30 font-medium">
+              <span className="inline-flex items-center gap-1.5 bg-[#F6F5F0] text-[#141413] px-2 py-0.5 rounded-none border border-[#DFDCD4] font-medium">
                 {getCategoryLabel(selectedCategory)}
-                <button onClick={() => setSelectedCategory('all')} className="hover:text-white cursor-pointer"><X className="w-3 h-3" /></button>
+                <button onClick={() => setSelectedCategory('all')} className="hover:text-[#1E4631] cursor-pointer"><X className="w-3 h-3" /></button>
               </span>
             )}
 
             {selectedTag && (
-              <span className="inline-flex items-center gap-1 bg-brand-blue/15 text-brand-blue px-2 py-0.5 rounded-md border border-brand-blue/30 font-mono">
+              <span className="inline-flex items-center gap-1 bg-[#1E4631]/10 text-[#1E4631] px-2 py-0.5 rounded-none border border-[#1E4631]/30 font-mono">
                 #{selectedTag}
-                <button onClick={() => setSelectedTag(null)} className="hover:text-white cursor-pointer"><X className="w-3 h-3" /></button>
-              </span>
-            )}
-
-            {selectedEvidence !== 'all' && (
-              <span className="inline-flex items-center gap-1 bg-[#222634] text-gray-200 px-2 py-0.5 rounded-md border border-white/10">
-                {evidenceLevels.find(l => l.id === selectedEvidence)?.label}
-                <button onClick={() => setSelectedEvidence('all')} className="hover:text-white cursor-pointer"><X className="w-3 h-3" /></button>
-              </span>
-            )}
-
-            {selectedReadingTime !== 'all' && (
-              <span className="inline-flex items-center gap-1 bg-[#222634] text-gray-200 px-2 py-0.5 rounded-md border border-white/10">
-                {readingTimes.find(l => l.id === selectedReadingTime)?.label}
-                <button onClick={() => setSelectedReadingTime('all')} className="hover:text-white cursor-pointer"><X className="w-3 h-3" /></button>
+                <button onClick={() => setSelectedTag(null)} className="hover:text-black cursor-pointer"><X className="w-3 h-3" /></button>
               </span>
             )}
           </div>
 
           {hasAnyFilterActive && (
             <button
-              id="btn-reset-all-filters"
               onClick={resetAllFilters}
-              className="inline-flex items-center gap-1 text-[11px] text-gray-400 hover:text-brand-blue transition-colors cursor-pointer font-medium"
+              className="inline-flex items-center gap-1 text-[11px] text-[#6E6B64] hover:text-[#141413] transition-colors cursor-pointer font-medium"
             >
               <RotateCcw className="w-3 h-3" />
-              <span>'Reset all'</span>
+              <span>{lang === 'en' ? 'Reset all' : 'Сбросить все'}</span>
             </button>
           )}
         </div>
@@ -636,79 +479,62 @@ export function SearchModal() {
         {/* Results List */}
         <div 
           ref={resultsContainerRef}
-          className="p-3 overflow-y-auto space-y-2 flex-1 divide-y divide-white/5 scrollbar-thin scrollbar-thumb-[#2d3142] scrollbar-track-transparent"
+          className="p-3 overflow-y-auto space-y-2 flex-1 divide-y divide-[#DFDCD4]"
         >
           {results.length === 0 ? (
             <div className="text-center py-14 space-y-3">
               <div className="flex justify-center mb-1">
-                <HelpCircle className="w-10 h-10 text-rose-400/70" />
+                <HelpCircle className="w-10 h-10 text-[#6E6B64]" />
               </div>
-              <p className="text-sm text-gray-200 font-semibold">{ru.search.noResults}</p>
-              <p className="text-xs text-gray-400 max-w-md mx-auto leading-relaxed">
-                'Try changing keywords, selecting a different category, or resetting active filters.'
+              <p className="text-sm text-[#141413] font-semibold">{t.search.noResults}</p>
+              <p className="text-xs text-[#6E6B64] max-w-md mx-auto leading-relaxed">
+                {lang === 'en' ? 'Try changing keywords, selecting a different category, or resetting active filters.' : 'Попробуйте изменить поисковые слова, выбрать другую категорию или сбросить активные фильтры.'}
               </p>
               <button 
                 onClick={resetAllFilters}
-                className="mt-2 px-4 py-2 bg-[#202330] hover:bg-[#2a2e40] text-brand-blue border border-[#34384a] rounded-xl text-xs font-bold transition-all cursor-pointer inline-flex items-center gap-2 shadow-sm"
+                className="mt-2 px-4 py-2 bg-[#141413] hover:bg-[#1E4631] text-[#F6F5F0] rounded-none text-xs font-bold transition-all cursor-pointer inline-flex items-center gap-2"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                'Reset all parameters'
+                {lang === 'en' ? 'Reset all parameters' : 'Сбросить все параметры'}
               </button>
             </div>
           ) : (
             results.map((article, idx) => {
-              const staticTags = ARTICLE_SEMANTIC_TAGS[article.path] || [];
-              const displayTags = Array.from(new Set([...(article.tags || []), ...staticTags])).slice(0, 4);
               const isKeyboardSelected = idx === selectedIndex;
 
               return (
                 <div 
                   key={article.path}
+                  data-result-index={idx}
                   onClick={() => handleSelectArticle(article.path)} 
                   onMouseEnter={() => setSelectedIndex(idx)}
-                  className={`p-3.5 pt-4 rounded-xl cursor-pointer border transition-all group flex items-start justify-between gap-3 ${
+                  className={`p-3.5 pt-4 rounded-none cursor-pointer border transition-colors flex items-start justify-between gap-3 ${
                     isKeyboardSelected 
-                      ? 'bg-[#222533] border-brand-blue/50 shadow-md ring-1 ring-brand-blue/20' 
-                      : 'bg-[#181a24]/70 hover:bg-[#1f2230] border-transparent hover:border-brand-blue/30'
+                      ? 'bg-[#EFECE6] border-[#141413]' 
+                      : 'bg-[#F6F5F0] hover:bg-[#EFECE6] border-transparent'
                   }`}
                 >
                   <div className="flex-1 min-w-0 space-y-1.5">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs sm:text-sm font-bold text-white group-hover:text-brand-blue transition-colors flex items-center gap-1.5">
-                        <BookOpen className="w-3.5 h-3.5 text-brand-blue shrink-0" />
+                      <span className="text-xs sm:text-sm font-bold text-[#141413] hover:text-[#1E4631] transition-colors">
                         {highlightMatch(article.title, query)}
                       </span>
                     </div>
 
                     {article.excerpt && (
-                      <p className="text-xs text-gray-400 line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-[#6E6B64] line-clamp-2 leading-relaxed">
                         {highlightMatch(article.excerpt, query)}
                       </p>
                     )}
 
-                    <div className="flex items-center gap-2 pt-1 flex-wrap">
-                      <span className="text-[10px] font-semibold text-brand-blue/90 bg-brand-blue/10 px-2 py-0.5 rounded border border-brand-blue/20">
+                    <div className="flex items-center gap-2 pt-1 flex-wrap text-[10px] text-[#6E6B64]">
+                      <span className="font-semibold text-[#1E4631] uppercase">
                         {getCategoryLabel(article.category)}
                       </span>
-
-                      {renderEvidenceBadge(article.evidenceLevel || article.evidence_level)}
-
-                      {article.readingTime && (
-                        <span className="inline-flex items-center gap-1 text-[10px] text-gray-400 bg-white/5 px-2 py-0.5 rounded">
-                          <Clock className="w-3 h-3 text-gray-500" />
-                          {article.readingTime}
-                        </span>
-                      )}
-
-                      {displayTags.map((tTag, tIdx) => (
-                        <span key={tIdx} className="text-[10px] text-gray-400 bg-white/5 px-1.5 py-0.5 rounded font-mono">
-                          #{tTag}
-                        </span>
-                      ))}
                     </div>
                   </div>
 
-                  <div className="shrink-0 pt-1 text-gray-500 group-hover:text-brand-blue group-hover:translate-x-1 transition-all">
+                  <div className="shrink-0 pt-1 text-[#6E6B64]">
                     <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
@@ -718,12 +544,12 @@ export function SearchModal() {
         </div>
 
         {/* Footer Hint Bar */}
-        <div className="px-4 py-2 bg-[#0c0e12] border-t border-white/5 flex items-center justify-between text-[10px] text-gray-500">
+        <div className="px-4 py-2 bg-[#EFECE6] border-t border-[#DFDCD4] flex items-center justify-between text-[10px] text-[#6E6B64]">
           <div className="flex items-center gap-3">
-            <span>'Use' <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">↑</kbd> <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">↓</kbd> 'to navigate'</span>
-            <span><kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-300 font-mono">Enter</kbd> 'to open'</span>
+            <span>{lang === 'en' ? 'Use' : 'Используйте'} <kbd className="px-1.5 py-0.5 bg-[#F6F5F0] border border-[#DFDCD4] text-[#141413] font-mono">↑</kbd> <kbd className="px-1.5 py-0.5 bg-[#F6F5F0] border border-[#DFDCD4] text-[#141413] font-mono">↓</kbd> {lang === 'en' ? 'to navigate' : 'для навигации'}</span>
+            <span><kbd className="px-1.5 py-0.5 bg-[#F6F5F0] border border-[#DFDCD4] text-[#141413] font-mono">Enter</kbd> {lang === 'en' ? 'to open' : 'для открытия'}</span>
           </div>
-          <span className="text-gray-400 font-mono">'Total articles:' {articles.length}</span>
+          <span className="text-[#6E6B64] font-mono">{lang === 'en' ? 'Total articles:' : 'Всего статей:'} {articles.length}</span>
         </div>
 
       </div>

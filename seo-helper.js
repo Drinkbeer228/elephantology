@@ -2,11 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { load } from 'js-yaml';
 
-// Canonical domain for SEO (sitemap, og tags). Override via env for other hosts.
-// Default: GitHub Pages user-site root — works when the repo is published at
-// https://<user>.github.io/. For project sites set SITE_ORIGIN explicitly,
-// e.g. https://<user>.github.io/<repo> in the deploy workflow.
-export const CANONICAL_DOMAIN = process.env.SITE_ORIGIN || 'https://drinkbeer228.github.io/elephantology';
+export const CANONICAL_DOMAIN = 'https://elephantology.ai.studio';
 
 export function isValidDate(str) {
   if (typeof str !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(str)) return false;
@@ -47,7 +43,7 @@ export function parseFrontmatter(content) {
       } else if (typeof parsed.tags === 'string') {
         meta.tags = parsed.tags.split(',').map(t => t.trim()).filter(Boolean);
       }
-    } catch {
+    } catch (e) {
       // Fallback regex parsing if yaml fails
       const yamlStr = match[1];
       const titleMatch = yamlStr.match(/title:\s*["']?([^"'\r\n]+)["']?/);
@@ -99,7 +95,7 @@ export function generateSchemaJsonLd(meta, url, includeWebSite = false) {
         "name": meta.author
       } : {
         "@type": "Organization",
-        "name": "Редакционная коллегия Слонологии",
+        "name": meta.lang === 'en' ? "Elephantology Editorial Board" : "Редакционная коллегия Слонологии",
         "url": CANONICAL_DOMAIN
       },
       "publisher": {
@@ -202,9 +198,7 @@ export function generateSchemaJsonLd(meta, url, includeWebSite = false) {
     });
   }
 
-  // Escape `</` sequences so article content can never break out of the <script> block.
-  const safeJson = JSON.stringify(schemas, null, 2).replace(/</g, '\\u003c');
-  return `<script type="application/ld+json">\n${safeJson}\n</script>`;
+  return `<script type="application/ld+json">\n${JSON.stringify(schemas, null, 2)}\n</script>`;
 }
 
 // CLI implementation for Sitemap Generation
@@ -254,6 +248,8 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
   urls.push(`  <url>
     <loc>${domain}/</loc>
     <xhtml:link rel="alternate" hreflang="ru" href="${domain}/" />
+    <xhtml:link rel="alternate" hreflang="en" href="${domain}/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${domain}/" />
     <lastmod>${latestArticleDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -273,6 +269,8 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
     urls.push(`  <url>
     <loc>${fullUrl}</loc>
     <xhtml:link rel="alternate" hreflang="ru" href="${fullUrl}" />
+    <xhtml:link rel="alternate" hreflang="en" href="${fullUrl}?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${fullUrl}" />
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>${priority}</priority>

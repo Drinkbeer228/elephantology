@@ -1,0 +1,266 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="100%" height="100%" style="background:#0b101b; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+  <defs>
+    <!-- Background Gradients -->
+    <radialGradient id="bgGlow" cx="40%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#142038" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0b101b" stop-opacity="1"/>
+    </radialGradient>
+    
+    <!-- Tusk Gold Gradient -->
+    <linearGradient id="tuskGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="25%" stop-color="#f59e0b"/>
+      <stop offset="70%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+
+    <linearGradient id="tuskInsideGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#92400e" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#451a03"/>
+    </linearGradient>
+
+    <!-- Emerald Line Glow Filter -->
+    <filter id="emeraldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="subtleGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Inset Circle Shadow -->
+    <filter id="insetShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1000" height="520" fill="url(#bgGlow)"/>
+  
+  <!-- Subtle Grid Pattern -->
+  <g opacity="0.04" stroke="#38bdf8" stroke-width="1">
+    <line x1="0" y1="65" x2="1000" y2="65"/>
+    <line x1="0" y1="130" x2="1000" y2="130"/>
+    <line x1="0" y1="195" x2="1000" y2="195"/>
+    <line x1="0" y1="260" x2="1000" y2="260"/>
+    <line x1="0" y1="325" x2="1000" y2="325"/>
+    <line x1="0" y1="390" x2="1000" y2="390"/>
+    <line x1="0" y1="455" x2="1000" y2="455"/>
+    
+    <line x1="100" y1="0" x2="100" y2="520"/>
+    <line x1="200" y1="0" x2="200" y2="520"/>
+    <line x1="300" y1="0" x2="300" y2="520"/>
+    <line x1="400" y1="0" x2="400" y2="520"/>
+    <line x1="500" y1="0" x2="500" y2="520"/>
+    <line x1="600" y1="0" x2="600" y2="520"/>
+    <line x1="700" y1="0" x2="700" y2="520"/>
+    <line x1="800" y1="0" x2="800" y2="520"/>
+    <line x1="900" y1="0" x2="900" y2="520"/>
+  </g>
+
+  <!-- Card Outer Border -->
+  <rect x="1.5" y="1.5" width="997" height="517" rx="12" fill="none" stroke="#1e293b" stroke-width="2" opacity="0.8"/>
+
+  <!-- ==================== HEADER ==================== -->
+  <g id="header">
+    <text x="50" y="44" fill="#ffffff" font-size="22" font-style="italic" font-weight="700" letter-spacing="0.3">Deinotherium giganteum<tspan font-style="normal" font-weight="400" fill="#94a3b8">: Cranial Morphology &amp; Functional Adaptations</tspan></text>
+    <line x1="50" y1="56" x2="950" y2="56" stroke="#334155" stroke-width="1" opacity="0.8"/>
+  </g>
+
+  <!-- ==================== SKULL & TRUNK DIAGRAM ==================== -->
+  <g id="skull-and-anatomy" transform="translate(40, 10)">
+    
+    <!-- Skull Braincase Transparent X-Ray Volume -->
+    <path d="M 180 185 
+             C 170 120, 230 95, 330 95 
+             C 410 95, 470 115, 520 145 
+             C 550 165, 580 200, 600 250 
+             C 615 290, 615 340, 580 395 
+             C 560 415, 540 420, 530 405 
+             C 525 390, 545 340, 555 290 
+             C 560 250, 530 205, 490 185 
+             C 450 170, 410 170, 370 175
+             C 320 180, 260 200, 220 220
+             C 190 235, 175 220, 180 185 Z" 
+          fill="#10b981" fill-opacity="0.04" stroke="#34d399" stroke-width="1.8" stroke-opacity="0.7" filter="url(#subtleGlow)"/>
+
+    <!-- Cranial Internal Lines / Cavities -->
+    <path d="M 230 175 C 240 125, 290 115, 360 120 C 400 125, 430 145, 435 175 C 420 215, 360 220, 300 215 C 255 210, 230 195, 230 175 Z" 
+          fill="#064e3b" fill-opacity="0.15" stroke="#10b981" stroke-width="1.2" stroke-opacity="0.6"/>
+
+    <!-- Orbit (Eye Socket) -->
+    <ellipse cx="400" cy="180" rx="28" ry="24" fill="#042f2e" fill-opacity="0.4" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.7"/>
+
+    <!-- Zygomatic Arch & Temporal Fossa -->
+    <path d="M 220 230 C 270 230, 340 240, 410 235 C 450 232, 470 245, 460 260 C 440 280, 360 275, 300 270 C 240 265, 205 255, 220 230 Z" 
+          fill="#0f766e" fill-opacity="0.1" stroke="#2dd4bf" stroke-width="1.4" stroke-opacity="0.6"/>
+
+    <!-- Woven Fibrous Muscle Hydrostat of Proboscis (Trunk) -->
+    <g id="trunk-fibers" filter="url(#emeraldGlow)">
+      <!-- Outer Trunk Volume Contour -->
+      <path d="M 450 135 
+               C 520 145, 580 180, 615 240 
+               C 650 300, 650 380, 605 440 
+               C 585 465, 555 450, 570 415 
+               C 600 355, 600 280, 560 230 
+               C 525 190, 475 165, 430 160 Z" 
+            fill="#064e3b" fill-opacity="0.12" stroke="#10b981" stroke-width="2" stroke-opacity="0.9"/>
+      
+      <!-- Interwoven Muscle Bands (Longitudinal & Helical Fibers) -->
+      <path d="M 460 145 C 530 170, 590 230, 600 310 C 605 350, 590 400, 575 425" fill="none" stroke="#34d399" stroke-width="1.2" stroke-opacity="0.7"/>
+      <path d="M 480 155 C 545 190, 615 260, 620 340 C 620 385, 595 430, 580 440" fill="none" stroke="#6ee7b7" stroke-width="1" stroke-opacity="0.6"/>
+      <path d="M 500 170 C 560 215, 630 290, 625 365 C 620 405, 595 435, 585 445" fill="none" stroke="#34d399" stroke-width="1" stroke-opacity="0.6"/>
+
+      <!-- Cross-woven transverse fascial bands -->
+      <path d="M 460 140 Q 480 160, 455 175" fill="none" stroke="#a7f3d0" stroke-width="1.2" stroke-opacity="0.8"/>
+      <path d="M 495 155 Q 520 180, 490 200" fill="none" stroke="#a7f3d0" stroke-width="1.2" stroke-opacity="0.8"/>
+      <path d="M 535 180 Q 565 210, 530 235" fill="none" stroke="#a7f3d0" stroke-width="1.2" stroke-opacity="0.8"/>
+      <path d="M 570 215 Q 605 250, 565 280" fill="none" stroke="#a7f3d0" stroke-width="1.2" stroke-opacity="0.8"/>
+      <path d="M 595 260 Q 630 300, 590 330" fill="none" stroke="#a7f3d0" stroke-width="1.2" stroke-opacity="0.8"/>
+      <path d="M 605 310 Q 635 350, 595 380" fill="none" stroke="#a7f3d0" stroke-width="1.2" stroke-opacity="0.8"/>
+      <path d="M 595 365 Q 620 405, 580 425" fill="none" stroke="#a7f3d0" stroke-width="1.2" stroke-opacity="0.8"/>
+      
+      <!-- Trunk Distal Tip -->
+      <path d="M 575 425 C 570 440, 560 455, 580 450 C 595 445, 605 430, 600 415" fill="none" stroke="#34d399" stroke-width="1.6"/>
+    </g>
+
+    <!-- Upper Maxillary Teeth (Lophodont Bilophodont Row) -->
+    <g id="upper-teeth" stroke="#e2e8f0" stroke-width="1.2" fill="#334155" fill-opacity="0.8">
+      <rect x="340" y="260" width="14" height="18" rx="2"/>
+      <rect x="358" y="260" width="14" height="18" rx="2"/>
+      <rect x="376" y="258" width="16" height="20" rx="2"/>
+      <rect x="396" y="258" width="16" height="20" rx="2"/>
+      <rect x="416" y="256" width="18" height="22" rx="2"/>
+      <rect x="438" y="256" width="20" height="22" rx="2"/>
+      <!-- Tooth crown dividers -->
+      <line x1="347" y1="262" x2="347" y2="276" stroke="#94a3b8" stroke-width="1"/>
+      <line x1="365" y1="262" x2="365" y2="276" stroke="#94a3b8" stroke-width="1"/>
+      <line x1="384" y1="260" x2="384" y2="276" stroke="#94a3b8" stroke-width="1"/>
+      <line x1="404" y1="260" x2="404" y2="276" stroke="#94a3b8" stroke-width="1"/>
+      <line x1="425" y1="258" x2="425" y2="276" stroke="#94a3b8" stroke-width="1"/>
+      <line x1="448" y1="258" x2="448" y2="276" stroke="#94a3b8" stroke-width="1"/>
+    </g>
+
+    <!-- Lower Mandible (Massive Downcurved Symphysis) -->
+    <path d="M 230 280 
+             C 215 320, 220 370, 240 395 
+             C 270 430, 350 430, 390 380 
+             C 415 350, 440 330, 480 320 
+             C 500 315, 510 325, 500 350 
+             C 475 400, 420 420, 370 425 
+             C 310 430, 250 415, 230 360 
+             C 220 330, 220 300, 230 280 Z" 
+          fill="#1e293b" fill-opacity="0.6" stroke="#64748b" stroke-width="1.8"/>
+
+    <!-- Mandibular Symphysis Core Anchor -->
+    <path d="M 360 320 C 420 320, 460 330, 490 350 C 470 385, 410 410, 350 390 C 330 385, 340 340, 360 320 Z" 
+          fill="#78350f" fill-opacity="0.3" stroke="#b45309" stroke-width="1.2" stroke-dasharray="3 2"/>
+
+    <!-- ==================== DOWNWARD-CURVING TUSKS ==================== -->
+    <!-- Right/Back Tusk (Internal perspective, darker) -->
+    <path d="M 465 370 
+             C 500 410, 520 470, 450 535 
+             C 435 550, 425 540, 435 520 
+             C 470 465, 455 425, 430 385 Z" 
+          fill="url(#tuskInsideGrad)" stroke="#b45309" stroke-width="1.4" opacity="0.85"/>
+
+    <!-- Left/Front Main Tusk (Prominent, High Quality Gold Gradient) -->
+    <path d="M 480 355 
+             C 525 400, 550 470, 485 545 
+             C 470 560, 460 550, 470 530 
+             C 510 470, 490 425, 445 375 Z" 
+          fill="url(#tuskGrad)" stroke="#fef3c7" stroke-width="1.8" filter="url(#subtleGlow)"/>
+    
+    <!-- Tusk Dentin Longitudinal Fiber Highlights -->
+    <path d="M 475 370 C 510 415, 525 465, 478 525" fill="none" stroke="#fef08a" stroke-width="1.2" stroke-opacity="0.8"/>
+    <path d="M 460 385 C 485 425, 495 470, 470 515" fill="none" stroke="#b45309" stroke-width="1" stroke-opacity="0.6"/>
+
+    <!-- Occipital Crest & Condyle Details -->
+    <path d="M 180 180 C 165 210, 160 250, 195 285 C 210 295, 205 320, 190 325 C 175 330, 160 300, 165 260 C 170 215, 175 190, 180 180 Z" 
+          fill="#065f46" fill-opacity="0.4" stroke="#10b981" stroke-width="1.8"/>
+
+  </g>
+
+  <!-- ==================== CALLOUT LABELS & ARROWS (LEFT) ==================== -->
+  <g id="callouts-left" transform="translate(10, 0)">
+    <!-- Occipital Muscle Attachment -->
+    <text x="135" y="168" fill="#34d399" font-size="14" font-weight="600" text-anchor="middle">Occipital Muscle</text>
+    <text x="135" y="186" fill="#34d399" font-size="14" font-weight="600" text-anchor="middle">Attachment</text>
+    
+    <path d="M 140 200 C 145 220, 170 225, 190 220" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arrowTeal)"/>
+    <circle cx="192" cy="220" r="3" fill="#34d399"/>
+
+    <!-- Recurved Muscle Attachment -->
+    <text x="135" y="325" fill="#34d399" font-size="14" font-weight="600" text-anchor="middle">Recurved Muscle</text>
+    <text x="135" y="343" fill="#34d399" font-size="14" font-weight="600" text-anchor="middle">Attachment</text>
+
+    <path d="M 140 300 C 145 280, 170 275, 185 280" fill="none" stroke="#34d399" stroke-width="1.8"/>
+    <circle cx="187" cy="281" r="3" fill="#34d399"/>
+  </g>
+
+  <!-- ==================== INSET: BILOPHODONT MOLAR CROSS-SECTION ==================== -->
+  <g id="molar-inset" transform="translate(800, 260)">
+    
+    <!-- Inset Outer Frame Circle -->
+    <circle cx="0" cy="0" r="105" fill="#0f172a" stroke="#475569" stroke-width="2" filter="url(#insetShadow)"/>
+    <circle cx="0" cy="0" r="100" fill="#0b1322" stroke="#334155" stroke-width="1.2"/>
+
+    <!-- Inset Pointer Line connecting to Teeth in Skull -->
+    <path d="M -105 -5 C -170 -15, -230 -25, -290 -10" fill="none" stroke="#64748b" stroke-width="1.2" stroke-dasharray="3 3"/>
+    <circle cx="-290" cy="-10" r="3" fill="#94a3b8"/>
+
+    <!-- Molar Outer Enamel Contour (Bilophodont Double-Lobed Shape) -->
+    <path d="M -60 -45 
+             C -35 -50, -10 -35, 0 -45 
+             C 15 -55, 45 -50, 60 -35 
+             C 75 -15, 75 25, 60 45 
+             C 45 60, 15 55, 0 45 
+             C -15 35, -45 55, -60 40 
+             C -75 20, -75 -25, -60 -45 Z" 
+          fill="#1e293b" stroke="#f59e0b" stroke-width="2.5" filter="url(#subtleGlow)"/>
+
+    <!-- Molar Inner Dentin Cores & Transverse Enamel Loph Loops (Parallel Crests) -->
+    <!-- Loph 1 (Mesial Loph Crest) -->
+    <path d="M -45 -30 
+             C -35 -35, -25 -25, -25 0 
+             C -25 25, -35 35, -45 30 
+             C -55 25, -55 -25, -45 -30 Z" 
+          fill="#451a03" stroke="#fbbf24" stroke-width="2"/>
+    
+    <path d="M -45 -22 C -38 -25, -32 -18, -32 0 C -32 18, -38 25, -45 22 C -50 18, -50 -18, -45 -22 Z" 
+          fill="#78350f" stroke="#fef08a" stroke-width="1"/>
+
+    <!-- Vertical Crest Ridges within Mesial Loph -->
+    <line x1="-48" y1="-15" x2="-48" y2="15" stroke="#fbbf24" stroke-width="1" stroke-linecap="round"/>
+    <line x1="-42" y1="-18" x2="-42" y2="18" stroke="#fef08a" stroke-width="1" stroke-linecap="round"/>
+    <line x1="-36" y1="-12" x2="-36" y2="12" stroke="#fbbf24" stroke-width="1" stroke-linecap="round"/>
+
+    <!-- Loph 2 (Distal Loph Crest) -->
+    <path d="M 25 -30 
+             C 35 -35, 45 -25, 45 0 
+             C 45 25, 35 35, 25 30 
+             C 15 25, 15 -25, 25 -30 Z" 
+          fill="#451a03" stroke="#fbbf24" stroke-width="2"/>
+
+    <path d="M 25 -22 C 32 -25, 38 -18, 38 0 C 38 18, 32 25, 25 22 C 20 18, 20 -18, 25 -22 Z" 
+          fill="#78350f" stroke="#fef08a" stroke-width="1"/>
+
+    <!-- Vertical Crest Ridges within Distal Loph -->
+    <line x1="22" y1="-15" x2="22" y2="15" stroke="#fbbf24" stroke-width="1" stroke-linecap="round"/>
+    <line x1="28" y1="-18" x2="28" y2="18" stroke="#fef08a" stroke-width="1" stroke-linecap="round"/>
+    <line x1="34" y1="-12" x2="34" y2="12" stroke="#fbbf24" stroke-width="1" stroke-linecap="round"/>
+
+    <!-- Inset Text Label -->
+    <text x="0" y="132" fill="#cbd5e1" font-size="14" font-weight="600" text-anchor="middle" letter-spacing="0.2">Bilophodont Molar</text>
+    <text x="0" y="150" fill="#94a3b8" font-size="12" font-weight="400" text-anchor="middle">Cross-Section</text>
+  </g>
+</svg>

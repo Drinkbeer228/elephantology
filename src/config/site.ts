@@ -3,14 +3,8 @@
  * metadata, and academic publication settings.
  */
 
-// Default origin matches the current GitHub Pages PROJECT site
-// (https://<owner>.github.io/<repo>). Override via VITE_SITE_ORIGIN at build
-// time when deploying elsewhere (custom domain, user-site, Render, etc.).
-const DEFAULT_ORIGIN = 'https://drinkbeer228.github.io/elephantology';
-
 export const SITE_CONFIG = {
-  // Canonical origin used for og/canonical fallbacks.
-  domain: import.meta.env.VITE_SITE_ORIGIN || DEFAULT_ORIGIN,
+  domain: 'https://elephantology.ai.studio',
   name: 'Слонология',
   nameEn: 'Elephantology',
   title: '«Слонология» | Академическая цифровая энциклопедия о слонах',
@@ -20,8 +14,8 @@ export const SITE_CONFIG = {
   publisher: {
     name: 'Академическая Лига Слонологии',
     nameEn: 'Elephantology Research Guild',
-    url: DEFAULT_ORIGIN,
-    logo: `${DEFAULT_ORIGIN}/icons/icon.svg`
+    url: 'https://elephantology.ai.studio',
+    logo: 'https://elephantology.ai.studio/icons/icon.svg'
   },
-  defaultOgImage: `${DEFAULT_ORIGIN}/assets/images/og-home-elephants.jpg`
+  defaultOgImage: 'https://elephantology.ai.studio/assets/images/og-home-elephants.jpg'
 };

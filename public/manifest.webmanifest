@@ -1,0 +1,39 @@
+{
+  "name": "Энциклопедия «Слонология»",
+  "short_name": "Слонология",
+  "description": "Интерактивная научная база знаний и полевой справочник о хоботных (Elephantidae): анатомия, этология, ветеринария, эволюция и карты миграций.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#121318",
+  "theme_color": "#1b1d24",
+  "lang": "ru",
+  "categories": ["education", "reference", "books"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

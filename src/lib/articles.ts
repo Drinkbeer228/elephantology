@@ -1,5 +1,6 @@
 import { ArticleItem } from './searchEngine';
 import { parseFrontmatter } from './markdown';
+import { ARTICLE_TRANSLATIONS_EN } from './articleTranslations';
 
 const legacyMap: Record<string, string> = {
   "respiratory_system": "anatomy/respiratory-system-and-vocal-tract",
@@ -104,9 +105,11 @@ export function resolveArticlePath(requestedPath: string, modulesKeys: string[])
 
 export const MODULES_CACHE = import.meta.glob('/docs/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
 
-const articlesCache: { value: ArticleItem[] | null } = { value: null };
+let cachedArticles: Record<string, ArticleItem[]> = {};
 
-function computeArticles(): ArticleItem[] {
+function computeArticles(lang?: string): ArticleItem[] {
+  const isEn = lang === 'en';
+  
   return Object.entries(MODULES_CACHE)
     .filter(([filePath]) => 
       !filePath.includes('/assets/') &&
@@ -135,19 +138,25 @@ function computeArticles(): ArticleItem[] {
 
     const filename = filePath.split('/').pop() || '';
     const pathPart = category ? `${category}/${filename}` : filename;
+    const cleanKey = pathPart.replace(/\.md$/, '');
 
+    // Check for English translation
+    const translation = ARTICLE_TRANSLATIONS_EN[cleanKey];
+    const finalTitle = (isEn && translation?.title) ? translation.title : title;
+    const finalExcerpt = (isEn && translation?.excerpt) ? translation.excerpt : (metadata.excerpt || '');
+    const finalTags = (isEn && translation?.tags) ? translation.tags : (metadata.tags || []);
     const readingTimeMin = metadata.readingTimeMin || 5;
 
     return {
       path: pathPart,
       filename,
-      title,
-      excerpt: metadata.excerpt || '',
+      title: finalTitle,
+      excerpt: finalExcerpt,
       category: category || '',
-      tags: metadata.tags || [],
+      tags: finalTags,
       related_knowledge: metadata.related_knowledge || [],
       reading_time_min: readingTimeMin,
-      readingTime: `${readingTimeMin} мин`,
+      readingTime: isEn ? `${readingTimeMin} min` : `${readingTimeMin} мин`,
       evidenceLevel: metadata.evidenceLevel || '',
       evidence_level: metadata.evidenceLevel || '',
       difficulty: metadata.difficulty || '',
@@ -157,9 +166,10 @@ function computeArticles(): ArticleItem[] {
   });
 }
 
-export function getStaticArticles(): ArticleItem[] {
-  if (!articlesCache.value) {
-    articlesCache.value = computeArticles();
+export function getStaticArticles(lang?: string): ArticleItem[] {
+  const key = lang || 'ru';
+  if (!cachedArticles[key]) {
+    cachedArticles[key] = computeArticles(lang);
   }
-  return articlesCache.value;
+  return cachedArticles[key];
 }

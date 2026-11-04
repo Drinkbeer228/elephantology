@@ -1,27 +1,17 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { BookOpen } from "lucide-react";
 import { Header } from './components/Header';
+import { useLanguage } from './i18n/LanguageContext';
 import { ArticleCatalog } from './components/ArticleCatalog';
-import { ru } from './i18n/ru';
 
 const ArticleViewer = lazy(() => import('./components/ArticleViewer').then(m => ({ default: m.ArticleViewer })));
 const SearchModal = lazy(() => import('./components/SearchModal').then(m => ({ default: m.SearchModal })));
-const CitationModal = lazy(() => import('./components/CitationModal').then(m => ({ default: m.CitationModal })));
 
 export default function App() {
+  const { t } = useLanguage();
   const [currentView, setCurrentView] = useState<'home' | 'article' | 'module'>('home');
   const [currentArticlePath, setCurrentArticlePath] = useState<string | null>(null);
 
   const getBaseUrl = () => import.meta.env.BASE_URL || '/';
-
-  // Strip the deploy base path (e.g. "/repo-name" on GitHub Pages project sites)
-  // from window.location.pathname, leaving a site-relative path like "/article/foo".
-  const getSitePath = () => {
-    const baseUrl = getBaseUrl().replace(/\/$/, '');
-    let p = window.location.pathname;
-    if (baseUrl && p.startsWith(baseUrl)) p = p.slice(baseUrl.length);
-    return p || '/';
-  };
 
   const navigateTo = (view: 'home' | 'article', path: string | null = null, pushState = true) => {
     setCurrentView(view);
@@ -44,7 +34,9 @@ export default function App() {
         setCurrentView(e.state.view);
         setCurrentArticlePath(e.state.path || null);
       } else {
-        const cleanPath = getSitePath();
+        const path = window.location.pathname;
+        const baseUrl = getBaseUrl().replace(/\/$/, '');
+        const cleanPath = path.replace(baseUrl, '');
         
         if (cleanPath.startsWith('/article/')) {
           let articlePath = cleanPath.substring('/article/'.length);
@@ -58,7 +50,6 @@ export default function App() {
             setCurrentArticlePath(p);
             setCurrentView('article');
           } else if (window.location.hash && currentArticlePath) {
-            // Keep current article on in-page hash navigation
             return;
           } else {
             setCurrentView('home');
@@ -72,8 +63,9 @@ export default function App() {
   }, [currentArticlePath]);
 
   useEffect(() => {
-    // Check initial path for direct navigation
-    const cleanPath = getSitePath();
+    const path = window.location.pathname;
+    const baseUrl = getBaseUrl().replace(/\/$/, '');
+    const cleanPath = path.replace(baseUrl, '');
     
     if (cleanPath.startsWith('/article/')) {
       let articlePath = cleanPath.substring('/article/'.length);
@@ -82,15 +74,12 @@ export default function App() {
       setCurrentView('article');
     }
     
-    // Also handle search params if we used those
     const urlParams = new URLSearchParams(window.location.search);
     const p = urlParams.get('path');
     if (p) {
        setCurrentArticlePath(p);
        setCurrentView('article');
-       // Clean URL without reload
-       const bUrl = getBaseUrl().replace(/\/$/, '');
-       window.history.replaceState({ view: 'article', path: p }, '', `${bUrl}/article/${p.replace('.md', '')}`);
+       window.history.replaceState({ view: 'article', path: p }, '', `${baseUrl}/article/${p.replace('.md', '')}`);
     }
   }, []);
 
@@ -102,7 +91,7 @@ export default function App() {
     navigateTo('article', cleanPath);
   };
 
-    useEffect(() => {
+  useEffect(() => {
     const handleShowHome = () => showHome();
     const handleLoadArticle = (e: Event) => {
       const customEvent = e as CustomEvent<string>;
@@ -117,25 +106,25 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen relative">
+    <div className="flex flex-col min-h-screen relative bg-[#F6F5F0] text-[#141413]">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-brand-blue focus:text-white focus:font-semibold focus:rounded-lg focus:shadow-lg focus:outline-none"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#1E4631] focus:text-[#F6F5F0] focus:font-semibold focus:rounded-none focus:outline-none"
       >
-        {ru.a11y.skipToContent}
+        {t.a11y?.skipToContent || 'Перейти к основному содержимому'}
       </a>
       <Header />
-      <main className="flex-1 w-full mx-auto px-3 sm:px-6 pb-12 pt-4 lg:pt-8 flex flex-col max-w-7xl relative" id="main-content">
+      <main className="flex-1 w-full mx-auto px-4 sm:px-6 pb-16 pt-6 flex flex-col max-w-7xl relative" id="main-content">
         {currentView === 'home' && <ArticleCatalog onArticleClick={showArticle} />}
         {currentView === 'article' && currentArticlePath && (
           <Suspense fallback={
             <div className="animate-pulse space-y-6 py-8 w-full max-w-5xl mx-auto">
-              <div className="h-6 bg-[#242733] rounded w-1/4"></div>
-              <div className="h-12 bg-[#242733] rounded w-3/4"></div>
+              <div className="h-6 bg-[#EFECE6] rounded-none w-1/4"></div>
+              <div className="h-12 bg-[#EFECE6] rounded-none w-3/4"></div>
               <div className="space-y-4 pt-6">
-                <div className="h-4 bg-[#242733] rounded w-full"></div>
-                <div className="h-4 bg-[#242733] rounded w-full"></div>
-                <div className="h-4 bg-[#242733] rounded w-4/5"></div>
+                <div className="h-4 bg-[#EFECE6] rounded-none w-full"></div>
+                <div className="h-4 bg-[#EFECE6] rounded-none w-full"></div>
+                <div className="h-4 bg-[#EFECE6] rounded-none w-4/5"></div>
               </div>
             </div>
           }>
@@ -144,26 +133,20 @@ export default function App() {
         )}
       </main>
       
-      <footer className="mt-auto border-t border-slate-700 bg-slate-900/80 backdrop-blur-md py-8 text-xs text-slate-300">
+      <footer className="mt-auto border-t border-[#DFDCD4] bg-[#EFECE6] py-8 text-xs text-[#6E6B64]">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <BookOpen className="w-5 h-5 text-brand-blue shrink-0" />
-            <div>
-              <span className="font-semibold text-slate-200">{ru.footer.title}</span>
-              <p className="text-[11px] text-slate-400 mt-0.5">{ru.footer.text}</p>
-            </div>
+          <div>
+            <span className="font-bold text-[#141413] tracking-wider uppercase font-serif">СЛОНОЛОГИЯ</span>
+            <p className="text-[11px] text-[#6E6B64] mt-0.5">{t.footer.text}</p>
           </div>
           <div className="flex items-center gap-4 text-[11px]">
-            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="text-slate-300 hover:text-brand-blue transition-colors cursor-pointer font-medium">{ru.footer.toTop}</button>
+            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="text-[#6E6B64] hover:text-[#141413] transition-colors cursor-pointer font-medium">{t.footer.toTop}</button>
           </div>
         </div>
       </footer>
 
       <Suspense fallback={null}>
         <SearchModal />
-      </Suspense>
-      <Suspense fallback={null}>
-        <CitationModal />
       </Suspense>
     </div>
   );

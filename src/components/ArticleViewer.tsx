@@ -4,16 +4,10 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
-import rehypeSanitize from 'rehype-sanitize';
 import {
   ChevronRight,
   BookOpen,
   Quote,
-  Share2,
-  Printer,
-  Tag,
-  Clock,
-  Calendar,
   Layers,
   ArrowLeft,
   ExternalLink,
@@ -21,24 +15,24 @@ import {
   Info,
   CheckCircle2,
   AlertTriangle,
-  HelpCircle as HelpIcon,
   Scale,
-  PanelLeft,
-  ListTree,
+  Sparkles,
   X,
-
+  ZoomIn,
+  List,
+  ArrowUp,
+  ArrowDown,
+  Activity
 } from 'lucide-react';
-import { TableOfContents, TocItem } from './TableOfContents';
-import { CategoryTreePanel } from './CategoryTreePanel';
-import { StepTabs, stepSlug, classifyStep } from './StepTabs';
 import { parseFrontmatter } from '../lib/markdown';
 import { MODULES_CACHE, getStaticArticles, resolveArticlePath } from '../lib/articles';
-import { EvidenceBadge, EditorialStatusBlock, markdownSanitizeSchema } from './ArticleBlocks';
-import { CATEGORY_MAP_RU } from '../data/categories';
+import { useLanguage } from '../i18n/LanguageContext';
+import { ARTICLE_TRANSLATIONS_EN } from '../lib/articleTranslations';
+import { translateMarkdownToEnglish } from '../lib/translateMarkdown';
+import { CATEGORY_MAP_RU, CATEGORY_MAP_EN } from '../data/categories';
 import { ArticleMetadata, ReferenceItem } from '../types';
 import { annotateTextWithGlossary } from './GlossaryTooltip';
 import { normalizeDoi, formatDoiUrl } from '../lib/doi';
-import { ru } from '../i18n/ru';
 
 declare global {
   interface Window {
@@ -48,13 +42,147 @@ declare global {
   }
 }
 
+export interface TocItem {
+  id: string;
+  text: string;
+  level: 2 | 3;
+}
+
+function slugifyHeading(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/\{#.*?\}/g, '')
+    .replace(/[*_`]/g, '')
+    .replace(/[^\w\u0400-\u04FF\s-]/g, '')
+    .replace(/[\s_]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'section';
+}
+
 interface ArticleViewerProps {
   path: string;
   onBack: () => void;
 }
 
-// Helper to extract citation info from a React node representing <sup><a>...</a></sup>
-function extractCitationInfo(node: React.ReactNode): { num: number; href: string; id?: string; element: React.ReactElement } | null {
+export interface ReferenceInfo {
+  id: string;
+  num?: number;
+  authors?: string;
+  year?: string | number;
+  title?: string;
+  journal?: string;
+  book?: string;
+  doi?: string;
+  isbn?: string;
+  rawText?: string;
+}
+
+export function parseFootnoteDefinitions(rawText: string): Map<string, ReferenceInfo> {
+  const map = new Map<string, ReferenceInfo>();
+  if (!rawText) return map;
+
+  const regex = /^\[\^([^\]]+)\]:\s*([\s\S]*?)(?=\n\[\^|\n##|\n---|\Z)/gm;
+  let match;
+  let autoIndex = 1;
+
+  while ((match = regex.exec(rawText)) !== null) {
+    const rawId = match[1].trim();
+    const content = match[2].trim().replace(/\s+/g, ' ');
+
+    let authors: string | undefined;
+    let year: string | undefined;
+    let title: string | undefined;
+    let publication: string | undefined;
+    let doi: string | undefined;
+
+    const doiMatch = content.match(/10\.\d{4,9}\/[-._;()/:A-Za-z0-9]+/);
+    if (doiMatch) {
+      doi = doiMatch[0];
+    }
+
+    const apaMatch = content.match(/^([^()]+)\s*\(([12][0-9]{3}[a-z]?)\)\.?\s*([^.]+)\.?\s*(.*)$/);
+    if (apaMatch) {
+      authors = apaMatch[1].trim();
+      year = apaMatch[2].trim();
+      title = apaMatch[3].trim().replace(/^\*+|\*+$/g, '');
+      publication = apaMatch[4].trim();
+    } else {
+      title = content;
+    }
+
+    const refInfo: ReferenceInfo = {
+      id: rawId,
+      num: autoIndex,
+      authors,
+      year,
+      title: title || content,
+      journal: publication,
+      doi,
+      rawText: content
+    };
+
+    map.set(rawId, refInfo);
+    map.set(rawId.toLowerCase(), refInfo);
+    map.set(rawId.replace(/^ref_/, ''), refInfo);
+    map.set(String(autoIndex), refInfo);
+    map.set(`ref_${autoIndex}`, refInfo);
+    autoIndex++;
+  }
+
+  return map;
+}
+
+function extractNodeText(node: any): string {
+  if (!node) return '';
+  if (typeof node === 'string') return node;
+  if (typeof node === 'number') return String(node);
+  if (Array.isArray(node)) return node.map(extractNodeText).join('');
+  if (React.isValidElement(node)) return extractNodeText((node.props as any)?.children);
+  return '';
+}
+
+const TAXON_REGEX = /\b((?:Deinotherium|Prodeinotherium|Chilgatherium|Elephas|Loxodonta|Mammuthus|Palaeoloxodon|Stegodon|Stegolophodon|Gomphotherium|Platybelodon|Amebelodon|Mammut|Cuvieronius|Notiomastodon|Anancus|Moeritherium|Barytherium|Numidotherium|Phosphatherium|Eritherium|Phiomia|Choerolophodon|Sinomastodon|Zygolophodon|Eozygodon|Stegotetrabelodon|Primelephas|Hesperoloxodon|Dugong|Trichechus|Procavia|Heterohyrax|Dendrohyrax|Hydrodamalis|Clostridium)(?:\s+[a-z]{3,20}(?:\s+[a-z]{3,20})?)?|Elephantidae|Elephantinae|Deinotheriidae|Gomphotheriidae|Mammutidae|Stegodontidae|Proboscidea|Sirenia|Afrotheria)\b/g;
+
+export function formatTaxaInText(text: string): React.ReactNode[] {
+  if (!text || typeof text !== 'string') return [text];
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  const regex = new RegExp(TAXON_REGEX);
+
+  while ((match = regex.exec(text)) !== null) {
+    const matchedTaxon = match[1];
+    const matchIndex = match.index;
+
+    if (matchIndex > lastIndex) {
+      parts.push(text.slice(lastIndex, matchIndex));
+    }
+
+    parts.push(
+      <em key={`taxon-${matchIndex}-${matchedTaxon}`} className="italic font-serif font-normal text-[#1E4631]">
+        {matchedTaxon}
+      </em>
+    );
+
+    lastIndex = matchIndex + matchedTaxon.length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : [text];
+}
+
+interface CitationInfo {
+  num: number;
+  href: string;
+  id?: string;
+  rawKey: string;
+  element: React.ReactElement;
+}
+
+function extractCitationInfo(node: React.ReactNode): CitationInfo | null {
   if (!React.isValidElement(node)) return null;
 
   const nodeProps = node.props as any;
@@ -83,55 +211,63 @@ function extractCitationInfo(node: React.ReactNode): { num: number; href: string
   if (!href.startsWith('#')) return null;
 
   const numMatch = href.match(/fn-([0-9]+)/) || (typeof aProps.children === 'string' ? aProps.children.match(/([0-9]+)/) : null);
-  if (!numMatch) return null;
+  const rawKey = href.replace(/^#/, '').replace(/^user-content-fn-/, '').replace(/^fn-/, '');
 
-  const num = parseInt(numMatch[1], 10);
-  if (isNaN(num)) return null;
+  if (!numMatch && !rawKey) return null;
+
+  const num = numMatch ? parseInt(numMatch[1], 10) : 1;
 
   return {
-    num,
+    num: isNaN(num) ? 1 : num,
     href,
     id: aProps.id,
+    rawKey,
     element: aElement
   };
 }
 
-// Groups consecutive citation <sup> elements and collapses sequences (e.g. [8, 9, 10, 212, 214] => [8–10, 212, 214])
-function collapseCitationNodes(nodes: React.ReactNode[], footnoteMap?: Record<string, string>): React.ReactNode[] {
-  const result: React.ReactNode[] = [];
-  let currentGroup: Array<{
-    node: React.ReactElement;
-    element: React.ReactElement;
-    num: number;
-    href: string;
-    id?: string;
-  }> = [];
+export interface CitationTriggerData {
+  num: number;
+  rawKey: string;
+  href: string;
+  rect: DOMRect;
+}
 
-  // Wraps a single citation <sup> node into a .cite-ref span with a hover
-  // tooltip showing the footnote source text (DOI-aware), when available.
-  const withTooltip = (node: React.ReactElement, num: number): React.ReactNode => {
-    const note = footnoteMap?.[String(num)];
-    if (!note) return node;
-    const doiMatch = note.match(/10\.\d{4,9}\/[^\s)\],]+/);
+function collapseCitationNodes(
+  nodes: React.ReactNode[],
+  onTrigger?: (data: CitationTriggerData) => void,
+  onHoverEnd?: () => void
+): React.ReactNode[] {
+  const result: React.ReactNode[] = [];
+  let currentGroup: Array<CitationInfo> = [];
+  let groupIndex = 0;
+
+  const makeCitationBadge = (item: CitationInfo, key: string, displayLabel?: string) => {
     return (
-      <span key={`cite-ref-${num}`} className="cite-ref inline-flex" tabIndex={0}>
-        {node}
-        <span role="tooltip" className="cite-tooltip">
-          <span className="block font-semibold text-brand-blue mb-0.5">[{num}]</span>
-          <span className="line-clamp-4">{note}</span>
-          {doiMatch && (
-            <a
-              href={`https://doi.org/${doiMatch[0]}`}
-              target="_blank"
-              rel="noreferrer"
-              className="block mt-1 pt-1 border-t border-white/10 text-brand-blue hover:underline font-mono text-[10px]"
-              onClick={(e) => e.stopPropagation()}
-            >
-              DOI: {doiMatch[0]} ↗
-            </a>
-          )}
-        </span>
-      </span>
+      <button
+        key={key}
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (onTrigger) {
+            const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+            onTrigger({ num: item.num, rawKey: item.rawKey, href: item.href, rect });
+          }
+        }}
+        onMouseEnter={(e) => {
+          if (onTrigger) {
+            const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+            onTrigger({ num: item.num, rawKey: item.rawKey, href: item.href, rect });
+          }
+        }}
+        onMouseLeave={onHoverEnd}
+        className="font-mono font-semibold px-0.5 py-0.5 rounded-none text-[11px] text-[#1E4631] hover:text-[#141413] hover:bg-[#1E4631]/10 transition-all cursor-pointer leading-none"
+        title={`Источник [${item.num}]`}
+        aria-label={`Источник [${item.num}]`}
+      >
+        {displayLabel || item.num}
+      </button>
     );
   };
 
@@ -139,17 +275,25 @@ function collapseCitationNodes(nodes: React.ReactNode[], footnoteMap?: Record<st
     if (currentGroup.length === 0) return;
 
     if (currentGroup.length === 1) {
-      const only = currentGroup[0];
-      result.push(withTooltip(only.node, only.num));
+      const single = currentGroup[0];
+      result.push(
+        <sup
+          key={`cite-single-${single.num}-${result.length}`}
+          className="inline-flex items-center text-[11px] font-mono font-medium px-1.5 py-0.5 mx-0.5 rounded-none bg-[#EFECE6] border border-[#DFDCD4] text-[#1E4631] select-none align-super hover:border-[#141413] transition-all"
+        >
+          <span className="text-[#6E6B64] font-bold mr-0.5">[</span>
+          {makeCitationBadge(single, `single-badge-${single.num}`)}
+          <span className="text-[#6E6B64] font-bold ml-0.5">]</span>
+        </sup>
+      );
       currentGroup = [];
       return;
     }
 
-    // Sort citations by reference number
+    groupIndex += 1;
     const sorted = [...currentGroup].sort((a, b) => a.num - b.num);
 
-    // Group into consecutive number ranges
-    const ranges: Array<Array<{ node: React.ReactElement; element: React.ReactElement; num: number; href: string; id?: string }>> = [];
+    const ranges: Array<Array<CitationInfo>> = [];
     let curRange = [sorted[0]];
 
     for (let i = 1; i < sorted.length; i++) {
@@ -167,38 +311,37 @@ function collapseCitationNodes(nodes: React.ReactNode[], footnoteMap?: Record<st
     const badgeElements: React.ReactNode[] = [];
     ranges.forEach((range, rIdx) => {
       if (rIdx > 0) {
-        badgeElements.push(<span key={`sep-${rIdx}`} className="text-brand-blue/50 mx-0.5 font-bold">, </span>);
+        badgeElements.push(<span key={`sep-${groupIndex}-${rIdx}`} className="text-[#6E6B64] mx-0.5 font-bold">, </span>);
       }
 
       if (range.length >= 3) {
         const start = range[0];
         const end = range[range.length - 1];
         badgeElements.push(
-          <span key={`range-${start.num}-${end.num}`} className="inline-flex items-center">
-            {withTooltip(React.cloneElement(start.element, { key: `cite-${start.num}` }), start.num)}
-            <span className="text-brand-blue/70 px-0.5 font-bold">–</span>
-            {withTooltip(React.cloneElement(end.element, { key: `cite-${end.num}` }), end.num)}
+          <span key={`range-${groupIndex}-${start.num}-${end.num}`} className="inline-flex items-center">
+            {makeCitationBadge(start, `range-start-${groupIndex}-${start.num}`)}
+            <span className="text-[#6E6B64] px-0.5 font-bold">–</span>
+            {makeCitationBadge(end, `range-end-${groupIndex}-${end.num}`)}
           </span>
         );
       } else {
         range.forEach((item, itemIdx) => {
           if (itemIdx > 0) {
-            badgeElements.push(<span key={`sep-inner-${rIdx}-${itemIdx}`} className="text-brand-blue/50 mx-0.5 font-bold">, </span>);
+            badgeElements.push(<span key={`sep-inner-${groupIndex}-${rIdx}-${itemIdx}`} className="text-[#6E6B64] mx-0.5 font-bold">, </span>);
           }
-          badgeElements.push(withTooltip(React.cloneElement(item.element, { key: `cite-${item.num}-${itemIdx}` }), item.num));
+          badgeElements.push(makeCitationBadge(item, `badge-${groupIndex}-${item.num}-${itemIdx}`));
         });
       }
     });
 
     result.push(
       <sup
-        key={`grouped-sup-${currentGroup.map(g => g.num).join('-')}`}
-        id={`group-${currentGroup.map(g => g.num).join('-')}`}
-        className="inline-flex items-center text-[11px] font-mono font-medium px-1.5 py-0.5 mx-1 rounded-md bg-brand-blue/15 border border-brand-blue/30 text-brand-blue select-none align-super hover:bg-brand-blue/25 transition-colors"
+        key={`grouped-sup-${currentGroup.map(g => g.num).join('-')}-${groupIndex}-${result.length}`}
+        className="inline-flex items-center text-[11px] font-mono font-medium px-1.5 py-0.5 mx-0.5 rounded-none bg-[#EFECE6] border border-[#DFDCD4] text-[#1E4631] select-none align-super hover:border-[#141413] transition-all"
       >
-        <span className="text-brand-blue/60 font-bold mr-0.5">[</span>
+        <span className="text-[#6E6B64] font-bold mr-0.5">[</span>
         {badgeElements}
-        <span className="text-brand-blue/60 font-bold ml-0.5">]</span>
+        <span className="text-[#6E6B64] font-bold ml-0.5">]</span>
       </sup>
     );
 
@@ -214,13 +357,7 @@ function collapseCitationNodes(nodes: React.ReactNode[], footnoteMap?: Record<st
 
     const citeInfo = extractCitationInfo(child);
     if (citeInfo) {
-      currentGroup.push({
-        node: child as React.ReactElement,
-        element: citeInfo.element,
-        num: citeInfo.num,
-        href: citeInfo.href,
-        id: citeInfo.id
-      });
+      currentGroup.push(citeInfo);
     } else {
       flushGroup();
       result.push(child);
@@ -231,24 +368,6 @@ function collapseCitationNodes(nodes: React.ReactNode[], footnoteMap?: Record<st
   return result;
 }
 
-// Extracts footnote definitions [^n]: text from raw markdown body into a plain
-// map, so citation superscripts can show hover tooltips with the source text.
-export function extractFootnoteDefinitions(markdownBody: string): Record<string, string> {
-  const map: Record<string, string> = {};
-  const re = /^\[\^(\d+)\]:\s*([\s\S]*?)(?=\n\[\^\d+\]:|\n#{1,3}\s|$)/gm;
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(markdownBody)) !== null) {
-    map[m[1]] = m[2]
-      .replace(/\n\s{2,}/g, ' ')
-      .replace(/\[\^(\d+)\]/g, '')
-      .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1')
-      .replace(/`([^`]+)`/g, '$1')
-      .trim();
-  }
-  return map;
-}
-
-// Helpers for consolidating footnote backrefs at the bottom of the article
 function isBackrefElement(child: React.ReactNode): boolean {
   if (!React.isValidElement(child)) return false;
   const props = (child.props as any) || {};
@@ -276,14 +395,12 @@ function collectBackrefElements(content: React.ReactNode, accumulator: React.Rea
   return accumulator;
 }
 
-function consolidateFootnoteItem(content: React.ReactNode): React.ReactNode {
+function consolidateFootnoteItem(content: React.ReactNode, isEn: boolean): React.ReactNode {
   if (!content) return content;
 
-  // Extract all backref elements found inside this footnote item
   const allBackrefs = collectBackrefElements(content);
   if (allBackrefs.length === 0) return content;
 
-  // Helper to handle smooth scroll & highlight
   const handleJumpToMention = (e: React.MouseEvent, originalHref: string) => {
     if (originalHref.startsWith('#')) {
       e.preventDefault();
@@ -300,30 +417,27 @@ function consolidateFootnoteItem(content: React.ReactNode): React.ReactNode {
         const targetSup = targetEl.closest('sup') || targetEl;
         targetSup.classList.add(
           'ring-2',
-          'ring-kingdom-gold',
-          'bg-brand-blue/30',
-          'shadow-[0_0_16px_rgba(212,175,55,0.7)]'
+          'ring-[#1E4631]',
+          'bg-[#1E4631]/20'
         );
         const parentParagraph = targetEl.closest('p');
         if (parentParagraph) {
-          parentParagraph.classList.add('bg-brand-blue/10', 'ring-1', 'ring-kingdom-gold/30', 'rounded-lg');
+          parentParagraph.classList.add('bg-[#1E4631]/10', 'ring-1', 'ring-[#1E4631]/30');
         }
         setTimeout(() => {
           targetSup.classList.remove(
             'ring-2',
-            'ring-kingdom-gold',
-            'bg-brand-blue/30',
-            'shadow-[0_0_16px_rgba(212,175,55,0.7)]'
+            'ring-[#1E4631]',
+            'bg-[#1E4631]/20'
           );
           if (parentParagraph) {
-            parentParagraph.classList.remove('bg-brand-blue/10', 'ring-1', 'ring-kingdom-gold/30', 'rounded-lg');
+            parentParagraph.classList.remove('bg-[#1E4631]/10', 'ring-1', 'ring-[#1E4631]/30');
           }
         }, 2500);
       }
     }
   };
 
-  // Filter out original backrefs
   const removeBackrefs = (node: React.ReactNode): React.ReactNode => {
     if (!node) return node;
     if (Array.isArray(node)) {
@@ -345,18 +459,17 @@ function consolidateFootnoteItem(content: React.ReactNode): React.ReactNode {
 
   const cleanedContent = removeBackrefs(content);
 
-  // Single mention: clean compact arrow
   if (allBackrefs.length === 1) {
     const originalHref = (allBackrefs[0].props as any)?.href || '';
     return (
-      <div className="w-full text-xs text-gray-300 leading-relaxed">
+      <div className="w-full text-xs text-[#141413] leading-relaxed">
         <span className="inline leading-relaxed break-words">{cleanedContent}</span>
         <a
           href={originalHref}
           data-footnote-backref="true"
-          title="Перейти к месту цитирования в тексте статьи"
+          title={isEn ? 'Jump to cited location in article text' : 'Перейти к месту цитирования в тексте статьи'}
           onClick={(e) => handleJumpToMention(e, originalHref)}
-          className="inline-flex items-center justify-center w-5 h-5 ml-2 text-brand-blue hover:text-amber-200 font-sans text-xs font-bold rounded bg-brand-blue/15 hover:bg-brand-blue/25 border border-brand-blue/40 hover:border-brand-blue/60 shadow-xs transition-all duration-150 cursor-pointer no-underline select-none align-middle"
+          className="inline-flex items-center justify-center w-5 h-5 ml-2 text-[#1E4631] hover:text-[#141413] font-sans text-xs font-bold rounded-none bg-[#EFECE6] hover:bg-[#DFDCD4] border border-[#DFDCD4] transition-all cursor-pointer no-underline select-none align-middle"
         >
           ↑
         </a>
@@ -364,12 +477,11 @@ function consolidateFootnoteItem(content: React.ReactNode): React.ReactNode {
     );
   }
 
-  // Multiple mentions: compact numbered badges row with a single arrow prefix
   return (
-    <div className="w-full text-xs text-gray-300 leading-relaxed">
+    <div className="w-full text-xs text-[#141413] leading-relaxed">
       <span className="inline leading-relaxed break-words">{cleanedContent}</span>
       <span className="inline-flex flex-wrap items-center gap-1 text-xs ml-2 select-none align-middle py-0.5">
-        <span className="text-brand-blue font-bold text-xs select-none mr-0.5">↑</span>
+        <span className="text-[#1E4631] font-bold text-xs select-none mr-0.5">↑</span>
         {allBackrefs.map((br, idx) => {
           const originalHref: string = (br.props as any)?.href || '';
           return (
@@ -377,9 +489,9 @@ function consolidateFootnoteItem(content: React.ReactNode): React.ReactNode {
               key={`backref-num-${idx}`}
               href={originalHref}
               data-footnote-backref="true"
-              title={`Перейти к месту цитирования #${idx + 1} в тексте статьи`}
+              title={isEn ? `Jump to mention #${idx + 1} in article text` : `Перейти к месту цитирования #${idx + 1} в тексте статьи`}
               onClick={(e) => handleJumpToMention(e, originalHref)}
-              className="inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded bg-brand-blue/15 hover:bg-brand-blue/30 border border-brand-blue/40 hover:border-brand-blue/70 text-brand-blue hover:text-amber-100 font-mono text-[11px] font-bold shadow-xs transition-all duration-150 cursor-pointer no-underline"
+              className="inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded-none bg-[#EFECE6] hover:bg-[#DFDCD4] border border-[#DFDCD4] text-[#1E4631] hover:text-[#141413] font-mono text-[11px] font-bold transition-all cursor-pointer no-underline"
             >
               {idx + 1}
             </a>
@@ -391,31 +503,32 @@ function consolidateFootnoteItem(content: React.ReactNode): React.ReactNode {
 }
 
 export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
+  const { t, lang, isEn } = useLanguage();
+  const [content, setContent] = useState<string>('');
   const [rawContent, setRawContent] = useState<string>('');
   const [meta, setMeta] = useState<ArticleMetadata>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
-  const [readProgress, setReadProgress] = useState(0);
-  // Мобильные drawer-панели (левая навигация рубрики / правое оглавление)
-  const [leftDrawerOpen, setLeftDrawerOpen] = useState(false);
-  const [tocDrawerOpen, setTocDrawerOpen] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState<{ src: string; alt?: string } | null>(null);
+  const [readingProgress, setReadingProgress] = useState<number>(0);
+  const [activeHeadingId, setActiveHeadingId] = useState<string>('');
+  const [mobileTocOpen, setMobileTocOpen] = useState<boolean>(false);
+  const [mobileArticlesOpen, setMobileArticlesOpen] = useState<boolean>(false);
 
-  // Прогресс прочтения статьи (для градиентного прогресс-бара)
   useEffect(() => {
-    const onScroll = () => {
-      const doc = document.documentElement;
-      const total = doc.scrollHeight - window.innerHeight;
-      setReadProgress(total > 0 ? Math.min(100, Math.max(0, (window.scrollY / total) * 100)) : 0);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setLightboxImage(null);
+        setMobileTocOpen(false);
+        setMobileArticlesOpen(false);
+      }
     };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const categoryDict = CATEGORY_MAP_RU;
+  const categoryDict = isEn ? CATEGORY_MAP_EN : CATEGORY_MAP_RU;
 
-  // Extracted structured sections (raw Russian)
   const [rawKeyFindings, setRawKeyFindings] = useState<string | null>(null);
   const [rawUncertainty, setRawUncertainty] = useState<{ known?: string; probable?: string; unknown?: string } | null>(null);
   const [rawCleanBody, setRawCleanBody] = useState<string>('');
@@ -423,10 +536,12 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   const safePath = path.endsWith('.md') ? path : `${path}.md`;
   const cleanPath = safePath.replace(/^\//, '');
   const pathPart = cleanPath.replace(/\.md$/, '');
-  // Neighbor articles (prev / next) computed dynamically from lang and path
+  const translationKey = pathPart.replace(/^docs\//, '');
+  const translationData = ARTICLE_TRANSLATIONS_EN[translationKey];
+
   const { prevArticle, nextArticle } = useMemo(() => {
     try {
-      const allArticles = getStaticArticles();
+      const allArticles = getStaticArticles(lang);
       const sorted = [...allArticles].sort((a, b) => {
         if (a.category === b.category) {
           return a.title.localeCompare(b.title);
@@ -449,12 +564,11 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
       console.warn('Failed to compute neighbor articles:', e);
     }
     return { prevArticle: null, nextArticle: null };
-  }, [pathPart]);
+  }, [lang, pathPart]);
 
-  // Related articles computed dynamically from lang, meta, and path
-    const relatedArticles = useMemo(() => {
+  const relatedArticles = useMemo(() => {
     try {
-      const allArticles = getStaticArticles();
+      const allArticles = getStaticArticles(lang);
       const categoryMatches = allArticles.filter(
         a => a.category?.toLowerCase() === meta.category?.toLowerCase() &&
              a.path.replace(/\.md$/, '') !== pathPart
@@ -476,25 +590,21 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
     } catch {
       return [];
     }
-  }, [meta.category, meta.tags, pathPart]);
+  }, [lang, meta.category, meta.tags, pathPart]);
 
-
-  // Load raw article markdown content only on path changes
   useEffect(() => {
     setLoading(true);
     setError(null);
 
     try {
-      const sourceCache = MODULES_CACHE;
-      const moduleKeys = Object.keys(sourceCache);
+      const moduleKeys = Object.keys(MODULES_CACHE);
       const matchedKey = resolveArticlePath(path, moduleKeys);
 
-      if (matchedKey && sourceCache[matchedKey]) {
-        const contentObj = sourceCache[matchedKey];
+      if (matchedKey && MODULES_CACHE[matchedKey]) {
+        const contentObj = MODULES_CACHE[matchedKey];
         const textContent = typeof contentObj === 'string' ? contentObj : (contentObj as { default?: string }).default || '';
         const { metadata, content: rawMd } = parseFrontmatter(textContent);
 
-        // 1. Extract and separate Key Findings
         let processedContent = rawMd;
         let extractedKeyFindings: string | null = null;
         const keyFindingsMatch = processedContent.match(/##\s*(?:📊\s*)?(?:Ключевые сведения|Ключевые показатели|Ключевые метрики|Ключевые палеонтологические метрики|Ключевые геномные|Key Insights|Key Findings|Key Metrics)[^\n]*\n([\s\S]*?)(?=\n##|\Z)/i);
@@ -503,7 +613,6 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           processedContent = processedContent.replace(keyFindingsMatch[0], '');
         }
 
-        // 2. Extract Uncertainty block
         let extractedUncertainty: { known?: string; probable?: string; unknown?: string } | null = null;
         const uncertaintyMatch = processedContent.match(/##\s*(?:⚖️\s*)?(?:Научная неопределённость|Границы научного знания|Неопределённость|Scientific Uncertainty|Epistemic Status)[^\n]*\n([\s\S]*?)(?=\n##|\Z)/i);
         if (uncertaintyMatch) {
@@ -522,16 +631,15 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           processedContent = processedContent.replace(uncertaintyMatch[0], '');
         }
 
-        // 3. Remove H1 header if duplicating meta.title
         processedContent = processedContent.replace(/^#\s+[^\n]+\n+/, '');
 
-        // 4. Clean related knowledge section (rendered natively)
         const relatedSectionMatch = processedContent.match(/##\s*(?:Связанные знания|Связанные материалы|Связанные темы|Related Topics|Related Articles)[^\n]*\n([\s\S]*?)(?=\n##|\Z)/i);
         if (relatedSectionMatch) {
           processedContent = processedContent.replace(relatedSectionMatch[0], '');
         }
 
-        // 5. Remove redundant empty "## Литература" header before footnote definitions to avoid empty orphaned header
+        processedContent = processedContent.replace(/>\s*\*\*Уровень доказательности:\*\*\s*\[[^\]]+\]\s*\n?/gi, '');
+        processedContent = processedContent.replace(/>\s*\*\*Evidence Level:\*\*\s*\[[^\]]+\]\s*\n?/gi, '');
         processedContent = processedContent.replace(/##\s*(?:📚\s*)?(?:Литература|Список литературы|Библиография|References|Bibliography)[^\n]*\s*(?=\n\s*\[\^|\n*$)/gi, '');
 
         setMeta(metadata);
@@ -552,134 +660,339 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
     }
   }, [path]);
 
-  // Derived translated content
   const displayTitle = useMemo(() => {
+    if (isEn && translationData?.title) {
+      return translationData.title;
+    }
     return meta.title || '';
-  }, [meta.title]);
+  }, [isEn, translationData, meta.title]);
 
   const displayExcerpt = useMemo(() => {
-    return meta.excerpt || '';
-  }, [meta.excerpt]);
-
-  const displayTags: string[] = useMemo(() => {
-    return (meta.tags || []) as string[];
-  }, [meta.tags]);
-
-  const displayKeyFindings = useMemo(() => rawKeyFindings, [rawKeyFindings]);
-
-  const displayUncertainty = useMemo(() => rawUncertainty, [rawUncertainty]);
-
-  const displayCleanBody = useMemo(() => rawCleanBody, [rawCleanBody]);
-
-  // StepTabs: шаги урока из заголовков h2 чистого тела статьи (контент не меняется)
-  const lessonSteps = useMemo(() => {
-    const seen = new Set<string>();
-    const steps: { id: string; title: string; kind: ReturnType<typeof classifyStep> }[] = [];
-    for (const line of displayCleanBody.split('\n')) {
-      const m = /^##\s+(.+?)\s*#*\s*$/.exec(line);
-      if (!m) continue;
-      const title = m[1].replace(/[*_`]/g, '').trim();
-      if (!title) continue;
-      let id = stepSlug(title);
-      if (seen.has(id)) id = `${id}-${steps.length}`;
-      seen.add(id);
-      steps.push({ id, title, kind: classifyStep(title) });
+    if (isEn && translationData?.excerpt) {
+      return translationData.excerpt;
     }
-    return steps;
-  }, [displayCleanBody]);
+    return meta.excerpt || '';
+  }, [isEn, translationData, meta.excerpt]);
 
-  // Полный TOC (h2 + h3) для правой sticky-колонки с scroll-spy подсветкой
+  const displayKeyFindings = useMemo(() => {
+    if (!rawKeyFindings) return null;
+    return isEn ? translateMarkdownToEnglish(rawKeyFindings) : rawKeyFindings;
+  }, [isEn, rawKeyFindings]);
+
+  const displayUncertainty = useMemo(() => {
+    if (!rawUncertainty) return null;
+    if (!isEn) return rawUncertainty;
+    return {
+      known: rawUncertainty.known ? translateMarkdownToEnglish(rawUncertainty.known) : undefined,
+      probable: rawUncertainty.probable ? translateMarkdownToEnglish(rawUncertainty.probable) : undefined,
+      unknown: rawUncertainty.unknown ? translateMarkdownToEnglish(rawUncertainty.unknown) : undefined
+    };
+  }, [isEn, rawUncertainty]);
+
+  const displayCleanBody = useMemo(() => {
+    if (!rawCleanBody) return '';
+    return isEn ? translateMarkdownToEnglish(rawCleanBody) : rawCleanBody;
+  }, [isEn, rawCleanBody]);
+
+  const categoryArticles = useMemo(() => {
+    if (!meta.category) return [];
+    const catKey = meta.category.toLowerCase();
+    const all = getStaticArticles(lang);
+    return all.filter(a => a.category?.toLowerCase() === catKey);
+  }, [lang, meta.category]);
+
   const tocItems: TocItem[] = useMemo(() => {
+    if (!displayCleanBody) return [];
+    const lines = displayCleanBody.split('\n');
     const items: TocItem[] = [];
-    const seen = new Set<string>();
-    let lastH2Slug = '';
-    for (const line of displayCleanBody.split('\n')) {
-      const m2 = /^##(?!#)\s+(.+?)\s*#*\s*$/.exec(line);
-      const m3 = /^###\s+(.+?)\s*#*\s*$/.exec(line);
-      if (m2) {
-        const title = m2[1].replace(/[*_`]/g, '').replace(/^[\p{Emoji_Presentation}\p{Extended_Pictographic}\uFE0F\u200D\d.]+\s*/u, '').trim();
-        if (!title) continue;
-        let id = stepSlug(title);
-        if (seen.has(id)) id = `${id}-${items.length}`;
-        seen.add(id);
-        lastH2Slug = id;
-        items.push({ id, title, level: 2 });
-      } else if (m3) {
-        const title = m3[1].replace(/[*_`]/g, '').trim();
-        if (!title) continue;
-        let id = `${lastH2Slug || 'sec'}--${stepSlug(title)}`;
-        if (seen.has(id)) id = `${id}-${items.length}`;
-        seen.add(id);
-        items.push({ id, title, level: 3 });
+    const counts = new Map<string, number>();
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      const h2Match = trimmed.match(/^##\s+([^#].*)$/);
+      const h3Match = trimmed.match(/^###\s+([^#].*)$/);
+
+      if (h2Match || h3Match) {
+        const isH2 = Boolean(h2Match);
+        const rawText = (isH2 ? h2Match![1] : h3Match![1])
+          .replace(/\{#.*?\}/g, '')
+          .replace(/[*_`]/g, '')
+          .trim();
+
+        if (!rawText) continue;
+        const baseSlug = slugifyHeading(rawText);
+        const count = counts.get(baseSlug) || 0;
+        counts.set(baseSlug, count + 1);
+        const id = count > 0 ? `${baseSlug}-${count}` : baseSlug;
+
+        items.push({
+          id,
+          text: rawText,
+          level: isH2 ? 2 : 3
+        });
       }
     }
     return items;
   }, [displayCleanBody]);
 
-  // Закрытие drawer-панелей при смене статьи
   useEffect(() => {
-    setLeftDrawerOpen(false);
-    setTocDrawerOpen(false);
-  }, [path]);
+    const handleScroll = () => {
+      const el = document.documentElement;
+      const totalHeight = el.scrollHeight - window.innerHeight;
+      if (totalHeight <= 0) {
+        setReadingProgress(0);
+        return;
+      }
+      const currentScroll = window.scrollY;
+      const progress = Math.min(100, Math.max(0, (currentScroll / totalHeight) * 100));
+      setReadingProgress(progress);
+    };
 
-  // Set document title and window metadata
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const headingElements = Array.from(document.querySelectorAll<HTMLElement>('.academic-article-prose h2, .academic-article-prose h3'));
+    headingElements.forEach((el, index) => {
+      if (tocItems[index]) {
+        el.id = tocItems[index].id;
+        el.classList.add('scroll-mt-24');
+      }
+    });
+
+    const handleHeadingTracking = () => {
+      const scrollPosition = window.scrollY + 140;
+      let currentId = '';
+
+      for (const heading of headingElements) {
+        if (heading.offsetTop <= scrollPosition) {
+          currentId = heading.id;
+        } else {
+          break;
+        }
+      }
+
+      if (currentId) {
+        setActiveHeadingId(currentId);
+      } else if (headingElements[0]) {
+        setActiveHeadingId(headingElements[0].id);
+      }
+    };
+
+    window.addEventListener('scroll', handleHeadingTracking, { passive: true });
+    handleHeadingTracking();
+    return () => window.removeEventListener('scroll', handleHeadingTracking);
+  }, [tocItems, displayCleanBody]);
+
+  const scrollToHeading = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      setActiveHeadingId(id);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   useEffect(() => {
     if (displayTitle) {
-      document.title = `${displayTitle} — Слонология`;
+      document.title = `${displayTitle} — ${isEn ? 'Elephantology' : 'Слонология'}`;
       window.currentArticlePath = path;
     }
     return () => {
-      document.title = 'Слонология — Академическая энциклопедия';
+      document.title = isEn ? 'Elephantology — Academic Encyclopedia' : 'Слонология — Академическая энциклопедия';
     };
-  }, [displayTitle, path]);
+  }, [displayTitle, path, isEn]);
 
-  // Track annotated terms in current article to ensure each curated term is annotated only once
-  const seenGlossaryTerms = useMemo(() => new Set<string>(), [path]);
+  const seenGlossaryTerms = useMemo(() => new Set<string>(), [path, isEn]);
 
-  const handleShare = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+  const referenceMap = useMemo(() => {
+    const map = parseFootnoteDefinitions(rawContent);
+
+    if (Array.isArray(meta.references)) {
+      meta.references.forEach((item: ReferenceItem | string, idx: number) => {
+        const isString = typeof item === 'string';
+        const refObj: ReferenceItem = isString ? { id: `ref_${idx + 1}`, title: item } : item;
+        const safeId = refObj.id || `ref_${idx + 1}`;
+        const num = idx + 1;
+
+        const refInfo: ReferenceInfo = {
+          id: safeId,
+          num,
+          authors: refObj.authors,
+          year: refObj.year,
+          title: refObj.title,
+          journal: refObj.journal,
+          book: refObj.book,
+          doi: refObj.doi,
+          isbn: refObj.isbn,
+          rawText: typeof item === 'string' ? item : `${refObj.authors || ''} (${refObj.year || ''}). ${refObj.title}`
+        };
+
+        map.set(safeId, refInfo);
+        map.set(safeId.toLowerCase(), refInfo);
+        map.set(safeId.replace(/^ref_/, ''), refInfo);
+        map.set(String(num), refInfo);
+        map.set(`ref_${num}`, refInfo);
+      });
     }
-  };
 
-  const handleCite = () => {
-    const catName = categoryDict[meta.category?.toLowerCase() || ''] || meta.category || 'ОБЩАЯ БИОЛОГИЯ';
-    window.dispatchEvent(
-      new CustomEvent('openCitationModal', {
-        detail: {
-          title: displayTitle,
-          category: catName
+    return map;
+  }, [rawContent, meta.references]);
+
+  const [activeCitation, setActiveCitation] = useState<{
+    num: number;
+    rawKey: string;
+    href: string;
+    rect: DOMRect;
+    refInfo?: ReferenceInfo;
+  } | null>(null);
+
+  const closeTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleCitationTrigger = useCallback(
+    ({ num, rawKey, href, rect }: CitationTriggerData) => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+        closeTimeoutRef.current = null;
+      }
+      const refInfo =
+        referenceMap.get(rawKey) ||
+        referenceMap.get(String(num)) ||
+        referenceMap.get(`ref_${num}`) ||
+        referenceMap.get(rawKey.toLowerCase()) ||
+        referenceMap.get(rawKey.replace(/^ref_/, ''));
+
+      setActiveCitation({ num, rawKey, href, rect, refInfo });
+    },
+    [referenceMap]
+  );
+
+  const handleCitationHoverEnd = useCallback(() => {
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    closeTimeoutRef.current = setTimeout(() => {
+      setActiveCitation(null);
+    }, 250);
+  }, []);
+
+  const cancelCloseCitation = useCallback(() => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+  }, []);
+
+  const jumpToFootnote = useCallback((href: string) => {
+    const rawId = href.replace(/^#/, '');
+    const decodedId = decodeURIComponent(rawId);
+    const candidates = [
+      decodedId,
+      rawId,
+      `user-content-${decodedId}`,
+      `user-content-${rawId}`,
+      decodedId.replace(/^user-content-/, ''),
+      rawId.replace(/^user-content-/, '')
+    ];
+    let targetEl: HTMLElement | null = null;
+    for (const id of candidates) {
+      const el = document.getElementById(id);
+      if (el) {
+        targetEl = el;
+        break;
+      }
+    }
+    if (!targetEl) {
+      const digitsOnly = rawId.replace(/[^0-9]/g, '');
+      if (digitsOnly) {
+        targetEl = document.getElementById(`user-content-fn-${digitsOnly}`) || 
+                   document.getElementById(`fn-${digitsOnly}`) ||
+                   document.getElementById(`ref_${digitsOnly}`);
+      }
+    }
+
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      targetEl.classList.add(
+        'ring-2',
+        'ring-[#1E4631]',
+        'bg-[#1E4631]/20'
+      );
+      setTimeout(() => {
+        targetEl?.classList.remove(
+          'ring-2',
+          'ring-[#1E4631]',
+          'bg-[#1E4631]/20'
+        );
+      }, 2500);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (activeCitation) {
+        const tooltipEl = document.getElementById('citation-tooltip-popover');
+        if (tooltipEl && !tooltipEl.contains(e.target as Node)) {
+          setActiveCitation(null);
         }
-      })
-    );
-  };
+      }
+    };
 
-  const handlePrint = () => {
-    window.print();
-  };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setActiveCitation(null);
+      }
+    };
+
+    window.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('touchstart', handleClickOutside, { passive: true });
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('touchstart', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeCitation]);
 
   const navigateToArticle = useCallback((targetPath: string) => {
     if (!targetPath || !targetPath.trim()) return;
-    window.dispatchEvent(new CustomEvent('load-article', { detail: targetPath }));
+    if (window.loadArticle) {
+      window.loadArticle(targetPath);
+    } else {
+      window.dispatchEvent(new CustomEvent('load-article', { detail: targetPath }));
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
-
-  const handleTagClick = useCallback((tag: string) => {
-    window.dispatchEvent(new CustomEvent('toggle-search', { detail: { force: true, tag } }));
   }, []);
 
   if (loading) {
     return (
-      <div className="max-w-[720px] mx-auto py-12 space-y-6 animate-pulse">
-        <div className="h-4 bg-[#202330] rounded w-1/4"></div>
-        <div className="h-10 bg-[#202330] rounded w-5/6"></div>
-        <div className="h-4 bg-[#202330] rounded w-1/2"></div>
-        <div className="space-y-3 pt-8">
-          <div className="h-4 bg-[#202330] rounded w-full"></div>
-          <div className="h-4 bg-[#202330] rounded w-full"></div>
-          <div className="h-4 bg-[#202330] rounded w-4/5"></div>
+      <div className="w-full pb-24 animate-pulse bg-[#F6F5F0]">
+        <div className="sticky top-16 z-30 h-[3px] w-full bg-[#DFDCD4] overflow-hidden">
+          <div className="h-full w-1/4 bg-[#1E4631]/40" />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-12">
+          <div className="flex items-center justify-between gap-3 border-b border-[#DFDCD4] pb-4 mb-8">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-[#EFECE6]" />
+              <div className="h-3.5 w-24 bg-[#EFECE6]" />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <aside className="hidden lg:block lg:col-span-3 space-y-3">
+              <div className="p-4 bg-[#EFECE6] border border-[#DFDCD4]" />
+            </aside>
+            <main className="lg:col-span-6 w-full max-w-3xl mx-auto space-y-7">
+              <div className="h-8 bg-[#EFECE6] w-full" />
+              <div className="h-32 bg-[#EFECE6] border-l-4 border-[#1E4631]" />
+            </main>
+            <aside className="hidden lg:block lg:col-span-3 space-y-4">
+              <div className="p-4 bg-[#EFECE6] border border-[#DFDCD4]" />
+            </aside>
+          </div>
         </div>
       </div>
     );
@@ -687,241 +1000,146 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
 
   if (error || !meta.title) {
     return (
-      <div className="max-w-[720px] mx-auto text-center py-20 px-4">
-        <div className="inline-flex p-3 rounded-full bg-rose-950/40 border border-rose-900/40 text-rose-400 mb-4">
+      <div className="max-w-2xl mx-auto text-center py-20 px-4 bg-[#F6F5F0]">
+        <div className="inline-flex p-3 bg-[#EFECE6] border border-[#DFDCD4] text-[#141413] mb-4">
           <Info className="w-8 h-8" />
         </div>
-        <h2 className="text-xl font-bold text-slate-100 mb-2">
-          Статья не найдена
+        <h2 className="text-xl font-bold text-[#141413] mb-2 font-serif">
+          {isEn ? 'Article Not Found' : 'Статья не найдена'}
         </h2>
-        <p className="text-sm text-slate-300 mb-6">
-          Запрошенный академический материал не существует или был перемещён.
+        <p className="text-sm text-[#6E6B64] mb-6">
+          {isEn ? 'The requested academic material does not exist or has been moved.' : 'Запрошенный академический материал не существует или был перемещен.'}
         </p>
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#202330] text-brand-blue border border-white/10 hover:border-brand-blue/40 rounded-xl text-xs font-semibold hover:bg-[#282c3c] transition-all cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-[#EFECE6] text-[#141413] border border-[#DFDCD4] hover:border-[#141413] text-xs font-semibold transition-all cursor-pointer rounded-none"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>{ru.article.back}</span>
+          <span>{t.article.back}</span>
         </button>
       </div>
     );
   }
 
   const categoryKey = meta.category?.toLowerCase() || '';
-  const categoryTitle = categoryDict[categoryKey] || meta.category || 'Общая биология';
-  const readingTime = meta.readingTimeMin || 8;
-  const lastReviewedDate = meta.lastReviewed || '2026-08-28';
+  const categoryTitle = categoryDict[categoryKey] || meta.category || (isEn ? 'General Biology' : 'Общая биология');
   const referencesList = meta.references || [];
 
   return (
-    <article className="w-full pb-20 pt-2 selection:bg-brand-blue selection:text-white">
-
-      {/* Reading progress — контрастный градиентный прогресс-бар #0593C6 → #D83996 */}
-      <div
-        className="fixed top-16 left-0 right-0 z-[60] h-0.5 bg-transparent pointer-events-none"
-        aria-hidden
-      >
-        <div
-          className="progress-brand h-full transition-[width] duration-150 ease-out"
-          style={{ width: `${readProgress}%` }}
+    <article key={path} className="w-full pb-24 selection:bg-[#1E4631] selection:text-[#F6F5F0] relative animate-fade-in-content bg-[#F6F5F0]">
+      
+      {/* Reading Progress Bar */}
+      <div className="sticky top-16 z-30 h-[3px] w-full bg-[#DFDCD4] overflow-hidden">
+        <div 
+          className="h-full bg-[#1E4631] transition-all duration-150 ease-out"
+          style={{ width: `${readingProgress}%` }}
         />
       </div>
-      
-      {/* 1. Breadcrumbs & Top Navigation Bar (на всю ширину docs-контейнера) */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-        <div className="flex items-center justify-between gap-3 text-xs text-slate-300 border-b border-slate-700 pb-4 pt-2">
+
+      <div className="max-w-7xl mx-auto px-6 pt-6 pb-20">
+        
+        {/* Top Navigation Bar: Breadcrumbs only, no buttons */}
+        <div className="flex items-center justify-between gap-3 text-xs text-[#6E6B64] border-b border-[#DFDCD4] pb-4 mb-10">
           <nav aria-label="Breadcrumbs" className="flex items-center gap-1.5 flex-wrap min-w-0">
-            {/* Мобильная кнопка дерева рубрик (левая шторка) */}
-            <button
-              onClick={() => setLeftDrawerOpen(true)}
-              className="xl:hidden flex items-center gap-1 p-1.5 -ml-1.5 rounded-lg hover:bg-[#202330] hover:text-brand-blue border border-transparent transition-colors cursor-pointer"
-              aria-label="Открыть навигацию по рубрике"
-            >
-              <PanelLeft className="w-4 h-4" />
-            </button>
             <button
               onClick={onBack}
-              className="hover:text-brand-blue transition-colors flex items-center gap-1 font-medium cursor-pointer"
+              className="hover:text-[#1E4631] transition-colors flex items-center font-medium cursor-pointer"
             >
-              <BookOpen className="w-3.5 h-3.5" />
-              <span>{ru.catalog.title}</span>
+              <span>{t.catalog.title}</span>
             </button>
-            <ChevronRight className="w-3 h-3 text-slate-500 shrink-0" />
-            <span className="truncate max-w-[280px] sm:max-w-[400px] font-medium text-slate-200">
+            <ChevronRight className="w-3 h-3 text-[#6E6B64] shrink-0" />
+            <span className="truncate max-w-[280px] sm:max-w-[400px] font-medium text-[#141413]">
               {categoryTitle}
             </span>
           </nav>
-
-          {/* Action Buttons Toolbar */}
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              onClick={handleCite}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border border-white/5 transition-colors cursor-pointer text-xs font-medium"
-              title={ru.article.cite}
-            >
-              <Quote className="w-3.5 h-3.5 text-brand-blue" />
-              <span className="hidden sm:inline">{ru.article.cite}</span>
-            </button>
-
-            <button
-              onClick={handleShare}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border border-white/5 transition-colors cursor-pointer text-xs font-medium"
-              title={ru.article.share}
-            >
-              <Share2 className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">{copied ? ru.article.copied : ru.article.share}</span>
-            </button>
-
-            <button
-              onClick={handlePrint}
-              className="p-1.5 rounded-lg bg-[#202330] hover:bg-[#282c3c] text-gray-300 hover:text-white border border-white/5 transition-colors cursor-pointer"
-              title={ru.article.print}
-            >
-              <Printer className="w-3.5 h-3.5" />
-            </button>
-
-            {/* Мобильная кнопка оглавления (правая шторка) */}
-            <button
-              onClick={() => setTocDrawerOpen(true)}
-              className="lg:hidden flex items-center gap-1 p-1.5 rounded-lg hover:bg-[#202330] hover:text-brand-blue border border-transparent transition-colors cursor-pointer"
-              aria-label="Открыть оглавление статьи"
-            >
-              <ListTree className="w-4 h-4" />
-            </button>
-          </div>
         </div>
-      </div>
 
-      {/* 2. Docs Architecture: три колонки — дерево рубрики / статья / sticky TOC */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex gap-10 justify-center">
+        {/* 3-Column Layout Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+          
+          {/* LEFT COLUMN: Clean compact list of discipline articles */}
+          <aside className="hidden lg:block lg:col-span-3 sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto custom-scrollbar pr-1 space-y-3">
+            <div className="space-y-4">
+              <h4 className="text-xs font-bold text-[#141413] uppercase tracking-wider font-serif border-b border-[#DFDCD4] pb-3">
+                {categoryTitle}
+              </h4>
 
-          {/* Левая колонка: дерево статей рубрики (desktop ≥1280px) */}
-          <aside className="hidden xl:block w-64 shrink-0" aria-label="Навигация по рубрике">
-            <div className="sticky top-24 py-2 pr-2 max-h-[calc(100vh-8rem)] overflow-y-auto">
-              <CategoryTreePanel
-                categoryKey={categoryKey}
-                categoryTitle={categoryTitle}
-                currentPathPart={pathPart}
-                onOpenCatalog={onBack}
-                onNavigate={navigateToArticle}
-              />
+              <div className="space-y-1.5 max-h-[calc(100vh-14rem)] overflow-y-auto custom-scrollbar pr-1">
+                {categoryArticles.map((art) => {
+                  const isCurrent = art.path.replace(/\.md$/, '') === pathPart || art.path === path;
+
+                  return (
+                    <button
+                      key={art.path}
+                      onClick={() => {
+                        if (!isCurrent) navigateToArticle(art.path);
+                      }}
+                      className={`w-full text-left py-2.5 transition-colors cursor-pointer block border-b border-[#DFDCD4]/40 ${
+                        isCurrent
+                          ? 'text-[#1E4631] font-bold'
+                          : 'text-[#141413] hover:text-[#1E4631]'
+                      }`}
+                    >
+                      <span className="text-xs leading-snug line-clamp-2">
+                        {art.title}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </aside>
 
-          {/* Мобильная левая шторка: дерево рубрики */}
-          {leftDrawerOpen && (
-            <div className="fixed inset-0 z-[70] xl:hidden" role="dialog" aria-modal="true" aria-label="Навигация по рубрике">
-              <div
-                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-                onClick={() => setLeftDrawerOpen(false)}
-              />
-              <div className="absolute left-0 top-0 bottom-0 w-[min(20rem,85vw)] bg-[#111827] border-r border-slate-800 shadow-2xl p-4 overflow-y-auto">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Рубрика</span>
-                  <button
-                    onClick={() => setLeftDrawerOpen(false)}
-                    className="p-1.5 rounded-lg hover:bg-[#202330] text-slate-300 hover:text-white transition-colors cursor-pointer"
-                    aria-label="Закрыть навигацию"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-                <CategoryTreePanel
-                  categoryKey={categoryKey}
-                  categoryTitle={categoryTitle}
-                  currentPathPart={pathPart}
-                  onOpenCatalog={() => { setLeftDrawerOpen(false); onBack(); }}
-                  onNavigate={(p) => { setLeftDrawerOpen(false); navigateToArticle(p); }}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Центральная колонка: контент статьи */}
-          <main id="article-main" className="flex-1 min-w-0 max-w-3xl">
+          {/* CENTER COLUMN: Reading Zone */}
+          <main className="lg:col-span-6 xl:col-span-6 w-full max-w-3xl mx-auto space-y-8">
         
-        {/* Title and Evidence Badge */}
-        <header className="mb-8 space-y-4">
-          <div className="space-y-3">
-            {meta.evidenceLevel && (
-              <div className="mb-2">
-                <EvidenceBadge level={meta.evidenceLevel} />
-              </div>
-            )}
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white leading-[1.25]">
-              {displayTitle}
-            </h1>
+        {isEn && (
+          <div className="mb-6 p-3 bg-[#EFECE6] border border-[#DFDCD4] flex items-center justify-between text-xs text-[#141413] rounded-none">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[#1E4631] shrink-0" />
+              <span>
+                <strong>English Academic Translation:</strong> Standardized zoological & veterinary terminology applied.
+              </span>
+            </div>
+            <button
+              onClick={() => useLanguage().setLang('ru')}
+              className="text-xs text-[#1E4631] hover:underline cursor-pointer ml-3 shrink-0 font-medium"
+            >
+              Original RU
+            </button>
           </div>
+        )}
 
-          {/* Metadata bar */}
-          <div className="flex flex-wrap items-center gap-y-2 gap-x-4 pt-3 border-t border-white/10 text-xs text-slate-300">
-            <div className="flex items-center gap-1.5 font-medium text-gray-300">
-              <Clock className="w-3.5 h-3.5 text-slate-300" />
-              <span>{readingTime} {ru.catalog.readingTime} чтения</span>
-            </div>
-
-            <div className="flex items-center gap-1.5 font-medium text-slate-300">
-              <Calendar className="w-3.5 h-3.5 text-slate-300" />
-              <span>Ревизия: {lastReviewedDate}</span>
-            </div>
-
-            <div className="flex items-center gap-1.5 text-slate-300">
-              <Layers className="w-3.5 h-3.5 text-slate-300" />
-              <span>{categoryTitle}</span>
-            </div>
-
-            {/* Tags */}
-            {displayTags.length > 0 && (
-              <div className="flex items-center gap-1.5 flex-wrap w-full mt-1">
-                <Tag className="w-3 h-3 text-slate-300 shrink-0" />
-                {displayTags.map((tTag: string) => (
-                  <button
-                    key={tTag}
-                    onClick={() => handleTagClick(tTag)}
-                    className="px-2 py-0.5 rounded-full bg-[#1e2130] hover:bg-[#282c3c] text-gray-300 border border-white/5 text-[11px] font-mono transition-colors cursor-pointer"
-                  >
-                    #{tTag}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+        {/* Academic Header */}
+        <header className="mb-10 space-y-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#141413] leading-[1.25] font-serif">
+            {displayTitle}
+          </h1>
         </header>
 
-        {/* Step Tabs — лента шагов урока в стиле Stepik (под заголовком, sticky) */}
-        {lessonSteps.length >= 2 && (
-          <div className="mb-6">
-            <StepTabs
-              steps={lessonSteps}
-            />
-          </div>
-        )}
-
-        {/* Lead / Excerpt */}
+        {/* Lead Excerpt */}
         {displayExcerpt && (
-          <div className="my-6 p-5 rounded-xl glass-card border-l-4 border-l-brand-blue text-gray-200 text-base sm:text-lg leading-relaxed font-normal shadow-sm">
+          <p className="text-lg text-[#6E6B64] leading-relaxed mb-12 border-b border-[#DFDCD4] pb-8 font-serif">
             {displayExcerpt}
-          </div>
+          </p>
         )}
 
-        {/* Key Findings Block */}
+        {/* Key Findings */}
         {displayKeyFindings && (
-          <section className="my-8 rounded-xl border border-slate-700 border-l-4 border-l-amber-400 bg-[#161822] p-5 shadow-sm">
-            <div className="flex items-center gap-2 mb-3 text-amber-300 font-semibold text-sm">
-              <Info className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>Ключевые сведения и параметры</span>
+          <section className="my-8 border border-[#DFDCD4] border-l-4 border-l-[#1E4631] bg-[#EFECE6] p-5 rounded-none">
+            <div className="flex items-center gap-2 mb-3 text-[#141413] font-semibold text-sm">
+              <Info className="w-4 h-4 text-[#1E4631] shrink-0" />
+              <span>{isEn ? 'Key Insights & Parameters' : 'Ключевые сведения и параметры'}</span>
             </div>
-            <div className="text-gray-200 text-sm leading-relaxed space-y-2">
+            <div className="text-[#141413] text-sm leading-relaxed space-y-2">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm, remarkMath]}
-                rehypePlugins={[rehypeRaw, [rehypeSanitize, markdownSanitizeSchema], rehypeKatex] as any}
+                rehypePlugins={[rehypeKatex, rehypeRaw]}
                 components={{
-                  p: ({ node: _node, ...props }) => <p className="mb-2 last:mb-0 text-gray-200" {...props} />,
-                  ul: ({ node: _node, ...props }) => <ul className="list-disc list-inside space-y-1.5 my-2 text-gray-300 text-xs sm:text-sm" {...props} />,
-                  li: ({ node: _node, ...props }) => <li className="text-gray-300" {...props} />,
-                  strong: ({ node: _node, ...props }) => <strong className="font-bold text-brand-blue" {...props} />
+                  p: ({ node, ...props }) => <p className="mb-2 last:mb-0 text-[#141413]" {...props} />,
+                  ul: ({ node, ...props }) => <ul className="list-disc list-inside space-y-1.5 my-2 text-[#141413] text-xs sm:text-sm" {...props} />,
+                  li: ({ node, ...props }) => <li className="text-[#141413]" {...props} />,
+                  strong: ({ node, ...props }) => <strong className="font-bold text-[#141413]" {...props} />
                 }}
               >
                 {displayKeyFindings}
@@ -931,34 +1149,93 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
         )}
 
         {/* Article Body */}
-        <div className="academic-article-prose text-gray-300 leading-relaxed">
+        <div className="academic-article-prose text-[#141413] leading-relaxed sm:leading-[1.8] text-base space-y-6">
           <ReactMarkdown
             remarkPlugins={[remarkGfm, remarkMath]}
-            rehypePlugins={[rehypeRaw, [rehypeSanitize, markdownSanitizeSchema], rehypeKatex] as any}
+            rehypePlugins={[rehypeKatex, rehypeRaw]}
             components={{
-              h2: ({ node: _node, children, ...props }) => {
-                // id для StepTabs / scroll-spy (совпадает с stepSlug из lessonSteps)
-                const text = React.Children.toArray(children)
-                  .map((c) => (typeof c === 'string' || typeof c === 'number' ? String(c) : ''))
-                  .join('');
-                const autoId = text ? stepSlug(text) : undefined;
+              h2: ({ node, children, ...props }: any) => {
+                const rawText = extractNodeText(children)
+                  .replace(/\{#.*?\}/g, '')
+                  .replace(/[*_`]/g, '')
+                  .trim();
+                const id = props.id || slugifyHeading(rawText);
                 return (
                   <h2
-                    id={autoId}
-                    className="text-xl sm:text-2xl font-bold tracking-tight text-white mt-10 mb-4 pb-2 border-b border-[#334155] scroll-mt-32"
+                    id={id}
+                    className="group text-xl sm:text-2xl font-bold tracking-tight text-[#141413] mt-12 mb-5 pb-3 border-b border-[#DFDCD4] scroll-mt-24 flex items-center justify-between font-serif"
                     {...props}
                   >
-                    {children}
+                    <span className="flex items-center gap-2.5">
+                      <span className="w-1.5 h-5 bg-[#1E4631] rounded-none shrink-0" />
+                      <span>{children}</span>
+                    </span>
+                    <a
+                      href={`#${id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToHeading(id);
+                        window.history.replaceState(null, '', `#${id}`);
+                      }}
+                      aria-label={`Link to ${rawText}`}
+                      className="text-[#6E6B64] hover:text-[#1E4631] opacity-0 group-hover:opacity-100 transition-opacity p-1.5 text-sm cursor-pointer shrink-0 font-mono"
+                      title={isEn ? 'Copy anchor link' : 'Якорная ссылка на раздел'}
+                    >
+                      #
+                    </a>
                   </h2>
                 );
               },
-              h3: ({ node: _node, ...props }) => (
-                <h3 className="text-lg sm:text-xl font-semibold tracking-tight text-gray-100 mt-7 mb-3" {...props} />
-              ),
-              p: ({ node: _node, children, ...props }) => {
+              h3: ({ node, children, ...props }: any) => {
+                const rawText = extractNodeText(children)
+                  .replace(/\{#.*?\}/g, '')
+                  .replace(/[*_`]/g, '')
+                  .trim();
+                const id = props.id || slugifyHeading(rawText);
+                return (
+                  <h3
+                    id={id}
+                    className="group text-lg sm:text-xl font-semibold tracking-tight text-[#141413] mt-8 mb-4 scroll-mt-24 flex items-center justify-between font-serif"
+                    {...props}
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="w-1 h-3.5 bg-[#1E4631] rounded-none shrink-0" />
+                      <span>{children}</span>
+                    </span>
+                    <a
+                      href={`#${id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToHeading(id);
+                        window.history.replaceState(null, '', `#${id}`);
+                      }}
+                      aria-label={`Link to ${rawText}`}
+                      className="text-[#6E6B64] hover:text-[#1E4631] opacity-0 group-hover:opacity-100 transition-opacity p-1 text-sm cursor-pointer shrink-0 font-mono"
+                      title={isEn ? 'Copy anchor link' : 'Якорная ссылка на подраздел'}
+                    >
+                      #
+                    </a>
+                  </h3>
+                );
+              },
+              p: ({ node, children, ...props }: any) => {
+                const hasBlockChild = node?.children?.some(
+                  (child: any) => child.tagName === 'img' || child.tagName === 'figure' || child.tagName === 'div'
+                );
+
                 const renderAnnotatedChildren = (childNode: React.ReactNode): React.ReactNode => {
                   if (typeof childNode === 'string') {
-                    return annotateTextWithGlossary(childNode, seenGlossaryTerms);
+                    const taxaNodes = formatTaxaInText(childNode);
+                    const result: React.ReactNode[] = [];
+                    taxaNodes.forEach((item) => {
+                      if (typeof item === 'string') {
+                        const glossaryProcessed = annotateTextWithGlossary(item, seenGlossaryTerms);
+                        result.push(...glossaryProcessed);
+                      } else {
+                        result.push(item);
+                      }
+                    });
+                    return result;
                   }
                   if (Array.isArray(childNode)) {
                     return childNode.map((c, i) => (
@@ -969,60 +1246,143 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                 };
 
                 const annotated = renderAnnotatedChildren(children);
-                const collapsed = Array.isArray(annotated) ? collapseCitationNodes(annotated) : annotated;
+                const collapsed = Array.isArray(annotated) 
+                  ? collapseCitationNodes(annotated, handleCitationTrigger, handleCitationHoverEnd) 
+                  : annotated;
+
+                if (hasBlockChild) {
+                  return (
+                    <div className="mb-6 leading-relaxed sm:leading-[1.8] text-base text-[#141413]" {...props}>
+                      {collapsed}
+                    </div>
+                  );
+                }
 
                 return (
-                  <p className="mb-5 leading-relaxed text-sm sm:text-base text-gray-300" {...props}>
+                  <p className="mb-6 leading-relaxed sm:leading-[1.8] text-base text-[#141413]" {...props}>
                     {collapsed}
                   </p>
                 );
               },
-              ul: ({ node: _node, ...props }) => (
-                <ul className="list-disc list-outside ml-5 space-y-2 mb-5 text-sm sm:text-base text-gray-300" {...props} />
+              em: ({ node, ...props }: any) => (
+                <em className="italic font-serif font-normal text-[#1E4631]" {...props} />
               ),
-              ol: ({ node: _node, ...props }) => (
-                <ol className="list-decimal list-outside ml-5 space-y-2.5 mb-5 text-sm sm:text-base text-gray-300" {...props} />
+              ul: ({ node, ...props }) => (
+                <ul className="list-disc list-outside ml-5 space-y-2 mb-6 text-base text-[#141413]" {...props} />
               ),
-              li: ({ node: _node, children, ...props }: any) => {
+              ol: ({ node, ...props }) => (
+                <ol className="list-decimal list-outside ml-5 space-y-2.5 mb-6 text-base text-[#141413]" {...props} />
+              ),
+              li: ({ node, children, ...props }: any) => {
                 const isFootnoteItem = props.id?.includes('fn-') || props.id?.includes('fnref');
                 if (isFootnoteItem) {
                   return (
                     <li
                       id={props.id}
-                      className="text-xs text-gray-300 pl-2 leading-relaxed my-2 rounded-lg p-2.5 transition-colors duration-300 hover:bg-[#1a1c28] border border-transparent hover:border-white/5 [&_p]:inline [&_p]:mb-0 [&_p]:leading-relaxed"
+                      className="text-xs text-[#141413] pl-2 leading-relaxed my-2 p-2.5 border border-[#DFDCD4] bg-[#EFECE6] rounded-none [&_p]:inline [&_p]:mb-0 [&_p]:leading-relaxed"
                       {...props}
                     >
-                      {consolidateFootnoteItem(children)}
+                      {consolidateFootnoteItem(children, isEn)}
                     </li>
                   );
                 }
-                const collapsed = Array.isArray(children) ? collapseCitationNodes(children) : children;
-                return <li className="text-gray-300" {...props}>{collapsed}</li>;
+
+                const renderAnnotatedChildren = (childNode: React.ReactNode): React.ReactNode => {
+                  if (typeof childNode === 'string') {
+                    const taxaNodes = formatTaxaInText(childNode);
+                    const result: React.ReactNode[] = [];
+                    taxaNodes.forEach((item) => {
+                      if (typeof item === 'string') {
+                        result.push(...annotateTextWithGlossary(item, seenGlossaryTerms));
+                      } else {
+                        result.push(item);
+                      }
+                    });
+                    return result;
+                  }
+                  if (Array.isArray(childNode)) {
+                    return childNode.map((c, i) => (
+                      <React.Fragment key={i}>{renderAnnotatedChildren(c)}</React.Fragment>
+                    ));
+                  }
+                  return childNode;
+                };
+
+                const annotated = renderAnnotatedChildren(children);
+                const collapsed = Array.isArray(annotated) 
+                  ? collapseCitationNodes(annotated, handleCitationTrigger, handleCitationHoverEnd) 
+                  : annotated;
+                return <li className="text-[#141413] leading-relaxed" {...props}>{collapsed}</li>;
               },
-              blockquote: ({ node: _node, ...props }) => (
-                <blockquote className="border-l-4 border-brand-blue pl-4 py-2 my-6 text-gray-300 italic bg-[#181a24] border border-[#2b2e3d] rounded-r-xl" {...props} />
-              ),
-              table: ({ node: _node, ...props }) => (
-                <div className="overflow-x-auto my-6 border border-[#2b2e3d] rounded-xl bg-[#14161f]">
-                  <table className="min-w-full divide-y divide-[#2b2e3d] text-xs sm:text-sm" {...props} />
+              blockquote: ({ node, children, ...props }: any) => {
+                const textContent = extractNodeText(children);
+                const isAnatomy = /анатомическ(?:ая|ое|ие)\s+специфик|anatomical\s+specif/i.test(textContent);
+                const isPaleo = /палеоэкологическ(?:ая|ое|ие)\s+справк|палеоэкологи(?:я|ческий)|paleoecolog/i.test(textContent);
+
+                if (isAnatomy || isPaleo) {
+                  return (
+                    <aside 
+                      role="note"
+                      className="my-6 border-l-4 border-[#1E4631] bg-[#EFECE6] border-y border-r border-[#DFDCD4] p-5 sm:p-6 rounded-none shadow-sm"
+                    >
+                      <div className="flex items-center gap-2 mb-3 text-xs font-bold uppercase tracking-wider text-[#1E4631] font-mono">
+                        <Activity className="w-3.5 h-3.5 text-[#1E4631]" />
+                        <span>{isEn ? 'Anatomical / Ecological Note' : 'Академическая справка'}</span>
+                      </div>
+                      <div className="text-sm sm:text-base text-[#141413] leading-relaxed space-y-2 [&>p]:mb-2 [&>p:last-child]:mb-0">
+                        {children}
+                      </div>
+                    </aside>
+                  );
+                }
+
+                return (
+                  <blockquote className="my-6 border-l-4 border-[#1E4631] bg-[#EFECE6] p-5 border-y border-r border-[#DFDCD4] text-[#141413] italic leading-relaxed rounded-none" {...props}>
+                    {children}
+                  </blockquote>
+                );
+              },
+              table: ({ node, ...props }) => (
+                <div className="overflow-x-auto my-6 border border-[#DFDCD4] bg-[#EFECE6] rounded-none">
+                  <table className="min-w-full divide-y divide-[#DFDCD4] text-xs sm:text-sm" {...props} />
                 </div>
               ),
-              th: ({ node: _node, ...props }) => (
-                <th scope="col" className="px-4 py-2.5 bg-[#181a24] font-bold text-left text-gray-200" {...props} />
+              th: ({ node, ...props }) => (
+                <th scope="col" className="px-4 py-2.5 bg-[#EFECE6] border-b border-[#DFDCD4] font-bold text-left text-[#141413]" {...props} />
               ),
-              td: ({ node: _node, ...props }) => (
-                <td className="px-4 py-2.5 border-t border-[#2b2e3d] text-gray-300" {...props} />
+              td: ({ node, ...props }) => (
+                <td className="px-4 py-2.5 border-t border-[#DFDCD4] text-[#141413]" {...props} />
               ),
-              img: ({ node: _node, ...props }) => (
-                <img
-                  {...props}
-                  loading="lazy"
-                  decoding="async"
-                  className="rounded-xl my-6 max-w-full h-auto border border-white/10 shadow-lg"
-                />
+              img: ({ node, src, alt, ...props }) => (
+                <figure className="my-8 group">
+                  <div 
+                    onClick={() => src && setLightboxImage({ src, alt: alt || '' })}
+                    className="relative overflow-hidden border border-[#DFDCD4] bg-[#EFECE6] shadow-sm cursor-zoom-in transition-all duration-300 hover:border-[#141413] rounded-none"
+                    title={isEn ? "Click to view full-size illustration" : "Нажмите для просмотра в полном размере"}
+                  >
+                    <img
+                      src={src}
+                      alt={alt || ''}
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                      className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-[1.01]"
+                      {...props}
+                    />
+                    <div className="absolute bottom-2 right-2 flex items-center gap-1.5 px-2.5 py-1 bg-[#F6F5F0] text-[11px] font-medium text-[#141413] border border-[#DFDCD4] opacity-0 group-hover:opacity-100 transition-opacity rounded-none pointer-events-none">
+                      <ZoomIn className="w-3.5 h-3.5 text-[#1E4631]" />
+                      <span>{isEn ? 'Enlarge' : 'Увеличить'}</span>
+                    </div>
+                  </div>
+                  {alt && (
+                    <figcaption className="mt-2.5 px-1 text-center text-xs text-[#6E6B64] font-sans italic leading-relaxed">
+                      {alt}
+                    </figcaption>
+                  )}
+                </figure>
               ),
-              sup: ({ node: _node, ...props }) => (
-                <sup className="text-[11px] font-mono font-medium leading-none px-0.5 text-brand-blue hover:text-amber-300 transition-colors select-none align-super" {...props} />
+              sup: ({ node, ...props }) => (
+                <sup className="text-[11px] font-mono font-medium leading-none px-0.5 text-[#1E4631] select-none align-super" {...props} />
               ),
               a: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
                 const isFootnoteBackref = (props as any)['data-footnote-backref'] !== undefined ||
@@ -1030,149 +1390,29 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   href?.includes('-fnref-');
 
                 if (href?.startsWith('#')) {
-                  const backrefCount = (props as any)['data-backref-count'];
-                  const countLabel = backrefCount && backrefCount > 1 ? ` (${backrefCount})` : '';
-
                   return (
                     <a
                       href={href}
-                      title={
-                        isFootnoteBackref
-                          ? "Перейти к месту цитирования в тексте статьи"
-                          : undefined
-                      }
                       onClick={(e) => {
                         e.preventDefault();
                         const rawId = href.slice(1);
-                        const decodedId = decodeURIComponent(rawId);
-                        
-                        const candidates = [
-                          decodedId,
-                          rawId,
-                          `user-content-${decodedId}`,
-                          `user-content-${rawId}`,
-                          decodedId.replace(/^user-content-/, ''),
-                          rawId.replace(/^user-content-/, '')
-                        ];
-                        
-                        let targetEl: HTMLElement | null = null;
-                        for (const id of candidates) {
-                          const el = document.getElementById(id);
-                          if (el) {
-                            targetEl = el;
-                            break;
-                          }
-                        }
-
-                        if (!targetEl) {
-                          const digitsOnly = rawId.replace(/[^0-9]/g, '');
-                          if (digitsOnly) {
-                            targetEl = document.getElementById(`user-content-fn-${digitsOnly}`) || 
-                                       document.getElementById(`fn-${digitsOnly}`) ||
-                                       document.getElementById(`user-content-fnref-${digitsOnly}`) ||
-                                       document.getElementById(`fnref-${digitsOnly}`) ||
-                                       document.getElementById(`ref_${digitsOnly}`);
-                          }
-                        }
-
-                        if (targetEl) {
-                          targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                          
-                          // Check if target is a footnote item or in-text anchor
-                          const isTargetFootnote = targetEl.id.includes('fn-') || targetEl.tagName.toLowerCase() === 'li';
-
-                          if (isTargetFootnote) {
-                            // Highlight the whole footnote entry at the bottom
-                            targetEl.classList.add(
-                              'ring-2',
-                              'ring-kingdom-gold',
-                              'bg-[#232738]',
-                              'shadow-[0_0_20px_rgba(212,175,55,0.4)]'
-                            );
-                            setTimeout(() => {
-                              targetEl?.classList.remove(
-                                'ring-2',
-                                'ring-kingdom-gold',
-                                'bg-[#232738]',
-                                'shadow-[0_0_20px_rgba(212,175,55,0.4)]'
-                              );
-                            }, 2500);
-                          } else {
-                            // Target is citation in article body - highlight sup badge cleanly without causing layout shifts
-                            const targetSup = targetEl.closest('sup') || targetEl;
-                            targetSup.classList.add(
-                              'ring-2',
-                              'ring-kingdom-gold',
-                              'bg-brand-blue/30',
-                              'shadow-[0_0_16px_rgba(212,175,55,0.7)]'
-                            );
-
-                            const parentParagraph = targetEl.closest('p');
-                            if (parentParagraph && isFootnoteBackref) {
-                              parentParagraph.classList.add('bg-brand-blue/10', 'ring-1', 'ring-kingdom-gold/30', 'rounded-lg');
-                            }
-
-                            setTimeout(() => {
-                              targetSup.classList.remove(
-                                'ring-2',
-                                'ring-kingdom-gold',
-                                'bg-brand-blue/30',
-                                'shadow-[0_0_16px_rgba(212,175,55,0.7)]'
-                              );
-                              if (parentParagraph) {
-                                parentParagraph.classList.remove('bg-brand-blue/10', 'ring-1', 'ring-kingdom-gold/30', 'rounded-lg');
-                              }
-                            }, 2500);
-                          }
-                        }
+                        jumpToFootnote(rawId);
                       }}
                       className={
                         isFootnoteBackref
-                          ? 'inline-flex items-center gap-1.5 text-brand-blue hover:text-amber-200 font-sans text-xs font-semibold ml-2 px-2.5 py-1 rounded-md bg-brand-blue/15 hover:bg-brand-blue/25 border border-brand-blue/40 hover:border-brand-blue/60 shadow-sm hover:shadow transition-all duration-150 cursor-pointer no-underline select-none my-1'
-                          : 'text-brand-blue hover:underline font-mono text-xs font-semibold px-0.5 inline-block cursor-pointer'
+                          ? 'inline-flex items-center gap-1.5 text-[#1E4631] hover:text-[#141413] font-sans text-xs font-semibold ml-2 px-2.5 py-1 bg-[#EFECE6] border border-[#DFDCD4] shadow-xs cursor-pointer no-underline select-none my-1 rounded-none'
+                          : 'text-[#1E4631] hover:underline font-mono text-xs font-semibold px-0.5 inline-block cursor-pointer'
                       }
                       {...props}
                     >
                       {isFootnoteBackref ? (
                         <span className="flex items-center gap-1.5">
                           <span className="text-sm font-bold leading-none">↑</span>
-                          <span>{`К тексту статьи${countLabel}`}</span>
+                          <span>{isEn ? 'To text' : 'К тексту статьи'}</span>
                         </span>
                       ) : (
                         children
                       )}
-                    </a>
-                  );
-                }
-
-                if (href?.startsWith('http://') || href?.startsWith('https://')) {
-                  return (
-                    <a
-                      href={href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-brand-blue hover:underline font-medium inline-flex items-center gap-0.5 transition-colors"
-                      {...props}
-                    >
-                      <span>{children}</span>
-                      <ExternalLink className="w-3 h-3 inline opacity-70" />
-                    </a>
-                  );
-                }
-
-                if (href?.endsWith('.md') || href?.startsWith('/') || href?.includes('/docs/')) {
-                  return (
-                    <a
-                      href={href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const cleanTarget = href.replace(/^\.\.\//, '').replace(/^\.\//, '').replace(/\.md$/, '');
-                        navigateToArticle(cleanTarget);
-                      }}
-                      className="text-brand-blue hover:underline font-medium cursor-pointer transition-colors"
-                      {...props}
-                    >
-                      {children}
                     </a>
                   );
                 }
@@ -1182,7 +1422,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                     href={href}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-brand-blue hover:underline font-medium inline-flex items-center gap-0.5 transition-colors"
+                    className="text-[#1E4631] hover:underline font-medium inline-flex items-center gap-0.5 transition-colors"
                     {...props}
                   >
                     <span>{children}</span>
@@ -1191,13 +1431,13 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                 );
               },
               section: (props: any) => {
-                const { className, children, ...rest } = props;
+                const { className, children, rest } = props;
                 if (props['data-footnotes'] || className === 'footnotes' || (typeof className === 'string' && className.includes('footnotes'))) {
                   return (
-                    <div id="footnotes-literature-section" className="mt-14 pt-8 border-t border-white/10 text-xs text-gray-300">
-                      <h3 className="text-sm font-bold uppercase tracking-wider text-gray-200 mb-4 flex items-center gap-2">
-                        <Quote className="w-4 h-4 text-brand-blue" />
-                        <span>📚 Литература и источники</span>
+                    <div id="footnotes-literature-section" className="mt-14 pt-8 border-t border-[#DFDCD4] text-xs text-[#141413]">
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-[#141413] mb-4 flex items-center gap-2 font-serif">
+                        <Quote className="w-4 h-4 text-[#1E4631]" />
+                        <span>{isEn ? 'References & Literature' : '📚 Литература и источники'}</span>
                       </h3>
                       <div className="space-y-2">{children}</div>
                     </div>
@@ -1211,23 +1451,23 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           </ReactMarkdown>
         </div>
 
-        {/* 4. Scientific Uncertainty (Known / Probable / Unknown) */}
+        {/* Uncertainty block */}
         {displayUncertainty && (
-          <section className="my-12 p-5 rounded-2xl bg-[#161822] border border-[#2b2e3d]">
-            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[#2b2e3d]">
-              <Scale className="w-4 h-4 text-brand-blue shrink-0" />
-              <h3 className="font-bold text-sm text-gray-100">
-                Научная неопределённость и границы доказанности
+          <section className="my-12 p-5 bg-[#EFECE6] border border-[#DFDCD4] rounded-none">
+            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[#DFDCD4]">
+              <Scale className="w-4 h-4 text-[#1E4631] shrink-0" />
+              <h3 className="font-bold text-sm text-[#141413] font-serif">
+                {isEn ? 'Scientific Uncertainty & Evidence Boundaries' : 'Научная неопределённость и границы доказанности'}
               </h3>
             </div>
 
             <div className="space-y-3.5">
               {displayUncertainty.known && (
-                <div className="flex items-start gap-3 p-3 rounded-xl bg-[#13151f] border border-emerald-900/40">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                  <div className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-                    <span className="font-semibold text-emerald-300 block mb-0.5">
-                      Достоверно установлено:
+                <div className="flex items-start gap-3 p-3 bg-[#F6F5F0] border border-[#DFDCD4]">
+                  <CheckCircle2 className="w-5 h-5 text-[#1E4631] shrink-0 mt-0.5" />
+                  <div className="text-xs sm:text-sm text-[#141413] leading-relaxed">
+                    <span className="font-semibold text-[#1E4631] block mb-0.5">
+                      {isEn ? 'Established Fact:' : 'Достоверно установлено:'}
                     </span>
                     <p>{displayUncertainty.known}</p>
                   </div>
@@ -1235,25 +1475,13 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
               )}
 
               {displayUncertainty.probable && (
-                <div className="flex items-start gap-3 p-3 rounded-xl bg-[#13151f] border border-amber-900/40">
-                  <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-                  <div className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-                    <span className="font-semibold text-amber-300 block mb-0.5">
-                      Вероятно / Требует верификации:
+                <div className="flex items-start gap-3 p-3 bg-[#F6F5F0] border border-[#DFDCD4]">
+                  <AlertTriangle className="w-5 h-5 text-[#6E6B64] shrink-0 mt-0.5" />
+                  <div className="text-xs sm:text-sm text-[#141413] leading-relaxed">
+                    <span className="font-semibold text-[#141413] block mb-0.5">
+                      {isEn ? 'Probable / Requires Verification:' : 'Вероятно / Требует верификации:'}
                     </span>
                     <p>{displayUncertainty.probable}</p>
-                  </div>
-                </div>
-              )}
-
-              {displayUncertainty.unknown && (
-                <div className="flex items-start gap-3 p-3 rounded-xl bg-[#13151f] border border-rose-900/40">
-                  <HelpIcon className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
-                  <div className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-                    <span className="font-semibold text-rose-300 block mb-0.5">
-                      Открытые исследовательские вопросы:
-                    </span>
-                    <p>{displayUncertainty.unknown}</p>
                   </div>
                 </div>
               )}
@@ -1261,12 +1489,12 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           </section>
         )}
 
-        {/* 5. Related Topics */}
+        {/* Related Topics */}
         {relatedArticles.length > 0 && (
-          <section className="mt-14 pt-8 border-t border-white/10">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-gray-200 mb-4 flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-brand-blue" />
-              <span>{ru.article.related}</span>
+          <section className="mt-14 pt-8 border-t border-[#DFDCD4]">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[#141413] mb-4 flex items-center gap-2 font-serif">
+              <BookOpen className="w-4 h-4 text-[#1E4631]" />
+              <span>{t.article.related}</span>
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
@@ -1276,21 +1504,16 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   <button
                     key={rel.path}
                     onClick={() => navigateToArticle(rel.path)}
-                    className="p-3.5 rounded-xl glass-card hover:border-brand-blue/60 text-left transition-all group flex flex-col justify-between cursor-pointer shadow-sm hover:shadow-md"
+                    className="p-3.5 bg-[#EFECE6] border border-[#DFDCD4] hover:border-[#141413] text-left transition-all group flex flex-col justify-between cursor-pointer rounded-none"
                   >
                     <div>
-                      <span className="text-[10px] font-mono text-slate-300 uppercase tracking-wider block mb-1">
+                      <span className="text-[10px] font-mono text-[#6E6B64] uppercase tracking-wider block mb-1">
                         {categoryDict[relCatKey] || rel.category}
                       </span>
-                      <h4 className="text-xs font-semibold text-gray-200 group-hover:text-brand-blue transition-colors line-clamp-2 leading-snug">
+                      <h4 className="text-xs font-semibold text-[#141413] group-hover:text-[#1E4631] transition-colors line-clamp-2 leading-snug font-serif">
                         {rel.title}
                       </h4>
                     </div>
-                    {rel.excerpt && (
-                      <p className="text-[11px] text-slate-300 line-clamp-1 mt-2">
-                        {rel.excerpt}
-                      </p>
-                    )}
                   </button>
                 );
               })}
@@ -1298,15 +1521,15 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           </section>
         )}
 
-        {/* 6. References / Bibliography */}
+        {/* References */}
         {referencesList.length > 0 && !rawContent.includes('[^') && (
-          <section className="mt-14 pt-8 border-t border-white/10">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-gray-200 mb-4 flex items-center gap-2">
-              <Quote className="w-4 h-4 text-brand-blue" />
-              <span>📚 Источники и библиография (APA)</span>
+          <section className="mt-14 pt-8 border-t border-[#DFDCD4]">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[#141413] mb-4 flex items-center gap-2 font-serif">
+              <Quote className="w-4 h-4 text-[#1E4631]" />
+              <span>{isEn ? 'References & Bibliography (APA)' : '📚 Источники и библиография (APA)'}</span>
             </h3>
 
-            <ol className="space-y-3 text-xs text-slate-300 list-decimal list-outside ml-4">
+            <ol className="space-y-3 text-xs text-[#6E6B64] list-decimal list-outside ml-4">
               {referencesList.map((refItem: ReferenceItem | string, idx: number) => {
                 const isString = typeof refItem === 'string';
                 const ref = isString ? { id: `ref_${idx + 1}`, title: refItem } : refItem;
@@ -1317,12 +1540,11 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                     {isString ? (
                       <span>{refItem}</span>
                     ) : (
-                      <span className="text-gray-300">
-                        {ref.authors && <span className="font-semibold text-gray-100">{ref.authors} </span>}
+                      <span className="text-[#141413]">
+                        {ref.authors && <span className="font-semibold text-[#141413]">{ref.authors} </span>}
                         {ref.year && <span>({ref.year}). </span>}
-                        <span className="italic text-gray-200">{ref.title}. </span>
+                        <span className="italic text-[#141413]">{ref.title}. </span>
                         {ref.journal && <span>{ref.journal}. </span>}
-                        {ref.book && <span>{ref.book}. </span>}
                         {ref.doi && (() => {
                           const cleanDoi = normalizeDoi(ref.doi);
                           const doiUrl = formatDoiUrl(ref.doi);
@@ -1332,18 +1554,13 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                               href={doiUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-brand-blue hover:underline ml-1.5 font-mono inline-flex items-center gap-0.5"
+                              className="text-[#1E4631] hover:underline ml-1.5 font-mono inline-flex items-center gap-0.5"
                             >
                               <span>DOI: {cleanDoi}</span>
                               <ExternalLink className="w-2.5 h-2.5" />
                             </a>
                           );
                         })()}
-                        {ref.isbn && (
-                          <span className="text-slate-300 font-mono ml-1.5">
-                            ISBN: {ref.isbn}
-                          </span>
-                        )}
                       </span>
                     )}
                   </li>
@@ -1353,28 +1570,19 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           </section>
         )}
 
-        {/* 7. Editorial Status Block */}
-        <EditorialStatusBlock
-          lastReviewed={lastReviewedDate}
-          datePublished={meta.datePublished}
-          category={meta.category}
-          evidenceLevel={meta.evidenceLevel}
-          evidenceBasis={meta.evidenceBasis}
-        />
-
         {/* Previous / Next Article Navigation */}
         {(prevArticle || nextArticle) && (
-          <nav className="mt-10 pt-6 border-t border-white/10 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <nav className="mt-10 pt-6 border-t border-[#DFDCD4] grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             {prevArticle ? (
               <button
                 onClick={() => navigateToArticle(prevArticle.path)}
-                className="flex flex-col text-left p-3.5 rounded-xl glass-card hover:border-brand-blue/60 transition-colors cursor-pointer group"
+                className="flex flex-col text-left p-3.5 bg-[#EFECE6] border border-[#DFDCD4] hover:border-[#141413] transition-colors cursor-pointer group rounded-none"
               >
-                <div className="flex items-center text-slate-300 group-hover:text-brand-blue mb-1 font-medium">
+                <div className="flex items-center text-[#6E6B64] group-hover:text-[#1E4631] mb-1 font-medium">
                   <ChevronLeft className="w-3.5 h-3.5 mr-1" />
-                  <span>{ru.article.prev}</span>
+                  <span>{t.article.prev}</span>
                 </div>
-                <span className="font-semibold text-gray-200 group-hover:text-white transition-colors line-clamp-1">
+                <span className="font-semibold text-[#141413] transition-colors line-clamp-1 font-serif">
                   {prevArticle.title}
                 </span>
               </button>
@@ -1383,63 +1591,307 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             {nextArticle ? (
               <button
                 onClick={() => navigateToArticle(nextArticle.path)}
-                className="btn-brand-primary w-full group"
+                className="flex flex-col text-right p-3.5 bg-[#EFECE6] border border-[#DFDCD4] hover:border-[#141413] transition-colors cursor-pointer group rounded-none"
               >
-                <span>{ru.article.next}</span>
-                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                <div className="flex items-center justify-end text-[#6E6B64] group-hover:text-[#1E4631] mb-1 font-medium">
+                  <span>{t.article.next}</span>
+                  <ChevronRight className="w-3.5 h-3.5 ml-1" />
+                </div>
+                <span className="font-semibold text-[#141413] transition-colors line-clamp-1 font-serif">
+                  {nextArticle.title}
+                </span>
               </button>
             ) : <div />}
           </nav>
         )}
-          </main>{/* /центральная колонка */}
+      </main>
 
-          {/* Правая колонка: sticky TOC + действия (desktop ≥1024px) */}
-          <aside className="hidden lg:block w-64 shrink-0" aria-label="Оглавление страницы">
-            <div className="sticky top-24 py-2 pl-2 max-h-[calc(100vh-8rem)] overflow-y-auto">
-              {tocItems.length > 0 && <TableOfContents items={tocItems} />}
-              <div className="mt-6 pt-5 border-t border-slate-800 px-3 space-y-2.5">
-                <button
-                  onClick={handleCite}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium bg-[#1a2234] border border-slate-800 hover:border-brand-emerald/50 hover:text-brand-emerald transition-all cursor-pointer text-slate-300"
-                >
-                  <Quote className="w-3.5 h-3.5 text-brand-blue" /> Цитировать (BibTeX / APA)
-                </button>
-                <button
-                  onClick={handlePrint}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium bg-[#1a2234] border border-slate-800 hover:border-brand-emerald/50 hover:text-brand-emerald transition-all cursor-pointer text-slate-300"
-                >
-                  <Printer className="w-3.5 h-3.5" /> Печать / PDF
-                </button>
+      {/* RIGHT COLUMN: Table of Contents (No outer card border, no list icon) */}
+          <aside className="hidden lg:block lg:col-span-3 sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto custom-scrollbar pl-1 space-y-4">
+            
+            <div className="space-y-3">
+              <div className="text-xs font-bold uppercase tracking-wider text-[#141413] font-serif border-b border-[#DFDCD4] pb-2.5">
+                <span>{isEn ? 'Table of Contents' : 'СОДЕРЖАНИЕ'}</span>
               </div>
+
+              <nav aria-label="Table of Contents" className="space-y-1 max-h-[calc(100vh-14rem)] overflow-y-auto custom-scrollbar pr-1">
+                {tocItems.length === 0 ? (
+                  <p className="text-xs text-[#6E6B64] italic py-2">
+                    {isEn ? 'Standard monograph structure' : 'Монографический текст'}
+                  </p>
+                ) : (
+                  tocItems.map((item) => {
+                    const isActive = activeHeadingId === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => scrollToHeading(item.id)}
+                        className={`w-full text-left transition-all duration-150 cursor-pointer block truncate rounded-none ${
+                          item.level === 3 ? 'pl-4 text-[11px]' : 'pl-2 text-xs font-medium'
+                        } py-1.5 ${
+                          isActive
+                            ? 'text-[#1E4631] font-semibold border-l-2 border-[#1E4631]'
+                            : 'text-[#6E6B64] hover:text-[#141413] border-l-2 border-transparent'
+                        }`}
+                        title={item.text}
+                      >
+                        {item.text}
+                      </button>
+                    );
+                  })
+                )}
+              </nav>
             </div>
+
           </aside>
 
-          {/* Мобильная правая шторка: оглавление */}
-          {tocDrawerOpen && tocItems.length > 0 && (
-            <div className="fixed inset-0 z-[70] lg:hidden" role="dialog" aria-modal="true" aria-label="Оглавление статьи">
-              <div
-                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-                onClick={() => setTocDrawerOpen(false)}
-              />
-              <div className="absolute right-0 top-0 bottom-0 w-[min(20rem,85vw)] bg-[#111827] border-l border-slate-800 shadow-2xl p-4 overflow-y-auto">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Содержание</span>
-                  <button
-                    onClick={() => setTocDrawerOpen(false)}
-                    className="p-1.5 rounded-lg hover:bg-[#202330] text-slate-300 hover:text-white transition-colors cursor-pointer"
-                    aria-label="Закрыть оглавление"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-                <TableOfContents items={tocItems} onNavigate={() => setTocDrawerOpen(false)} />
-              </div>
-            </div>
-          )}
+        </div>
+      </div>
 
-        </div>{/* /flex 3-col */}
-      </div>{/* /max-w-7xl docs container */}
+      {/* MOBILE FLOATING BOTTOM BAR (< lg) */}
+      <div className="lg:hidden fixed bottom-4 inset-x-3 sm:inset-x-6 z-40 max-w-sm sm:max-w-md mx-auto">
+        <div className="h-14 px-3 bg-[#EFECE6] border border-[#DFDCD4] shadow-lg flex items-center justify-around gap-1 rounded-none">
+          <button
+            onClick={() => setMobileArticlesOpen(true)}
+            className="flex flex-col items-center justify-center gap-1 py-1 px-3 text-[#141413] hover:text-[#1E4631] transition-colors cursor-pointer"
+          >
+            <Layers className="w-4 h-4 text-[#1E4631]" />
+            <span className="text-[10px] font-medium leading-none">К рубрикам</span>
+          </button>
+
+          <div className="w-[1px] h-6 bg-[#DFDCD4]" />
+
+          <button
+            onClick={() => setMobileTocOpen(true)}
+            className="flex flex-col items-center justify-center gap-1 py-1 px-3 text-[#141413] hover:text-[#1E4631] transition-colors cursor-pointer"
+          >
+            <List className="w-4 h-4 text-[#1E4631]" />
+            <span className="text-[10px] font-medium leading-none">Оглавление</span>
+          </button>
+
+          <div className="w-[1px] h-6 bg-[#DFDCD4]" />
+
+          <button
+            onClick={scrollToTop}
+            className="flex flex-col items-center justify-center gap-1 py-1 px-2.5 text-[#6E6B64] hover:text-[#1E4631] transition-colors cursor-pointer"
+          >
+            <ArrowUp className="w-4 h-4" />
+            <span className="text-[10px] font-medium leading-none">Наверх</span>
+          </button>
+        </div>
+      </div>
+
+      {/* MOBILE TOC DRAWER */}
+      {mobileTocOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end">
+          <div
+            onClick={() => setMobileTocOpen(false)}
+            className="fixed inset-0 bg-black/60 transition-opacity"
+          />
+          <div className="relative z-10 w-full max-h-[82vh] bg-[#F6F5F0] border-t border-[#DFDCD4] shadow-2xl flex flex-col overflow-hidden rounded-none">
+            <div className="w-12 h-1.5 bg-[#DFDCD4] rounded-none mx-auto my-3 shrink-0" />
+            <div className="px-5 pb-3 border-b border-[#DFDCD4] flex items-center justify-between gap-3 shrink-0">
+              <div className="flex items-center gap-2 font-bold text-[#141413] text-base font-serif">
+                <List className="w-4 h-4 text-[#1E4631]" />
+                <span>{isEn ? 'Table of Contents' : 'СОДЕРЖАНИЕ'}</span>
+              </div>
+              <button
+                onClick={() => setMobileTocOpen(false)}
+                className="p-1.5 bg-[#EFECE6] border border-[#DFDCD4] text-[#6E6B64] hover:text-[#141413] transition-colors cursor-pointer rounded-none"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <nav className="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-2">
+              {tocItems.map((item) => {
+                const isActive = activeHeadingId === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      scrollToHeading(item.id);
+                      setMobileTocOpen(false);
+                    }}
+                    className={`w-full text-left p-3 border text-xs cursor-pointer block rounded-none ${
+                      item.level === 3 ? 'pl-6 text-[11px]' : 'font-medium'
+                    } ${
+                      isActive
+                        ? 'border-[#1E4631] bg-[#EFECE6] text-[#1E4631] font-semibold'
+                        : 'border-[#DFDCD4] bg-[#FFFFFF] text-[#141413]'
+                    }`}
+                  >
+                    {item.text}
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+      )}
+
+      {/* MOBILE CATEGORY ARTICLES DRAWER */}
+      {mobileArticlesOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end">
+          <div
+            onClick={() => setMobileArticlesOpen(false)}
+            className="fixed inset-0 bg-black/60 transition-opacity"
+          />
+          <div className="relative z-10 w-full max-h-[82vh] bg-[#F6F5F0] border-t border-[#DFDCD4] shadow-2xl flex flex-col overflow-hidden rounded-none">
+            <div className="w-12 h-1.5 bg-[#DFDCD4] rounded-none mx-auto my-3 shrink-0" />
+            <div className="px-5 pb-3 border-b border-[#DFDCD4] flex items-center justify-between gap-3 shrink-0">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <BookOpen className="w-4 h-4 text-[#1E4631] shrink-0" />
+                <div className="min-w-0">
+                  <h3 className="font-bold text-[#141413] text-sm sm:text-base truncate font-serif">
+                    {categoryTitle}
+                  </h3>
+                </div>
+              </div>
+              <button
+                onClick={() => setMobileArticlesOpen(false)}
+                className="p-1.5 bg-[#EFECE6] border border-[#DFDCD4] text-[#6E6B64] hover:text-[#141413] transition-colors cursor-pointer rounded-none"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-2.5">
+              {categoryArticles.map((art) => {
+                const isCurrent = art.path.replace(/\.md$/, '') === pathPart || art.path === path;
+                return (
+                  <button
+                    key={art.path}
+                    onClick={() => {
+                      setMobileArticlesOpen(false);
+                      if (!isCurrent) navigateToArticle(art.path);
+                    }}
+                    className={`w-full text-left p-3.5 border transition-all cursor-pointer block rounded-none ${
+                      isCurrent
+                        ? 'border-[#1E4631] bg-[#EFECE6] text-[#1E4631] font-semibold'
+                        : 'border-[#DFDCD4] bg-[#FFFFFF] text-[#141413]'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <span className={`text-xs sm:text-sm font-bold leading-snug line-clamp-2 ${isCurrent ? 'text-[#1E4631]' : 'text-[#141413]'}`}>
+                        {art.title}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Lightbox Modal */}
+      {lightboxImage && (
+        <div 
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10 bg-black/75"
+          onClick={() => setLightboxImage(null)}
+        >
+          <div 
+            className="relative max-w-5xl w-full max-h-[90vh] flex flex-col items-center justify-center bg-[#F6F5F0] border border-[#DFDCD4] shadow-2xl overflow-hidden p-4 rounded-none"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-full flex items-center justify-between px-3 py-2 border-b border-[#DFDCD4] mb-2">
+              <div className="flex items-center gap-2 text-xs text-[#141413] font-medium truncate pr-4 font-serif">
+                <span className="w-2 h-2 bg-[#1E4631] shrink-0"></span>
+                <span className="truncate">{lightboxImage.alt || (isEn ? 'Illustration' : 'Иллюстрация')}</span>
+              </div>
+              <button
+                onClick={() => setLightboxImage(null)}
+                className="p-1.5 bg-[#EFECE6] border border-[#DFDCD4] text-[#141413] hover:bg-[#DFDCD4] transition-colors cursor-pointer rounded-none"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="w-full max-h-[75vh] flex items-center justify-center overflow-auto bg-[#EFECE6] p-2">
+              <img
+                src={lightboxImage.src}
+                alt={lightboxImage.alt || ''}
+                referrerPolicy="no-referrer"
+                className="max-h-[72vh] w-auto max-w-full object-contain select-none"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Citation Popover */}
+      {activeCitation && (
+        <div
+          id="citation-tooltip-popover"
+          role="tooltip"
+          onMouseEnter={cancelCloseCitation}
+          onMouseLeave={handleCitationHoverEnd}
+          style={{
+            position: 'fixed',
+            top: activeCitation.rect.top > 230 
+              ? `${Math.max(16, activeCitation.rect.top - 8)}px` 
+              : `${Math.min(window.innerHeight - 200, activeCitation.rect.bottom + 8)}px`,
+            transform: activeCitation.rect.top > 230 ? 'translateY(-100%)' : 'none',
+            left: `${Math.max(16, Math.min(window.innerWidth - 350, activeCitation.rect.left + activeCitation.rect.width / 2 - 165))}px`,
+            width: '330px',
+            maxWidth: 'calc(100vw - 2rem)',
+            zIndex: 60
+          }}
+          className="bg-[#EFECE6] border border-[#DFDCD4] p-4 shadow-xl text-xs text-[#141413] rounded-none animate-in fade-in duration-150"
+        >
+          <div className="flex items-center justify-between gap-2 border-b border-[#DFDCD4] pb-2.5 mb-2.5">
+            <div className="flex items-center gap-1.5 font-mono text-[11px] font-bold text-[#1E4631]">
+              <span className="px-1.5 py-0.5 bg-[#F6F5F0] border border-[#DFDCD4]">
+                [{activeCitation.num}]
+              </span>
+              <span className="text-[#141413] font-sans font-medium text-xs">
+                {isEn ? 'Source Reference' : 'Источник из библиографии'}
+              </span>
+            </div>
+            <button
+              onClick={() => setActiveCitation(null)}
+              className="p-1 text-[#6E6B64] hover:text-[#141413] hover:bg-[#DFDCD4] transition-colors cursor-pointer rounded-none"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          <div className="space-y-1.5 max-h-48 overflow-y-auto custom-scrollbar pr-1">
+            {activeCitation.refInfo ? (
+              <>
+                {activeCitation.refInfo.authors && (
+                  <p className="font-semibold text-[#141413] text-xs leading-snug">
+                    {activeCitation.refInfo.authors}
+                    {activeCitation.refInfo.year ? ` (${activeCitation.refInfo.year})` : ''}
+                  </p>
+                )}
+                {activeCitation.refInfo.title && (
+                  <p className="italic text-[#1E4631] text-[11px] leading-snug font-serif">
+                    {activeCitation.refInfo.title}
+                  </p>
+                )}
+                {activeCitation.refInfo.doi && (
+                  <div className="pt-1">
+                    <a
+                      href={formatDoiUrl(activeCitation.refInfo.doi) || `https://doi.org/${activeCitation.refInfo.doi}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 text-[10px] font-mono text-[#1E4631] hover:underline"
+                    >
+                      <span>DOI: {normalizeDoi(activeCitation.refInfo.doi)}</span>
+                      <ExternalLink className="w-2.5 h-2.5" />
+                    </a>
+                  </div>
+                )}
+              </>
+            ) : (
+              <p className="text-[#6E6B64] text-xs italic">
+                {isEn ? 'Academic source cited in text' : 'Академический источник'}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
     </article>
   );
 }
-

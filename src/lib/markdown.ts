@@ -1,5 +1,5 @@
 import { load } from 'js-yaml';
-import { ArticleMetadata, ReferenceItem } from '../types';
+import { ArticleMetadata, ReferenceItem, RelatedKnowledgeItem } from '../types';
 
 export function parseFrontmatter(md: string): { metadata: ArticleMetadata; content: string } {
   let content = typeof md === 'string' ? md : '';
@@ -38,6 +38,10 @@ export function parseFrontmatter(md: string): { metadata: ArticleMetadata; conte
         
         if (parsedFm.evidence_level || parsedFm.evidenceLevel) {
           metadata.evidenceLevel = String(parsedFm.evidence_level || parsedFm.evidenceLevel).trim();
+        }
+
+        if (parsedFm.epoch || parsedFm.period || parsedFm.era || parsedFm.chronology) {
+          metadata.epoch = String(parsedFm.epoch || parsedFm.period || parsedFm.era || parsedFm.chronology).trim();
         }
 
         if (Array.isArray(parsedFm.evidence_basis || parsedFm.evidenceBasis)) {

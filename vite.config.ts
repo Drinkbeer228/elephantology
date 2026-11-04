@@ -3,7 +3,12 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.BASE_URL || '/',
+  base: './',
+  server: {
+    port: 3000,
+    host: '0.0.0.0',
+    hmr: false
+  },
   build: {
     target: 'es2020',
     minify: 'terser',

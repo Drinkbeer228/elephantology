@@ -26,6 +26,8 @@ export interface ArticleMetadata {
   tags?: string[];
   difficulty?: 'basic' | 'intermediate' | 'advanced' | string;
   readingTimeMin?: number;
+  epoch?: string;
+  period?: string;
   evidenceLevel?: EvidenceLevel | string;
   evidenceBasis?: EvidenceBasisType[];
   datePublished?: string;
