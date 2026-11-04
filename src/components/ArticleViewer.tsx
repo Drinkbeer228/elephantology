@@ -810,9 +810,6 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           <div className="mb-6">
             <StepTabs
               steps={lessonSteps}
-              labels={isEn
-                ? { theory: 'Theory', quiz: 'Quiz', cards: 'Cards', lab: 'Lab' }
-                : undefined}
             />
           </div>
         )}
