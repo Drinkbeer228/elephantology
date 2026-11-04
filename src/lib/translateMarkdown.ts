@@ -180,12 +180,13 @@ export function translateMarkdownToEnglish(markdown: string): string {
     result = result.replace(headingRegex, `$1${en}`);
   });
 
-  // 3. Protect markdown link and image URLs
+  // 3. Protect markdown links (label + URL), images and standalone URLs from term edits.
+  // Otherwise the glossary corrupts relative link tails: «.../хобот.md» -> «.../proboscis.md» (broken path).
   const linkUrls: string[] = [];
-  result = result.replace(/(\[[^\]]*\]\()([^)]+)(\))/g, (_, prefix, url, suffix) => {
+  result = result.replace(/(!?\[[^\]]*\]\([^)]+\)|https?:\/\/[^\s)>\]"']+)/g, (match) => {
     const index = linkUrls.length;
-    linkUrls.push(url);
-    return `${prefix}__LINK_URL_${index}__${suffix}`;
+    linkUrls.push(match);
+    return `__LINK_URL_${index}__`;
   });
 
   // 4. Apply regex scientific and biological terminology replacements

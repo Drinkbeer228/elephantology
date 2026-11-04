@@ -1,6 +1,7 @@
 import { ArticleItem } from './searchEngine';
 import { parseFrontmatter } from './markdown';
 import { ARTICLE_TRANSLATIONS_EN } from './articleTranslations';
+import { translateMarkdownToEnglish } from './translateMarkdown';
 
 const legacyMap: Record<string, string> = {
   "respiratory_system": "anatomy/respiratory-system-and-vocal-tract",
@@ -161,7 +162,9 @@ function computeArticles(lang?: string): ArticleItem[] {
       evidence_level: metadata.evidenceLevel || '',
       difficulty: metadata.difficulty || '',
       lastReviewed: metadata.lastReviewed || '',
-      content: cleanContent
+      // В EN-индексе тело статьи тоже переводится (глоссарий-подход),
+      // иначе поиск по английским терминам не матчит русский контент (+15 очков за content)
+      content: isEn ? translateMarkdownToEnglish(cleanContent) : cleanContent
     };
   });
 }

@@ -11,8 +11,8 @@ interface CitationModalDetail {
 export function CitationModal() {
   const { t, isEn } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
-  const [articleTitle, setArticleTitle] = useState('Анатомия и физиология хоботных');
-  const [categoryName, setCategoryName] = useState('Анатомия');
+  const [articleTitle, setArticleTitle] = useState('');
+  const [categoryName, setCategoryName] = useState('');
   const [activeTab, setActiveTab] = useState<'gost' | 'apa' | 'bibtex' | 'quote'>('gost');
   const [copied, setCopied] = useState(false);
   const [selectedText, setSelectedText] = useState('');
@@ -63,11 +63,12 @@ export function CitationModal() {
   const dateFormattedEn = `${monthsEn[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
   const currentUrl = window.location.href;
 
+  const fallbackTitle = isEn ? 'Academic Monograph' : 'Академическая статья';
   const citations = {
-    gost: `Слонология: Академическая энциклопедия хоботных (Proboscidea). Статья «${articleTitle}». — 2026. URL: ${currentUrl} (дата обращения: ${dateFormattedRu}).`,
-    apa: `Elephantology Research Guild. (2026). ${articleTitle}. In Elephantology Knowledge Base. Retrieved ${dateFormattedEn}, from ${currentUrl}`,
-    bibtex: `@misc{elephantology2026_${articleTitle.toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 16)},
-  title = {${articleTitle}},
+    gost: `Слонология: Академическая энциклопедия хоботных (Proboscidea). Статья «${articleTitle || fallbackTitle}». — 2026. URL: ${currentUrl} (дата обращения: ${dateFormattedRu}).`,
+    apa: `Elephantology Research Guild. (2026). ${articleTitle || fallbackTitle}. In Elephantology Knowledge Base. Retrieved ${dateFormattedEn}, from ${currentUrl}`,
+    bibtex: `@misc{elephantology2026_${(articleTitle || 'article').toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 16)},
+  title = {${articleTitle || fallbackTitle}},
   author = {{Elephantology Research Guild}},
   year = {2026},
   howpublished = {\\url{${currentUrl}}},

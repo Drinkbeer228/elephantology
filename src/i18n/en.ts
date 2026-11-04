@@ -64,14 +64,12 @@ export const en = {
     doi: 'Digital Object Identifier',
     close: 'Close'
   },
-  offline: {
-    title: 'PWA & Offline Mode',
-    subtitle: 'Elephantology Encyclopedia is a progressive web application.',
-    step1: 'Works fully offline after the first load.',
-    step2: 'You can install it on your phone or computer.',
-    syncing: 'Syncing to storage...',
-    downloadAll: 'Download entire encyclopedia for offline access',
-    close: 'Close'
+  steps: {
+    theory: 'Theory',
+    quiz: 'Quiz',
+    cards: 'Cards',
+    lab: 'Lab',
+    navAria: 'Lesson steps'
   },
   a11y: {
     skipToContent: 'Skip to main content'
