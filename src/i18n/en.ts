@@ -75,5 +75,12 @@ export const en = {
   },
   a11y: {
     skipToContent: 'Skip to main content'
+  },
+  steps: {
+    navAria: 'Lesson steps',
+    theory: 'Theory',
+    quiz: 'Quiz',
+    cards: 'Cards',
+    lab: 'Lab'
   }
 };

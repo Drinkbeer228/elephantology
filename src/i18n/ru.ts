@@ -75,5 +75,12 @@ export const ru = {
   },
   a11y: {
     skipToContent: 'Перейти к основному содержимому'
+  },
+  steps: {
+    navAria: 'Шаги урока',
+    theory: 'Теория',
+    quiz: 'Тест',
+    cards: 'Карточки',
+    lab: 'Практика'
   }
 };

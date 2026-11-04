@@ -17,9 +17,17 @@ marked.use(markedFootnote());
 
 const renderer = new marked.Renderer();
 
-const docsDir = './docs';
-const distDir = './dist';
-const domain = CANONICAL_DOMAIN;
+// Allow overriding the canonical domain via CLI (must match the --domain
+// passed to seo-helper.js), e.g. GitHub Pages:
+//   node prerender.js --domain=https://drinkbeer228.github.io/elephantology
+const cliArgs = Object.fromEntries(process.argv.slice(2).map(arg => {
+  const [key, value] = arg.split('=');
+  return [key.replace(/^--/, ''), value];
+}));
+
+const docsDir = cliArgs.docs || './docs';
+const distDir = cliArgs.out ? path.dirname(cliArgs.out) : './dist';
+const domain = (cliArgs.domain || CANONICAL_DOMAIN).replace(/\/$/, '');
 const templatePath = path.join(distDir, 'index.html');
 
 if (!fs.existsSync(templatePath)) {
