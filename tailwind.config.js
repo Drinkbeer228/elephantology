@@ -10,23 +10,40 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        pixel: ['Silkscreen', 'monospace'],
-        sans: ['Plus Jakarta Sans', 'sans-serif'],
+        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
+        archive: {
+          paper: '#FBF9F5',
+          limestone: '#F2EFE9',
+          surface: '#EAE5DC',
+          border: '#DED8CD',
+          borderStrong: '#C5BDB0',
+          ink: '#1C1917',
+          inkSoft: '#44403C',
+          muted: '#78716C',
+          forest: '#14532D',
+          forestHover: '#166534',
+          terracotta: '#9A3412',
+          bronze: '#78350F',
+          lapis: '#1E3A8A',
+        },
         kingdom: {
-          bg: '#0B0F17',
-          card: '#111827',
-          surface: '#1E293B',
-          border: 'rgba(255, 255, 255, 0.1)',
-          gold: '#F59E0B',
-          accent: '#38BDF8',
-          emerald: '#34D399',
-          rose: '#FB7185',
-          muted: '#94A3B8',
+          bg: '#FBF9F5',
+          card: '#F2EFE9',
+          surface: '#EAE5DC',
+          border: '#DED8CD',
+          gold: '#14532D',
+          accent: '#9A3412',
+          emerald: '#14532D',
+          rose: '#9A3412',
+          muted: '#78716C',
         }
       }
     }
   },
   plugins: [],
 }
+

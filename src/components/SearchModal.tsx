@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   Search, 
   X, 
-  ArrowRight, 
+  ArrowUpRight, 
   Tag, 
   HelpCircle, 
   SlidersHorizontal, 
@@ -28,7 +28,7 @@ function highlightMatch(text: string, query: string) {
   return parts.map((part, index) => {
     const isMatched = tokens.some(t => part.toLowerCase() === t.toLowerCase());
     return isMatched ? (
-      <mark key={index} className="bg-[#1E4631]/20 text-[#1E4631] font-semibold px-0.5 rounded-none">
+      <mark key={index} className="bg-[#14532D]/15 text-[#14532D] font-semibold px-0.5 rounded-none">
         {part}
       </mark>
     ) : (
@@ -45,7 +45,7 @@ interface ToggleSearchEventDetail {
 }
 
 export function SearchModal() {
-  const { t, lang } = useLanguage();
+  const { t, lang, isEn } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -63,40 +63,40 @@ export function SearchModal() {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const disciplines = useMemo(() => [
-    { id: 'all', name: t.catalog.allCategories, shortName: lang === 'en' ? 'All' : 'Все' },
-    { id: 'taxonomy', name: lang === 'en' ? 'Taxonomy & Evolution' : 'Таксономия и Эволюция', shortName: lang === 'en' ? 'Taxonomy' : 'Таксономия' },
-    { id: 'anatomy', name: lang === 'en' ? 'Anatomy & Morphology' : 'Анатомия и Морфология', shortName: lang === 'en' ? 'Anatomy' : 'Анатомия' },
-    { id: 'ethogram', name: lang === 'en' ? 'Ethogram & Behavior' : 'Этограмма и Поведение', shortName: lang === 'en' ? 'Ethogram' : 'Этограмма' },
-    { id: 'cognition', name: lang === 'en' ? 'Cognitive Science & Memory' : 'Когнитивистика и Память', shortName: lang === 'en' ? 'Cognition' : 'Когнитивистика' },
-    { id: 'veterinary', name: lang === 'en' ? 'Veterinary & Medicine' : 'Ветеринария и Медицина', shortName: lang === 'en' ? 'Veterinary' : 'Ветеринария' },
-    { id: 'ecology', name: lang === 'en' ? 'Ecology & Populations' : 'Экология и Популяции', shortName: lang === 'en' ? 'Ecology' : 'Экология' },
-    { id: 'conservation', name: lang === 'en' ? 'Conservation & Protection' : 'Охрана и Сохранение видов', shortName: lang === 'en' ? 'Conservation' : 'Охрана' },
-    { id: 'culture', name: lang === 'en' ? 'Anthrozoology & Culture' : 'История и Культура', shortName: lang === 'en' ? 'Culture' : 'Культура' },
-    { id: 'paleontology', name: lang === 'en' ? 'Paleontology & Fossils' : 'Палеонтология и Ископаемые', shortName: lang === 'en' ? 'Paleontology' : 'Палеонтология' },
-    { id: 'genomics', name: lang === 'en' ? 'Genomics & Genetics' : 'Геномика и Генетика', shortName: lang === 'en' ? 'Genomics' : 'Геномика' }
-  ], [t, lang]);
+    { id: 'all', name: t.catalog.allCategories, shortName: isEn ? 'All' : 'Все' },
+    { id: 'anatomy', name: isEn ? 'Anatomy & Physiology' : 'Анатомия и Физиология', shortName: isEn ? 'Anatomy' : 'Анатомия' },
+    { id: 'ethogram', name: isEn ? 'Ethology & Behavior' : 'Этология и Поведение', shortName: isEn ? 'Ethogram' : 'Этология' },
+    { id: 'taxonomy', name: isEn ? 'Taxonomy & Evolution' : 'Таксономия и Эволюция', shortName: isEn ? 'Taxonomy' : 'Таксономия' },
+    { id: 'veterinary', name: isEn ? 'Veterinary Medicine' : 'Ветеринария и Патологии', shortName: isEn ? 'Veterinary' : 'Ветеринария' },
+    { id: 'ecology', name: isEn ? 'Ecology & Biomes' : 'Экология и Биоценозы', shortName: isEn ? 'Ecology' : 'Экология' },
+    { id: 'conservation', name: isEn ? 'Conservation & Forensics' : 'Охрана и Криминалистика', shortName: isEn ? 'Conservation' : 'Охрана' },
+    { id: 'cognition', name: isEn ? 'Cognition & Neurobiology' : 'Когнитивистика и Память', shortName: isEn ? 'Cognition' : 'Когнитивистика' },
+    { id: 'culture', name: isEn ? 'Anthrozoology & History' : 'Антропозоология и История', shortName: isEn ? 'Culture' : 'Культура' },
+    { id: 'paleontology', name: isEn ? 'Paleontology & Fossils' : 'Палеонтология и Ископаемые', shortName: isEn ? 'Paleontology' : 'Палеонтология' },
+    { id: 'genomics', name: isEn ? 'Genomics & Genetics' : 'Геномика и Иммуногенетика', shortName: isEn ? 'Genomics' : 'Геномика' }
+  ], [t, isEn]);
 
   const evidenceLevels = useMemo(() => [
-    { id: 'all', label: lang === 'en' ? 'Any evidence status' : 'Любой статус' },
+    { id: 'all', label: isEn ? 'Any evidence status' : 'Любой статус' },
     { id: 'established', label: `${t.evidence.established} (A1)` },
     { id: 'moderate', label: `${t.evidence.moderate} (A2)` },
     { id: 'limited', label: `${t.evidence.limited} (B)` },
     { id: 'hypothesis', label: `${t.evidence.hypothesis} (C)` }
-  ], [t, lang]);
+  ], [t, isEn]);
 
   const readingTimes = useMemo(() => [
-    { id: 'all', label: lang === 'en' ? 'Any volume' : 'Любой объём' },
-    { id: 'short', label: `< 10 ${t.catalog.readingTime} (${lang === 'en' ? 'Short' : 'Короткие'})` },
-    { id: 'medium', label: `10–25 ${t.catalog.readingTime} (${lang === 'en' ? 'Medium' : 'Средние'})` },
-    { id: 'long', label: `> 25 ${t.catalog.readingTime} (${lang === 'en' ? 'In-depth' : 'Фундаментальные'})` }
-  ], [t, lang]);
+    { id: 'all', label: isEn ? 'Any volume' : 'Любой объём' },
+    { id: 'short', label: `< 10 ${t.catalog.readingTime} (${isEn ? 'Short' : 'Короткие'})` },
+    { id: 'medium', label: `10–25 ${t.catalog.readingTime} (${isEn ? 'Medium' : 'Средние'})` },
+    { id: 'long', label: `> 25 ${t.catalog.readingTime} (${isEn ? 'In-depth' : 'Фундаментальные'})` }
+  ], [t, isEn]);
 
   const sortOptions = useMemo(() => [
-    { id: 'relevance', label: lang === 'en' ? 'By relevance' : 'По релевантности' },
-    { id: 'title_asc', label: lang === 'en' ? 'By title (A–Z)' : 'По названию (А–Я)' },
-    { id: 'time_asc', label: lang === 'en' ? 'By volume (shortest first)' : 'По объёму (сначала короткие)' },
-    { id: 'time_desc', label: lang === 'en' ? 'By volume (deepest first)' : 'По объёму (сначала глубокие)' }
-  ], [t, lang]);
+    { id: 'relevance', label: isEn ? 'By relevance' : 'По релевантности' },
+    { id: 'title_asc', label: isEn ? 'By title (A–Z)' : 'По названию (А–Я)' },
+    { id: 'time_asc', label: isEn ? 'By volume (shortest first)' : 'По объёму (сначала короткие)' },
+    { id: 'time_desc', label: isEn ? 'By volume (deepest first)' : 'По объёму (сначала глубокие)' }
+  ], [isEn]);
 
   useEffect(() => {
     try {
@@ -196,7 +196,7 @@ export function SearchModal() {
 
     const sorted = [...list];
     if (sortBy === 'title_asc') {
-      sorted.sort((a, b) => a.title.localeCompare(b.title, lang === 'en' ? 'en' : 'ru'));
+      sorted.sort((a, b) => a.title.localeCompare(b.title, isEn ? 'en' : 'ru'));
     } else if (sortBy === 'time_asc') {
       sorted.sort((a, b) => (a.reading_time_min || 5) - (b.reading_time_min || 5));
     } else if (sortBy === 'time_desc') {
@@ -204,7 +204,7 @@ export function SearchModal() {
     }
 
     return sorted;
-  }, [articles, query, selectedCategory, selectedTag, selectedEvidence, selectedReadingTime, sortBy, lang]);
+  }, [articles, query, selectedCategory, selectedTag, selectedEvidence, selectedReadingTime, sortBy, isEn]);
 
   const hasAnyFilterActive = selectedCategory !== 'all' || selectedTag !== null || selectedEvidence !== 'all' || selectedReadingTime !== 'all' || query.trim() !== '';
 
@@ -244,7 +244,7 @@ export function SearchModal() {
 
   const getCategoryLabel = (category: string) => {
     const found = disciplines.find(d => d.id === category?.toLowerCase());
-    return found ? found.name : (lang === 'en' ? 'Article' : 'Статья');
+    return found ? found.name : (isEn ? 'Monograph' : 'Монография');
   };
 
   useEffect(() => {
@@ -262,19 +262,19 @@ export function SearchModal() {
     <div 
       role="dialog"
       aria-modal="true"
-      aria-label={lang === 'en' ? 'Search encyclopedia' : 'Поиск по энциклопедии'}
-      className="fixed inset-0 z-50 flex items-start justify-center pt-12 sm:pt-20 px-3 pb-6 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150"
+      aria-label={isEn ? 'Search encyclopedia' : 'Поиск по энциклопедии'}
+      className="fixed inset-0 z-50 flex items-start justify-center pt-10 sm:pt-16 px-3 pb-6 bg-black/50 backdrop-blur-xs"
       onClick={() => setIsOpen(false)}
     >
       <div
         ref={modalRef}
         onClick={(e) => e.stopPropagation()}
         onKeyDown={handleKeyDownResults}
-        className="w-full max-w-3xl bg-[#F6F5F0] border border-[#DFDCD4] rounded-none shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
+        className="w-full max-w-3xl bg-[#FBF9F5] border border-[#C5BDB0] rounded-none shadow-2xl overflow-hidden flex flex-col max-h-[86vh]"
       >
         {/* Top Search Input Bar */}
-        <div className="p-4 sm:p-5 bg-[#EFECE6] border-b border-[#DFDCD4] flex items-center gap-3">
-          <Search className="w-5 h-5 text-[#6E6B64] shrink-0" />
+        <div className="p-4 sm:p-5 bg-[#F2EFE9] border-b border-[#DED8CD] flex items-center gap-3">
+          <Search className="w-5 h-5 text-[#14532D] shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -283,40 +283,53 @@ export function SearchModal() {
               setQuery(e.target.value);
               setSelectedIndex(0);
             }}
-            placeholder={lang === 'en' ? 'Search terms, taxa, anatomy, or concepts...' : 'Поиск терминов, таксонов, анатомии или концептов...'}
-            className="w-full bg-transparent text-[#141413] placeholder-[#6E6B64] text-sm sm:text-base focus:outline-none font-sans"
+            placeholder={isEn ? 'Search terms, taxa, anatomy, or concepts...' : 'Поиск терминов, таксонов, анатомии или концептов...'}
+            className="w-full bg-transparent text-[#1C1917] placeholder-[#78716C] text-sm sm:text-base focus:outline-none font-sans"
           />
           {query && (
             <button
+              type="button"
               onClick={() => setQuery('')}
-              className="p-1 text-[#6E6B64] hover:text-[#141413] cursor-pointer"
-              title={lang === 'en' ? 'Clear query' : 'Очистить'}
+              className="p-1 text-[#78716C] hover:text-[#1C1917] cursor-pointer"
+              title={isEn ? 'Clear query' : 'Очистить'}
             >
               <X className="w-4 h-4" />
             </button>
           )}
           <button
+            type="button"
             onClick={() => setShowAdvancedFilters(prev => !prev)}
-            className={`p-2 rounded-none border transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-medium ${
+            className={`px-3 py-1.5 rounded-none border transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 ${
               showAdvancedFilters || hasAnyFilterActive
-                ? 'bg-[#141413] text-[#F6F5F0] border-[#141413]'
-                : 'bg-[#F6F5F0] text-[#141413] border-[#DFDCD4] hover:bg-[#E8E4DD]'
+                ? 'bg-[#14532D] text-[#FBF9F5] border-[#14532D]'
+                : 'bg-[#FBF9F5] text-[#1C1917] border-[#DED8CD] hover:bg-[#EAE5DC]'
             }`}
-            title={lang === 'en' ? 'Advanced filters' : 'Расширенные фильтры'}
+            title={isEn ? 'Advanced filters' : 'Расширенные фильтры'}
           >
             <ListFilter className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">{lang === 'en' ? 'Filters' : 'Фильтры'}</span>
+            <span className="hidden sm:inline">{isEn ? 'Filters' : 'Фильтры'}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsOpen(false)}
+            aria-label={isEn ? 'Close search' : 'Закрыть поиск'}
+            className="p-1.5 bg-[#FBF9F5] border border-[#DED8CD] text-[#78716C] hover:text-[#1C1917] transition-colors cursor-pointer shrink-0"
+          >
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Categories Bar */}
-        <div className="bg-[#EFECE6] border-b border-[#DFDCD4] px-4 py-2.5 space-y-2">
-          <div className="flex items-center justify-between text-xs text-[#6E6B64]">
-            <span className="font-semibold uppercase tracking-wider text-[10px]">{lang === 'en' ? 'Disciplines:' : 'Дисциплина:'}</span>
+        <div className="bg-[#F2EFE9] border-b border-[#DED8CD] px-4 py-3 space-y-2">
+          <div className="flex items-center justify-between text-xs text-[#78716C]">
+            <span className="font-semibold uppercase tracking-wider text-[10px] font-mono">
+              {isEn ? 'Disciplines:' : 'Дисциплина:'}
+            </span>
             {selectedCategory !== 'all' && (
               <button
+                type="button"
                 onClick={() => setSelectedCategory('all')}
-                className="text-[11px] text-[#1E4631] hover:underline cursor-pointer font-medium"
+                className="text-[11px] text-[#14532D] hover:underline cursor-pointer font-medium"
               >
                 {t.catalog.allCategories}
               </button>
@@ -333,16 +346,17 @@ export function SearchModal() {
               return (
                 <button
                   key={cat.id}
+                  type="button"
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-2.5 py-1 rounded-none text-xs font-medium transition-colors flex items-center gap-1.5 cursor-pointer border ${
+                  className={`px-2.5 py-1 rounded-none text-xs font-medium transition-colors flex items-center gap-1.5 cursor-pointer border whitespace-nowrap shrink-0 ${
                     isSelected
-                      ? 'bg-[#141413] text-[#F6F5F0] border-[#141413] font-bold'
-                      : 'bg-[#F6F5F0] text-[#141413] hover:bg-[#E8E4DD] border-[#DFDCD4]'
+                      ? 'bg-[#1C1917] text-[#FBF9F5] border-[#1C1917] font-semibold'
+                      : 'bg-[#FBF9F5] text-[#44403C] hover:text-[#1C1917] hover:bg-[#EAE5DC] border-[#DED8CD]'
                   }`}
                 >
-                  <span>{cat.name}</span>
-                  <span className={`text-[10px] px-1 py-0.2 rounded-none font-mono ${
-                    isSelected ? 'bg-white/20 text-white' : 'bg-[#DFDCD4] text-[#6E6B64]'
+                  <span>{cat.shortName}</span>
+                  <span className={`text-[10px] font-mono tabular-nums ${
+                    isSelected ? 'text-[#DED8CD]' : 'text-[#78716C]'
                   }`}>
                     {count}
                   </span>
@@ -353,33 +367,37 @@ export function SearchModal() {
         </div>
 
         {/* Thematic Tags Section */}
-        <div className="bg-[#EFECE6] border-b border-[#DFDCD4] p-3.5 space-y-2">
+        <div className="bg-[#FBF9F5] border-b border-[#DED8CD] px-4 py-3 space-y-2">
           <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-1.5 text-[11px] text-[#6E6B64]">
-              <Tag className="w-3 h-3 text-[#1E4631]" />
-              <span className="font-semibold uppercase tracking-wider text-[10px]">{lang === 'en' ? 'Thematic tags:' : 'Тематические теги:'}</span>
+            <div className="flex items-center gap-1.5 text-[11px] text-[#78716C]">
+              <Tag className="w-3 h-3 text-[#14532D]" />
+              <span className="font-semibold uppercase tracking-wider text-[10px] font-mono">
+                {isEn ? 'Thematic Index:' : 'Тематические дескрипторы:'}
+              </span>
             </div>
-            {popularTags.length > 20 && (
+            {popularTags.length > 16 && (
               <button
+                type="button"
                 onClick={() => setExpandTags(prev => !prev)}
-                className="text-[10px] text-[#6E6B64] hover:text-[#141413] transition-colors cursor-pointer font-medium"
+                className="text-[11px] text-[#14532D] hover:underline transition-colors cursor-pointer font-medium"
               >
-                {expandTags ? (lang === 'en' ? 'Collapse tags' : 'Свернуть теги') : (lang === 'en' ? `Show all (${popularTags.length})` : `Показать все (${popularTags.length})`)}
+                {expandTags ? (isEn ? 'Collapse index' : 'Свернуть') : (isEn ? `Show all (${popularTags.length})` : `Показать все (${popularTags.length})`)}
               </button>
             )}
           </div>
 
           <div className="flex flex-wrap gap-1.5 text-[11px]">
-            {(expandTags ? popularTags : popularTags.slice(0, 20)).map(tag => {
+            {(expandTags ? popularTags : popularTags.slice(0, 16)).map(tag => {
               const isSelected = selectedTag === tag;
               return (
                 <button
                   key={tag}
+                  type="button"
                   onClick={() => setSelectedTag(prev => prev === tag ? null : tag)}
-                  className={`px-2 py-0.5 rounded-none transition-colors font-mono text-[11px] cursor-pointer border ${
+                  className={`px-2 py-0.5 rounded-none transition-colors font-mono text-[11px] cursor-pointer border whitespace-nowrap shrink-0 ${
                     isSelected
-                      ? 'bg-[#1E4631] text-[#F6F5F0] border-[#1E4631] font-bold'
-                      : 'bg-[#F6F5F0] text-[#6E6B64] hover:text-[#141413] hover:bg-[#E8E4DD] border-[#DFDCD4]'
+                      ? 'bg-[#14532D] text-[#FBF9F5] border-[#14532D] font-semibold'
+                      : 'bg-[#F2EFE9] text-[#44403C] hover:text-[#1C1917] hover:bg-[#EAE5DC] border-[#DED8CD]'
                   }`}
                 >
                   #{tag}
@@ -391,15 +409,15 @@ export function SearchModal() {
 
         {/* Expanded Advanced Filters Panel */}
         {showAdvancedFilters && (
-          <div className="p-3.5 bg-[#EFECE6] border-b border-[#DFDCD4] grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div className="p-4 bg-[#F2EFE9] border-b border-[#DED8CD] grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <div className="space-y-1">
-              <label className="text-[11px] text-[#6E6B64] font-medium flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#1E4631]" /> {lang === 'en' ? 'Evidence:' : 'Доказательность:'}
+              <label className="text-[11px] text-[#44403C] font-medium flex items-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#14532D]" /> {isEn ? 'Evidence:' : 'Доказательность:'}
               </label>
               <select
                 value={selectedEvidence}
                 onChange={(e) => setSelectedEvidence(e.target.value)}
-                className="w-full bg-[#F6F5F0] text-[#141413] border border-[#DFDCD4] rounded-none px-2.5 py-1.5 text-xs focus:outline-none focus:border-[#141413] cursor-pointer"
+                className="w-full bg-[#FBF9F5] text-[#1C1917] border border-[#DED8CD] rounded-none px-2.5 py-1.5 text-xs focus:outline-none focus:border-[#14532D] cursor-pointer"
               >
                 {evidenceLevels.map(lvl => (
                   <option key={lvl.id} value={lvl.id}>{lvl.label}</option>
@@ -408,13 +426,13 @@ export function SearchModal() {
             </div>
 
             <div className="space-y-1">
-              <label className="text-[11px] text-[#6E6B64] font-medium flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-[#1E4631]" /> {lang === 'en' ? 'Reading Time:' : 'Объём / Время чтения:'}
+              <label className="text-[11px] text-[#44403C] font-medium flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5 text-[#14532D]" /> {isEn ? 'Reading Time:' : 'Объём / Время чтения:'}
               </label>
               <select
                 value={selectedReadingTime}
                 onChange={(e) => setSelectedReadingTime(e.target.value)}
-                className="w-full bg-[#F6F5F0] text-[#141413] border border-[#DFDCD4] rounded-none px-2.5 py-1.5 text-xs focus:outline-none focus:border-[#141413] cursor-pointer"
+                className="w-full bg-[#FBF9F5] text-[#1C1917] border border-[#DED8CD] rounded-none px-2.5 py-1.5 text-xs focus:outline-none focus:border-[#14532D] cursor-pointer"
               >
                 {readingTimes.map(rt => (
                   <option key={rt.id} value={rt.id}>{rt.label}</option>
@@ -423,13 +441,13 @@ export function SearchModal() {
             </div>
 
             <div className="space-y-1">
-              <label className="text-[11px] text-[#6E6B64] font-medium flex items-center gap-1">
-                <SlidersHorizontal className="w-3.5 h-3.5 text-[#1E4631]" /> {lang === 'en' ? 'Sort:' : 'Сортировка:'}
+              <label className="text-[11px] text-[#44403C] font-medium flex items-center gap-1">
+                <SlidersHorizontal className="w-3.5 h-3.5 text-[#14532D]" /> {isEn ? 'Sort:' : 'Сортировка:'}
               </label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full bg-[#F6F5F0] text-[#141413] border border-[#DFDCD4] rounded-none px-2.5 py-1.5 text-xs focus:outline-none focus:border-[#141413] cursor-pointer"
+                className="w-full bg-[#FBF9F5] text-[#1C1917] border border-[#DED8CD] rounded-none px-2.5 py-1.5 text-xs focus:outline-none focus:border-[#14532D] cursor-pointer"
               >
                 {sortOptions.map(opt => (
                   <option key={opt.id} value={opt.id}>{opt.label}</option>
@@ -439,39 +457,48 @@ export function SearchModal() {
           </div>
         )}
 
-        {/* Results Info & Active Filter Badges Bar */}
+        {/* Results Info Bar */}
         <div 
           aria-live="polite" 
           aria-atomic="true"
-          className="px-4 py-2.5 bg-[#EFECE6] border-b border-[#DFDCD4] flex items-center justify-between flex-wrap gap-2 text-[11px] text-[#6E6B64]"
+          className="px-4 py-2 bg-[#F2EFE9] border-b border-[#DED8CD] flex items-center justify-between flex-wrap gap-2 text-[11px] text-[#78716C] font-mono tabular-nums"
         >
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[#141413]">
-              {lang === 'en' ? 'Articles found:' : 'Найдено статей:'} <strong className="text-[#1E4631] font-bold text-xs">{results.length}</strong> {lang === 'en' ? 'of' : 'из'} {articles.length}
+            <span className="text-[#1C1917]">
+              {isEn ? 'Monographs found:' : 'Найдено статей:'} <strong className="text-[#14532D] font-bold">{results.length}</strong> {isEn ? 'of' : 'из'} {articles.length}
             </span>
 
             {selectedCategory !== 'all' && (
-              <span className="inline-flex items-center gap-1.5 bg-[#F6F5F0] text-[#141413] px-2 py-0.5 rounded-none border border-[#DFDCD4] font-medium">
-                {getCategoryLabel(selectedCategory)}
-                <button onClick={() => setSelectedCategory('all')} className="hover:text-[#1E4631] cursor-pointer"><X className="w-3 h-3" /></button>
-              </span>
+              <button
+                type="button"
+                onClick={() => setSelectedCategory('all')}
+                className="inline-flex items-center gap-1.5 bg-[#FBF9F5] text-[#1C1917] px-2 py-0.5 border border-[#DED8CD] font-sans font-medium cursor-pointer"
+              >
+                <span>{getCategoryLabel(selectedCategory)}</span>
+                <X className="w-3 h-3" />
+              </button>
             )}
 
             {selectedTag && (
-              <span className="inline-flex items-center gap-1 bg-[#1E4631]/10 text-[#1E4631] px-2 py-0.5 rounded-none border border-[#1E4631]/30 font-mono">
-                #{selectedTag}
-                <button onClick={() => setSelectedTag(null)} className="hover:text-black cursor-pointer"><X className="w-3 h-3" /></button>
-              </span>
+              <button
+                type="button"
+                onClick={() => setSelectedTag(null)}
+                className="inline-flex items-center gap-1 bg-[#14532D] text-[#FBF9F5] px-2 py-0.5 font-mono cursor-pointer"
+              >
+                <span>#{selectedTag}</span>
+                <X className="w-3 h-3" />
+              </button>
             )}
           </div>
 
           {hasAnyFilterActive && (
             <button
+              type="button"
               onClick={resetAllFilters}
-              className="inline-flex items-center gap-1 text-[11px] text-[#6E6B64] hover:text-[#141413] transition-colors cursor-pointer font-medium"
+              className="inline-flex items-center gap-1 text-[11px] text-[#44403C] hover:text-[#1C1917] transition-colors cursor-pointer font-sans font-medium"
             >
               <RotateCcw className="w-3 h-3" />
-              <span>{lang === 'en' ? 'Reset all' : 'Сбросить все'}</span>
+              <span>{isEn ? 'Reset filters' : 'Сбросить все'}</span>
             </button>
           )}
         </div>
@@ -479,23 +506,24 @@ export function SearchModal() {
         {/* Results List */}
         <div 
           ref={resultsContainerRef}
-          className="p-3 overflow-y-auto space-y-2 flex-1 divide-y divide-[#DFDCD4]"
+          className="overflow-y-auto flex-1 divide-y divide-[#DED8CD] custom-scrollbar"
         >
           {results.length === 0 ? (
-            <div className="text-center py-14 space-y-3">
+            <div className="text-center py-14 px-4 space-y-3">
               <div className="flex justify-center mb-1">
-                <HelpCircle className="w-10 h-10 text-[#6E6B64]" />
+                <HelpCircle className="w-9 h-9 text-[#78716C]" />
               </div>
-              <p className="text-sm text-[#141413] font-semibold">{t.search.noResults}</p>
-              <p className="text-xs text-[#6E6B64] max-w-md mx-auto leading-relaxed">
-                {lang === 'en' ? 'Try changing keywords, selecting a different category, or resetting active filters.' : 'Попробуйте изменить поисковые слова, выбрать другую категорию или сбросить активные фильтры.'}
+              <p className="text-base text-[#1C1917] font-semibold font-serif">{t.search.noResults}</p>
+              <p className="text-xs text-[#78716C] max-w-md mx-auto leading-relaxed">
+                {isEn ? 'Try changing keywords, selecting a different discipline, or resetting active filters.' : 'Попробуйте изменить поисковые слова, выбрать другую дисциплину или сбросить активные фильтры.'}
               </p>
-              <button 
+              <button
+                type="button"
                 onClick={resetAllFilters}
-                className="mt-2 px-4 py-2 bg-[#141413] hover:bg-[#1E4631] text-[#F6F5F0] rounded-none text-xs font-bold transition-all cursor-pointer inline-flex items-center gap-2"
+                className="mt-2 px-4 py-2 bg-[#14532D] hover:bg-[#166534] text-[#FBF9F5] text-xs font-semibold transition-colors cursor-pointer inline-flex items-center gap-2"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                {lang === 'en' ? 'Reset all parameters' : 'Сбросить все параметры'}
+                <span>{isEn ? 'Reset all parameters' : 'Сбросить все параметры'}</span>
               </button>
             </div>
           ) : (
@@ -503,53 +531,58 @@ export function SearchModal() {
               const isKeyboardSelected = idx === selectedIndex;
 
               return (
-                <div 
+                <button
                   key={article.path}
+                  type="button"
                   data-result-index={idx}
                   onClick={() => handleSelectArticle(article.path)} 
                   onMouseEnter={() => setSelectedIndex(idx)}
-                  className={`p-3.5 pt-4 rounded-none cursor-pointer border transition-colors flex items-start justify-between gap-3 ${
+                  className={`w-full text-left px-5 py-4 cursor-pointer transition-colors flex items-start justify-between gap-4 ${
                     isKeyboardSelected 
-                      ? 'bg-[#EFECE6] border-[#141413]' 
-                      : 'bg-[#F6F5F0] hover:bg-[#EFECE6] border-transparent'
+                      ? 'bg-[#F2EFE9]' 
+                      : 'bg-[#FBF9F5] hover:bg-[#F2EFE9]/70'
                   }`}
                 >
-                  <div className="flex-1 min-w-0 space-y-1.5">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs sm:text-sm font-bold text-[#141413] hover:text-[#1E4631] transition-colors">
-                        {highlightMatch(article.title, query)}
+                  <div className="flex-1 min-w-0 space-y-1">
+                    <div className="flex items-center gap-2 text-[11px] font-mono text-[#78716C] tabular-nums">
+                      <span className="font-semibold text-[#14532D] uppercase">
+                        {getCategoryLabel(article.category)}
                       </span>
+                      {article.readingTime && (
+                        <>
+                          <span aria-hidden="true">·</span>
+                          <span>{article.readingTime}</span>
+                        </>
+                      )}
+                    </div>
+
+                    <div className="text-base sm:text-lg font-semibold text-[#1C1917] font-serif leading-snug">
+                      {highlightMatch(article.title, query)}
                     </div>
 
                     {article.excerpt && (
-                      <p className="text-xs text-[#6E6B64] line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-[#44403C] line-clamp-2 leading-relaxed">
                         {highlightMatch(article.excerpt, query)}
                       </p>
                     )}
-
-                    <div className="flex items-center gap-2 pt-1 flex-wrap text-[10px] text-[#6E6B64]">
-                      <span className="font-semibold text-[#1E4631] uppercase">
-                        {getCategoryLabel(article.category)}
-                      </span>
-                    </div>
                   </div>
 
-                  <div className="shrink-0 pt-1 text-[#6E6B64]">
-                    <ArrowRight className="w-4 h-4" />
+                  <div className="shrink-0 pt-2 text-[#78716C]">
+                    <ArrowUpRight className="w-4 h-4" />
                   </div>
-                </div>
+                </button>
               );
             })
           )}
         </div>
 
         {/* Footer Hint Bar */}
-        <div className="px-4 py-2 bg-[#EFECE6] border-t border-[#DFDCD4] flex items-center justify-between text-[10px] text-[#6E6B64]">
+        <div className="px-4 py-2.5 bg-[#F2EFE9] border-t border-[#DED8CD] flex items-center justify-between text-[11px] text-[#78716C] font-mono tabular-nums">
           <div className="flex items-center gap-3">
-            <span>{lang === 'en' ? 'Use' : 'Используйте'} <kbd className="px-1.5 py-0.5 bg-[#F6F5F0] border border-[#DFDCD4] text-[#141413] font-mono">↑</kbd> <kbd className="px-1.5 py-0.5 bg-[#F6F5F0] border border-[#DFDCD4] text-[#141413] font-mono">↓</kbd> {lang === 'en' ? 'to navigate' : 'для навигации'}</span>
-            <span><kbd className="px-1.5 py-0.5 bg-[#F6F5F0] border border-[#DFDCD4] text-[#141413] font-mono">Enter</kbd> {lang === 'en' ? 'to open' : 'для открытия'}</span>
+            <span>{isEn ? 'Navigate' : 'Навигация'}: <kbd className="px-1.5 py-0.5 bg-[#FBF9F5] border border-[#DED8CD] text-[#1C1917]">↑</kbd> <kbd className="px-1.5 py-0.5 bg-[#FBF9F5] border border-[#DED8CD] text-[#1C1917]">↓</kbd></span>
+            <span><kbd className="px-1.5 py-0.5 bg-[#FBF9F5] border border-[#DED8CD] text-[#1C1917]">Enter</kbd> {isEn ? 'open' : 'открыть'}</span>
           </div>
-          <span className="text-[#6E6B64] font-mono">{lang === 'en' ? 'Total articles:' : 'Всего статей:'} {articles.length}</span>
+          <span>{isEn ? 'Corpus:' : 'Всего монографий:'} {articles.length}</span>
         </div>
 
       </div>

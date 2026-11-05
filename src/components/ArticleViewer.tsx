@@ -641,6 +641,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
         processedContent = processedContent.replace(/>\s*\*\*Уровень доказательности:\*\*\s*\[[^\]]+\]\s*\n?/gi, '');
         processedContent = processedContent.replace(/>\s*\*\*Evidence Level:\*\*\s*\[[^\]]+\]\s*\n?/gi, '');
         processedContent = processedContent.replace(/##\s*(?:📚\s*)?(?:Литература|Список литературы|Библиография|References|Bibliography)[^\n]*\s*(?=\n\s*\[\^|\n*$)/gi, '');
+        processedContent = processedContent.replace(/##\s*Редакционный стандарт[^\n]*\n[\s\S]*?(?:\n---\n|\n(?=#+\s))/i, '\n');
 
         setMeta(metadata);
         setRawKeyFindings(extractedKeyFindings);
@@ -668,10 +669,8 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   }, [isEn, translationData, meta.title]);
 
   const displayExcerpt = useMemo(() => {
-    if (isEn && translationData?.excerpt) {
-      return translationData.excerpt;
-    }
-    return meta.excerpt || '';
+    const raw = (isEn && translationData?.excerpt) ? translationData.excerpt : (meta.excerpt || '');
+    return raw.replace(/\s+\d+(?=[.,;:])/g, '').trim();
   }, [isEn, translationData, meta.excerpt]);
 
   const displayKeyFindings = useMemo(() => {
@@ -986,8 +985,8 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
               <div className="p-4 bg-[#EFECE6] border border-[#DFDCD4]" />
             </aside>
             <main className="lg:col-span-6 w-full max-w-3xl mx-auto space-y-7">
-              <div className="h-8 bg-[#EFECE6] w-full" />
-              <div className="h-32 bg-[#EFECE6] border-l-4 border-[#1E4631]" />
+              <div className="h-8 bg-[#F2EFE9] w-full" />
+              <div className="h-32 bg-[#F2EFE9] border border-[#DED8CD]" />
             </main>
             <aside className="hidden lg:block lg:col-span-3 space-y-4">
               <div className="p-4 bg-[#EFECE6] border border-[#DFDCD4]" />
@@ -1026,32 +1025,51 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
   const referencesList = meta.references || [];
 
   return (
-    <article key={path} className="w-full pb-24 selection:bg-[#1E4631] selection:text-[#F6F5F0] relative animate-fade-in-content bg-[#F6F5F0]">
+    <article key={path} className="w-full pb-24 selection:bg-[#14532D] selection:text-[#FBF9F5] relative animate-fade-in-content bg-[#FBF9F5]">
       
       {/* Reading Progress Bar */}
-      <div className="sticky top-16 z-30 h-[3px] w-full bg-[#DFDCD4] overflow-hidden">
+      <div className="sticky top-16 z-30 h-[2px] w-full bg-[#DED8CD] overflow-hidden">
         <div 
-          className="h-full bg-[#1E4631] transition-all duration-150 ease-out"
+          className="h-full bg-[#14532D] transition-all duration-150 ease-out"
           style={{ width: `${readingProgress}%` }}
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pt-6 pb-20">
+      <div className="max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20">
         
-        {/* Top Navigation Bar: Breadcrumbs only, no buttons */}
-        <div className="flex items-center justify-between gap-3 text-xs text-[#6E6B64] border-b border-[#DFDCD4] pb-4 mb-10">
-          <nav aria-label="Breadcrumbs" className="flex items-center gap-1.5 flex-wrap min-w-0">
+        {/* Top Navigation & Curatorial Action Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-4 text-xs text-[#78716C] border-b border-[#DED8CD] pb-4 mb-10">
+          <nav aria-label="Breadcrumbs" className="flex items-center gap-2 flex-wrap min-w-0">
             <button
+              type="button"
               onClick={onBack}
-              className="hover:text-[#1E4631] transition-colors flex items-center font-medium cursor-pointer"
+              className="hover:text-[#14532D] text-[#44403C] transition-colors flex items-center gap-1.5 font-medium cursor-pointer whitespace-nowrap"
             >
+              <ArrowLeft className="w-3.5 h-3.5" />
               <span>{t.catalog.title}</span>
             </button>
-            <ChevronRight className="w-3 h-3 text-[#6E6B64] shrink-0" />
-            <span className="truncate max-w-[280px] sm:max-w-[400px] font-medium text-[#141413]">
+            <ChevronRight className="w-3 h-3 text-[#78716C] shrink-0" />
+            <span className="truncate max-w-[260px] sm:max-w-[400px] font-medium text-[#1C1917]">
               {categoryTitle}
             </span>
           </nav>
+
+          <div className="flex items-center gap-3 shrink-0">
+            <button
+              type="button"
+              onClick={() =>
+                window.dispatchEvent(
+                  new CustomEvent('openCitationModal', {
+                    detail: { title: displayTitle, category: categoryTitle }
+                  })
+                )
+              }
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#F2EFE9] hover:bg-[#EAE5DC] border border-[#DED8CD] text-[#1C1917] text-xs font-medium transition-colors cursor-pointer whitespace-nowrap shrink-0"
+            >
+              <Quote className="w-3.5 h-3.5 text-[#14532D]" />
+              <span>{t.article.cite}</span>
+            </button>
+          </div>
         </div>
 
         {/* 3-Column Layout Grid */}
@@ -1110,36 +1128,59 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           </div>
         )}
 
-        {/* Academic Header */}
-        <header className="mb-10 space-y-4">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#141413] leading-[1.25] font-serif">
+        {/* Academic Monograph Header & Unboxed Metadata Strip */}
+        <header className="mb-10 space-y-4 border-b border-[#DED8CD] pb-8">
+          <div className="flex items-center gap-2 flex-wrap text-xs font-mono text-[#78716C] tabular-nums">
+            <span className="text-[#14532D] font-semibold uppercase tracking-wider">
+              {categoryTitle}
+            </span>
+            {meta.readingTimeMin && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>{meta.readingTimeMin} {t.catalog.readingTime}</span>
+              </>
+            )}
+            {meta.evidenceLevel && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>{isEn ? `Evidence: ${meta.evidenceLevel}` : `Статус: ${t.evidence[meta.evidenceLevel.toLowerCase() as keyof typeof t.evidence] || meta.evidenceLevel}`}</span>
+              </>
+            )}
+            {meta.lastReviewed && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>{t.article.lastReviewed}: {meta.lastReviewed}</span>
+              </>
+            )}
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl md:text-[42px] font-semibold tracking-tight text-[#1C1917] leading-[1.14] font-serif text-balance">
             {displayTitle}
           </h1>
+
+          {displayExcerpt && (
+            <p className="text-lg sm:text-xl text-[#44403C] leading-relaxed pt-2 font-serif italic">
+              {displayExcerpt}
+            </p>
+          )}
         </header>
 
-        {/* Lead Excerpt */}
-        {displayExcerpt && (
-          <p className="text-lg text-[#6E6B64] leading-relaxed mb-12 border-b border-[#DFDCD4] pb-8 font-serif">
-            {displayExcerpt}
-          </p>
-        )}
-
-        {/* Key Findings */}
+        {/* Key Findings (Clean All-Around Archival Hairline Box — No thick left bar) */}
         {displayKeyFindings && (
-          <section className="my-8 border border-[#DFDCD4] border-l-4 border-l-[#1E4631] bg-[#EFECE6] p-5 rounded-none">
-            <div className="flex items-center gap-2 mb-3 text-[#141413] font-semibold text-sm">
-              <Info className="w-4 h-4 text-[#1E4631] shrink-0" />
+          <section className="my-8 border border-[#C5BDB0] bg-[#F2EFE9] p-6 rounded-none">
+            <div className="flex items-center gap-2 mb-3 pb-2.5 border-b border-[#DED8CD] text-[#14532D] font-mono uppercase tracking-wider font-semibold text-xs">
+              <Info className="w-4 h-4 text-[#14532D] shrink-0" />
               <span>{isEn ? 'Key Insights & Parameters' : 'Ключевые сведения и параметры'}</span>
             </div>
-            <div className="text-[#141413] text-sm leading-relaxed space-y-2">
+            <div className="text-[#1C1917] text-sm leading-relaxed space-y-2">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm, remarkMath]}
                 rehypePlugins={[rehypeKatex, rehypeRaw]}
                 components={{
-                  p: ({ node, ...props }) => <p className="mb-2 last:mb-0 text-[#141413]" {...props} />,
-                  ul: ({ node, ...props }) => <ul className="list-disc list-inside space-y-1.5 my-2 text-[#141413] text-xs sm:text-sm" {...props} />,
-                  li: ({ node, ...props }) => <li className="text-[#141413]" {...props} />,
-                  strong: ({ node, ...props }) => <strong className="font-bold text-[#141413]" {...props} />
+                  p: ({ node, ...props }) => <p className="mb-2 last:mb-0 text-[#1C1917]" {...props} />,
+                  ul: ({ node, ...props }) => <ul className="list-disc list-inside space-y-1.5 my-2 text-[#1C1917] text-xs sm:text-sm" {...props} />,
+                  li: ({ node, ...props }) => <li className="text-[#1C1917]" {...props} />,
+                  strong: ({ node, ...props }) => <strong className="font-semibold text-[#1C1917]" {...props} />
                 }}
               >
                 {displayKeyFindings}
@@ -1149,7 +1190,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
         )}
 
         {/* Article Body */}
-        <div className="academic-article-prose text-[#141413] leading-relaxed sm:leading-[1.8] text-base space-y-6">
+        <div className="academic-article-prose text-[#1C1917] leading-relaxed sm:leading-[1.8] text-base space-y-6">
           <ReactMarkdown
             remarkPlugins={[remarkGfm, remarkMath]}
             rehypePlugins={[rehypeKatex, rehypeRaw]}
@@ -1163,13 +1204,10 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                 return (
                   <h2
                     id={id}
-                    className="group text-xl sm:text-2xl font-bold tracking-tight text-[#141413] mt-12 mb-5 pb-3 border-b border-[#DFDCD4] scroll-mt-24 flex items-center justify-between font-serif"
+                    className="group text-2xl sm:text-[28px] font-semibold tracking-tight text-[#1C1917] mt-12 mb-5 pb-3 border-b border-[#DED8CD] scroll-mt-24 flex items-center justify-between font-serif text-balance"
                     {...props}
                   >
-                    <span className="flex items-center gap-2.5">
-                      <span className="w-1.5 h-5 bg-[#1E4631] rounded-none shrink-0" />
-                      <span>{children}</span>
-                    </span>
+                    <span>{children}</span>
                     <a
                       href={`#${id}`}
                       onClick={(e) => {
@@ -1178,10 +1216,10 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                         window.history.replaceState(null, '', `#${id}`);
                       }}
                       aria-label={`Link to ${rawText}`}
-                      className="text-[#6E6B64] hover:text-[#1E4631] opacity-0 group-hover:opacity-100 transition-opacity p-1.5 text-sm cursor-pointer shrink-0 font-mono"
+                      className="text-[#78716C] hover:text-[#14532D] opacity-0 group-hover:opacity-100 transition-opacity p-1.5 text-sm cursor-pointer shrink-0 font-mono"
                       title={isEn ? 'Copy anchor link' : 'Якорная ссылка на раздел'}
                     >
-                      #
+                      §
                     </a>
                   </h2>
                 );
@@ -1195,13 +1233,10 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                 return (
                   <h3
                     id={id}
-                    className="group text-lg sm:text-xl font-semibold tracking-tight text-[#141413] mt-8 mb-4 scroll-mt-24 flex items-center justify-between font-serif"
+                    className="group text-xl sm:text-2xl font-semibold tracking-tight text-[#1C1917] mt-8 mb-4 scroll-mt-24 flex items-center justify-between font-serif text-balance"
                     {...props}
                   >
-                    <span className="flex items-center gap-2">
-                      <span className="w-1 h-3.5 bg-[#1E4631] rounded-none shrink-0" />
-                      <span>{children}</span>
-                    </span>
+                    <span>{children}</span>
                     <a
                       href={`#${id}`}
                       onClick={(e) => {
@@ -1210,10 +1245,10 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                         window.history.replaceState(null, '', `#${id}`);
                       }}
                       aria-label={`Link to ${rawText}`}
-                      className="text-[#6E6B64] hover:text-[#1E4631] opacity-0 group-hover:opacity-100 transition-opacity p-1 text-sm cursor-pointer shrink-0 font-mono"
+                      className="text-[#78716C] hover:text-[#14532D] opacity-0 group-hover:opacity-100 transition-opacity p-1 text-sm cursor-pointer shrink-0 font-mono"
                       title={isEn ? 'Copy anchor link' : 'Якорная ссылка на подраздел'}
                     >
-                      #
+                      §
                     </a>
                   </h3>
                 );
@@ -1323,13 +1358,13 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   return (
                     <aside 
                       role="note"
-                      className="my-6 border-l-4 border-[#1E4631] bg-[#EFECE6] border-y border-r border-[#DFDCD4] p-5 sm:p-6 rounded-none shadow-sm"
+                      className="my-6 border border-[#C5BDB0] bg-[#F2EFE9] p-5 sm:p-6 rounded-none"
                     >
-                      <div className="flex items-center gap-2 mb-3 text-xs font-bold uppercase tracking-wider text-[#1E4631] font-mono">
-                        <Activity className="w-3.5 h-3.5 text-[#1E4631]" />
+                      <div className="flex items-center gap-2 mb-3 pb-2 border-b border-[#DED8CD] text-xs font-bold uppercase tracking-wider text-[#14532D] font-mono">
+                        <Activity className="w-3.5 h-3.5 text-[#14532D]" />
                         <span>{isEn ? 'Anatomical / Ecological Note' : 'Академическая справка'}</span>
                       </div>
-                      <div className="text-sm sm:text-base text-[#141413] leading-relaxed space-y-2 [&>p]:mb-2 [&>p:last-child]:mb-0">
+                      <div className="text-sm sm:text-base text-[#1C1917] leading-relaxed space-y-2 [&>p]:mb-2 [&>p:last-child]:mb-0">
                         {children}
                       </div>
                     </aside>
@@ -1337,7 +1372,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                 }
 
                 return (
-                  <blockquote className="my-6 border-l-4 border-[#1E4631] bg-[#EFECE6] p-5 border-y border-r border-[#DFDCD4] text-[#141413] italic leading-relaxed rounded-none" {...props}>
+                  <blockquote className="my-8 py-5 px-6 bg-[#F2EFE9] border-y border-[#C5BDB0] text-[#1C1917] font-serif text-lg italic leading-relaxed rounded-none" {...props}>
                     {children}
                   </blockquote>
                 );
@@ -1353,36 +1388,41 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
               td: ({ node, ...props }) => (
                 <td className="px-4 py-2.5 border-t border-[#DFDCD4] text-[#141413]" {...props} />
               ),
-              img: ({ node, src, alt, ...props }) => (
-                <figure className="my-8 group">
-                  <div 
-                    onClick={() => src && setLightboxImage({ src, alt: alt || '' })}
-                    className="relative overflow-hidden border border-[#DFDCD4] bg-[#EFECE6] shadow-sm cursor-zoom-in transition-all duration-300 hover:border-[#141413] rounded-none"
-                    title={isEn ? "Click to view full-size illustration" : "Нажмите для просмотра в полном размере"}
-                  >
-                    <img
-                      src={src}
-                      alt={alt || ''}
-                      loading="lazy"
-                      decoding="async"
-                      referrerPolicy="no-referrer"
-                      className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-[1.01]"
-                      {...props}
-                    />
-                    <div className="absolute bottom-2 right-2 flex items-center gap-1.5 px-2.5 py-1 bg-[#F6F5F0] text-[11px] font-medium text-[#141413] border border-[#DFDCD4] opacity-0 group-hover:opacity-100 transition-opacity rounded-none pointer-events-none">
-                      <ZoomIn className="w-3.5 h-3.5 text-[#1E4631]" />
-                      <span>{isEn ? 'Enlarge' : 'Увеличить'}</span>
+              img: ({ node, src, alt, ...props }) => {
+                const resolvedSrc = src && src.startsWith('/') && !src.startsWith(import.meta.env.BASE_URL)
+                  ? `${import.meta.env.BASE_URL}${src.slice(1)}`
+                  : src;
+                return (
+                  <figure className="my-8 group">
+                    <div 
+                      onClick={() => resolvedSrc && setLightboxImage({ src: resolvedSrc, alt: alt || '' })}
+                      className="relative overflow-hidden border border-[#DED8CD] bg-[#F2EFE9] cursor-zoom-in transition-colors duration-200 hover:border-[#1C1917] rounded-none"
+                      title={isEn ? "Click to view full-size illustration" : "Нажмите для просмотра в полном размере"}
+                    >
+                      <img
+                        src={resolvedSrc}
+                        alt={alt || ''}
+                        loading="lazy"
+                        decoding="async"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-[1.01]"
+                        {...props}
+                      />
+                      <div className="absolute bottom-2 right-2 flex items-center gap-1.5 px-2.5 py-1 bg-[#FBF9F5] text-[11px] font-medium text-[#1C1917] border border-[#DED8CD] opacity-0 group-hover:opacity-100 transition-opacity rounded-none pointer-events-none">
+                        <ZoomIn className="w-3.5 h-3.5 text-[#14532D]" />
+                        <span>{isEn ? 'Enlarge' : 'Увеличить'}</span>
+                      </div>
                     </div>
-                  </div>
-                  {alt && (
-                    <figcaption className="mt-2.5 px-1 text-center text-xs text-[#6E6B64] font-sans italic leading-relaxed">
-                      {alt}
-                    </figcaption>
-                  )}
-                </figure>
-              ),
+                    {alt && (
+                      <figcaption className="mt-2.5 px-1 text-center text-xs text-[#78716C] font-serif italic leading-relaxed">
+                        {alt}
+                      </figcaption>
+                    )}
+                  </figure>
+                );
+              },
               sup: ({ node, ...props }) => (
-                <sup className="text-[11px] font-mono font-medium leading-none px-0.5 text-[#1E4631] select-none align-super" {...props} />
+                <sup className="text-[11px] font-mono font-medium leading-none px-0.5 text-[#14532D] select-none align-super tabular-nums" {...props} />
               ),
               a: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
                 const isFootnoteBackref = (props as any)['data-footnote-backref'] !== undefined ||
@@ -1400,8 +1440,8 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                       }}
                       className={
                         isFootnoteBackref
-                          ? 'inline-flex items-center gap-1.5 text-[#1E4631] hover:text-[#141413] font-sans text-xs font-semibold ml-2 px-2.5 py-1 bg-[#EFECE6] border border-[#DFDCD4] shadow-xs cursor-pointer no-underline select-none my-1 rounded-none'
-                          : 'text-[#1E4631] hover:underline font-mono text-xs font-semibold px-0.5 inline-block cursor-pointer'
+                          ? 'inline-flex items-center gap-1.5 text-[#14532D] hover:text-[#1C1917] font-sans text-xs font-semibold ml-2 px-2.5 py-1 bg-[#F2EFE9] border border-[#DED8CD] shadow-xs cursor-pointer no-underline select-none my-1 rounded-none'
+                          : 'text-[#14532D] hover:underline font-mono text-xs font-semibold px-0.5 inline-block cursor-pointer'
                       }
                       {...props}
                     >
@@ -1422,7 +1462,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                     href={href}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-[#1E4631] hover:underline font-medium inline-flex items-center gap-0.5 transition-colors"
+                    className="text-[#14532D] hover:underline font-medium inline-flex items-center gap-0.5 transition-colors"
                     {...props}
                   >
                     <span>{children}</span>
@@ -1434,10 +1474,10 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                 const { className, children, rest } = props;
                 if (props['data-footnotes'] || className === 'footnotes' || (typeof className === 'string' && className.includes('footnotes'))) {
                   return (
-                    <div id="footnotes-literature-section" className="mt-14 pt-8 border-t border-[#DFDCD4] text-xs text-[#141413]">
-                      <h3 className="text-sm font-bold uppercase tracking-wider text-[#141413] mb-4 flex items-center gap-2 font-serif">
-                        <Quote className="w-4 h-4 text-[#1E4631]" />
-                        <span>{isEn ? 'References & Literature' : '📚 Литература и источники'}</span>
+                    <div id="footnotes-literature-section" className="mt-14 pt-8 border-t border-[#DED8CD] text-xs text-[#1C1917]">
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-[#1C1917] mb-4 flex items-center gap-2 font-serif">
+                        <Quote className="w-4 h-4 text-[#14532D]" />
+                        <span>{isEn ? 'References & Literature' : 'Литература и источники'}</span>
                       </h3>
                       <div className="space-y-2">{children}</div>
                     </div>
@@ -1453,20 +1493,20 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
 
         {/* Uncertainty block */}
         {displayUncertainty && (
-          <section className="my-12 p-5 bg-[#EFECE6] border border-[#DFDCD4] rounded-none">
-            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[#DFDCD4]">
-              <Scale className="w-4 h-4 text-[#1E4631] shrink-0" />
-              <h3 className="font-bold text-sm text-[#141413] font-serif">
+          <section className="my-12 p-5 bg-[#F2EFE9] border border-[#DED8CD] rounded-none">
+            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[#DED8CD]">
+              <Scale className="w-4 h-4 text-[#14532D] shrink-0" />
+              <h3 className="font-bold text-sm text-[#1C1917] font-serif">
                 {isEn ? 'Scientific Uncertainty & Evidence Boundaries' : 'Научная неопределённость и границы доказанности'}
               </h3>
             </div>
 
             <div className="space-y-3.5">
               {displayUncertainty.known && (
-                <div className="flex items-start gap-3 p-3 bg-[#F6F5F0] border border-[#DFDCD4]">
-                  <CheckCircle2 className="w-5 h-5 text-[#1E4631] shrink-0 mt-0.5" />
-                  <div className="text-xs sm:text-sm text-[#141413] leading-relaxed">
-                    <span className="font-semibold text-[#1E4631] block mb-0.5">
+                <div className="flex items-start gap-3 p-3 bg-[#FBF9F5] border border-[#DED8CD]">
+                  <CheckCircle2 className="w-5 h-5 text-[#14532D] shrink-0 mt-0.5" />
+                  <div className="text-xs sm:text-sm text-[#1C1917] leading-relaxed">
+                    <span className="font-semibold text-[#14532D] block mb-0.5">
                       {isEn ? 'Established Fact:' : 'Достоверно установлено:'}
                     </span>
                     <p>{displayUncertainty.known}</p>
@@ -1475,10 +1515,10 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
               )}
 
               {displayUncertainty.probable && (
-                <div className="flex items-start gap-3 p-3 bg-[#F6F5F0] border border-[#DFDCD4]">
-                  <AlertTriangle className="w-5 h-5 text-[#6E6B64] shrink-0 mt-0.5" />
-                  <div className="text-xs sm:text-sm text-[#141413] leading-relaxed">
-                    <span className="font-semibold text-[#141413] block mb-0.5">
+                <div className="flex items-start gap-3 p-3 bg-[#FBF9F5] border border-[#DED8CD]">
+                  <AlertTriangle className="w-5 h-5 text-[#78716C] shrink-0 mt-0.5" />
+                  <div className="text-xs sm:text-sm text-[#1C1917] leading-relaxed">
+                    <span className="font-semibold text-[#1C1917] block mb-0.5">
                       {isEn ? 'Probable / Requires Verification:' : 'Вероятно / Требует верификации:'}
                     </span>
                     <p>{displayUncertainty.probable}</p>
@@ -1491,9 +1531,9 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
 
         {/* Related Topics */}
         {relatedArticles.length > 0 && (
-          <section className="mt-14 pt-8 border-t border-[#DFDCD4]">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#141413] mb-4 flex items-center gap-2 font-serif">
-              <BookOpen className="w-4 h-4 text-[#1E4631]" />
+          <section className="mt-14 pt-8 border-t border-[#DED8CD]">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[#1C1917] mb-4 flex items-center gap-2 font-serif">
+              <BookOpen className="w-4 h-4 text-[#14532D]" />
               <span>{t.article.related}</span>
             </h3>
 
@@ -1504,13 +1544,13 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                   <button
                     key={rel.path}
                     onClick={() => navigateToArticle(rel.path)}
-                    className="p-3.5 bg-[#EFECE6] border border-[#DFDCD4] hover:border-[#141413] text-left transition-all group flex flex-col justify-between cursor-pointer rounded-none"
+                    className="p-3.5 bg-[#F2EFE9] border border-[#DED8CD] hover:border-[#1C1917] text-left transition-all group flex flex-col justify-between cursor-pointer rounded-none"
                   >
                     <div>
-                      <span className="text-[10px] font-mono text-[#6E6B64] uppercase tracking-wider block mb-1">
+                      <span className="text-[10px] font-mono text-[#78716C] uppercase tracking-wider block mb-1">
                         {categoryDict[relCatKey] || rel.category}
                       </span>
-                      <h4 className="text-xs font-semibold text-[#141413] group-hover:text-[#1E4631] transition-colors line-clamp-2 leading-snug font-serif">
+                      <h4 className="text-sm font-semibold text-[#1C1917] group-hover:text-[#14532D] transition-colors line-clamp-2 leading-snug font-serif">
                         {rel.title}
                       </h4>
                     </div>
@@ -1523,13 +1563,13 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
 
         {/* References */}
         {referencesList.length > 0 && !rawContent.includes('[^') && (
-          <section className="mt-14 pt-8 border-t border-[#DFDCD4]">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#141413] mb-4 flex items-center gap-2 font-serif">
-              <Quote className="w-4 h-4 text-[#1E4631]" />
-              <span>{isEn ? 'References & Bibliography (APA)' : '📚 Источники и библиография (APA)'}</span>
+          <section className="mt-14 pt-8 border-t border-[#DED8CD]">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[#1C1917] mb-4 flex items-center gap-2 font-serif">
+              <Quote className="w-4 h-4 text-[#14532D]" />
+              <span>{isEn ? 'References & Bibliography (APA)' : 'Источники и библиография (APA)'}</span>
             </h3>
 
-            <ol className="space-y-3 text-xs text-[#6E6B64] list-decimal list-outside ml-4">
+            <ol className="space-y-3 text-xs text-[#78716C] list-decimal list-outside ml-4">
               {referencesList.map((refItem: ReferenceItem | string, idx: number) => {
                 const isString = typeof refItem === 'string';
                 const ref = isString ? { id: `ref_${idx + 1}`, title: refItem } : refItem;
@@ -1540,10 +1580,10 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                     {isString ? (
                       <span>{refItem}</span>
                     ) : (
-                      <span className="text-[#141413]">
-                        {ref.authors && <span className="font-semibold text-[#141413]">{ref.authors} </span>}
+                      <span className="text-[#1C1917]">
+                        {ref.authors && <span className="font-semibold text-[#1C1917]">{ref.authors} </span>}
                         {ref.year && <span>({ref.year}). </span>}
-                        <span className="italic text-[#141413]">{ref.title}. </span>
+                        <span className="italic text-[#1C1917]">{ref.title}. </span>
                         {ref.journal && <span>{ref.journal}. </span>}
                         {ref.doi && (() => {
                           const cleanDoi = normalizeDoi(ref.doi);
@@ -1554,7 +1594,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                               href={doiUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-[#1E4631] hover:underline ml-1.5 font-mono inline-flex items-center gap-0.5"
+                              className="text-[#14532D] hover:underline ml-1.5 font-mono inline-flex items-center gap-0.5"
                             >
                               <span>DOI: {cleanDoi}</span>
                               <ExternalLink className="w-2.5 h-2.5" />
@@ -1572,17 +1612,17 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
 
         {/* Previous / Next Article Navigation */}
         {(prevArticle || nextArticle) && (
-          <nav className="mt-10 pt-6 border-t border-[#DFDCD4] grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <nav className="mt-10 pt-6 border-t border-[#DED8CD] grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             {prevArticle ? (
               <button
                 onClick={() => navigateToArticle(prevArticle.path)}
-                className="flex flex-col text-left p-3.5 bg-[#EFECE6] border border-[#DFDCD4] hover:border-[#141413] transition-colors cursor-pointer group rounded-none"
+                className="flex flex-col text-left p-3.5 bg-[#F2EFE9] border border-[#DED8CD] hover:border-[#1C1917] transition-colors cursor-pointer group rounded-none"
               >
-                <div className="flex items-center text-[#6E6B64] group-hover:text-[#1E4631] mb-1 font-medium">
+                <div className="flex items-center text-[#78716C] group-hover:text-[#14532D] mb-1 font-medium">
                   <ChevronLeft className="w-3.5 h-3.5 mr-1" />
                   <span>{t.article.prev}</span>
                 </div>
-                <span className="font-semibold text-[#141413] transition-colors line-clamp-1 font-serif">
+                <span className="font-semibold text-[#1C1917] transition-colors line-clamp-1 font-serif text-sm">
                   {prevArticle.title}
                 </span>
               </button>
@@ -1591,13 +1631,13 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             {nextArticle ? (
               <button
                 onClick={() => navigateToArticle(nextArticle.path)}
-                className="flex flex-col text-right p-3.5 bg-[#EFECE6] border border-[#DFDCD4] hover:border-[#141413] transition-colors cursor-pointer group rounded-none"
+                className="flex flex-col text-right p-3.5 bg-[#F2EFE9] border border-[#DED8CD] hover:border-[#1C1917] transition-colors cursor-pointer group rounded-none"
               >
-                <div className="flex items-center justify-end text-[#6E6B64] group-hover:text-[#1E4631] mb-1 font-medium">
+                <div className="flex items-center justify-end text-[#78716C] group-hover:text-[#14532D] mb-1 font-medium">
                   <span>{t.article.next}</span>
                   <ChevronRight className="w-3.5 h-3.5 ml-1" />
                 </div>
-                <span className="font-semibold text-[#141413] transition-colors line-clamp-1 font-serif">
+                <span className="font-semibold text-[#1C1917] transition-colors line-clamp-1 font-serif text-sm">
                   {nextArticle.title}
                 </span>
               </button>
@@ -1610,32 +1650,36 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           <aside className="hidden lg:block lg:col-span-3 sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto custom-scrollbar pl-1 space-y-4">
             
             <div className="space-y-3">
-              <div className="text-xs font-bold uppercase tracking-wider text-[#141413] font-serif border-b border-[#DFDCD4] pb-2.5">
+              <div className="text-xs font-bold uppercase tracking-wider text-[#1C1917] font-serif border-b border-[#DED8CD] pb-2.5">
                 <span>{isEn ? 'Table of Contents' : 'СОДЕРЖАНИЕ'}</span>
               </div>
 
               <nav aria-label="Table of Contents" className="space-y-1 max-h-[calc(100vh-14rem)] overflow-y-auto custom-scrollbar pr-1">
                 {tocItems.length === 0 ? (
-                  <p className="text-xs text-[#6E6B64] italic py-2">
+                  <p className="text-xs text-[#78716C] italic py-2">
                     {isEn ? 'Standard monograph structure' : 'Монографический текст'}
                   </p>
                 ) : (
-                  tocItems.map((item) => {
+                  tocItems.map((item, idx) => {
                     const isActive = activeHeadingId === item.id;
                     return (
                       <button
                         key={item.id}
+                        type="button"
                         onClick={() => scrollToHeading(item.id)}
-                        className={`w-full text-left transition-all duration-150 cursor-pointer block truncate rounded-none ${
-                          item.level === 3 ? 'pl-4 text-[11px]' : 'pl-2 text-xs font-medium'
+                        className={`w-full text-left transition-colors duration-150 cursor-pointer block truncate rounded-none ${
+                          item.level === 3 ? 'pl-4 text-[11px]' : 'pl-0 text-xs'
                         } py-1.5 ${
                           isActive
-                            ? 'text-[#1E4631] font-semibold border-l-2 border-[#1E4631]'
-                            : 'text-[#6E6B64] hover:text-[#141413] border-l-2 border-transparent'
+                            ? 'text-[#14532D] font-semibold'
+                            : 'text-[#78716C] hover:text-[#1C1917]'
                         }`}
                         title={item.text}
                       >
-                        {item.text}
+                        <span className="font-mono text-[10px] mr-1.5 opacity-60 tabular-nums">
+                          {String(idx + 1).padStart(2, '0')}
+                        </span>
+                        <span>{item.text}</span>
                       </button>
                     );
                   })
@@ -1650,33 +1694,33 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
 
       {/* MOBILE FLOATING BOTTOM BAR (< lg) */}
       <div className="lg:hidden fixed bottom-4 inset-x-3 sm:inset-x-6 z-40 max-w-sm sm:max-w-md mx-auto">
-        <div className="h-14 px-3 bg-[#EFECE6] border border-[#DFDCD4] shadow-lg flex items-center justify-around gap-1 rounded-none">
+        <div className="h-14 px-3 bg-[#F2EFE9] border border-[#C5BDB0] shadow-lg flex items-center justify-around gap-1 rounded-none">
           <button
             onClick={() => setMobileArticlesOpen(true)}
-            className="flex flex-col items-center justify-center gap-1 py-1 px-3 text-[#141413] hover:text-[#1E4631] transition-colors cursor-pointer"
+            className="flex flex-col items-center justify-center gap-1 py-1 px-3 text-[#1C1917] hover:text-[#14532D] transition-colors cursor-pointer"
           >
-            <Layers className="w-4 h-4 text-[#1E4631]" />
-            <span className="text-[10px] font-medium leading-none">К рубрикам</span>
+            <Layers className="w-4 h-4 text-[#14532D]" />
+            <span className="text-[10px] font-medium leading-none">{isEn ? 'Section' : 'К рубрикам'}</span>
           </button>
 
-          <div className="w-[1px] h-6 bg-[#DFDCD4]" />
+          <div className="w-[1px] h-6 bg-[#DED8CD]" />
 
           <button
             onClick={() => setMobileTocOpen(true)}
-            className="flex flex-col items-center justify-center gap-1 py-1 px-3 text-[#141413] hover:text-[#1E4631] transition-colors cursor-pointer"
+            className="flex flex-col items-center justify-center gap-1 py-1 px-3 text-[#1C1917] hover:text-[#14532D] transition-colors cursor-pointer"
           >
-            <List className="w-4 h-4 text-[#1E4631]" />
-            <span className="text-[10px] font-medium leading-none">Оглавление</span>
+            <List className="w-4 h-4 text-[#14532D]" />
+            <span className="text-[10px] font-medium leading-none">{isEn ? 'Contents' : 'Оглавление'}</span>
           </button>
 
-          <div className="w-[1px] h-6 bg-[#DFDCD4]" />
+          <div className="w-[1px] h-6 bg-[#DED8CD]" />
 
           <button
             onClick={scrollToTop}
-            className="flex flex-col items-center justify-center gap-1 py-1 px-2.5 text-[#6E6B64] hover:text-[#1E4631] transition-colors cursor-pointer"
+            className="flex flex-col items-center justify-center gap-1 py-1 px-2.5 text-[#78716C] hover:text-[#14532D] transition-colors cursor-pointer"
           >
             <ArrowUp className="w-4 h-4" />
-            <span className="text-[10px] font-medium leading-none">Наверх</span>
+            <span className="text-[10px] font-medium leading-none">{isEn ? 'Top' : 'Наверх'}</span>
           </button>
         </div>
       </div>
@@ -1688,16 +1732,16 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             onClick={() => setMobileTocOpen(false)}
             className="fixed inset-0 bg-black/60 transition-opacity"
           />
-          <div className="relative z-10 w-full max-h-[82vh] bg-[#F6F5F0] border-t border-[#DFDCD4] shadow-2xl flex flex-col overflow-hidden rounded-none">
-            <div className="w-12 h-1.5 bg-[#DFDCD4] rounded-none mx-auto my-3 shrink-0" />
-            <div className="px-5 pb-3 border-b border-[#DFDCD4] flex items-center justify-between gap-3 shrink-0">
-              <div className="flex items-center gap-2 font-bold text-[#141413] text-base font-serif">
-                <List className="w-4 h-4 text-[#1E4631]" />
+          <div className="relative z-10 w-full max-h-[82vh] bg-[#FBF9F5] border-t border-[#DED8CD] shadow-2xl flex flex-col overflow-hidden rounded-none">
+            <div className="w-12 h-1.5 bg-[#C5BDB0] rounded-none mx-auto my-3 shrink-0" />
+            <div className="px-5 pb-3 border-b border-[#DED8CD] flex items-center justify-between gap-3 shrink-0">
+              <div className="flex items-center gap-2 font-bold text-[#1C1917] text-base font-serif">
+                <List className="w-4 h-4 text-[#14532D]" />
                 <span>{isEn ? 'Table of Contents' : 'СОДЕРЖАНИЕ'}</span>
               </div>
               <button
                 onClick={() => setMobileTocOpen(false)}
-                className="p-1.5 bg-[#EFECE6] border border-[#DFDCD4] text-[#6E6B64] hover:text-[#141413] transition-colors cursor-pointer rounded-none"
+                className="p-1.5 bg-[#F2EFE9] border border-[#DED8CD] text-[#78716C] hover:text-[#1C1917] transition-colors cursor-pointer rounded-none"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1716,8 +1760,8 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                       item.level === 3 ? 'pl-6 text-[11px]' : 'font-medium'
                     } ${
                       isActive
-                        ? 'border-[#1E4631] bg-[#EFECE6] text-[#1E4631] font-semibold'
-                        : 'border-[#DFDCD4] bg-[#FFFFFF] text-[#141413]'
+                        ? 'border-[#14532D] bg-[#F2EFE9] text-[#14532D] font-semibold'
+                        : 'border-[#DED8CD] bg-[#FBF9F5] text-[#1C1917]'
                     }`}
                   >
                     {item.text}
@@ -1736,20 +1780,20 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             onClick={() => setMobileArticlesOpen(false)}
             className="fixed inset-0 bg-black/60 transition-opacity"
           />
-          <div className="relative z-10 w-full max-h-[82vh] bg-[#F6F5F0] border-t border-[#DFDCD4] shadow-2xl flex flex-col overflow-hidden rounded-none">
-            <div className="w-12 h-1.5 bg-[#DFDCD4] rounded-none mx-auto my-3 shrink-0" />
-            <div className="px-5 pb-3 border-b border-[#DFDCD4] flex items-center justify-between gap-3 shrink-0">
+          <div className="relative z-10 w-full max-h-[82vh] bg-[#FBF9F5] border-t border-[#DED8CD] shadow-2xl flex flex-col overflow-hidden rounded-none">
+            <div className="w-12 h-1.5 bg-[#C5BDB0] rounded-none mx-auto my-3 shrink-0" />
+            <div className="px-5 pb-3 border-b border-[#DED8CD] flex items-center justify-between gap-3 shrink-0">
               <div className="flex items-center gap-2.5 min-w-0">
-                <BookOpen className="w-4 h-4 text-[#1E4631] shrink-0" />
+                <BookOpen className="w-4 h-4 text-[#14532D] shrink-0" />
                 <div className="min-w-0">
-                  <h3 className="font-bold text-[#141413] text-sm sm:text-base truncate font-serif">
+                  <h3 className="font-bold text-[#1C1917] text-sm sm:text-base truncate font-serif">
                     {categoryTitle}
                   </h3>
                 </div>
               </div>
               <button
                 onClick={() => setMobileArticlesOpen(false)}
-                className="p-1.5 bg-[#EFECE6] border border-[#DFDCD4] text-[#6E6B64] hover:text-[#141413] transition-colors cursor-pointer rounded-none"
+                className="p-1.5 bg-[#F2EFE9] border border-[#DED8CD] text-[#78716C] hover:text-[#1C1917] transition-colors cursor-pointer rounded-none"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1766,12 +1810,12 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                     }}
                     className={`w-full text-left p-3.5 border transition-all cursor-pointer block rounded-none ${
                       isCurrent
-                        ? 'border-[#1E4631] bg-[#EFECE6] text-[#1E4631] font-semibold'
-                        : 'border-[#DFDCD4] bg-[#FFFFFF] text-[#141413]'
+                        ? 'border-[#14532D] bg-[#F2EFE9] text-[#14532D] font-semibold'
+                        : 'border-[#DED8CD] bg-[#FBF9F5] text-[#1C1917]'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2">
-                      <span className={`text-xs sm:text-sm font-bold leading-snug line-clamp-2 ${isCurrent ? 'text-[#1E4631]' : 'text-[#141413]'}`}>
+                      <span className={`text-xs sm:text-sm font-bold leading-snug line-clamp-2 font-serif ${isCurrent ? 'text-[#14532D]' : 'text-[#1C1917]'}`}>
                         {art.title}
                       </span>
                     </div>
@@ -1792,22 +1836,22 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
           onClick={() => setLightboxImage(null)}
         >
           <div 
-            className="relative max-w-5xl w-full max-h-[90vh] flex flex-col items-center justify-center bg-[#F6F5F0] border border-[#DFDCD4] shadow-2xl overflow-hidden p-4 rounded-none"
+            className="relative max-w-5xl w-full max-h-[90vh] flex flex-col items-center justify-center bg-[#FBF9F5] border border-[#DED8CD] shadow-2xl overflow-hidden p-4 rounded-none"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="w-full flex items-center justify-between px-3 py-2 border-b border-[#DFDCD4] mb-2">
-              <div className="flex items-center gap-2 text-xs text-[#141413] font-medium truncate pr-4 font-serif">
-                <span className="w-2 h-2 bg-[#1E4631] shrink-0"></span>
+            <div className="w-full flex items-center justify-between px-3 py-2 border-b border-[#DED8CD] mb-2">
+              <div className="flex items-center gap-2 text-xs text-[#1C1917] font-medium truncate pr-4 font-serif">
+                <span className="w-2 h-2 bg-[#14532D] shrink-0"></span>
                 <span className="truncate">{lightboxImage.alt || (isEn ? 'Illustration' : 'Иллюстрация')}</span>
               </div>
               <button
                 onClick={() => setLightboxImage(null)}
-                className="p-1.5 bg-[#EFECE6] border border-[#DFDCD4] text-[#141413] hover:bg-[#DFDCD4] transition-colors cursor-pointer rounded-none"
+                className="p-1.5 bg-[#F2EFE9] border border-[#DED8CD] text-[#1C1917] hover:bg-[#EAE5DC] transition-colors cursor-pointer rounded-none"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <div className="w-full max-h-[75vh] flex items-center justify-center overflow-auto bg-[#EFECE6] p-2">
+            <div className="w-full max-h-[75vh] flex items-center justify-center overflow-auto bg-[#F2EFE9] p-2">
               <img
                 src={lightboxImage.src}
                 alt={lightboxImage.alt || ''}
@@ -1837,20 +1881,20 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             maxWidth: 'calc(100vw - 2rem)',
             zIndex: 60
           }}
-          className="bg-[#EFECE6] border border-[#DFDCD4] p-4 shadow-xl text-xs text-[#141413] rounded-none animate-in fade-in duration-150"
+          className="bg-[#FBF9F5] border border-[#C5BDB0] p-4 shadow-xl text-xs text-[#1C1917] rounded-none animate-in fade-in duration-150"
         >
-          <div className="flex items-center justify-between gap-2 border-b border-[#DFDCD4] pb-2.5 mb-2.5">
-            <div className="flex items-center gap-1.5 font-mono text-[11px] font-bold text-[#1E4631]">
-              <span className="px-1.5 py-0.5 bg-[#F6F5F0] border border-[#DFDCD4]">
+          <div className="flex items-center justify-between gap-2 border-b border-[#DED8CD] pb-2.5 mb-2.5">
+            <div className="flex items-center gap-1.5 font-mono text-[11px] font-bold text-[#14532D] tabular-nums">
+              <span className="px-1.5 py-0.5 bg-[#F2EFE9] border border-[#DED8CD]">
                 [{activeCitation.num}]
               </span>
-              <span className="text-[#141413] font-sans font-medium text-xs">
+              <span className="text-[#1C1917] font-sans font-medium text-xs">
                 {isEn ? 'Source Reference' : 'Источник из библиографии'}
               </span>
             </div>
             <button
               onClick={() => setActiveCitation(null)}
-              className="p-1 text-[#6E6B64] hover:text-[#141413] hover:bg-[#DFDCD4] transition-colors cursor-pointer rounded-none"
+              className="p-1 text-[#78716C] hover:text-[#1C1917] hover:bg-[#F2EFE9] transition-colors cursor-pointer rounded-none"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -1860,13 +1904,13 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
             {activeCitation.refInfo ? (
               <>
                 {activeCitation.refInfo.authors && (
-                  <p className="font-semibold text-[#141413] text-xs leading-snug">
+                  <p className="font-semibold text-[#1C1917] text-xs leading-snug">
                     {activeCitation.refInfo.authors}
                     {activeCitation.refInfo.year ? ` (${activeCitation.refInfo.year})` : ''}
                   </p>
                 )}
                 {activeCitation.refInfo.title && (
-                  <p className="italic text-[#1E4631] text-[11px] leading-snug font-serif">
+                  <p className="italic text-[#14532D] text-[12px] leading-snug font-serif">
                     {activeCitation.refInfo.title}
                   </p>
                 )}
@@ -1876,7 +1920,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                       href={formatDoiUrl(activeCitation.refInfo.doi) || `https://doi.org/${activeCitation.refInfo.doi}`}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1 text-[10px] font-mono text-[#1E4631] hover:underline"
+                      className="inline-flex items-center gap-1 text-[10px] font-mono text-[#14532D] hover:underline"
                     >
                       <span>DOI: {normalizeDoi(activeCitation.refInfo.doi)}</span>
                       <ExternalLink className="w-2.5 h-2.5" />
@@ -1885,7 +1929,7 @@ export function ArticleViewer({ path, onBack }: ArticleViewerProps) {
                 )}
               </>
             ) : (
-              <p className="text-[#6E6B64] text-xs italic">
+              <p className="text-[#78716C] text-xs italic">
                 {isEn ? 'Academic source cited in text' : 'Академический источник'}
               </p>
             )}

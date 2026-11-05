@@ -2,12 +2,13 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Header } from './components/Header';
 import { useLanguage } from './i18n/LanguageContext';
 import { ArticleCatalog } from './components/ArticleCatalog';
+import { CitationModal } from './components/CitationModal';
 
 const ArticleViewer = lazy(() => import('./components/ArticleViewer').then(m => ({ default: m.ArticleViewer })));
 const SearchModal = lazy(() => import('./components/SearchModal').then(m => ({ default: m.SearchModal })));
 
 export default function App() {
-  const { t } = useLanguage();
+  const { t, isEn, setLang } = useLanguage();
   const [currentView, setCurrentView] = useState<'home' | 'article' | 'module'>('home');
   const [currentArticlePath, setCurrentArticlePath] = useState<string | null>(null);
 
@@ -45,7 +46,7 @@ export default function App() {
           setCurrentView('article');
         } else {
           const urlParams = new URLSearchParams(window.location.search);
-          const p = urlParams.get('path');
+          const p = urlParams.get('path') || urlParams.get('article');
           if (p) {
             setCurrentArticlePath(p);
             setCurrentView('article');
@@ -75,7 +76,7 @@ export default function App() {
     }
     
     const urlParams = new URLSearchParams(window.location.search);
-    const p = urlParams.get('path');
+    const p = urlParams.get('path') || urlParams.get('article');
     if (p) {
        setCurrentArticlePath(p);
        setCurrentView('article');
@@ -83,7 +84,17 @@ export default function App() {
     }
   }, []);
 
-  const showHome = () => navigateTo('home');
+  const showHome = (scrollToId?: string) => {
+    navigateTo('home');
+    if (scrollToId) {
+      setTimeout(() => {
+        const el = document.getElementById(scrollToId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 120);
+    }
+  };
 
   const showArticle = (path: string) => {
     let cleanPath = path;
@@ -92,6 +103,9 @@ export default function App() {
   };
 
   useEffect(() => {
+    const win = window as any;
+    win.loadArticle = showArticle;
+    win.showHome = showHome;
     const handleShowHome = () => showHome();
     const handleLoadArticle = (e: Event) => {
       const customEvent = e as CustomEvent<string>;
@@ -106,41 +120,87 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen relative bg-[#F6F5F0] text-[#141413]">
+    <div id="top" className="flex flex-col min-h-screen relative bg-[#FBF9F5] text-[#1C1917]">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#1E4631] focus:text-[#F6F5F0] focus:font-semibold focus:rounded-none focus:outline-none"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#14532D] focus:text-[#FBF9F5] focus:font-semibold focus:rounded-none focus:outline-none"
       >
         {t.a11y?.skipToContent || 'Перейти к основному содержимому'}
       </a>
-      <Header />
-      <main className="flex-1 w-full mx-auto px-4 sm:px-6 pb-16 pt-6 flex flex-col max-w-7xl relative" id="main-content">
+
+      <Header
+        currentView={currentView}
+        currentArticlePath={currentArticlePath}
+        onNavigateHome={showHome}
+        onOpenArticle={showArticle}
+      />
+
+      <main className="flex-1 w-full mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-6 flex flex-col max-w-[1380px] relative" id="main-content">
         {currentView === 'home' && <ArticleCatalog onArticleClick={showArticle} />}
         {currentView === 'article' && currentArticlePath && (
           <Suspense fallback={
             <div className="animate-pulse space-y-6 py-8 w-full max-w-5xl mx-auto">
-              <div className="h-6 bg-[#EFECE6] rounded-none w-1/4"></div>
-              <div className="h-12 bg-[#EFECE6] rounded-none w-3/4"></div>
+              <div className="h-6 bg-[#F2EFE9] rounded-none w-1/4"></div>
+              <div className="h-12 bg-[#F2EFE9] rounded-none w-3/4"></div>
               <div className="space-y-4 pt-6">
-                <div className="h-4 bg-[#EFECE6] rounded-none w-full"></div>
-                <div className="h-4 bg-[#EFECE6] rounded-none w-full"></div>
-                <div className="h-4 bg-[#EFECE6] rounded-none w-4/5"></div>
+                <div className="h-4 bg-[#F2EFE9] rounded-none w-full"></div>
+                <div className="h-4 bg-[#F2EFE9] rounded-none w-full"></div>
+                <div className="h-4 bg-[#F2EFE9] rounded-none w-4/5"></div>
               </div>
             </div>
           }>
-            <ArticleViewer path={currentArticlePath} onBack={showHome} />
+            <ArticleViewer path={currentArticlePath} onBack={() => showHome()} />
           </Suspense>
         )}
       </main>
       
-      <footer className="mt-auto border-t border-[#DFDCD4] bg-[#EFECE6] py-8 text-xs text-[#6E6B64]">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <span className="font-bold text-[#141413] tracking-wider uppercase font-serif">СЛОНОЛОГИЯ</span>
-            <p className="text-[11px] text-[#6E6B64] mt-0.5">{t.footer.text}</p>
+      <footer className="mt-auto border-t border-[#DED8CD] bg-[#F2EFE9] py-12 text-xs text-[#78716C]">
+        <div className="max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div className="space-y-1.5 max-w-xl">
+            <span className="font-bold text-base text-[#1C1917] tracking-[0.12em] uppercase font-serif block">
+              {isEn ? 'ELEPHANTOLOGY · PROBOSCIDEA ARCHIVE' : 'СЛОНОЛОГИЯ · АКАДЕМИЧЕСКИЙ АРХИВ'}
+            </span>
+            <p className="text-xs text-[#44403C] leading-relaxed">
+              {t.footer.text}
+            </p>
           </div>
-          <div className="flex items-center gap-4 text-[11px]">
-            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="text-[#6E6B64] hover:text-[#141413] transition-colors cursor-pointer font-medium">{t.footer.toTop}</button>
+
+          <div className="flex flex-wrap items-center gap-6 text-xs text-[#44403C]">
+            <button
+              type="button"
+              onClick={() => showHome('catalog-section')}
+              className="hover:text-[#14532D] transition-colors cursor-pointer font-medium whitespace-nowrap"
+            >
+              {isEn ? 'Rubricator' : 'Рубрикатор'}
+            </button>
+            <button
+              type="button"
+              onClick={() => showArticle('glossary')}
+              className="hover:text-[#14532D] transition-colors cursor-pointer font-medium whitespace-nowrap"
+            >
+              {isEn ? 'Glossary' : 'Глоссарий'}
+            </button>
+            <button
+              type="button"
+              onClick={() => showArticle('bibliography')}
+              className="hover:text-[#14532D] transition-colors cursor-pointer font-medium whitespace-nowrap"
+            >
+              {isEn ? 'Bibliography' : 'Библиография'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setLang(isEn ? 'ru' : 'en')}
+              className="font-mono text-[11px] px-2.5 py-1 bg-[#FBF9F5] border border-[#DED8CD] hover:border-[#1C1917] text-[#1C1917] transition-colors cursor-pointer whitespace-nowrap"
+            >
+              {isEn ? 'Switch to RU' : 'Switch to EN'}
+            </button>
+            <button
+              type="button"
+              onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+              className="text-[#1C1917] hover:text-[#14532D] transition-colors cursor-pointer font-semibold whitespace-nowrap"
+            >
+              {t.footer.toTop}
+            </button>
           </div>
         </div>
       </footer>
@@ -148,6 +208,7 @@ export default function App() {
       <Suspense fallback={null}>
         <SearchModal />
       </Suspense>
+      <CitationModal />
     </div>
   );
 }

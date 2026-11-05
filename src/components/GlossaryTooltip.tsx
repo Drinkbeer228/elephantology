@@ -18,7 +18,6 @@ interface GlossaryEntry {
 
 const glossaryMap: Record<string, GlossaryEntry> = glossaryData as Record<string, GlossaryEntry>;
 
-// Only active annotated terms
 const activeAnnotatedKeys = Object.keys(glossaryMap).filter(
   (key) => glossaryMap[key].annotate === true
 );
@@ -75,7 +74,7 @@ export const GlossaryTooltip: React.FC<GlossaryTooltipProps> = ({ termKey, child
         onMouseLeave={() => setIsVisible(false)}
         onFocus={() => setIsVisible(true)}
         onBlur={() => setIsVisible(false)}
-        className="inline cursor-help text-inherit font-inherit border-b border-dotted border-kingdom-gold/70 hover:border-kingdom-gold focus:outline-none focus:ring-1 focus:ring-kingdom-gold/50 rounded-xs transition-colors px-0.5"
+        className="inline cursor-help text-[#1C1917] font-medium border-b border-dotted border-[#14532D] hover:bg-[#14532D]/10 focus:outline-none focus:ring-1 focus:ring-[#14532D] transition-colors px-0.5"
       >
         {children}
       </button>
@@ -85,17 +84,16 @@ export const GlossaryTooltip: React.FC<GlossaryTooltipProps> = ({ termKey, child
           ref={tooltipRef}
           id={tooltipId}
           role="tooltip"
-          className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 sm:w-72 p-3 bg-[#181a24] text-gray-200 border border-[#3b3f54] rounded-lg shadow-xl text-left text-xs leading-normal animate-fade-in pointer-events-none"
+          className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 sm:w-72 p-3.5 bg-[#FBF9F5] text-[#1C1917] border border-[#C5BDB0] shadow-xl text-left text-xs leading-normal pointer-events-none"
         >
-          <div className="flex items-center justify-between gap-2 mb-1.5 pb-1 border-b border-white/10">
-            <span className="font-bold text-kingdom-gold font-mono text-[11px]">{entry.term}</span>
-            <span className="text-[10px] font-mono text-gray-400 uppercase tracking-wider">{category}</span>
+          <div className="flex items-center justify-between gap-2 mb-1.5 pb-1.5 border-b border-[#DED8CD]">
+            <span className="font-bold text-[#14532D] font-mono text-[11px]">{entry.term}</span>
+            <span className="text-[10px] font-mono text-[#78716C] uppercase tracking-wider">{category}</span>
           </div>
           {fullTerm && fullTerm !== entry.term && (
-            <div className="font-semibold text-gray-100 text-xs mb-1">{fullTerm}</div>
+            <div className="font-semibold text-[#1C1917] font-serif text-sm mb-1">{fullTerm}</div>
           )}
-          <p className="text-gray-300 text-[11px] leading-relaxed m-0">{def}</p>
-          <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#3b3f54]" />
+          <p className="text-[#44403C] text-[11px] leading-relaxed m-0">{def}</p>
         </div>
       )}
     </span>
@@ -108,11 +106,9 @@ export function annotateTextWithGlossary(
 ): React.ReactNode[] {
   if (!text || typeof text !== 'string') return [text];
 
-  // If all curated terms were already seen in this article, return fast
   const availableKeys = activeAnnotatedKeys.filter((k) => !seenTermsSet.has(k));
   if (availableKeys.length === 0) return [text];
 
-  // Match only whole words / boundary-sensitive tokens
   const pattern = new RegExp(
     `\\b(${availableKeys.map((k) => k.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')).join('|')})\\b`,
     'g'
@@ -126,7 +122,6 @@ export function annotateTextWithGlossary(
     const matchedTerm = match[1];
     const matchIndex = match.index;
 
-    // Push preceding plain text
     if (matchIndex > lastIndex) {
       parts.push(text.slice(lastIndex, matchIndex));
     }

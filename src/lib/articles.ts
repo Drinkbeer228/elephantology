@@ -143,7 +143,8 @@ function computeArticles(lang?: string): ArticleItem[] {
     // Check for English translation
     const translation = ARTICLE_TRANSLATIONS_EN[cleanKey];
     const finalTitle = (isEn && translation?.title) ? translation.title : title;
-    const finalExcerpt = (isEn && translation?.excerpt) ? translation.excerpt : (metadata.excerpt || '');
+    const rawExcerpt = (isEn && translation?.excerpt) ? translation.excerpt : (metadata.excerpt || '');
+    const finalExcerpt = rawExcerpt.replace(/\s+\d+(?=[.,;:])/g, '').trim();
     const finalTags = (isEn && translation?.tags) ? translation.tags : (metadata.tags || []);
     const readingTimeMin = metadata.readingTimeMin || 5;
 
