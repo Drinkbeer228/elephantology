@@ -2,7 +2,7 @@
 reading_time: 14 мин
 title: Эволюционная радиация рода Mammuthus и биомеханика островной карликовости
 evidence_level: established
-description: Научная статья о филогенетическом ряде мамонтов, гиперпластинчатости зубов и анатомии островной карликовости.
+description: "Эволюционная линия рода Mammuthus от плиоценового M. subplanifrons до шерстистого мамонта M. primigenius, гиперпластинчатость моляров и островная карликовость."
 category: taxonomy
 difficulty: advanced
 reading_time_min: 15

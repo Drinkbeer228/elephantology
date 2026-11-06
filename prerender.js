@@ -144,6 +144,12 @@ async function runPrerender() {
   const results = await Promise.all(files.map(file => limit(() => prerenderFile(file))));
   const successful = results.filter(Boolean).length;
 
+  const srcBooksDir = path.join(docsDir, 'assets', 'books');
+  const destBooksDir = path.join(distDir, 'docs', 'assets', 'books');
+  if (fs.existsSync(srcBooksDir)) {
+    fs.cpSync(srcBooksDir, destBooksDir, { recursive: true });
+  }
+
   console.log(`✅ SSG prerender complete: ${successful}/${files.length} article pages generated.`);
 }
 

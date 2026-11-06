@@ -55,3 +55,54 @@ describe('searchArticles', () => {
     expect(searchArticles(corpus, '?!.,')).toHaveLength(3);
   });
 });
+
+import { getStaticArticles, resolveArticlePath, MODULES_CACHE } from '../articles';
+
+describe('Corpus integrity: 5 overview articles, search, and non-duplication of reference pages', () => {
+  const keys = Object.keys(MODULES_CACHE);
+  const rubricatorArticles = getStaticArticles('ru');
+
+  it('resolves all 5 discipline overview routes accurately', () => {
+    const overviewRoutes = [
+      { route: 'anatomy/index', expected: '/docs/anatomy/index.md' },
+      { route: 'ecology/index', expected: '/docs/ecology/index.md' },
+      { route: 'ethogram/index', expected: '/docs/ethogram/index.md' },
+      { route: 'taxonomy/index', expected: '/docs/taxonomy/index.md' },
+      { route: 'veterinary/index', expected: '/docs/veterinary/index.md' },
+    ];
+
+    for (const { route, expected } of overviewRoutes) {
+      expect(resolveArticlePath(route, keys)).toBe(expected);
+      expect(resolveArticlePath(`${route}.md`, keys)).toBe(expected);
+      expect(resolveArticlePath(`../${route}.md`, keys)).toBe(expected);
+    }
+  });
+
+  it('includes all 5 overview articles in full-text search and finds their content', () => {
+    const queries = [
+      { q: 'триумф эволюционной инженерии', expectedPath: 'anatomy/index.md' },
+      { q: 'Экология и социальная психология', expectedPath: 'ecology/index.md' },
+      { q: 'Этограмма и поведение', expectedPath: 'ethogram/index.md' },
+      { q: 'Эволюционная история отряда хоботных', expectedPath: 'taxonomy/index.md' },
+      { q: 'Ветеринария и уход', expectedPath: 'veterinary/index.md' },
+    ];
+
+    for (const { q, expectedPath } of queries) {
+      const results = searchArticles(rubricatorArticles, q);
+      expect(results.some(r => r.path === expectedPath)).toBe(true);
+    }
+  });
+
+  it('excludes glossary, bibliography, root index, and bot archive from the rubricator while keeping them accessible by route', () => {
+    expect(rubricatorArticles).toHaveLength(68);
+    expect(rubricatorArticles.some(a => a.path.includes('glossary'))).toBe(false);
+    expect(rubricatorArticles.some(a => a.path.includes('bibliography'))).toBe(false);
+    expect(rubricatorArticles.some(a => a.path.includes('elephant_bot_archive'))).toBe(false);
+    expect(rubricatorArticles.some(a => a.path === 'index.md')).toBe(false);
+
+    expect(resolveArticlePath('glossary', keys)).toBe('/docs/glossary.md');
+    expect(resolveArticlePath('bibliography', keys)).toBe('/docs/bibliography.md');
+    expect(resolveArticlePath('elephant_bot_archive', keys)).toBe('/docs/assets/books/elephant_bot_archive.md');
+  });
+});
+

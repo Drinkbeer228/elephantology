@@ -1,0 +1,217 @@
+/* Authored Monograph Reading Styles — Architectural Sans Headings + Source Serif 4 Prose */
+.markdown-body,
+.article-prose {
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.82;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.markdown-body img,
+.article-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.markdown-body h1,
+.article-prose h1 {
+  font-family: var(--font-sans);
+  font-size: clamp(1.8rem, 2.6vw, 2.35rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.16;
+  letter-spacing: -0.026em;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.markdown-body h2,
+.article-prose h2 {
+  font-family: var(--font-sans);
+  font-size: clamp(1.25rem, 1.75vw, 1.45rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.28;
+  letter-spacing: -0.018em;
+  margin-top: 2.75rem;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.markdown-body h3,
+.article-prose h3 {
+  font-family: var(--font-sans);
+  font-size: clamp(1.05rem, 1.35vw, 1.175rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
+  letter-spacing: -0.012em;
+  margin-top: 1.85rem;
+  margin-bottom: 0.65rem;
+}
+
+.markdown-body h4,
+.article-prose h4 {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 1.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.markdown-body p,
+.article-prose p {
+  margin-bottom: 1.3rem;
+  line-height: 1.82;
+  color: var(--text-primary);
+}
+
+.markdown-body strong,
+.article-prose strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.markdown-body em,
+.article-prose em {
+  font-style: italic;
+}
+
+.markdown-body ul,
+.article-prose ul {
+  list-style-type: disc;
+  list-style-position: outside;
+  margin-left: 1.25rem;
+  margin-bottom: 1.4rem;
+}
+
+.markdown-body ol,
+.article-prose ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+  margin-left: 1.25rem;
+  margin-bottom: 1.4rem;
+}
+
+.markdown-body li,
+.article-prose li {
+  color: var(--text-primary);
+  line-height: 1.75;
+  margin-bottom: 0.45rem;
+}
+
+.markdown-body blockquote,
+.article-prose blockquote {
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.markdown-body table,
+.article-prose table {
+  width: 100%;
+  margin: 1.75rem 0;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-elevated);
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  border-collapse: collapse;
+}
+
+.markdown-body th,
+.article-prose th {
+  padding: 0.65rem 0.9rem;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-strong);
+  font-weight: 600;
+  text-align: left;
+  color: var(--text-primary);
+}
+
+.markdown-body td,
+.article-prose td {
+  padding: 0.65rem 0.9rem;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  vertical-align: top;
+}
+
+.markdown-body code,
+.article-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  background-color: var(--bg-surface);
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  border: 1px solid var(--border-subtle);
+}
+
+.markdown-body pre code,
+.article-prose pre code {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+}
+
+.article-citation-badge {
+  display: inline-block;
+  padding: 0.08rem 0.32rem;
+  margin: 0 0.1rem;
+  font-family: var(--font-mono);
+  font-size: 0.675rem;
+  line-height: 1.1;
+  font-weight: 500;
+  color: var(--text-accent);
+  background-color: var(--bg-accent-subtle);
+  border: 1px solid rgba(35, 78, 58, 0.22);
+  border-radius: 3px;
+  text-decoration: none;
+  vertical-align: baseline;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.article-citation-badge:hover {
+  background-color: var(--text-accent);
+  color: var(--text-inverse);
+}
+
+.article-glossary-trigger {
+  display: inline;
+  cursor: help;
+  color: var(--text-primary);
+  border-bottom: 1px dotted var(--text-accent);
+  padding: 0 0.04rem;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.article-glossary-trigger:hover {
+  background-color: var(--bg-accent-subtle);
+  color: var(--text-accent);
+  border-bottom-style: solid;
+}
+
+.article-inline-link {
+  color: var(--text-accent);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: rgba(35, 78, 58, 0.35);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--transition-fast);
+}
+
+.article-inline-link:hover {
+  text-decoration-color: var(--text-accent);
+}

@@ -5,6 +5,7 @@ export interface ArticleItem {
   category: string;
   size?: number;
   excerpt?: string;
+  snippet?: string;
   tags?: string[];
   readingTime?: string;
   reading_time_min?: number;
@@ -13,7 +14,15 @@ export interface ArticleItem {
   evidence_level?: string;
   difficulty?: string;
   lastReviewed?: string;
-  related_knowledge?: Array<{ type: string; target: string }>;
+  related_knowledge?: Array<{ type: string; target: string } | string>;
+}
+
+export interface SearchFilterOptions {
+  query?: string;
+  categories?: string[];
+  tags?: string[];
+  evidenceLevels?: string[];
+  readingTimeRange?: 'any' | 'short' | 'medium' | 'long';
 }
 
 // Comprehensive semantic tags & keywords for all articles in the knowledge base
@@ -377,15 +386,53 @@ export const SYNONYM_MAP: Record<string, string[]> = {
 /**
  * Intelligent semantic article search engine with hidden tags, synonym expansion, and relevance scoring.
  */
-export function searchArticles(articles: ArticleItem[], rawQuery: string): ArticleItem[] {
+export function searchArticles(
+  articles: ArticleItem[],
+  queryOrOptions: string | SearchFilterOptions
+): ArticleItem[] {
+  const options: SearchFilterOptions =
+    typeof queryOrOptions === 'string' ? { query: queryOrOptions } : queryOrOptions || {};
+  const rawQuery = options.query || '';
+
+  let pool = articles;
+  if (options.categories && options.categories.length > 0) {
+    pool = pool.filter((a) => options.categories!.includes(a.category));
+  }
+  if (options.tags && options.tags.length > 0) {
+    pool = pool.filter((a) => {
+      const aTags = (a.tags || []).map((t) => t.toLowerCase());
+      return options.tags!.some((t) => aTags.includes(t.toLowerCase()));
+    });
+  }
+  if (options.evidenceLevels && options.evidenceLevels.length > 0) {
+    pool = pool.filter((a) => {
+      const ev = (a.evidenceLevel || a.evidence_level || '').toLowerCase();
+      return options.evidenceLevels!.some((lvl) => {
+        if (lvl === 'established') return ev === 'established' || ev === 'high';
+        if (lvl === 'preliminary')
+          return ev === 'preliminary' || ev === 'limited' || ev === 'hypothesis';
+        return ev === lvl.toLowerCase();
+      });
+    });
+  }
+  if (options.readingTimeRange && options.readingTimeRange !== 'any') {
+    pool = pool.filter((a) => {
+      const mins = a.reading_time_min || 5;
+      if (options.readingTimeRange === 'short') return mins < 7;
+      if (options.readingTimeRange === 'medium') return mins >= 7 && mins <= 12;
+      if (options.readingTimeRange === 'long') return mins > 12;
+      return true;
+    });
+  }
+
   if (!rawQuery || rawQuery.trim().length === 0) {
-    return articles;
+    return pool;
   }
 
   const cleanQuery = rawQuery.toLowerCase().trim();
   const queryTokens = cleanQuery.split(/[\s,.;:!?\-\/]+/).filter(t => t.length > 0);
 
-  if (queryTokens.length === 0) return articles;
+  if (queryTokens.length === 0) return pool;
 
   // Build expanded search tokens including synonyms
   const expandedTokens = new Set<string>();
@@ -408,7 +455,7 @@ export function searchArticles(articles: ArticleItem[], rawQuery: string): Artic
   const expandedList = Array.from(expandedTokens);
 
   // Score articles
-  const scored = articles.map(article => {
+  const scored = pool.map(article => {
     let score = 0;
     const title = (article.title || '').toLowerCase();
     const excerpt = (article.excerpt || '').toLowerCase();

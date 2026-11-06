@@ -110,3 +110,20 @@ export const CATEGORY_MAP_RU: Record<string, string> = Object.fromEntries(
 export const CATEGORY_MAP_EN: Record<string, string> = Object.fromEntries(
   ACADEMIC_CATEGORIES.map(c => [c.id, c.nameEn])
 );
+
+export function getCategoryMeta(t?: any): Record<string, { title: string; description: string }> {
+  const isEn = t?.nav?.catalog === 'Catalog' || t?.nav?.glossary === 'Glossary';
+  return Object.fromEntries(
+    ACADEMIC_CATEGORIES.map((c) => {
+      const tCat = t?.categories?.[c.id];
+      return [
+        c.id,
+        {
+          title: tCat?.title || (isEn ? c.nameEn : c.name),
+          description: tCat?.description || (isEn ? c.descriptionEn : c.description),
+        },
+      ];
+    })
+  );
+}
+

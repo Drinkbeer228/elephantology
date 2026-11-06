@@ -1,43 +1,42 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import { ru } from './ru';
-import { en } from './en';
 
-type Language = 'ru' | 'en';
+export type Language = 'ru' | 'en';
 type Translations = typeof ru;
 
 interface LanguageContextType {
   lang: Language;
-  isEn: boolean;
-  t: Translations;
   setLang: (lang: Language) => void;
+  t: Translations;
+  isEn: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType>({
   lang: 'ru',
-  isEn: false,
-  t: ru,
   setLang: () => {},
+  t: ru,
+  isEn: false,
 });
 
-export const useLanguage = () => useContext(LanguageContext);
-
-export const LanguageProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
-  const [lang, setLang] = useState<Language>(() => {
-    const saved = localStorage.getItem('language');
-    return (saved === 'ru' || saved === 'en') ? saved : 'ru';
-  });
-
+export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   useEffect(() => {
-    localStorage.setItem('language', lang);
-    document.documentElement.lang = lang;
-  }, [lang]);
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = 'ru';
+    }
+  }, []);
 
-  const t = lang === 'en' ? en : ru;
-  const isEn = lang === 'en';
+  const value: LanguageContextType = {
+    lang: 'ru',
+    setLang: () => {},
+    t: ru,
+    isEn: false,
+  };
 
   return (
-    <LanguageContext.Provider value={{ lang, isEn, t, setLang }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );
 };
+
+export const useLanguage = () => useContext(LanguageContext);

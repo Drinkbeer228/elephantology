@@ -201,3 +201,6 @@ export function translateMarkdownToEnglish(markdown: string): string {
   translationCache.set(markdown, result);
   return result;
 }
+
+export const translateMarkdownBody = translateMarkdownToEnglish;
+

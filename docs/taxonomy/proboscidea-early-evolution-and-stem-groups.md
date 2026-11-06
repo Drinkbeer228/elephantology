@@ -2,7 +2,7 @@
 reading_time: 13 мин
 title: 'Базальная радиация и ранняя эволюция отряда Proboscidea в палеогене: от базальных афротериев к полуводным эоценовым формам'
 evidence_level: established
-description: 'Научная статья о ранней эволюции хоботных: Eritherium, Phosphatherium, Numidotherium, Moeritherium и лофодонтная адаптация.'
+description: "Палеогеновая базальная радиация отряда Proboscidea в Северной Африке: Eritherium, Phosphatherium, Numidotherium, Barytherium и полуводная экология Moeritherium."
 category: taxonomy
 difficulty: advanced
 reading_time_min: 15

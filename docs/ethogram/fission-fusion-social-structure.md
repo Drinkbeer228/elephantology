@@ -2,7 +2,7 @@
 reading_time: 13 мин
 title: Многоуровневая социальная структура и динамика деления-объединения (Fission-Fusion) у Elephantidae
 evidence_level: established
-description: Научная статья о многоуровневой социальной структуре слонов, динамике Fission-Fusion, феномене экологической памяти матриарха и ветеринарных протоколах транслокации.
+description: "Четырёхуровневая матриархальная социальная сеть слияния-разделения (fission-fusion), лидерство старшей самки, динамика мужских групп и социальная устойчивость."
 category: ethogram
 difficulty: advanced
 reading_time_min: 15

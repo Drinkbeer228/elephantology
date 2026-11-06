@@ -2,7 +2,7 @@
 reading_time: 7 мин
 title: Эволюционная радиация и биомеханика Gomphotheriidae и Amebelodontidae
 evidence_level: established
-description: Научная статья о четверобивневых гомфотериях, лопатозубые амебелодонты, кинематике срезания растительности и Великом межамериканском обмене.
+description: "Парафилетический комплекс четверобивневых гомфотериев и «лопатобивневых» амебелодонтов (Platybelodon, Amebelodon): морфология бунодонтных зубов и расселение в Евразии и Америке."
 category: taxonomy
 difficulty: advanced
 reading_time_min: 15

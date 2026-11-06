@@ -2,7 +2,7 @@
 reading_time: 15 мин
 title: Эволюционная радиация, краниодентальная биомеханика и палеоэкология Deinotheriidae
 evidence_level: established
-description: Научная статья об эволюции деинотериев, биомеханике каудально загнутых бивней, лофодонтии и их вымирании.
+description: "Эволюция и функциональная морфология семейства Deinotheriidae: биомеханика загнутых вниз нижнечелюстных бивней, билофодонтные моляры и облигатная листоядность."
 category: taxonomy
 difficulty: advanced
 reading_time_min: 15

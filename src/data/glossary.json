@@ -1,184 +1,322 @@
 {
   "sSH": {
     "term": "sSH",
-    "full": "Skeletal Shoulder Height",
+    "full": "Skeletal Shoulder Height (Скелетная высота в холке)",
     "definition": {
-      "ru": "Высота животного, измеренная по скелету от основания стопы до верхнего края лопатки.",
-      "en": "Skeletal shoulder height measured from foot base to top of scapular blade."
+      "ru": "Высота животного, измеренная по костям скелета от основания стопы до верхнего края лопатки (обычно на 5–8% меньше прижизненной высоты из-за отсутствия мягких тканей и подошвенной подушки).",
+      "en": "Skeletal shoulder height measured from the foot base to the dorsal margin of the scapula."
     },
-    "category": {
-      "ru": "анатомия",
-      "en": "anatomy"
-    },
+    "category": { "ru": "остеометрия", "en": "osteometry" },
     "annotate": true
   },
   "LF": {
     "term": "LF",
-    "full": "Laminar Frequency",
+    "full": "Laminar Frequency (Ламинарная частота)",
     "definition": {
-      "ru": "Количество эмалевых пластин (ламелей) на 10 см продольной длины коронки моляра.",
-      "en": "Number of enamel plates (lamellae) per 10 cm of molar crown length."
+      "ru": "Число эмалевых пластин (ламелей) на 10 см длины коронки коренного зуба. Увеличение LF в ходе эволюции слоновых отражает переход к перетиранию жестких злаков.",
+      "en": "Number of enamel plates (lamellae) per 10 cm of molar crown length, indicating grazing adaptation."
     },
-    "category": {
-      "ru": "дентальная морфология",
-      "en": "dental morphology"
-    },
+    "category": { "ru": "донтология", "en": "dental morphology" },
     "annotate": true
   },
   "HI": {
     "term": "HI",
-    "full": "Hypsodonty Index",
+    "full": "Hypsodonty Index (Индекс гипсодонтии)",
     "definition": {
-      "ru": "Индекс гипсодонтии: отношение высоты коронки зуба к ее максимальной ширине.",
-      "en": "Hypsodonty index: ratio of tooth crown height to crown width."
+      "ru": "Отношение высоты коронки зуба к ее ширине. Высокий индекс означает высокую коронку, устойчивую к абразивному стиранию травой и минеральной пылью.",
+      "en": "Ratio of tooth crown height to crown width, measuring resistance to abrasive wear."
     },
-    "category": {
-      "ru": "дентальная морфология",
-      "en": "dental morphology"
-    },
+    "category": { "ru": "донтология", "en": "dental morphology" },
     "annotate": true
   },
   "PIKE": {
     "term": "PIKE",
     "full": "Proportion of Illegally Killed Elephants",
     "definition": {
-      "ru": "Доля незаконно добытых слонов среди общего числа зафиксированных туш.",
-      "en": "Proportion of Illegally Killed Elephants relative to total carcasses found."
+      "ru": "Доля незаконно убитых браконьерами слонов среди всех обнаруженных туш в регионе мониторинга. Значение PIKE выше 0.50 указывает на сокращение популяции.",
+      "en": "Proportion of illegally killed elephants relative to total carcasses recorded by rangers."
     },
-    "category": {
-      "ru": "сохранение",
-      "en": "conservation"
-    },
+    "category": { "ru": "охрана видов", "en": "conservation" },
     "annotate": true
   },
   "ETIS": {
     "term": "ETIS",
     "full": "Elephant Trade Information System",
     "definition": {
-      "ru": "Глобальная база мониторинга нелегального оборота слоновой кости под эгидой CITES.",
-      "en": "Global database tracking illegal ivory trade seizures under CITES."
+      "ru": "Глобальная информационная система CITES для учета конфискаций нелегальной слоновой кости и отслеживания маршрутов контрабанды.",
+      "en": "Global CITES database tracking illegal ivory seizures and trafficking routes."
     },
-    "category": {
-      "ru": "сохранение",
-      "en": "conservation"
-    },
+    "category": { "ru": "охрана видов", "en": "conservation" },
     "annotate": true
   },
   "MIKE": {
     "term": "MIKE",
     "full": "Monitoring the Illegal Killing of Elephants",
     "definition": {
-      "ru": "Международная программа мониторинга браконьерства слонов в ареалах обитания.",
-      "en": "CITES-mandated program monitoring poaching levels across elephant ranges."
+      "ru": "Международная программа под эгидой CITES, ведущая полевой учет смертности слонов и причин гибели на контрольных территориях Африки и Азии.",
+      "en": "CITES-mandated field program monitoring elephant mortality and poaching across range states."
     },
-    "category": {
-      "ru": "сохранение",
-      "en": "conservation"
-    },
+    "category": { "ru": "охрана видов", "en": "conservation" },
     "annotate": true
   },
   "CITES": {
     "term": "CITES",
     "full": "Convention on International Trade in Endangered Species",
     "definition": {
-      "ru": "Конвенция о международной торговле видами дикой фауны и флоры, находящимися под угрозой исчезновения.",
+      "ru": "Конвенция о международной торговле видами дикой фауны и флоры, находящимися под угрозой исчезновения, регулирующая запрет на коммерческий оборот слоновой кости.",
       "en": "Convention on International Trade in Endangered Species of Wild Fauna and Flora."
     },
-    "category": {
-      "ru": "сохранение",
-      "en": "conservation"
-    },
+    "category": { "ru": "охрана видов", "en": "conservation" },
     "annotate": true
   },
   "VNO": {
     "term": "VNO",
-    "full": "Vomeronasal Organ",
+    "full": "Vomeronasal Organ (Вомероназальный орган / Орган Якобсона)",
     "definition": {
-      "ru": "Вомероназальный орган (орган Якобсона): периферический отдел дополнительной обонятельной системы.",
-      "en": "Vomeronasal organ (Jacobson's organ) specialized for non-volatile pheromone reception."
+      "ru": "Парный хемосенсорный орган в основании носовой перегородки, открывающийся протоками в крышу ротовой полости; анализирует нелетучие феромоны и гормональные маркеры.",
+      "en": "Vomeronasal (Jacobson's) organ in the hard palate specialized for non-volatile pheromone detection."
     },
-    "category": {
-      "ru": "анатомия",
-      "en": "anatomy"
-    },
+    "category": { "ru": "сенсорика", "en": "sensory biology" },
     "annotate": true
   },
   "EEHV": {
     "term": "EEHV",
     "full": "Elephant Endotheliotropic Herpesvirus",
     "definition": {
-      "ru": "Эндотелиотропный герпесвирус слонов, вызывающий острую геморрагическую болезнь у молодняка.",
-      "en": "Elephant endotheliotropic herpesvirus causing acute fatal hemorrhagic disease in calves."
+      "ru": "Эндотелиотропный герпесвирус слонов (род Proboscivirus), поражающий стенки капилляров и вызывающий острую геморрагическую болезнь у молодых слонят.",
+      "en": "Elephant endotheliotropic herpesvirus causing acute hemorrhagic disease in juvenile elephants."
     },
-    "category": {
-      "ru": "ветеринария",
-      "en": "veterinary"
-    },
+    "category": { "ru": "ветеринария", "en": "veterinary" },
     "annotate": true
   },
   "HEC": {
     "term": "HEC",
-    "full": "Human-Elephant Conflict",
+    "full": "Human-Elephant Conflict (Конфликт человека и слона)",
     "definition": {
-      "ru": "Конфликт между человеком и слонами, включающий потравы урожая и фрагментацию коридоров.",
-      "en": "Human-Elephant Conflict involving crop raiding, property damage and habitat fragmentation."
+      "ru": "Столкновения между слонами и сельским населением из-за фрагментации среды обитания, потрав посевов и пересечения путей миграции с инфраструктурой.",
+      "en": "Human-Elephant Conflict arising from habitat fragmentation, crop foraging, and corridor loss."
     },
-    "category": {
-      "ru": "экология",
-      "en": "ecology"
-    },
+    "category": { "ru": "экология", "en": "ecology" },
     "annotate": true
   },
   "LCP": {
     "term": "LCP",
-    "full": "Least-Cost Path",
+    "full": "Least-Cost Path (Путь наименьшего сопротивления)",
     "definition": {
-      "ru": "Моделирование путей наименьшего сопротивления при пространственном анализе миграционных коридоров.",
-      "en": "Spatial ecological model estimating optimal movement corridors based on environmental resistance."
+      "ru": "Геоинформационная модель, рассчитывающая наиболее энергетически выгодный и безопасный маршрут миграции животных через антропогенный ландшафт.",
+      "en": "GIS spatial model calculating optimal wildlife movement corridors across landscape resistance surfaces."
     },
-    "category": {
-      "ru": "экология",
-      "en": "ecology"
-    },
+    "category": { "ru": "экология", "en": "ecology" },
     "annotate": true
   },
   "KDE": {
     "term": "KDE",
-    "full": "Kernel Density Estimation",
+    "full": "Kernel Density Estimation (Ядерная оценка плотности)",
     "definition": {
-      "ru": "Непараметрический метод оценки плотности вероятности распределения и границ домашнего ареала.",
-      "en": "Non-parametric density estimation method used to model spatial home range utilization."
+      "ru": "Статистический метод построения карты интенсивности использования территории животным по данным спутниковых GPS-ошейников.",
+      "en": "Non-parametric method estimating home range utilization distribution from GPS telemetry."
     },
-    "category": {
-      "ru": "экология",
-      "en": "ecology"
-    },
+    "category": { "ru": "экология", "en": "ecology" },
     "annotate": true
   },
   "LoCoH": {
     "term": "LoCoH",
-    "full": "Local Convex Hull",
+    "full": "Local Convex Hull (Метод локальных выпуклых оболочек)",
     "definition": {
-      "ru": "Метод локальных выпуклых оболочек для точного оконтуривания границ индивидуальных участков.",
-      "en": "Local convex hull home range construction method resolving hard boundary constraints."
+      "ru": "Геометрический алгоритм анализа GPS-треков, точно учитывающий естественные преграды (обрывы, реки, ограждения) при расчете границ участка обитания.",
+      "en": "Local convex hull algorithm constructing home ranges while respecting hard physical boundaries."
     },
-    "category": {
-      "ru": "экология",
-      "en": "ecology"
-    },
+    "category": { "ru": "экология", "en": "ecology" },
     "annotate": true
   },
   "MCP": {
     "term": "MCP",
-    "full": "Minimum Convex Polygon",
+    "full": "Minimum Convex Polygon (Минимальный выпуклый многоугольник)",
     "definition": {
-      "ru": "Минимальный выпуклый многоугольник: классический базовый метод оценки площади ареала.",
-      "en": "Minimum convex polygon: classical geometric method enclosing all telemetry coordinates."
+      "ru": "Базовый метод оценки площади ареала путем соединения крайних точек фиксации животного в единый выпуклый контур.",
+      "en": "Minimum convex polygon enclosing all recorded telemetry locations."
     },
-    "category": {
-      "ru": "экология",
-      "en": "ecology"
+    "category": { "ru": "экология", "en": "ecology" },
+    "annotate": true
+  },
+  "мышечный гидростат": {
+    "term": "Мышечный гидростат",
+    "full": "Muscular Hydrostat",
+    "definition": {
+      "ru": "Биомеханическая структура без костей и суставов (хобот слона, язык, щупальца головоногих), которая держит форму и двигается за счет постоянного объема практически несжимаемой мышечной ткани.",
+      "en": "Boneless biomechanical structure (such as an elephant trunk or cephalopod tentacle) generating movement and stiffness through constant-volume muscle contraction."
     },
+    "category": { "ru": "биомеханика", "en": "biomechanics" },
+    "annotate": true
+  },
+  "полифиодонтия": {
+    "term": "Горизонтальная полифиодонтия",
+    "full": "Horizontal Polyphyodonty (Конвейерная смена зубов)",
+    "definition": {
+      "ru": "Уникальный механизм смены коренных зубов у слонов: новые моляры не растут снизу вверх, а движутся горизонтально сзади наперед, постепенно вытесняя стертый передний зуб (всего 6 генераций за жизнь).",
+      "en": "Conveyor-like dental replacement where new molars erupt at the rear of the jaw and migrate forward as worn teeth fragment (6 sets over a lifetime)."
+    },
+    "category": { "ru": "анатомия", "en": "anatomy" },
+    "annotate": true
+  },
+  "гравипортальность": {
+    "term": "Гравипортальность",
+    "full": "Graviportal Locomotion",
+    "definition": {
+      "ru": "Специализация скелета и мышц к удержанию сверхбольшой массы тела (свыше 2–6 тонн): прямые колоннообразные кости конечностей, укороченные дистальные сегменты и амортизирующая подушка стопы.",
+      "en": "Skeletal and biomechanical adaptation to support massive body weight via columnar limbs and cushioned feet."
+    },
+    "category": { "ru": "биомеханика", "en": "biomechanics" },
+    "annotate": true
+  },
+  "диплоэ": {
+    "term": "Пневматизированное диплоэ",
+    "full": "Cranial Diploë Pneumatization",
+    "definition": {
+      "ru": "Система ячеистых воздухоносных полостей внутри костей черепа слона. Позволяет значительно увеличить площадь черепа для крепления мощных мышц шеи и хобота без критического утяжеления головы.",
+      "en": "Honeycomb-like air-filled sinuses within the skull bones that reduce cranial weight while providing broad muscle attachment surfaces."
+    },
+    "category": { "ru": "краниология", "en": "craniology" },
+    "annotate": true
+  },
+  "пахидермия": {
+    "term": "Пахидермия",
+    "full": "Pachydermia / Keratinized Micro-channel Skin",
+    "definition": {
+      "ru": "Сильное утолщение дермы и рогового слоя эпидермиса (до 2–4 см). У африканских слонов роговой слой пронизан сетью микротрещин, удерживающих воду и грязь для испарительного охлаждения.",
+      "en": "Thickened dermis and stratum corneum sculpted with interconnected micro-channels that retain water and mud for evaporative cooling."
+    },
+    "category": { "ru": "дерматология", "en": "dermatology" },
+    "annotate": true
+  },
+  "тестикондия": {
+    "term": "Тестикондия",
+    "full": "Testicondy (Интраабдоминальные семенники)",
+    "definition": {
+      "ru": "Первично внутрибрюшинное расположение семенников (около почек) без опускания в мошонку. Древний эволюционный признак надотряда Afrotheria.",
+      "en": "Permanent intra-abdominal location of the testes near the kidneys without a scrotum, a basal trait of Afrotheria."
+    },
+    "category": { "ru": "анатомия", "en": "anatomy" },
+    "annotate": true
+  },
+  "муст": {
+    "term": "Муст",
+    "full": "Musth",
+    "definition": {
+      "ru": "Периодическое физиологическое состояние половозрелых самцов слонов, сопровождающееся многократным (в 40–60 раз) подъемом уровня тестостерона, секрецией височных желез, капельным мочеиспусканием и доминантным поведением.",
+      "en": "Periodic physiological and behavioral state in bull elephants marked by surging testosterone, temporal gland secretion, urine dribbling, and reproductive dominance."
+    },
+    "category": { "ru": "эндокринология", "en": "endocrinology" },
+    "annotate": true
+  },
+  "флемен": {
+    "term": "Реакция флемена",
+    "full": "Flehmen Response",
+    "definition": {
+      "ru": "Поведенческий акт переноса капель жидкости (обычно мочи или секрета височной железы) кончиком хобота к отверстиям вомероназального органа на нёбе для химического анализа феромонов.",
+      "en": "Behavioral transfer of chemical samples via the trunk tip to the incisive ducts on the roof of the mouth to stimulate the vomeronasal organ."
+    },
+    "category": { "ru": "этология", "en": "ethology" },
+    "annotate": true
+  },
+  "тельца Пачини": {
+    "term": "Тельца Пачини",
+    "full": "Pacinian Corpuscles (Пластинчатые механорецепторы)",
+    "definition": {
+      "ru": "Инкапсулированные нервные окончания в кончике хобота и жировой подушке стопы, сверхчувствительные к вибрациям и сейсмическим колебаниям грунта на частотах 10–40 Гц.",
+      "en": "Encapsulated mechanoreceptors concentrated in the trunk tip and foot pads that detect low-frequency ground vibrations."
+    },
+    "category": { "ru": "нейробиология", "en": "neurobiology" },
+    "annotate": true
+  },
+  "нейроны фон Экономо": {
+    "term": "Нейроны фон Экономо",
+    "full": "Von Economo Neurons (VENs / Веретеновидные нейроны)",
+    "definition": {
+      "ru": "Крупные веретенообразные нейроны 5-го слоя коры головного мозга (обнаружены у людей, человекообразных обезьян, китообразных и слонов), обеспечивающие быструю передачу сигналов при социальном сопереживании и самосознании.",
+      "en": "Large spindle-shaped bipolar neurons in the anterior cingulate and frontoinsular cortex associated with empathy, social evaluation, and self-awareness."
+    },
+    "category": { "ru": "нейробиология", "en": "neurobiology" },
+    "annotate": true
+  },
+  "парадокс Пето": {
+    "term": "Парадокс Пето",
+    "full": "Peto's Paradox",
+    "definition": {
+      "ru": "Отсутствие прямой зависимости между размером тела (числом клеток) и частотой развития рака. У слонов этот парадокс решается наличием 20 копий гена-супрессора опухолей TP53 и гена апоптоза LIF6.",
+      "en": "The observation that large-bodied, long-lived species like elephants have lower cancer mortality than smaller mammals due to evolved tumor-suppressor duplications (20 copies of TP53)."
+    },
+    "category": { "ru": "геномика", "en": "genomics" },
+    "annotate": true
+  },
+  "копрофагия": {
+    "term": "Физиологическая копрофагия",
+    "full": "Allocoprophagy (Заселение микробиома)",
+    "definition": {
+      "ru": "Поедание слонятами свежего помета матери и старших самок стада при переходе с молока на растительную пищу; критически необходимо для заселения кишечника симбиотическими бактериями, расщепляющими целлюлозу.",
+      "en": "Ingestion of maternal feces by weaning calves to inoculate the hindgut with symbiotic cellulose-digesting microbiota."
+    },
+    "category": { "ru": "физиология", "en": "physiology" },
+    "annotate": true
+  },
+  "алломатеринство": {
+    "term": "Алломатеринство",
+    "full": "Allomothering (Коллективная забота о потомстве)",
+    "definition": {
+      "ru": "Участие молодых нерожавших самок и теток стада в охране, утешении и обучении слоненка, что повышает выживаемость потомства и обучает будущих матерей.",
+      "en": "Caregiving and protection of calves provided by non-maternal female herd members (allomothers), significantly increasing calf survival."
+    },
+    "category": { "ru": "этология", "en": "ethology" },
+    "annotate": true
+  },
+  "геофагия": {
+    "term": "Геофагия",
+    "full": "Geophagy (Минеральная литофагия)",
+    "definition": {
+      "ru": "Целенаправленное поедание почв, глин и выветренных горных пород на природных солонцах для восполнения дефицита натрия, кальция, магния и нейтрализации растительных токсинов (танинов).",
+      "en": "Intentional consumption of mineral-rich soils and clays to supplement essential sodium and trace elements and adsorb dietary plant toxins."
+    },
+    "category": { "ru": "экология", "en": "ecology" },
+    "annotate": true
+  },
+  "инфразвук": {
+    "term": "Инфразвуковая коммуникация",
+    "full": "Infrasonic Vocalization (14–24 Hz)",
+    "definition": {
+      "ru": "Низкочастотные акустические сигналы ниже порога слышимости человека (< 20 Гц), генерируемые гортанью слона и распространяющиеся по воздуху и грунту на расстояние до 5–10 км.",
+      "en": "Low-frequency acoustic calls below 20 Hz generated by myoelastic-aerodynamic laryngeal vibration, traveling up to 10 km."
+    },
+    "category": { "ru": "биоакустика", "en": "bioacoustics" },
+    "annotate": true
+  },
+  "пододерматит": {
+    "term": "Пододерматит",
+    "full": "Pododermatitis (Воспаление тканей стопы)",
+    "definition": {
+      "ru": "Инфекционно-некротическое поражение подошвы и кутикулы ногтевых пластин у слонов в неволе, возникающее из-за гиподинамии, влажного бетонного пола и избыточной осевой нагрузки.",
+      "en": "Inflammatory and infectious pathology of the foot sole and nail bed, representing a major clinical morbidity in captive elephants."
+    },
+    "category": { "ru": "ветеринария", "en": "veterinary" },
+    "annotate": true
+  },
+  "эторфин": {
+    "term": "Эторфин (M99)",
+    "full": "Etorphine Hydrochloride",
+    "definition": {
+      "ru": "Ультракороткодействующий синтетический опиоидный агонист (в 3000–5000 раз мощнее морфина), применяемый для дистанционной химической иммобилизации диких слонов с немедленной реверсией налтрексоном.",
+      "en": "Ultra-potent opioid agonist used for field chemical immobilization of megafauna, reversible via naltrexone or diprenorphine."
+    },
+    "category": { "ru": "анестезиология", "en": "anesthesiology" },
+    "annotate": true
+  },
+  "линии Шрегера": {
+    "term": "Линии Шрегера",
+    "full": "Schreger Lines (Перекрестная структура дентина)",
+    "definition": {
+      "ru": "Сетчатый ромбовидный узор на поперечном срезе бивня, образованный пересечением дентинных канальцев. Угол пересечения позволяет криминалистам и палеонтологам отличить бивень современного слона (> 115°) от мамонтовой кости (< 90°).",
+      "en": "Intersecting spiral patterns in tusk dentin whose outer angles distinguish extant elephant ivory (>115°) from extinct mammoth ivory (<90°)."
+    },
+    "category": { "ru": "криминалистика", "en": "forensics" },
     "annotate": true
   }
 }

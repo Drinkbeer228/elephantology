@@ -2,7 +2,7 @@
 reading_time: 13 мин
 title: Филогенетическая дивергенция, краниодентальная биомеханика и палеоэкология Mammutidae
 evidence_level: established
-description: Научная статья о дивергенции мастодонтов и Elephantidae, зиголофодонтии, палеогенетике и краниальной биомеханике.
+description: "Филогенетическая дивергенция и краниодентальная биомеханика американских мастодонтов (Mammutidae, зиголофодонтия) и настоящих слонов (Elephantidae, ламеллярная гипсодонтия)."
 category: taxonomy
 difficulty: advanced
 reading_time_min: 15

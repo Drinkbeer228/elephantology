@@ -24,7 +24,7 @@ references:
   - id: ref_6
     title: Palombo, 2003
 last_reviewed: '2026-08-24'
-description: Род палеолоксодонов (Palaeoloxodon Matsumoto, 1924) представляет собой одну из наиболее специализированных, морфологически пластичных и успешных эволюционных ветвей семейства настоящих слонов (Elep...
+description: "Эволюционная радиация рода Palaeoloxodon: гибридное происхождение, экстремальный гигантизм P. namadicus, краниальная архитектура и экстремальная островная карликовость P. falconeri."
 evidence_basis:
   - peer_reviewed
   - primary_studies
