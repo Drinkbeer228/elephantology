@@ -80,3 +80,14 @@ describe('validateBook', () => {
     expect(validateBook(withoutHash)).not.toEqual([]);
   });
 });
+
+describe('reference books', () => {
+  const reference = { ...catalog.books[0], id: 'glossary', kind: 'reference', discipline: 'reference', contentUrl: 'books/glossary.json' };
+  it('accepts a bare-slug reference book that names no discipline of the catalog', () => {
+    expect(validateCatalog({ ...catalog, books: [reference] })).toEqual([]);
+    expect(validateBook({ ...book, id: 'glossary' })).toEqual([]);
+  });
+  it('rejects an article on a discipline the catalog does not list', () => {
+    expect(validateCatalog({ ...catalog, books: [{ ...catalog.books[0], discipline: 'reference' }] })).not.toEqual([]);
+  });
+});

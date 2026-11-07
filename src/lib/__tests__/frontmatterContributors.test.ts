@@ -42,3 +42,10 @@ describe('contributors', () => {
     expect(m.contributors).toEqual([]);
   });
 });
+
+describe('short_title', () => {
+  it('reads short_title into shortTitle and leaves it unset when absent', () => {
+    expect(fm('short_title: " Хобот "').shortTitle).toBe('Хобот');
+    expect(fm('description: x').shortTitle).toBeUndefined();
+  });
+});

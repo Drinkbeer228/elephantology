@@ -76,6 +76,8 @@ export function parseFrontmatter(md: string): { metadata: ArticleMetadata; conte
         const parsedFm = (load(fmText) || {}) as Record<string, any>;
 
         if (parsedFm.title) metadata.title = String(parsedFm.title).trim();
+        const shortTitle = optionalText(parsedFm.short_title);
+        if (shortTitle) metadata.shortTitle = shortTitle;
         if (parsedFm.description || parsedFm.excerpt) {
           metadata.excerpt = String(parsedFm.description || parsedFm.excerpt).trim();
         }

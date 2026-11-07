@@ -43,6 +43,7 @@ export interface Contributor {
 
 export interface ArticleMetadata {
   title?: string;
+  shortTitle?: string;
   excerpt?: string;
   category?: string;
   tags?: string[];

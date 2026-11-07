@@ -82,6 +82,13 @@ export function validateCatalog(x: unknown): string[] {
     const catalog = x as CatalogFile;
     uniqueIds(catalog.disciplines, 'catalog.disciplines', errors);
     uniqueIds(catalog.books, 'catalog.books', errors);
+    // Reference books stand on the lectern, not on a shelf: only they may name no discipline of the catalog.
+    const shelves = new Set(catalog.disciplines.map((d) => d.id));
+    catalog.books.forEach((book, i) => {
+      if (book.kind !== 'reference' && !shelves.has(book.discipline)) {
+        errors.push(`catalog.books[${i}].discipline: "${book.discipline}" is not in catalog.disciplines`);
+      }
+    });
   }
   return errors;
 }
@@ -117,7 +124,8 @@ const text: Check = (value, path, errors) => {
 };
 
 const filled = matches(/\S/, 'a non-empty string');
-const bookId = matches(/^[\w-]+\/[\w-]+$/, 'an id of the form "<cat>/<slug>"');
+// The glossary and the bibliography are books without a category: their ids are bare slugs.
+const bookId = matches(/^[\w-]+(\/[\w-]+)?$/, 'an id of the form "<cat>/<slug>" or "<slug>"');
 const hash = matches(/^sha256:[0-9a-f]+$/, 'a hash of the form "sha256:<hex>"');
 const httpsUrl = matches(/^https:\/\/\S+$/, 'an https:// URL');
 const dateTime = matches(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})$/, 'an ISO 8601 date and time');
