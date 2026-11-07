@@ -61,7 +61,7 @@ function printKatexErrors(report: BuildReport, docsDir: string): void {
 
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
-  const { report } = await buildLibrary({
+  const { catalog, report } = await buildLibrary({
     docsDir: resolve(args.docs),
     publicDir: resolve(args.public),
     outDir: resolve(args.out),
@@ -80,7 +80,9 @@ async function main(): Promise<void> {
   for (const error of report.schemaErrors) console.log(`  ${error}`);
 
   // The files and the report are written first; only then does the exit code decide.
-  if (report.schemaErrors.length > 0 || report.books < report.articles || report.katexErrors > 0) process.exitCode = 1;
+  // `report.articles` is the number of article sources; each one must have a book in the catalog.
+  const articleBooks = catalog.books.filter((book) => book.kind !== 'reference').length;
+  if (report.schemaErrors.length > 0 || articleBooks < report.articles || report.katexErrors > 0) process.exitCode = 1;
 }
 
 main().catch((error) => {

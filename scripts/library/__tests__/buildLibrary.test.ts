@@ -45,7 +45,7 @@ related_knowledge:
 
 [^1]: Источник.
 `);
-  write('anatomy/b.md', '---\ntitle: "Бивни: строение и рост"\n---\n\n## Обзор\n\nТекст.\n');
+  write('anatomy/b.md', '---\ntitle: "Бивни: строение и рост"\n---\n\n## Обзор\n\nТекст.\n\n### Подраздел\n\nЕщё текст.\n');
   write('anatomy/index.md', '---\ntitle: Анатомия\n---\n\n## Обзор\n\nТекст.\n');
   write('glossary.md', '---\ntitle: Словарь\n---\n\n## Термины\n\nТекст.\n');
   write('index.md', '---\ntitle: Главная\n---\n\nТекст.\n');
@@ -54,6 +54,16 @@ related_knowledge:
 afterAll(() => rmSync(root, { recursive: true, force: true }));
 
 describe('buildLibrary', () => {
+  it('keeps only level-2 headings in the catalog, and every heading in the book', async () => {
+    const { catalog } = await buildLibrary(options());
+    const entry = catalog.books.find((b) => b.id === 'anatomy/b')!;
+    expect(entry.headings.map((h) => h.level)).toEqual([2]);
+    for (const book of catalog.books) expect(book.headings.every((h) => h.level === 2)).toBe(true);
+    const file = JSON.parse(readFileSync(join(outDir, 'books/anatomy/b.json'), 'utf8'));
+    expect(file.html).toContain('Подраздел');
+    expect(file.html).toMatch(/<h3[^>]*data-h=/);
+  });
+
   it('builds the catalog and the books', async () => {
     const { catalog, report } = await buildLibrary(options());
     expect(catalog.schema).toBe('elephantology.library/1');

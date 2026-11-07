@@ -168,7 +168,8 @@ export async function buildLibrary(opts: BuildOptions): Promise<{ catalog: Catal
           lastReviewed: metadata.lastReviewed ?? null,
           contributors: metadata.contributors,
           contributorsText: metadata.contributorsText ?? null,
-          headings: result.headings,
+          // The catalog lists chapters only (level 2); the book keeps every heading.
+          headings: result.headings.filter((heading) => heading.level === 2),
           related: [],
           siteUrl: `${siteBase}/article/${id}/`,
           contentUrl: `books/${id}.json`,
@@ -207,7 +208,7 @@ export async function buildLibrary(opts: BuildOptions): Promise<{ catalog: Catal
 
   const report: BuildReport = {
     books: catalog.books.length,
-    articles: catalog.books.filter((book) => book.kind !== 'reference').length,
+    articles: sources.filter((source) => source.kind !== 'reference').length,
     katexErrors: issues.filter((issue) => issue.kind === 'katex').length,
     schemaErrors,
     issues,
