@@ -33,6 +33,14 @@ export type EvidenceBasisType =
   | 'expert_assessment'
   | string;
 
+export interface Contributor {
+  name: string;
+  role: string;
+  affiliation: string | null;
+  orcid: string | null;
+  url: string | null;
+}
+
 export interface ArticleMetadata {
   title?: string;
   excerpt?: string;
@@ -48,6 +56,8 @@ export interface ArticleMetadata {
   datePublished?: string;
   lastReviewed?: string;
   authors?: string;
+  contributors: Contributor[];
+  contributorsText?: string;
   referenceCount?: number;
   references?: ReferenceItem[];
   structuredReferences?: StructuredReference[];
