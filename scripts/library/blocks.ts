@@ -27,6 +27,8 @@ export interface BlocksOptions {
   issues: BuildIssue[];
   /** Given for the book body only: its top-level blocks get `data-b`, and its h2/h3 land here. */
   headings?: Heading[];
+  /** For pieces of a book that carry no headings of their own (notes): the book's headings, which `#x` links point at. */
+  bookHeadings?: Heading[];
 }
 
 /**
@@ -52,13 +54,15 @@ export function rehypeBlocks(options: BlocksOptions) {
     });
 
     const headings = options.headings;
+    const pageLinks: Element[] = [];
     const basePath = new URL(options.siteBase).pathname.replace(/\/+$/, '');
     visit(tree, 'element', (node, index, parent) => {
       if (!parent || index === undefined) return;
       const siblings = parent.children as ElementContent[];
       switch (node.tagName) {
         case 'a':
-          rewireLink(node, options);
+          if (typeof node.properties.href === 'string' && node.properties.href.startsWith('#')) pageLinks.push(node);
+          else rewireLink(node, options);
           return;
         case 'img':
           placeImage(node, options, basePath);
@@ -82,6 +86,16 @@ export function rehypeBlocks(options: BlocksOptions) {
           return;
       }
     });
+
+    // A `#x` link stays a link only when a heading of the book carries `data-h="x"`; that is known
+    // once every heading has been seen, so a link may point forward.
+    const targets = new Set((headings ?? options.bookHeadings ?? []).map((heading) => heading.h));
+    for (const link of pageLinks) {
+      const href = link.properties.href as string;
+      if (targets.has(href.slice(1))) continue;
+      toText(link);
+      options.issues.push({ book: options.bookId, kind: 'unresolved-link', detail: href });
+    }
 
     // Numbered last, so `data-b` follows each block's own attributes, a plate's included.
     if (headings) {

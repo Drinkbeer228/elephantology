@@ -133,4 +133,39 @@ describe('renderBook rules', () => {
     expect(r.html).toMatch(/<math[^>]*display="block"[^>]*>[\s\S]*<mfrac>/);
     expect(r.issues.map((i) => i.kind)).toEqual(['repaired-math']);
   });
+
+  it('keeps external https links and images on the site, with their attributes', async () => {
+    const r = await renderBook({
+      id: 'anatomy/test',
+      body: '[внешняя](https://example.org/a)\n\n![схема](/images/a.png)\n',
+      frontmatterRefs: [],
+      siteBase: 'https://drinkbeer228.github.io/elephantology',
+      resolveLink: () => null,
+      imageSize: () => ({ width: 10, height: 20 }),
+    });
+    expect(r.html).toContain('<a href="https://example.org/a" rel="noopener" target="_blank">внешняя</a>');
+    expect(r.html).toContain('src="https://drinkbeer228.github.io/elephantology/images/a.png"');
+    expect(r.html).toContain('loading="lazy"');
+  });
+
+  it('strips an image src outside the site and an href that is neither https: nor #', async () => {
+    const r = await render(
+      '![x](https://evil.example/a.png)\n\n[plain](http://example.org/a) [mail](mailto:a@b.c) [rel](page.html)\n',
+    );
+    expect(r.html).not.toContain('evil.example');
+    expect(r.html).not.toMatch(/src=/);
+    expect(r.html).not.toMatch(/href=/);
+    expect(r.html).toContain('plain');
+    expect(r.html).toContain('mail');
+  });
+
+  it('keeps a #link only when a heading in the book has that data-h', async () => {
+    const r = await render('Смотри [здесь](#x) и [там](#y).\n\n## X\n');
+    expect(r.html).toContain('<a href="#x">здесь</a>');
+    expect(r.html).toContain('<span>там</span>');
+    expect(r.html).not.toContain('href="#y"');
+    expect(r.issues.filter((i) => i.kind === 'unresolved-link')).toEqual([
+      { book: 'anatomy/test', kind: 'unresolved-link', detail: '#y' },
+    ]);
+  });
 });
