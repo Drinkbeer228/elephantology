@@ -146,8 +146,12 @@ async function runPrerender() {
 
   const srcBooksDir = path.join(docsDir, 'assets', 'books');
   const destBooksDir = path.join(distDir, 'docs', 'assets', 'books');
-  if (fs.existsSync(srcBooksDir)) {
-    fs.cpSync(srcBooksDir, destBooksDir, { recursive: true });
+  if (process.env.PUBLISH_SOURCE_PDFS === '1') {
+    if (fs.existsSync(srcBooksDir)) {
+      fs.cpSync(srcBooksDir, destBooksDir, { recursive: true });
+    }
+  } else {
+    console.log('Source PDFs are not published (set PUBLISH_SOURCE_PDFS=1 after rights are confirmed).');
   }
 
   console.log(`✅ SSG prerender complete: ${successful}/${files.length} article pages generated.`);

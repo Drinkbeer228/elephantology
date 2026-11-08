@@ -1,6 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 import { StructuredReference } from '../types';
 import { slugifyHeading } from '../services/referenceService';
 import { resolveInternalCrossReference, resolvePublicAssetUrl } from '../services/articleService';
@@ -44,7 +47,8 @@ export const ArticleContentRenderer: React.FC<ArticleContentRendererProps> = ({
   return (
     <div className="article-prose markdown-body">
       <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm, remarkMath]}
+        rehypePlugins={[rehypeKatex]}
         components={{
           h1: () => null,
           h2: ({ children, ...props }) => {
