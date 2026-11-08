@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { load } from 'js-yaml';
+import { contributorErrors } from './lib/contributors.js';
 
 const DOCS_DIR = './docs';
 const VALID_CATEGORIES = new Set([
@@ -104,6 +105,8 @@ function validateArticles() {
       errors.push({ file: relPath, message: `YAML syntax error: ${e.message}` });
       return;
     }
+
+    contributorErrors(parsed).forEach((message) => errors.push({ file: relPath, message }));
 
     // 1. Mandatory Fields
     if (!parsed.title || String(parsed.title).trim().length === 0) {

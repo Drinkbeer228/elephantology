@@ -1,10 +1,40 @@
 import { load } from 'js-yaml';
 import {
   ArticleMetadata,
+  Contributor,
   ReferenceItem,
   ConfidenceLevel,
   ReviewStatus,
 } from '../types';
+
+const optionalText = (value: unknown): string | null => {
+  const text = value === undefined || value === null ? '' : String(value).trim();
+  return text || null;
+};
+
+/** Turns one YAML list (authors or editors) into contributors. Never infers names. */
+function parseContributorList(list: unknown[], defaultRole: string, useEntryRole: boolean): Contributor[] {
+  const result: Contributor[] = [];
+  list.forEach((entry: any) => {
+    if (typeof entry === 'string') {
+      const name = entry.trim();
+      if (name) {
+        result.push({ name, role: defaultRole, affiliation: null, orcid: null, url: null });
+      }
+    } else if (entry && typeof entry === 'object') {
+      const name = String(entry.name ?? '').trim();
+      if (!name) return;
+      result.push({
+        name,
+        role: (useEntryRole && optionalText(entry.role)) || defaultRole,
+        affiliation: optionalText(entry.affiliation),
+        orcid: optionalText(entry.orcid),
+        url: optionalText(entry.url),
+      });
+    }
+  });
+  return result;
+}
 
 /**
  * Content Layer: Frontmatter Parser & Metadata Extractor
@@ -21,6 +51,7 @@ export function parseFrontmatter(md: string): { metadata: ArticleMetadata; conte
     datePublished: undefined,
     lastReviewed: undefined,
     authors: undefined,
+    contributors: [],
     referenceCount: 0,
     category: undefined,
     tags: [],
@@ -79,8 +110,20 @@ export function parseFrontmatter(md: string): { metadata: ArticleMetadata; conte
         if (parsedFm.last_reviewed || parsedFm.lastReviewed) {
           metadata.lastReviewed = String(parsedFm.last_reviewed || parsedFm.lastReviewed).trim();
         }
-        if (parsedFm.authors || parsedFm.author) {
-          metadata.authors = String(parsedFm.authors || parsedFm.author).trim();
+        const rawAuthors = parsedFm.authors || parsedFm.author;
+        if (Array.isArray(rawAuthors)) {
+          const authorList = parseContributorList(rawAuthors, 'author', false);
+          metadata.contributors.push(...authorList);
+          if (authorList.length > 0) {
+            metadata.authors = authorList.map((c) => c.name).join(', ');
+          }
+        } else if (rawAuthors) {
+          // Legacy string form: shown as is, never split into names.
+          metadata.authors = String(rawAuthors).trim();
+          metadata.contributorsText = metadata.authors;
+        }
+        if (Array.isArray(parsedFm.editors)) {
+          metadata.contributors.push(...parseContributorList(parsedFm.editors, 'editor', true));
         }
 
         const rawReadingTime =
