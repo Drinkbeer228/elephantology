@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "vite",
     "start": "node server.js",
-    "build": "vite build && node seo-helper.js --docs=./docs --domain=https://drinkbeer228.github.io/elephantology --out=./dist/sitemap.xml && node prerender.js --docs=./docs --domain=https://drinkbeer228.github.io/elephantology",
+    "build:library": "tsx scripts/build-library.ts --docs=./docs --public=./public --out=./dist/library --site=https://drinkbeer228.github.io/elephantology",
+    "build": "vite build && node seo-helper.js --docs=./docs --domain=https://drinkbeer228.github.io/elephantology --out=./dist/sitemap.xml && node prerender.js --docs=./docs --domain=https://drinkbeer228.github.io/elephantology && npm run build:library",
     "lint": "npm run typecheck",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.scripts.json"
   },
