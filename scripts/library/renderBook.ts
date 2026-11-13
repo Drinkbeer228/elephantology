@@ -77,7 +77,7 @@ export async function renderBook(input: RenderInput): Promise<RenderResult> {
   const noteText = unified()
     .use(remarkRehype)
     .use(rehypeKatex, { output: 'mathml', strict: 'ignore' })
-    .use(rehypeBlocks, blocksOptions)
+    .use(rehypeBlocks, { ...blocksOptions, bookHeadings: headings })
     .use(rehypeSanitize, sanitizeSchema)
     .use(rehypeStringify);
   const notes: BookNote[] = [];

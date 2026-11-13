@@ -82,8 +82,8 @@ export const sanitizeSchema: Schema = {
   ],
   attributes: {
     '*': ['data*'],
-    a: ['href', ['rel', 'noopener'], ['target', '_blank']],
-    img: ['src', 'alt', 'width', 'height', ['loading', 'lazy']],
+    a: [['href', /^(?:https:|#)/], ['rel', 'noopener'], ['target', '_blank']],
+    img: [['src', /^https:\/\/drinkbeer228\.github\.io\//], 'alt', 'width', 'height', ['loading', 'lazy']],
     ol: ['start'],
     th: ['colSpan', 'rowSpan', 'align'],
     td: ['colSpan', 'rowSpan', 'align'],
@@ -92,7 +92,6 @@ export const sanitizeSchema: Schema = {
     pre: [['className', 'wrap']],
     ...MATHML,
   },
-  protocols: { href: ['https'], src: ['https'] },
   ancestors: { thead: ['table'], tbody: ['table'], tr: ['table'], th: ['table'], td: ['table'] },
   required: {},
   clobber: [],
