@@ -49,6 +49,7 @@ export const ru = {
     nextArticle: 'Следующая статья',
     lastReviewed: 'Обновлено',
     reviewed: 'Проверено',
+    readAsBook: 'Читать как книгу',
     minRead: 'мин чтения',
     evidence: 'Доказательность',
     evidenceHigh: 'Высокая доказательность',
