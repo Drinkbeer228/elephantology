@@ -27,6 +27,8 @@ export interface BuildOptions {
   siteBase: string;
   commit: string;
   now: string;
+  /** Checks a rendered book; defaults to `validateBook`. A book with errors is neither written nor catalogued. */
+  validate?: (file: BookFile) => string[];
 }
 
 export interface BuildReport {
@@ -115,7 +117,8 @@ function writeJson(file: string, value: unknown): void {
 
 /**
  * Renders every article of `docsDir` into `outDir/books/<id>.json` and writes `outDir/catalog.json`.
- * Problems are reported, not thrown: a book that fails to render is left out of the catalog.
+ * Problems are reported, not thrown: a book that fails to render or to validate is neither written
+ * nor catalogued, and its errors land in `schemaErrors` (the build script then exits with 1).
  */
 export async function buildLibrary(opts: BuildOptions): Promise<{ catalog: CatalogFile; report: BuildReport }> {
   const siteBase = opts.siteBase.replace(/\/+$/, '');
@@ -145,7 +148,11 @@ export async function buildLibrary(opts: BuildOptions): Promise<{ catalog: Catal
       issues.push(...result.issues);
       const contentHash = hashOf(result.html, result.notes);
       const file: BookFile = { schema: BOOK_SCHEMA, id, contentHash, html: result.html, notes: result.notes, blocks: result.blocks };
-      schemaErrors.push(...validateBook(file).map((error) => `${id}: ${error}`));
+      const bookErrors = (opts.validate ?? validateBook)(file);
+      if (bookErrors.length > 0) {
+        schemaErrors.push(...bookErrors.map((error) => `${id}: ${error}`));
+        continue;
+      }
       writeJson(join(opts.outDir, 'books', `${id}.json`), file);
 
       const title = metadata.title || id.split('/').pop()!;

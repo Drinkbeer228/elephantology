@@ -1,22 +1,8 @@
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { parseArgs } from './library/args';
 import { buildLibrary, type BuildReport } from './library/buildLibrary';
-
-/** `--name=value` flags; a flag that is absent falls back to the default. */
-function parseArgs(argv: string[]): Record<'docs' | 'public' | 'out' | 'site', string> {
-  const flags = new Map<string, string>();
-  for (const arg of argv) {
-    const match = /^--([a-z]+)=(.*)$/.exec(arg);
-    if (match) flags.set(match[1], match[2]);
-  }
-  return {
-    docs: flags.get('docs') ?? './docs',
-    public: flags.get('public') ?? './public',
-    out: flags.get('out') ?? './dist/library',
-    site: flags.get('site') ?? 'https://drinkbeer228.github.io/elephantology',
-  };
-}
 
 function currentCommit(): string {
   return process.env.GITHUB_SHA || execFileSync('git', ['rev-parse', '--short', 'HEAD'], { encoding: 'utf8' }).trim();
@@ -60,7 +46,14 @@ function printKatexErrors(report: BuildReport, docsDir: string): void {
 }
 
 async function main(): Promise<void> {
-  const args = parseArgs(process.argv.slice(2));
+  let args: ReturnType<typeof parseArgs>;
+  try {
+    args = parseArgs(process.argv.slice(2));
+  } catch (error) {
+    console.error(`build-library: ${error instanceof Error ? error.message : String(error)}`);
+    process.exitCode = 2;
+    return;
+  }
   const { catalog, report } = await buildLibrary({
     docsDir: resolve(args.docs),
     publicDir: resolve(args.public),
