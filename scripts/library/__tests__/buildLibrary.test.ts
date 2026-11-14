@@ -101,4 +101,16 @@ describe('buildLibrary', () => {
       JSON.parse(readFileSync(join(outDir, 'catalog.json'), 'utf8')).books.find((b: { id: string }) => b.id === 'anatomy/a').contentHash,
     );
   });
+
+  it('leaves a book that fails validation out of the files and the catalog', async () => {
+    const out = join(root, 'out-invalid');
+    const { catalog, report } = await buildLibrary({
+      ...options(),
+      outDir: out,
+      validate: (file) => (file.id === 'anatomy/a' ? ['broken on purpose'] : []),
+    });
+    expect(existsSync(join(out, 'books/anatomy/a.json'))).toBe(false);
+    expect(catalog.books.some((b) => b.id === 'anatomy/a')).toBe(false);
+    expect(report.schemaErrors).toContain('anatomy/a: broken on purpose');
+  });
 });
