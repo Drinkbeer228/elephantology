@@ -49,6 +49,7 @@ export const en = {
     nextArticle: 'Next Article',
     lastReviewed: 'Updated',
     reviewed: 'Reviewed',
+    readAsBook: 'Read as a book',
     minRead: 'min read',
     evidence: 'Evidence Level',
     evidenceHigh: 'Established Evidence',
